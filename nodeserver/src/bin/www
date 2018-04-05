@@ -22,6 +22,61 @@ if (!fs.existsSync(configJs)) {
 const config = require('../config')
 
 /**
+ * Open compiled webclient if `-c` is passed as argument
+ */
+
+const url = `http://localhost:${config.port}`
+const util = require('../modules/util')
+const opn = require('opn')
+
+// https://coderwall.com/p/184h4a/get-request-with-promise-in-nodejs
+function getUrl (url) {
+  return new Promise(function (resolve, reject) {
+    let request = http.get(url, function (response) {
+      if (response.statusCode < 200 || response.statusCode > 299) {
+        reject(new Error('Failed to load page, status code: ' + response.statusCode))
+      }
+      let body = []
+      response.on('data', function (chunk) {
+        return body.push(chunk)
+      })
+      response.on('end', function () {
+        return resolve(body.join(''))
+      })
+    })
+    request.on('error', function (err) {
+      return reject(err)
+    })
+  })
+}
+
+let isNotServerReady = true
+let elapsed = 0
+
+async function openWebClient () {
+  while (isNotServerReady) {
+    await util.delay(1000)
+    try {
+      let body = await getUrl(url)
+      isNotServerReady = false
+    }
+    catch (e) {
+      elapsed += 1
+      console.log(`Waiting ${elapsed} s for ${url}`)
+    }
+  }
+  console.log(`Opening ${url}`)
+  opn(url)
+}
+
+for (let arg of process.argv) {
+  if (arg === '-c') {
+    openWebClient()
+    break
+  }
+}
+
+/**
  * Get port from environment and store in Express.
  */
 

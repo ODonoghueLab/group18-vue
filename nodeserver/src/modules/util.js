@@ -41,6 +41,12 @@ module.exports = {
     return l
   },
 
+  delay (time) {
+    return new Promise(function (resolve) {
+      setTimeout(function () { resolve(time) }, time)
+    })
+  },
+
   /**
    * Checks if str is a sub-string in any string of a list
    * of tesStrList

@@ -1,33 +1,30 @@
 from __future__ import print_function
-import os
 import sys
-import shutil
 import threading
 import time
 import urllib
 import webbrowser
 import subprocess
 
-if not os.path.isfile("server/config.py"):
-    shutil.copy("server/config_default.py", "server/config.py")
-from server import config
+def open_page_if_server():
+    elapsed = 0
+    is_server_not_running = True
+    while is_server_not_running:
+        try:
+            from server import config
+            url = 'http://localhost:' + str(config.PORT)
+            response_code = urllib.urlopen(url).getcode()
+            if response_code < 400:
+                print("Opening", url)
+                webbrowser.open(url)
+                is_server_not_running = False
+        except:
+            time.sleep(1)
+            elapsed += 1
+            print("Waiting", elapsed, "s for server")
 
 # creates a thread to poll server before opening client
-url = 'http://localhost:' + str(config.PORT)
-elapsed = 0
-def open_page_delayed():
-    is_not_loaded = True
-    while is_not_loaded:
-        time.sleep(1)
-        print("Waiting", elapsed, "s for", url)
-        try:
-            response_code = urllib.urlopen(url).getcode()
-            is_not_loaded = response_code >= 400
-        except:
-            is_not_loaded = True
-    print("Opening", url)
-    webbrowser.open(url)
-threading.Thread(target=open_page_delayed).start()
+threading.Thread(target=open_page_if_server).start()
 
 # creates new process for flask in threaded debug mode
 # so that it doesn't interfere with the thread

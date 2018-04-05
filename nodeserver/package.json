@@ -4,12 +4,8 @@
   "author": "Bosco Ho <apposite@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "node app/bin/www",
+    "start": "node src/bin/www",
     "lint": "eslint --ext .js src"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ODonoghueLab/versus.git"
   },
   "contributors": [
     {
@@ -40,6 +36,7 @@
     "fs-extra": "^5.0.0",
     "morgan": "*",
     "multer": "*",
+    "opn": "^5.3.0",
     "passport": "*",
     "passport-local": "*",
     "pretty-ms": "*",

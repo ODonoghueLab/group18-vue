@@ -39,6 +39,12 @@ export default {
     document.body.removeChild(a)
   },
 
+  delay (time) {
+    return new Promise(function (resolve) {
+      setTimeout(function () { resolve(time) }, time)
+    })
+  },
+
   /**
    * Creates an n-length array of v values
    * @returns {Array}
