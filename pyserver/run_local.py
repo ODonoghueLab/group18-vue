@@ -11,9 +11,7 @@ and serves static files reasonably efficiently.
 """
 from __future__ import print_function
 from server import api, config
-
 api.app.run(
     threaded=True,
-    use_reloader=True,
-    use_debugger=False,
+    debug=False,
     port=int(config.PORT))

@@ -34,7 +34,7 @@ import os, sys, time
 
 try:
     import thread
-    import six.moves._thread
+    import six.moves._thread as thread
 except ImportError:
     try:
         import dummy_thread as thread

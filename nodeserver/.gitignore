@@ -1,21 +1,6 @@
 # JetBrains Configuration
 .idea
-
-# Dependency directories
-**/node_modules
-
-# Secrets
-app/config/keys.json
-
-# Temporary Files
 files
 database.sqlite
-npm-debug.log
-npm-debug.log.*
-
-# Server files
-server/files
-server/yarn.lock
-client/yarn.lock
-
+yarn.lock
 src/config.js
