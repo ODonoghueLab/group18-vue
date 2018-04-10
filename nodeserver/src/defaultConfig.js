@@ -8,6 +8,6 @@ module.exports = {
   development: {
     host: 'localhost',
     dialect: 'sqlite',
-    storage: 'database.sqlite'
+    storage: path.join(__dirname, '..', 'database.sqlite')
   }
 }
