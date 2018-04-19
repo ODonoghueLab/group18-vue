@@ -139,12 +139,11 @@ async function publicUploadFiles (fileList) {
   const timestampDir = String(new Date().getTime())
   const fullDir = path.join(config.filesDir, timestampDir)
   fs.ensureDirSync(fullDir)
-  let targetPaths = []
+  let targetPaths = [] //
   for (let file of fileList) {
     let basename = path.basename(file.originalname)
     let targetPath = path.join(timestampDir, basename)
     let fullTargetPath = path.join(config.filesDir, targetPath)
-    // console.log("> publicUploadFiles check", file.path, fs.existsSync(file.path))
     fs.renameSync(file.path, fullTargetPath)
     targetPaths.push('/file/' + targetPath)
   }

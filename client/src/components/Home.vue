@@ -5,116 +5,130 @@
       overflow: auto">
 
     <md-layout
-      md-column
       style="
         width: calc(100vw);
         padding-left: 15px;
         padding-right: 15px;">
 
-      <h2 class="md-display-2">
+      <h2 style="width: 100%" class="md-display-2">
         Example Widgets
       </h2>
 
-      <md-whiteframe>
-        <h3 class="md-title">Server text</h3>
+      <md-layout md-flex="33">
+        <md-whiteframe md-flex="33">
+          <h3 class="md-title">Server text</h3>
+          {{ text }}
+        </md-whiteframe>
+      </md-layout>
 
-        {{ text }}
+      <md-layout md-flex="33">
+        <md-whiteframe>
+          <h3 class="md-title">Webgl 3D Graphics</h3>
+          <div style="width: 100%; height: 200px" id="webgl"></div>
+        </md-whiteframe>
+      </md-layout>
 
-      </md-whiteframe>
+      <md-layout md-flex="33">
+        <md-whiteframe style="width: 500px">
+          <h3 class="md-title">Canvas 2d Graphics</h3>
+          <div id="rect" style="width: 200px; height: 200px"></div>
+          {{ pointerX }} - {{ pointerY }}
+        </md-whiteframe>
+      </md-layout>
 
-      <md-whiteframe>
-        <h3 class="md-title">Canvas wrapper</h3>
-        <div id="rect" style="width: 200px; height: 200px"></div>
-
-        {{ pointerX }} - {{ pointerY }}
-
-      </md-whiteframe>
-
-      <md-whiteframe>
-        <h3 class="md-title">Attachments</h3>
-
-        <div>
-          <md-button
+      <md-layout md-flex="33">
+        <md-whiteframe style="width: 500px">
+          <h3 class="md-title">File Download</h3>
+          <div>
+            <md-button
               md-flex=true
               class="md-raised"
               @click="getReadme()">
-            Download
-          </md-button>
-        </div>
+              Download Readme.md
+            </md-button>
+          </div>
+        </md-whiteframe>
+      </md-layout>
 
-        <h3 class="md-title">File Upload</h3>
+      <md-layout md-flex="33">
+        <md-whiteframe style="overflow: auto">
+          <h3 class="md-title">File Upload</h3>
 
-        <div>
-          <md-layout md-row md-vertical-align="center">
-            <md-input-container style="width: 300px">
-              <md-file
+          <div>
+            <md-layout md-row md-vertical-align="center">
+              <md-input-container style="">
+                <md-file
                   id="file-input"
                   multiple
                   @selected="selectFiles">
-              </md-file>
-              <label
+                </md-file>
+                <label
                   for="file-input"
                   class="button">
-                Upload files
-              </label>
-            </md-input-container>
+                  Upload files
+                </label>
+              </md-input-container>
 
-            <div>
-              <md-button
+              <div>
+                <md-button
                   md-flex=true
                   class="md-raised"
                   @click="upload()">
-                Upload
-              </md-button>
-            </div>
-          </md-layout>
-        </div>
+                  Upload
+                </md-button>
+              </div>
+            </md-layout>
+          </div>
 
-        <ul v-if="uploadFiles">
-          <li v-for="(file, i) in uploadFiles" :key="i">
-            <a :href="file">{{file}}</a>
-          </li>
-        </ul>
+          <ul v-if="uploadFiles">
+            <li v-for="(file, i) in uploadFiles" :key="i">
+              <a :href="file">{{file}}</a>
+            </li>
+          </ul>
 
-        <div v-if="error" style="color: red">
-          {{ error }}
-        </div>
+          <div v-if="error" style="color: red">
+            {{ error }}
+          </div>
 
-      </md-whiteframe>
+        </md-whiteframe>
+      </md-layout>
 
-      <md-whiteframe>
-        <h3 class="md-title">Live graphs</h3>
+      <md-layout md-flex="33">
+        <md-whiteframe>
+          <h3 class="md-title">Live graphs</h3>
 
-        <div
+          <div
             v-for="(param, i) of sliders"
             :key="i"
             style="height: 2em">
-          <md-layout md-row md-vertical-align="center">
-            {{param.key}} = {{param.value.toFixed(1)}}
-            <div style="flex: 1">
-              <vue-slider
-                ref="slider"
-                tooltip="none"
-                :interval="param.interval"
-                @callback="changeGraph()"
-                :max="param.max"
-                v-model="param.value"/>
-            </div>
-          </md-layout>
-        </div>
+            <md-layout md-row md-vertical-align="center">
+              {{param.key}} = {{param.value.toFixed(1)}}
+              <div style="flex: 1">
+                <vue-slider
+                  ref="slider"
+                  tooltip="none"
+                  :interval="param.interval"
+                  @callback="changeGraph()"
+                  :max="param.max"
+                  v-model="param.value"/>
+              </div>
+            </md-layout>
+          </div>
 
-        <div style="margin-top: 1em">
-          <md-button
+          <div style="margin-top: 1em">
+            <md-button
               class="md-raised"
               @click="randomizeGraph()">
-            random
-          </md-button>
-        </div>
+              random
+            </md-button>
+          </div>
 
-        <md-layout>
-          <div id="charts" style="flex: 1; height: 200px"></div>
-        </md-layout>
-      </md-whiteframe>
+          <md-layout>
+            <div id="charts" style="flex: 1; height: 200px"></div>
+          </md-layout>
+        </md-whiteframe>
+      </md-layout>
+
     </md-layout>
 
     <div style="height: 2em"></div>
@@ -125,12 +139,12 @@
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-   .md-whiteframe {
-     margin-right: 1em;
-     margin-top: 1em;
-     width: 100%;
-     padding: 1em;
-   }
+  .md-whiteframe {
+    margin-right: 1em;
+    margin-top: 1em;
+    width: 100%;
+    padding: 1em;
+  }
 </style>
 
 <script>
@@ -139,9 +153,11 @@ import _ from 'lodash'
 import rpc from '../modules/rpc'
 import vueSlider from 'vue-slider-component'
 import config from '../config'
-import ChartContainer from '../modules/chartContainer'
-import CanvasWrapper from '../modules/canvasWrapper'
+import ChartWidget from '../modules/chart-widget'
+import CanvasWidget from '../modules/canvas-widget'
 import Model from '../modules/model'
+import webglstarterkit from '../modules/webgl-widget'
+const THREE = require('three')
 
 function getRandomColor () {
   let letters = '0123456789ABCDEF'
@@ -200,27 +216,37 @@ export default {
         Math.sin(this.params.beta * iStep + this.params.gamma)
     }
 
-    this.chartsContainer = new ChartContainer('#charts')
-    this.chartsContainer.setTitle('title')
-    this.chartsContainer.setXLabel('xLabel')
-    this.chartsContainer.setYLabel('yLabel')
-    this.chartsContainer.addDataset('sample')
+    this.chartWidget = new ChartWidget('#charts')
+    this.chartWidget.setTitle('title')
+    this.chartWidget.setXLabel('xLabel')
+    this.chartWidget.setYLabel('yLabel')
+    this.chartWidget.addDataset('sample')
     this.randomizeGraph()
 
-    this.canvasWrapper = new CanvasWrapper('#rect')
-    this.canvasWrapper.mousemove = e => {
-      this.canvasWrapper.getPointer(event)
-      this.pointerX = this.canvasWrapper.pointerX.toFixed(0)
-      this.pointerY = this.canvasWrapper.pointerY.toFixed(0)
+    this.canasWidget = new CanvasWidget('#rect')
+    this.canasWidget.mousemove = e => {
+      this.canasWidget.getPointer(event)
+      this.pointerX = this.canasWidget.pointerX.toFixed(0)
+      this.pointerY = this.canasWidget.pointerY.toFixed(0)
+      this.drawCanvas()
     }
+    this.drawCanvas()
 
-    for (let i = 0; i < 10; i += 1) {
-      let x1 = Math.random() * this.canvasWrapper.width()
-      let y1 = Math.random() * this.canvasWrapper.height()
-      let x2 = Math.random() * this.canvasWrapper.width()
-      let y2 = Math.random() * this.canvasWrapper.height()
-      this.canvasWrapper.fillRect(x1, y1, x2, y2, getRandomColor())
+    this.webglWidget = new webglstarterkit.WebglWidget('#webgl', '#FFFFFF')
+    let geometry = new THREE.BoxGeometry(50, 32, 32)
+    let material = new THREE.MeshPhongMaterial({
+      color: 0x156289,
+      emissive: 0x072534,
+      side: THREE.DoubleSide,
+      flatShading: true
+    })
+    this.webglWidget.scene.add(new THREE.Mesh(geometry, material))
+    this.webglWidget.moveCameraToShowAll()
+    this.webglWidget.update = () => {
+      this.webglWidget.rotateCameraAroundScene(0.005, 0.01, 0)
     }
+    this.webglWidget.draw()
+
     let response = await rpc.rpcRun('publicGetText')
     if (response.result) {
       this.text = response.result.text
@@ -233,6 +259,15 @@ export default {
       let response = await rpc.rpcDownload('publicDownloadGetReadme')
       if (response.error) {
         this.error = response.error.message
+      }
+    },
+    drawCanvas () {
+      for (let i = 0; i < 10; i += 1) {
+        let x1 = Math.random() * this.canasWidget.width()
+        let y1 = Math.random() * this.canasWidget.height()
+        let x2 = Math.random() * this.canasWidget.width()
+        let y2 = Math.random() * this.canasWidget.height()
+        this.canasWidget.fillRect(x1, y1, x2, y2, getRandomColor())
       }
     },
     selectFiles (filelist) {
@@ -261,7 +296,7 @@ export default {
       this.model.resetSoln()
       this.model.integrate(nStep)
       let yValues = this.model.soln.y
-      this.chartsContainer.updateDataset(0, xValues, yValues)
+      this.chartWidget.updateDataset(0, xValues, yValues)
     },
     randomizeGraph () {
       for (let slider of this.sliders) {

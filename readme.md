@@ -67,7 +67,7 @@ You can access the client at `http://localhost:8080`. As you change the source c
 
 To get started, the first file you will work on will be `client/src/components/Home.vue`. The components in that file are from [Vue Material](https://vue-material-old.netlify.com/). This is a Google Material Design library written for Vue. From experience, using a slick and comprehensive theme such as Google Material Design will save a lot of time later on. Google Material Design has many well-designed components readily, which are  web-responsive and works well with desktop and mobile.
 
-To help things along, I've included two wrappers, `chartContainer` and `CanvasWrapper`. These are convenient classes that simplify the API to `chart.js` for interactive charts, and to the HTML `canvas` element for raster graphics.
+To help things along, I've included two wrappers, `chartContainer` and `CanvasWidget`. These are convenient classes that simplify the API to `chart.js` for interactive charts, and to the HTML `canvas` element for raster graphics.
 
 ## Talking to the Server
 
