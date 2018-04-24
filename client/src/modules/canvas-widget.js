@@ -50,12 +50,12 @@ class CanvasWidget {
   }
 
   x () {
-    let parentDivPos = this.parentDiv.position()
+    let parentDivPos = this.parentDiv.offset()
     return parentDivPos.left
   }
 
   y () {
-    let parentDivPos = this.parentDiv.position()
+    let parentDivPos = this.parentDiv.offset()
     return parentDivPos.top
   }
 

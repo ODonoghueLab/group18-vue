@@ -223,11 +223,15 @@ export default {
     this.chartWidget.addDataset('sample')
     this.randomizeGraph()
 
-    this.canasWidget = new CanvasWidget('#rect')
-    this.canasWidget.mousemove = e => {
-      this.canasWidget.getPointer(event)
-      this.pointerX = this.canasWidget.pointerX.toFixed(0)
-      this.pointerY = this.canasWidget.pointerY.toFixed(0)
+    this.canvasWidget = new CanvasWidget('#rect')
+    this.canvasWidget.drawWidth = this.canvasWidget.width()
+    this.canvasWidget.drawHeight = this.canvasWidget.height()
+    this.canvasWidget.mousemove = e => {
+      this.canvasWidget.getPointer(event)
+      this.canvasWidget.drawWidth = this.canvasWidget.pointerX
+      this.canvasWidget.drawHeight = this.canvasWidget.pointerY
+      this.pointerX = this.canvasWidget.pointerX.toFixed(0)
+      this.pointerY = this.canvasWidget.pointerY.toFixed(0)
       this.drawCanvas()
     }
     this.drawCanvas()
@@ -263,11 +267,11 @@ export default {
     },
     drawCanvas () {
       for (let i = 0; i < 10; i += 1) {
-        let x1 = Math.random() * this.canasWidget.width()
-        let y1 = Math.random() * this.canasWidget.height()
-        let x2 = Math.random() * this.canasWidget.width()
-        let y2 = Math.random() * this.canasWidget.height()
-        this.canasWidget.fillRect(x1, y1, x2, y2, getRandomColor())
+        let x1 = Math.random() * this.canvasWidget.drawWidth
+        let y1 = Math.random() * this.canvasWidget.drawHeight
+        let x2 = Math.random() * (this.canvasWidget.drawWidth - x1)
+        let y2 = Math.random() * (this.canvasWidget.drawHeight - y1)
+        this.canvasWidget.fillRect(x1, y1, (x2 - x1), (y2 - y1), getRandomColor())
       }
     },
     selectFiles (filelist) {
