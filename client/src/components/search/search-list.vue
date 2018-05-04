@@ -2,7 +2,7 @@
   <div>
     <v-card class="md-layout-item md-elevation-3">
       <v-toolbar>
-        <v-card-title>Results</v-card-title>
+        <v-toolbar-title>Results</v-toolbar-title>
       </v-toolbar>
 
       <v-card-text>

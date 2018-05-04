@@ -1,7 +1,7 @@
 <template>
     <v-card>
       <v-toolbar>
-        <v-card-title>Register to {{ title }}</v-card-title>
+        <v-toolbar-title>Register to {{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
         <form novalidate class="login-screen"

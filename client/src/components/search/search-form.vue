@@ -2,7 +2,7 @@
   <form method="POST" action="http://localhost:8081/api/nobleGasBindings/search" @submit.prevent="search" class="v-layout">
     <v-card class="v-layout-item v-elevation-3">
       <v-toolbar>
-        <v-card-title>Query</v-card-title>
+        <v-toolbar-title>Query</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
         <v-container fluid grid-list-xl>

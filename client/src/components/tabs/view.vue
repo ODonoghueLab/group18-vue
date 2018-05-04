@@ -1,6 +1,7 @@
 <template>
   <div style="height:85%;">
-    <v-container fluid
+    <v-container id="joleculeControls"
+                 fluid
                  grid-list-xl>
       <v-layout row
                 wrap>
@@ -233,5 +234,8 @@ export default {
 </script>
 
 <style scoped>
-
+#joleculeControls {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
 </style>

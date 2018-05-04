@@ -11,7 +11,7 @@
           {{ title }}
         </h2>
       </v-flex>
-      <v-flex xs3>
+      <v-flex xs8>
         <v-tabs>
           <v-tab id="tab-home"
                  to="/"
@@ -27,7 +27,7 @@
           </v-tab>
         </v-tabs>
       </v-flex>
-      <v-flex xs6>
+      <v-flex xs2>
         <div v-if="isUser">
           <v-menu bottom
                   left
