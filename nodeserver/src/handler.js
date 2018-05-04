@@ -1,9 +1,11 @@
-const _ = require('lodash')
-const path = require('path')
-const fs = require('fs-extra')
+const _ = require("lodash");
+const path = require("path");
+const fs = require("fs-extra");
 
-const config = require('./config')
-const dbmodel = require('./dbmodel')
+const config = require("./config");
+const dbmodel = require("./dbmodel");
+const dataServer = require("./handlers/dataServer");
+const nobleGasBindings = require("./handlers/nobleGasBindings");
 
 /**
  *
@@ -28,33 +30,33 @@ const dbmodel = require('./dbmodel')
  *
  */
 
-async function publicRegisterUser (user) {
-  let errors = []
+async function publicRegisterUser(user) {
+  let errors = [];
   if (!user.name) {
-    errors.push('no user name')
+    errors.push("no user name");
   }
   if (!user.email) {
-    errors.push('no email')
+    errors.push("no email");
   }
   if (!user.password) {
-    errors.push('no Password')
+    errors.push("no Password");
   }
 
   if (errors.length > 0) {
-    throw errors.join(', ').join(errors)
+    throw errors.join(", ").join(errors);
   }
 
   let values = {
     name: user.name,
     email: user.email,
     password: user.password
-  }
+  };
 
   try {
-    await dbmodel.createUser(values)
-    return {success: true}
+    await dbmodel.createUser(values);
+    return { success: true };
   } catch (e) {
-    throw 'Couldn\'t register, is your email already in use?'
+    throw "Couldn't register, is your email already in use?";
   }
 }
 
@@ -63,45 +65,45 @@ async function publicRegisterUser (user) {
  * @param {Object} user
  * @promise {User}
  */
-async function loginUpdateUser (user) {
-  const keys = ['id', 'name', 'email', 'password']
-  let values = {}
+async function loginUpdateUser(user) {
+  const keys = ["id", "name", "email", "password"];
+  let values = {};
   for (let key of keys) {
     if (user[key]) {
-      values[key] = user[key]
+      values[key] = user[key];
     }
   }
   if (!values) {
-    throw 'No values to update'
+    throw "No values to update";
   }
   if (!values.id) {
-    throw 'No user.id to identify user'
+    throw "No user.id to identify user";
   }
 
   try {
-    console.log('>> handlers.updateUser', values)
-    await dbmodel.updateUser(values)
-    return {success: true}
+    console.log(">> handlers.updateUser", values);
+    await dbmodel.updateUser(values);
+    return { success: true };
   } catch (err) {
-    throw 'Couldn\'t update user - ' + err.toString()
+    throw "Couldn't update user - " + err.toString();
   }
 }
 
-async function publicResetPassword (tokenId, password) {
-  let values  = {
+async function publicResetPassword(tokenId, password) {
+  let values = {
     id: tokenId,
     password
-  }
+  };
   if (!values.id) {
-    throw 'No user.id to identify user'
+    throw "No user.id to identify user";
   }
 
   try {
-    console.log('>> handlers.publicResetPassword', values)
-    await dbmodel.updateUser(values)
-    return {success: true}
+    console.log(">> handlers.publicResetPassword", values);
+    await dbmodel.updateUser(values);
+    return { success: true };
   } catch (err) {
-    throw `Update failure ${err}`
+    throw `Update failure ${err}`;
   }
 }
 
@@ -109,11 +111,9 @@ async function publicResetPassword (tokenId, password) {
 
 // user defined
 
+async function updateDatabaseOnInit() {}
 
-async function updateDatabaseOnInit () {
-}
-
-updateDatabaseOnInit()
+updateDatabaseOnInit();
 
 /**
  * Specific handlers - promises that return a JSON literal
@@ -121,34 +121,34 @@ updateDatabaseOnInit()
 
 async function publicGetText() {
   return {
-    "text": "Example text from local webserver",
-    "isRunning": true
-  }
+    text: "Example text from local webserver",
+    isRunning: true
+  };
 }
 
-async function publicDownloadGetReadme () {
+async function publicDownloadGetReadme() {
   payload = {
-    "filename": path.resolve("readme.md"),
-    "data": { "success": true}
-  }
-  console.log("> publicGetReadme", payload)
-  return payload
+    filename: path.resolve("readme.md"),
+    data: { success: true }
+  };
+  console.log("> publicGetReadme", payload);
+  return payload;
 }
 
-async function publicUploadFiles (fileList) {
-  const timestampDir = String(new Date().getTime())
-  const fullDir = path.join(config.filesDir, timestampDir)
-  fs.ensureDirSync(fullDir)
-  let targetPaths = [] //
+async function publicUploadFiles(fileList) {
+  const timestampDir = String(new Date().getTime());
+  const fullDir = path.join(config.filesDir, timestampDir);
+  fs.ensureDirSync(fullDir);
+  let targetPaths = []; //
   for (let file of fileList) {
-    let basename = path.basename(file.originalname)
-    let targetPath = path.join(timestampDir, basename)
-    let fullTargetPath = path.join(config.filesDir, targetPath)
-    fs.renameSync(file.path, fullTargetPath)
-    targetPaths.push('/file/' + targetPath)
+    let basename = path.basename(file.originalname);
+    let targetPath = path.join(timestampDir, basename);
+    let fullTargetPath = path.join(config.filesDir, targetPath);
+    fs.renameSync(file.path, fullTargetPath);
+    targetPaths.push("/file/" + targetPath);
   }
-  console.log("> publicUploadFiles", targetPaths)
-  return { files: targetPaths }
+  console.log("> publicUploadFiles", targetPaths);
+  return { files: targetPaths };
 }
 
 module.exports = {
@@ -156,5 +156,7 @@ module.exports = {
   loginUpdateUser,
   publicGetText,
   publicDownloadGetReadme,
-  publicUploadFiles
-}
+  publicUploadFiles,
+  ...nobleGasBindings,
+  ...dataServer
+};

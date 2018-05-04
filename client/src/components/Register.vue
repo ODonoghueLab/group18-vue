@@ -1,101 +1,111 @@
 <template>
-  <md-layout md-align="center">
-    <md-whiteframe style="margin-top: 4em; padding: 3em">
-      <md-layout md-flex="50" md-align="center" md-column>
+    <v-card>
+      <v-toolbar>
+        <v-card-title>Register to {{ title }}</v-card-title>
+      </v-toolbar>
+      <v-card-text>
+        <form novalidate class="login-screen"
+              v-on:submit.prevent="submit">
+        <v-container fluid grid-list-xl>
+        <v-layout  row wrap>
+        <v-flex class="xs12">
+                     <v-text-field
+              v-model="name"
+              label="User name"
+              :error-messages="errors.collect('name')"
+              v-validate="'name'"
+              data-vv-name="name"
+            ></v-text-field>
+            <v-text-field
+              v-model="email"
+              label="E-mail address"
+              :error-messages="errors.collect('email')"
+              v-validate="'email'"
+              data-vv-name="email"
+            ></v-text-field>
+              <v-text-field
+                hint="At least 6 characters"
+                v-model="rawPassword"
+                :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
+                :append-icon-cb="() => (passwordHidden = !passwordHidden)"
+                :type="passwordHidden ? 'password' : 'text'"
+                counter
+                label="Password"
+                :error-messages="errors.collect('rawPassword')"
+                v-validate="'required|min:6'"
+                data-vv-name="rawPassword"
+            ></v-text-field> 
+                          <v-text-field
+                hint="At least 6 characters"
+                v-model="rawConfirmPassword"
+                :append-icon="confirmPasswordHidden ? 'visibility' : 'visibility_off'"
+                :append-icon-cb="() => (confirmPasswordHidden = !confirmPasswordHidden)"
+                :type="confirmPasswordHidden ? 'password' : 'text'"
+                counter
+                label="Confirm Password"
+                :error-messages="errors.collect('rawConfirmPassword')"
+                v-validate="'required|confirmed:rawPassword'"
+                data-vv-name="rawConfirmPassword"
+            ></v-text-field> 
+              <div class="alert alert-danger">{{loginMessage}}</div>
+          </v-flex>
+        </v-layout>
+        <v-btn type="submit" class="v-accent" >Register</v-btn>
 
-        <h2 class="md-display-2">
-          Register to {{ title }}
-        </h2>
-
-        <form v-on:submit.prevent="submit">
-          <md-input-container>
-            <label>User name</label>
-            <md-input
-              type='text'
-              v-model='name'
-              placeholder='User name'>
-            </md-input>
-          </md-input-container>
-          <md-input-container>
-            <label>E-mail address</label>
-            <md-input
-              type='text'
-              v-model='email'
-              placeholder='E-mail address'>
-            </md-input>
-          </md-input-container>
-          <md-input-container>
-            <label>Password</label>
-            <md-input
-              type='password'
-              v-model='rawPassword'
-              placeholder='Password'>
-            </md-input>
-          </md-input-container>
-          <md-input-container>
-            <label>Confirm Password</label>
-            <md-input
-              type='password'
-              v-model='rawPasswordConfirm'
-              placeholder='Confirm Password'>
-            </md-input>
-          </md-input-container>
-          <md-button type="submit" class="md-raised md-primary">
-            Register
-          </md-button>
           <div v-if="error" style="color: red">
-            {{error}}
+            {{ error }}
           </div>
+</v-container>
         </form>
-
-      </md-layout>
-    </md-whiteframe>
-  </md-layout>
+</v-card-text>
+    </v-card>
 </template>
 
 <script>
-import auth from '../modules/auth'
-import config from '../config'
+import auth from "../modules/auth";
+import config from "../config";
 
 export default {
-  name: 'Register',
-  data () {
+  name: "Register",
+  data() {
     return {
       title: config.title,
-      name: '',
-      email: '',
-      rawPassword: '',
-      rawPasswordConfirm: '',
+      name: "",
+      email: "",
+      rawPassword: "",
+      passwordHidden: true,
+      rawPasswordConfirm: "",
+      confirmPasswordHidden: true,
       user: auth.user,
-      error: ''
-    }
+      error: ""
+    };
   },
   methods: {
-    async submit () {
+    async submit() {
       let payload = {
         name: this.$data.name,
         email: this.$data.email,
         rawPassword: this.$data.rawPassword,
         rawPasswordConfirm: this.$data.rawPasswordConfirm
-      }
-      let response = await auth.register(payload)
+      };
+      let response = await auth.register(payload);
 
       if (response.result) {
-        console.log('> Register.submit register success', response.result)
+        console.log("> Register.submit register success", response.result);
         response = await auth.login({
           email: payload.email,
           rawPassword: payload.rawPassword
-        })
+        });
       }
 
       if (response.result) {
-        console.log('> Register.submit login success', response.result)
-        this.$router.push('/')
+        console.log("> Register.submit login success", response.result);
+        this.$router.push("/");
       } else {
-        console.log('> Register.submit fail', response.error)
-        this.error = response.error.message
+        console.log("> Register.submit fail", response.error);
+        this.error = response.error.message;
       }
     }
   }
-}
+};
 </script>

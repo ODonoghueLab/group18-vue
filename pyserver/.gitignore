@@ -1,7 +1,0 @@
-# Created by .ignore support plugin (hsz.mobi)
-**/*pyc
-Pipfile.lock
-__pycache__
-server/files
-server/database.sqlite
-src/config.py

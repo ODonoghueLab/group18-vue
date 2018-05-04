@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './components/Home'
 import Login from './components/Login'
 import Register from './components/Register'
 import EditUser from './components/EditUser'
 import AdminUsers from './components/AdminUsers'
 import ResetPassword from './components/ResetPassword'
+import search from '@/components/tabs/search'
+import home from '@/components/tabs/home'
+import view from '@/components/tabs/view'
 
 Vue.use(Router)
 
@@ -15,7 +17,7 @@ let router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: home
     },
     {
       path: '/login',
@@ -41,6 +43,16 @@ let router = new Router({
       path: '/reset-password/:tokenId',
       name: 'resetPassword',
       component: ResetPassword
+    },
+    {
+      path: '/Search',
+      name: 'search',
+      component: search
+    },
+    {
+      path: '/View',
+      name: 'view',
+      component: view
     }
   ]
 })

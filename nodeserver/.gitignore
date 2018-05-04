@@ -4,3 +4,5 @@ files
 database.sqlite
 yarn.lock
 src/config.js
+node_modules
+/node_modules/

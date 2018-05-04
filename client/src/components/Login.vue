@@ -1,81 +1,86 @@
 <template>
-  <md-layout md-align="center">
-    <md-whiteframe style="margin-top: 4em; padding: 3em">
-      <md-layout md-flex="50" md-align="center" md-column>
+  <v-card>
+    <v-toolbar>
+      <v-card-title>Register to {{ title }}</v-card-title>
+    </v-toolbar>
+    <v-card-text>
+      <form novalidate
+            class="login-screen"
+            v-on:submit.prevent="submit">
+        <v-container fluid
+                     grid-list-xl>
+          <v-layout row
+                    wrap>
+            <v-flex class="xs12">
+              <v-text-field v-model="email"
+                            label="E-mail address"
+                            :error-messages="errors.collect('email')"
+                            v-validate="'email'"
+                            data-vv-name="email"></v-text-field>
+              <v-text-field hint="At least 6 characters"
+                            v-model="rawPassword"
+                            :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
+                            :append-icon-cb="() => (passwordHidden = !passwordHidden)"
+                            :type="passwordHidden ? 'password' : 'text'"
+                            counter
+                            label="Password"
+                            :error-messages="errors.collect('rawPassword')"
+                            v-validate="'required|min:6'"
+                            data-vv-name="rawPassword"></v-text-field>
+              <p>
+                <a href="/forgotPassword">Forgot</a> your password? </p>
+              <div class="alert alert-danger">{{loginMessage}}</div>
+            </v-flex>
+          </v-layout>
+          <v-btn type="submit"
+                 class="v-accent">Login</v-btn>
 
-        <h2 class="md-display-2">
-          Login to {{ title }}
-        </h2>
-
-        <form novalidate class="login-screen"
-              v-on:submit.prevent="submit">
-
-          <md-input-container>
-            <label>E-mail address</label>
-            <md-input
-              type='text'
-              v-model='email'
-              placeholder='E-mail address'>
-            </md-input>
-          </md-input-container>
-
-          <md-input-container>
-            <label>Password</label>
-            <md-input
-              type='password'
-              v-model='rawPassword'
-              placeholder='Password'>
-            </md-input>
-          </md-input-container>
-
-          <md-button type="submit" class="md-raised md-primary">login</md-button>
-
-          <div v-if="error" style="color: red">
+          <div v-if="error"
+               style="color: red">
             {{ error }}
           </div>
-
           <div style="margin-top: 3em">
             New to {{ title }}? &nbsp;
             <router-link to="/register">Register</router-link>
           </div>
-
-        </form>
-
-      </md-layout>
-    </md-whiteframe>
-  </md-layout>
+        </v-container>
+      </form>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
-import auth from '../modules/auth'
-import config from '../config'
+import auth from '../modules/auth';
+import config from '../config';
 
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
       title: config.title,
       email: '',
+      passwordHidden: true,
       rawPassword: '',
-      error: ''
-    }
+      error: '',
+      loginMessage: '',
+    };
   },
   methods: {
-    async submit () {
+    async submit() {
       let payload = {
         email: this.$data.email,
-        rawPassword: this.$data.rawPassword
-      }
-      console.log('> Login.submit', payload)
-      let response = await auth.login(payload)
-      console.log('> Login.submit response', response)
+        rawPassword: this.$data.rawPassword,
+      };
+      console.log('> Login.submit', payload);
+      let response = await auth.login(payload);
+      console.log('> Login.submit response', response);
 
       if (response.result) {
-        this.$router.push('/')
+        this.$router.push('/');
       } else {
-        this.error = response.error.message
+        this.error = response.error.message;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
