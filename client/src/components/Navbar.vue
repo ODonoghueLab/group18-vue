@@ -45,12 +45,12 @@
               </v-list-tile>
             </v-list>
           </v-menu>
+          <router-link v-else
+                       to='/login'
+                       tag='v-btn'>
+            Login
+          </router-link>
         </div>
-        <router-link v-else
-                     to='/login'
-                     tag='v-btn'>
-          Login
-        </router-link>
       </v-flex>
     </v-layout>
   </v-toolbar>

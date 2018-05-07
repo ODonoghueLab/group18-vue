@@ -1,5 +1,5 @@
 export default {
   apiUrl: `http://localhost:3000`,
-  title: "group18",
+  title: "Group18",
   isUser: true
 };

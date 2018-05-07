@@ -7,8 +7,20 @@
         <v-flex xs12
                 sm9>
           <v-card>
-            <v-toolbar>
-              <v-toolbar-title>About</v-toolbar-title>
+            <v-toolbar prominent
+                       extended>
+              <v-container>
+                <v-layout>
+                  <v-toolbar-title>Group18: Noble gas interactions with proteins</v-toolbar-title>
+                </v-layout>
+                <v-layout>
+                  <v-subheader> So, gone is the justification for “inert”. Now known collectively
+                    as the noble gases, a name intended to imply a kind of chemical
+                    aloofness rather than a rigorous chastity — Peter William Atkins:
+                    In The Periodic Kingdom: A Journey Into the Land of the Chemical
+                    Elements (1995), 9.</v-subheader>
+                </v-layout>
+              </v-container>
             </v-toolbar>
             <v-card-text>
               <p>
@@ -228,7 +240,7 @@
                 </tr>
                 <tr>
                   <td>Email:</td>
-                  <td>
+                  <td><span class="emale" data-user="notnrohT.noraA" data-website="ua.orisc"></span>
                   </td>
                 </tr>
                 <tr>
@@ -247,7 +259,7 @@
                 </tr>
                 <tr>
                   <td>Email:</td>
-                  <td>
+                  <td><span class="emale" data-user="euhgonoD'O.naeS" data-website="ua.orisc"></span>                  
                   </td>
                 </tr>
               </table>
@@ -258,3 +270,11 @@
     </v-container>
   </v-layout>
 </template>
+<style scoped>
+.emale:before {
+	content: attr(data-website) "\0040" attr(data-user);
+	unicode-bidi: bidi-override;
+	direction: rtl;
+}
+</style>
+
