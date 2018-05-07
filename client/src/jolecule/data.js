@@ -9,7 +9,8 @@ import * as THREE from 'three'
 const proteinResTypes = [
   'ALA', 'CYS', 'ASP', 'GLU', 'PHE', 'GLY', 'HIS',
   'ILE', 'LYS', 'LEU', 'MET', 'ASN', 'PRO', 'GLN',
-  'ARG', 'SER', 'THR', 'TRP', 'VAL', 'TYR']
+  'ARG', 'SER', 'THR', 'TRP', 'VAL', 'TYR'
+]
 const dnaResTypes = ['DA', 'DT', 'DG', 'DC', 'A', 'T', 'G', 'C']
 const rnaResTypes = ['RA', 'RU', 'RC', 'RG', 'A', 'G', 'C', 'U']
 
@@ -42,23 +43,23 @@ let ElementColors = {
   'I': 0x6600AA,
   'FE': 0xCC6600,
   'CA': 0x8888AA,
-  'He': 0x7B86C2,
-  'Ne': 0x9ED2E4,
-  'Ar': 0x5DC4BE,
-  'Kr': 0xACD376,
-  'Xe': 0xF79F7C,
-  'Rn': 0xE29EC5
+  "He": 0x9ED2E4,
+  "Ne": 0xF79F7C,
+  "Ar": 0x7B86C2,
+  "Kr": 0xACD376,
+  "Xe": 0x5DC4BE,
+  "Rn": 0xE29EC5
 }
 
 for (let [k, v] of _.toPairs(ElementColors)) {
   ElementColors[k] = new THREE.Color(v)
 }
 
-function getIndexColor (i) {
+function getIndexColor(i) {
   return new THREE.Color().setHex(i)
 }
 
-function getSsColor (ss) {
+function getSsColor(ss) {
   if (ss === 'E') {
     return yellow
   } else if (ss === 'H') {
@@ -73,7 +74,7 @@ function getSsColor (ss) {
   return grey
 }
 
-function getDarkSsColor (ss) {
+function getDarkSsColor(ss) {
   if (ss === 'E') {
     return darkYellow
   } else if (ss === 'H') {
@@ -156,7 +157,7 @@ const fatCoilFace = new THREE.Shape([
   new THREE.Vector2(+0.25, -0.25)
 ])
 
-function getSsFace (ss) {
+function getSsFace(ss) {
   if (ss === 'C' || ss === '-') {
     return coilFace
   }
