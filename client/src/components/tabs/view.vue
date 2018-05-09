@@ -155,7 +155,9 @@ export default {
       this.isWorking = false;
     },
     async reDisplayJolecule() {
-      document.getElementById('jolecule').innerHTML = '';
+      if (document.getElementById('jolecule')) {
+        document.getElementById('jolecule').innerHTML = '';
+      }
       let j = initEmbedJolecule({
         divTag: '#jolecule',
         viewId: '',
@@ -253,6 +255,14 @@ export default {
         return this.isValidEnergyCutOffSet(value);
       },
     });
+    let pdb = this.$route.query.pdb;
+    let energyCutoffSet = this.$route.query.cutoff;
+    if (pdb && pdb > '') {
+      this.SET_PDB(pdb);
+    }
+    if (energyCutoffSet && energyCutoffSet > '') {
+      this.SET_ENERGYCUTOFFSET(energyCutoffSet);
+    }
   },
   mounted() {
     this.displayJolecule();
