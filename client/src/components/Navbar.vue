@@ -17,13 +17,20 @@
                  to="/"
                  router>Home
           </v-tab>
-          <v-tab id="tab-search"
+          <v-tab v-show="user.authenticated"
+                 id="tab-search"
                  to="/search"
                  router>Search
           </v-tab>
-          <v-tab id="tab-view"
+          <v-tab v-show="user.authenticated"
+                 id="tab-view"
                  to="/view"
                  router>View
+          </v-tab>
+          <v-tab v-show="!user.authenticated"
+                 id="tab-login"
+                 to="/login"
+                 router>Login
           </v-tab>
         </v-tabs>
       </v-flex>
@@ -45,11 +52,6 @@
               </v-list-tile>
             </v-list>
           </v-menu>
-          <router-link v-else
-                       to='/login'
-                       tag='v-btn'>
-            Login
-          </router-link>
         </div>
       </v-flex>
     </v-layout>

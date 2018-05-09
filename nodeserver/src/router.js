@@ -7,7 +7,9 @@ const config = require('./config')
 
 const mime = require('mime')
 const multer = require('multer')
-const upload = multer({dest: config.filesDir})
+const upload = multer({
+  dest: config.filesDir
+})
 
 const passport = require('passport')
 const express = require('express')
@@ -38,6 +40,13 @@ const remoteRunFns = require('./handler')
  * handled here, otherwise all functions are sent to the matching
  * functions found in the exports of `handlers.js`.
  */
+
+const isAllowed = function (method, params) {
+  if (method === 'getDataServers' && params[0].pdb && params[0].pdb === '2bmm') {
+    return true
+  }
+  return false
+}
 router.post('/api/rpc-run', (req, res, next) => {
   let params = req.body.params
   let method = req.body.method
@@ -49,7 +58,8 @@ router.post('/api/rpc-run', (req, res, next) => {
 
     passport.authenticate('local', (err, user) => {
       if (err) {
-        console.log('>> router.rpc-run.publicLoginUser authenticate error')
+        console.log(
+          '>> router.rpc-run.publicLoginUser authenticate error')
         return next(err)
       }
       if (!user) {
@@ -64,10 +74,13 @@ router.post('/api/rpc-run', (req, res, next) => {
       }
       req.logIn(user, (error) => {
         if (error) {
-          console.log('>> router.rpc-run.publicLoginUser session publicLoginUser error', err)
+          console.log(
+            '>> router.rpc-run.publicLoginUser session publicLoginUser error',
+            err)
           return next(error)
         }
-        console.log('>> router.rpc-run.publicLoginUser success', user)
+        console.log('>> router.rpc-run.publicLoginUser success',
+          user)
         let returnUser = _.cloneDeep(user)
         delete returnUser.password
         return res.json({
@@ -89,9 +102,13 @@ router.post('/api/rpc-run', (req, res, next) => {
       jsonrpc: '2.0'
     })
   } else if (method in remoteRunFns) {
-    if (!_.startsWith(method, 'public')) {
+    if (!_.startsWith(method, 'public') && !isAllowed(method, params)) {
       if (!req.isAuthenticated || !req.isAuthenticated()) {
-        throw new Error(`Not logged in`)
+        // throw new Error(`Not logged in`)
+        res.json({
+          error: `Not logged in`,
+          jsonrpc: '2.0'
+        })
       }
     }
 
@@ -137,7 +154,8 @@ router.post('/api/rpc-upload', upload.array('uploadFiles'), (req, res) => {
 
   if (method in remoteRunFns) {
     if (!method.toLowerCase().includes('upload')) {
-      throw new Error(`Remote uploadFn ${method} should start with 'upload'`)
+      throw new Error(
+        `Remote uploadFn ${method} should start with 'upload'`)
     }
     const uploadFn = remoteRunFns[method]
     params = _.concat([req.files], params)
@@ -181,7 +199,8 @@ router.post('/api/rpc-download', (req, res) => {
 
   if (method in remoteRunFns) {
     if (!method.toLowerCase().includes('download')) {
-      throw new Error(`Remote download ${method} should start with 'download'`)
+      throw new Error(
+        `Remote download ${method} should start with 'download'`)
     }
 
     const downloadFn = remoteRunFns[method]

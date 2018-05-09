@@ -31,21 +31,22 @@ const util = require('../modules/util')
 const opn = require('opn')
 
 // https://coderwall.com/p/184h4a/get-request-with-promise-in-nodejs
-function getUrl (url) {
-  return new Promise(function (resolve, reject) {
-    let request = http.get(url, function (response) {
+function getUrl(url) {
+  return new Promise(function(resolve, reject) {
+    let request = http.get(url, function(response) {
       if (response.statusCode < 200 || response.statusCode > 299) {
-        reject(new Error('Failed to load page, status code: ' + response.statusCode))
+        reject(new Error('Failed to load page, status code: ' +
+          response.statusCode))
       }
       let body = []
-      response.on('data', function (chunk) {
+      response.on('data', function(chunk) {
         return body.push(chunk)
       })
-      response.on('end', function () {
+      response.on('end', function() {
         return resolve(body.join(''))
       })
     })
-    request.on('error', function (err) {
+    request.on('error', function(err) {
       return reject(err)
     })
   })
@@ -54,14 +55,13 @@ function getUrl (url) {
 let isNotServerReady = true
 let elapsed = 0
 
-async function openWebClient () {
+async function openWebClient() {
   while (isNotServerReady) {
     await util.delay(1000)
     try {
       let body = await getUrl(url)
       isNotServerReady = false
-    }
-    catch (e) {
+    } catch (e) {
       elapsed += 1
       console.log(`Waiting ${elapsed} s for ${url}`)
     }
@@ -104,7 +104,7 @@ console.log(`Serving on ${ip}:${port}`)
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort (val) {
+function normalizePort(val) {
   var port = parseInt(val, 10)
 
   if (isNaN(port)) {
@@ -124,14 +124,14 @@ function normalizePort (val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError (error) {
+function onError(error) {
   if (error.syscall !== 'listen') {
     throw error
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -152,10 +152,10 @@ function onError (error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening () {
+function onListening() {
   var addr = server.address()
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port
   debug('Listening on ' + bind)
 }

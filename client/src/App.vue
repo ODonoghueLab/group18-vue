@@ -6,7 +6,6 @@
     </v-app>
   </div>
 </template>
-
 <style>
 @import 'http://fonts.googleapis.com/css?family=Roboto:300,
   400,
@@ -41,6 +40,10 @@ a.jolecule-button.element-Kr.active {
 }
 a.jolecule-button.element-Xe.active {
   background-color: #5dc4be;
+}
+.container.fluid.grid-list-xl {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 </style>
 

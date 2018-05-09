@@ -1,56 +1,62 @@
 <template>
-  <div style="height:85%;">
-    <v-container id="joleculeControls"
-                 fluid
-                 grid-list-xl>
+  <div style="height:100%;">
+    <div v-if="user.authenticated||this.pdb=='2bmm'"
+         style="height:85%;">
+      <v-container v-if="user.authenticated"
+                   id="joleculeControls"
+                   fluid
+                   grid-list-xl>
+        <v-layout row
+                  wrap>
+          <v-flex sm2>
+            <v-select label="PDB"
+                      :items="pdbSelectItems"
+                      v-model="pdb"
+                      :error-messages="errors.collect('pdb')"
+                      v-validate="'length:4'"
+                      data-vv-name="pdb"
+                      cache-items></v-select>
+          </v-flex>
+          <v-flex sm8>
+            <v-select combobox
+                      label="Query"
+                      :items="querySelectItems"
+                      v-model="query"
+                      :filter="customFilter"
+                      :error-messages="errors.collect('query')"
+                      v-validate="''"
+                      hint="Space separated list of search terms. eg oxygen 1000:1200"
+                      persistent-hint
+                      data-vv-name="query"
+                      :loading="isWorking"
+                      item-text="text"
+                      item-value="value"
+                      return-object
+                      :search-input.sync="search"></v-select>
+          </v-flex>
+          <v-flex sm2>
+            <v-select combobox
+                      cache-items
+                      label="Energy Cutoff Set"
+                      :items="localEnergyCutoffSets"
+                      v-model="energyCutoffSet"
+                      :error-messages="errors.collect('energyCutoffSet')"
+                      v-validate="'isValidEnergyCutOffSet'"
+                      data-vv-name="energyCutoffSet"></v-select>
+          </v-flex>
+        </v-layout>
+      </v-container>
       <v-layout row
-                wrap>
-        <v-flex sm2>
-          <v-select label="PDB"
-                    :items="pdbSelectItems"
-                    v-model="pdb"
-                    :error-messages="errors.collect('pdb')"
-                    v-validate="'length:4'"
-                    data-vv-name="pdb"
-                    cache-items></v-select>
-        </v-flex>
-        <v-flex sm8>
-          <v-select combobox
-                    label="Query"
-                    :items="querySelectItems"
-                    v-model="query"
-                    :filter="customFilter"
-                    :error-messages="errors.collect('query')"
-                    v-validate="''"
-                    hint="Space separated list of search terms. eg oxygen 1000:1200"
-                    persistent-hint
-                    data-vv-name="query"
-                    :loading="isWorking"
-                    item-text="text"
-                    item-value="value"
-                    return-object
-                    :search-input.sync="search"></v-select>
-        </v-flex>
-        <v-flex sm2>
-          <v-select combobox
-                    cache-items
-                    label="Energy Cutoff Set"
-                    :items="localEnergyCutoffSets"
-                    v-model="energyCutoffSet"
-                    :error-messages="errors.collect('energyCutoffSet')"
-                    v-validate="'isValidEnergyCutOffSet'"
-                    data-vv-name="energyCutoffSet"></v-select>
+                wrap
+                style="height:100%;">
+        <v-flex xs12>
+          <div id="jolecule"
+               style="height:100%;">
+          </div>
         </v-flex>
       </v-layout>
-    </v-container>
-    <v-layout row
-              wrap
-              style="height:100%;">
-      <v-flex xs12>
-        <div id="jolecule"
-             style="height:100%;"></div>
-      </v-flex>
-    </v-layout>
+    </div>
+    <div v-else>{{this.loadErrorMessage}}</div>
   </div>
 </template>
 <script>
@@ -91,6 +97,9 @@ export default {
         }
       },
     },
+    user: function() {
+      return this.$store.state.user;
+    },
   },
   data() {
     return {
@@ -105,6 +114,9 @@ export default {
         return itemText;
       },
       localEnergyCutoffSets: [],
+      isDisplayed: false,
+      loadErrorMessage:
+        'You need to be logged in to view any PDB file other than the example 2bmm',
     };
   },
   methods: {
@@ -152,6 +164,7 @@ export default {
         isGrid: true,
         isEditable: false,
       });
+      this.isDisplayed = true;
       let newURL =
         window.location.protocol +
         '//' +
@@ -165,14 +178,26 @@ export default {
       this.pdbSelectItems.push(this.pdb);
       this.localEnergyCutoffSets.push(this.energyCutoffSet);
       let payload = { pdb: this.pdb, energyCutoffSet: this.energyCutoffSet };
-      let dataServers = await rpc.rpcRun('getDataServers', payload);
-      dataServers.result.forEach(dataServer => {
-        this.addDataServer({
-          embededJolecule: j,
-          dataServer: dataServer,
-        });
-      });
-      // document.getElementById("jolecule-soup-display").style.height = "400px" //this is a hack that I need to fix with bosco: need to set height correctly
+      try {
+        this.loadErrorMessage = '';
+        let dataServers = await rpc.rpcRun('getDataServers', payload);
+        if (dataServers.error) {
+          console.error(dataServers.error);
+          this.loadErrorMessage = dataServers.error;
+          document.getElementById(
+            'loading-message'
+          ).innerHTML = this.loadErrorMessage;
+        } else {
+          dataServers.result.forEach(dataServer => {
+            this.addDataServer({
+              embededJolecule: j,
+              dataServer: dataServer,
+            });
+          });
+        }
+      } catch (error) {
+        alert(error);
+      }
     },
     displayJolecule() {
       let pdb = this.$route.query.pdb;
@@ -203,39 +228,48 @@ export default {
     },
     energyCutoffSet: {
       handler() {
-        this.reDisplayJolecule();
+        if (this.isDisplayed) this.displayJolecule();
       },
       deep: true,
     },
     pdb: {
       handler() {
-        this.reDisplayJolecule();
+        if (this.isDisplayed) this.displayJolecule();
       },
       deep: true,
     },
     $route: {
       handler() {
         console.log('local', 'route change', this.$route, window.history);
-        this.displayJolecule();
+        if (this.isDisplayed) this.displayJolecule();
       },
       deep: true,
     },
   },
-  mounted() {
+  beforeMount() {
     Validator.extend('isValidEnergyCutOffSet', {
       getMessage: field => 'The ' + field + ' value is not a valid cutoff.',
       validate: value => {
         return this.isValidEnergyCutOffSet(value);
       },
     });
+  },
+  mounted() {
     this.displayJolecule();
   },
 };
 </script>
 
-<style scoped>
+<style >
 #joleculeControls {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
+}
+#loading-message {
+  font-size: 2em;
+  padding: 15px 15px;
+  width: 50%;
+  color: #b4b4b4;
+  background-color: rgba(102, 102, 102, 0.9);
 }
 </style>
