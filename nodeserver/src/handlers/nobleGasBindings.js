@@ -17,39 +17,67 @@ function addQueryToSearchOptions(searchOptions, query) {
       atomQuery[Op.gte] = parseInt(atomCheck[1]);
       if (atomCheck[3]) {
         atomQuery[Op.lte] = parseInt(atomCheck[3]);
+        searchOptions.order.push(
+          models.sequelize.literal(
+            `case when n_atoms>=${atomCheck[1]} and n_atoms <=${
+              atomCheck[3]
+            } then 1 else null end DESC`
+          )
+        );
+      } else {
+        searchOptions.order.push(
+          models.sequelize.literal(
+            `case when n_atoms>=${atomCheck[1]} then 1 else null end DESC`
+          )
+        );
       }
-      queries.push({ n_atoms: atomQuery });
-      searchOptions.order.push(
-        models.sequelize.literal(
-          `case when n_atoms>=${atomCheck[1]} and n_atoms <=${
-            atomCheck[3]
-          } then 1 else null end DESC`
-        )
-      );
+      queries.push({
+        n_atoms: atomQuery
+      });
     }
     if (energyCheck) {
       let energyQuery = {};
       energyQuery[Op.lte] = parseFloat(energyCheck[1]);
       if (energyCheck[4]) {
         energyQuery[Op.gte] = parseFloat(energyCheck[4]);
+        searchOptions.order.push(
+          models.sequelize.literal(
+            `case when binding_energy<=${energyCheck[1]} and binding_energy >=${
+              energyCheck[4]
+            } then 1 else null end DESC`
+          )
+        );
+      } else {
+        searchOptions.order.push(
+          models.sequelize.literal(
+            `case when binding_energy<=${energyCheck[1]} then 1 else null end DESC`
+          )
+        );
       }
-      queries.push({ binding_energy: energyQuery });
-      searchOptions.order.push(
-        models.sequelize.literal(
-          `case when binding_energy<=${energyCheck[1]} and binding_energy >=${
-            energyCheck[4]
-          } then 1 else null end DESC`
-        )
-      );
+      queries.push({
+        binding_energy: energyQuery
+      });
     }
     if (!atomCheck && !energyCheck) {
       let textQueries = [];
-      textQueries.push({ pdb: { [Op.like]: "%" + splitValue + "%" } });
-      textQueries.push({ protein_type: { [Op.like]: "%" + splitValue + "%" } });
       textQueries.push({
-        protein_description: { [Op.like]: "%" + splitValue + "%" }
+        pdb: {
+          [Op.like]: "%" + splitValue + "%"
+        }
       });
-      queries.push({ [Op.or]: textQueries });
+      textQueries.push({
+        protein_type: {
+          [Op.like]: "%" + splitValue + "%"
+        }
+      });
+      textQueries.push({
+        protein_description: {
+          [Op.like]: "%" + splitValue + "%"
+        }
+      });
+      queries.push({
+        [Op.or]: textQueries
+      });
       searchOptions.order.push(
         models.sequelize.literal(
           `case when pdb like '${"%" +
@@ -66,18 +94,18 @@ function addQueryToSearchOptions(searchOptions, query) {
   searchOptions.where[Op.and] = queries;
 }
 
-function searchOptionsFromQuery(query){
+function searchOptionsFromQuery(query) {
   const Op = models.sequelize.Op;
   let searchOptions = {};
   let field = "";
   let operator = Op.and;
   searchOptions.where = {};
-  searchOptions.limit = query.limit
-    ? parseInt(query.limit)
-    : DEFAULT_LIMIT;
-  searchOptions.offset = query.offset
-    ? parseInt(query.offset)
-    : DEFAULT_OFFSET;
+  searchOptions.limit = query.limit ?
+    parseInt(query.limit) :
+    DEFAULT_LIMIT;
+  searchOptions.offset = query.offset ?
+    parseInt(query.offset) :
+    DEFAULT_OFFSET;
   Object.entries(query).forEach(([key, value]) => {
     switch (key) {
       case "ligand":
@@ -89,7 +117,9 @@ function searchOptionsFromQuery(query){
       case "protein_description":
       case "ligand_name":
       case "category":
-        searchOptions.where[key] = { [Op.like]: "%" + value + "%" };
+        searchOptions.where[key] = {
+          [Op.like]: "%" + value + "%"
+        };
         break;
       case "min_binding_energy":
       case "min_n_atoms":
@@ -100,12 +130,18 @@ function searchOptionsFromQuery(query){
         if (searchOptions.where[field]) {
           searchOptions.where[field][Op.and][operator] = value;
         } else {
-          searchOptions.where[field] = { [Op.and]: { [operator]: value } };
+          searchOptions.where[field] = {
+            [Op.and]: {
+              [operator]: value
+            }
+          };
         }
         break;
       case "has_ligand":
         field = key.replace("has_", "");
-        searchOptions.where[field] = { [Op.ne]: null };
+        searchOptions.where[field] = {
+          [Op.ne]: null
+        };
         break;
       case "sort":
         searchOptions.order = [value.split(" ")];
@@ -131,7 +167,9 @@ async function getAllNobleGasBindings() {
 
 async function getNobleGasBindingById(id) {
   return await models.noble_gas_bindings.findOne({
-    where: { id: id }
+    where: {
+      id: id
+    }
   });
 }
 

@@ -23,7 +23,7 @@ const store = new Vuex.Store({
     searchResults: [],
     searchErrors: [],
     totalResults: 0,
-    pdb: '1be9',
+    pdb: '2bmm',
     energyCutoffSet: 'high',
     dataServers: [],
     elements: [{

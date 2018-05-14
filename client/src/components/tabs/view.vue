@@ -25,7 +25,7 @@
                       :filter="customFilter"
                       :error-messages="errors.collect('query')"
                       v-validate="''"
-                      hint="Space separated list of search terms. eg oxygen 1000:1200"
+                      hint="Space separated list of search terms. eg oxygen transport 1000:2000 -1.6"
                       persistent-hint
                       data-vv-name="query"
                       :loading="isWorking"
