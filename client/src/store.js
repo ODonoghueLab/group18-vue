@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     searchErrors: [],
     totalResults: 0,
     pdb: '2bmm',
-    energyCutoffSet: 'high',
+    energyCutoffSet: 'dynamic20',
     dataServers: [],
     elements: [{
         value: 'He',
@@ -48,6 +48,9 @@ const store = new Vuex.Store({
       }
     ],
     energyCutoffSets: [{
+        value: 'dynamic20',
+        text: 'dynamic20'
+      }, {
         value: 'veryHigh',
         text: 'veryHigh'
       },
@@ -154,17 +157,18 @@ const store = new Vuex.Store({
         ''
 
       commit('SET_SEARCHQUERY', searchQuery)
-      let response = await rpc.rpcRun('getNobleGasBindingsByQuery',
+      const searchResponse = await rpc.rpcRun('getNobleGasBindingsByQuery',
         searchQuery)
-      if (response.error) {
+      if (searchResponse.error) {
         commit('SET_TOTALRESULTS', 0)
         commit('SET_SEARCHRESULTS', {})
         // TODO: need to improve error message
-        commit('SET_SEARCHERRORS', JSON.stringify(response.data.error, null,
+        commit('SET_SEARCHERRORS', JSON.stringify(searchResponse.data.error,
+          null,
           2))
       } else {
-        commit('SET_TOTALRESULTS', response.result.count)
-        commit('SET_SEARCHRESULTS', response.result.rows)
+        commit('SET_TOTALRESULTS', searchResponse.result.count)
+        commit('SET_SEARCHRESULTS', searchResponse.result.rows)
         if (state.totalResults === 0) {
           commit(
             'SET_SEARCHERRORS',

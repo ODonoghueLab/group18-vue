@@ -1,10 +1,12 @@
+const models = require("../models");
+
 module.exports = {
-  set: function(pdb, energyCutoffSet) {
-    return joleculeHelpers(pdb, energyCutoffSet);
+  set: async function(pdb, energyCutoffSet) {
+    return await joleculeHelpers(pdb, energyCutoffSet);
   }
 };
 
-const joleculeHelpers = function(pdb, energyCutoffSet) {
+var joleculeHelpers = async function(pdb, energyCutoffSet) {
   const config = require("../config");
   const ensureFile = require("./ensureFile.js");
   const fs = require("fs-extra");
@@ -29,12 +31,15 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
   const MAX_ENERGY_CUTOFF = config.jolecule.MAX_ENERGY_CUTOFF;
   const MIN_ENERGY_CUTOFF = config.jolecule.MIN_ENERGY_CUTOFF;
   const DATA_SERVER_FILE_NUMBERS = [0, 1, 2, 3, 4, 5];
+  const DYNAMIC_ENERGYCUTOFFSET = "dynamic20"
 
   pdb = pdb.toLowerCase();
   exports.pdb = pdb;
   exports.ENERGY_CUTOFF_SETS = ENERGY_CUTOFF_SETS;
   exports.isDefaultEnergyCutoffSet =
     Object.keys(ENERGY_CUTOFF_SETS).indexOf(energyCutoffSet) >= 0;
+  exports.isDynamicEnergyCutoffSet =
+    (energyCutoffSet === DYNAMIC_ENERGYCUTOFFSET)
   exports.isNumericEnergyCutoffSet =
     numeral(energyCutoffSet) &&
     parseFloat(energyCutoffSet) <= MAX_ENERGY_CUTOFF &&
@@ -121,7 +126,8 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     pdbFileRemotePath: mapFileLocalPath(),
     pdbFileLocalPath: pdbFileLocalPath(),
     processedPdbLocalPath: processedPdbLocalPath(),
-    processedPdbFileLocalPath: NOBLE_GAS_SYMBOLS.map(processedPdbFileLocalPath),
+    processedPdbFileLocalPath: NOBLE_GAS_SYMBOLS.map(
+      processedPdbFileLocalPath),
     dataServerLocalPathClient: dataServerLocalPathClient(),
     dataServerLocalPath: dataServerLocalPath(),
     dataServerFileLocalPaths: DATA_SERVER_FILE_NUMBERS.map(
@@ -137,8 +143,10 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     return ensureJoleculeStatic();
   };
 
-  const getEnergyCutOffs = function() {
-    if (exports.isDefaultEnergyCutoffSet) {
+  const getEnergyCutOffs = async function() {
+    if (exports.isDynamicEnergyCutoffSet) {
+      return await getDynamicEnergyCutoffSet();
+    } else if (exports.isDefaultEnergyCutoffSet) {
       return ENERGY_CUTOFF_SETS[energyCutoffSet];
     } else if (exports.isNumericEnergyCutoffSet) {
       return [
@@ -151,17 +159,38 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     } else {
       throw new Error(
         "'" +
-          energyCutoffSet +
-          "' is not a valid energyCutoffSet (value must be between " +
-          MAX_ENERGY_CUTOFF +
-          " and " +
-          MIN_ENERGY_CUTOFF +
-          "). "
+        energyCutoffSet +
+        "' is not a valid energyCutoffSet (value must be between " +
+        MAX_ENERGY_CUTOFF +
+        " and " +
+        MIN_ENERGY_CUTOFF +
+        "). "
       );
     }
   };
 
-  const energyCutoffs = getEnergyCutOffs();
+  const getDynamicEnergyCutoffSet = async function() {
+    const searchOptions = {}
+    searchOptions.where = {
+      "pdb": pdb
+    };
+    searchOptions.order = models.sequelize.literal(
+      "case when element = 'He' then 1 when element = 'Ne' then 2 when element = 'Ar' then 3 when element = 'Kr' then 4 when element = 'Xe' then 5 else null end ASC"
+    )
+    let results = await models.pdb.findAll(
+      searchOptions
+    );
+    if (results.length === 5) {
+      let energyCutoffSet = []
+      results.forEach(row => {
+        energyCutoffSet.push(parseFloat(row.binding_energy_20))
+      })
+      return energyCutoffSet
+    }
+    throw new Error("No valid Dynamic Cutoffset Found")
+  }
+
+  var energyCutoffs = await getEnergyCutOffs();
 
   const ensureLocalFiles = function() {
     const localFiles = [];
@@ -188,10 +217,10 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     } catch (err) {
       throw new Error(
         "There are no available map files for the PDB '" +
-          pdb +
-          "'<br/>If you wish to view the PDB on jolecule please click <a href='http://jolecule.appspot.com/pdb/" +
-          pdb +
-          "#view:000000'>here</a>"
+        pdb +
+        "'<br/>If you wish to view the PDB on jolecule please click <a href='http://jolecule.appspot.com/pdb/" +
+        pdb +
+        "#view:000000'>here</a>"
       );
     }
   };
@@ -218,14 +247,14 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     } catch (err) {
       throw new Error(
         "Failed to find " +
-          pdb +
-          " PDB File due to the following error: " +
-          err +
-          " click <a href='/flushcache/" +
-          pdb +
-          "/" +
-          energyCutoffSet +
-          "'>here to retry</a>"
+        pdb +
+        " PDB File due to the following error: " +
+        err +
+        " click <a href='/flushcache/" +
+        pdb +
+        "/" +
+        energyCutoffSet +
+        "'>here to retry</a>"
       );
     }
   };
@@ -257,7 +286,8 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
         return localFilePath;
       } else {
         throw new Error(
-          "failed to create " + localFilePath + " with cutoff of " + args[1]
+          "failed to create " + localFilePath + " with cutoff of " + args[
+            1]
         );
       }
     }
@@ -268,12 +298,12 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     return Promise.all(processedPDBFiles).catch(function(err) {
       throw new Error(
         "Failed to PreProcess map files due to the following error: " +
-          err +
-          " click <a href='/flushcache/" +
-          pdb +
-          "/" +
-          energyCutoffSet +
-          "'>here to retry</a>"
+        err +
+        " click <a href='/flushcache/" +
+        pdb +
+        "/" +
+        energyCutoffSet +
+        "'>here to retry</a>"
       );
     });
   };
@@ -283,8 +313,7 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
     const localMapPath = mapLocalPath(nobleGas);
     const mapPath = sharedMapPath || localMapPath;
     return runScriptAsync(
-      PREPROCESSING_SCRIPT,
-      [
+      PREPROCESSING_SCRIPT, [
         "-e",
         nobleGas,
         "-u",
@@ -294,8 +323,9 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
         "-o",
         processedPdbLocalPath() + "/",
         pdb
-      ],
-      { cwd: mapPath + "/" }
+      ], {
+        cwd: mapPath + "/"
+      }
     );
   };
 
@@ -317,12 +347,12 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
       } catch (err) {
         throw new Error(
           "Failed to Build Jolecule Data_Server due to the following error: " +
-            err +
-            " click <a href='/flushcache/" +
-            pdb +
-            "/" +
-            energyCutoffSet +
-            "'>here to retry</a>"
+          err +
+          " click <a href='/flushcache/" +
+          pdb +
+          "/" +
+          energyCutoffSet +
+          "'>here to retry</a>"
         );
       }
     }
@@ -384,7 +414,9 @@ const joleculeHelpers = function(pdb, energyCutoffSet) {
         return processedPdbFileLocalPath(nobleGas);
       })
     );
-    return runScriptAsync(JOL_STATIC_SCRIPT, scriptArguments, { cwd: "./" });
+    return runScriptAsync(JOL_STATIC_SCRIPT, scriptArguments, {
+      cwd: "./"
+    });
   };
 
   const isPdb = function() {

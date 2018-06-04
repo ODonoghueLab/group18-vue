@@ -125,14 +125,18 @@ function searchOptionsFromQuery(query) {
       case "min_n_atoms":
       case "max_binding_energy":
       case "max_n_atoms":
+        let numericValue = parseFloat(value)
+        if (isNaN(numericValue)) {
+          break;
+        }
         field = key.replace("min_", "").replace("max_", "");
         operator = key.match("min_") ? Op.gte : Op.lte;
         if (searchOptions.where[field]) {
-          searchOptions.where[field][Op.and][operator] = value;
+          searchOptions.where[field][Op.and][operator] = numericValue;
         } else {
           searchOptions.where[field] = {
             [Op.and]: {
-              [operator]: value
+              [operator]: numericValue
             }
           };
         }

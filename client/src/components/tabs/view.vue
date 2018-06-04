@@ -26,6 +26,7 @@
                       :error-messages="errors.collect('query')"
                       v-validate="''"
                       hint="Space separated list of search terms. eg oxygen transport 1000:2000 -1.6"
+          
                       persistent-hint
                       data-vv-name="query"
                       :loading="isWorking"
@@ -74,7 +75,7 @@ export default {
       },
       set(v) {
         this.$store.commit('SET_ISWORKING', v);
-      },
+      }
     },
     pdb: {
       get() {
@@ -82,7 +83,7 @@ export default {
       },
       set(v) {
         this.$store.commit('SET_PDB', v);
-      },
+      }
     },
     energyCutoffSet: {
       get() {
@@ -95,17 +96,17 @@ export default {
             this.$store.commit('SET_ENERGYCUTOFFSET', value);
           }
         }
-      },
+      }
     },
     user: function() {
       return this.$store.state.user;
-    },
+    }
   },
   data() {
     return {
       query: {
         text: '',
-        value: '',
+        value: ''
       },
       search: null,
       pdbSelectItems: [],
@@ -116,7 +117,7 @@ export default {
       localEnergyCutoffSets: [],
       isDisplayed: false,
       loadErrorMessage:
-        'You need to be logged in to view any PDB file other than the example 2bmm',
+        'You need to be logged in to view any PDB file other than the example 2bmm'
     };
   },
   methods: {
@@ -128,6 +129,7 @@ export default {
         checkValue == 'high' ||
         checkValue == 'medium' ||
         checkValue == 'low' ||
+        checkValue == 'dynamic20' ||
         (checkValue <= -0.5 && checkValue >= -2.0)
       );
     },
@@ -140,7 +142,7 @@ export default {
       let limit = 100;
       let response = await rpc.rpcRun('getNobleGasBindingsByQuery', {
         limit,
-        query,
+        query
       });
       let searchResults = [];
       response.result.rows.forEach(row => {
@@ -148,7 +150,7 @@ export default {
           text: `[${row.pdb}]:${row.protein_type} - ${
             row.protein_description
           } (${row.binding_energy} kcal/mol)`,
-          value: row.pdb,
+          value: row.pdb
         });
       });
       this.querySelectItems = searchResults;
@@ -164,15 +166,13 @@ export default {
         viewHeight: 100,
         isLoop: false,
         isGrid: true,
-        isEditable: false,
+        isEditable: false
       });
       this.isDisplayed = true;
+      let host = window.location.href.split('/#')[0];
       let newURL =
-        window.location.protocol +
-        '//' +
-        window.location.host +
-        `/#/view?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
-      console.log('local', 'newurl', newURL, window.location.href);
+        host + `/#/view?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
+      console.log('local', 'newurl', host, newURL, window.location.href);
       if (window.location.href !== newURL) {
         window.history.pushState(null, '', newURL);
         console.log('local', 'url updated', newURL);
@@ -193,7 +193,7 @@ export default {
           dataServers.result.forEach(dataServer => {
             this.addDataServer({
               embededJolecule: j,
-              dataServer: dataServer,
+              dataServer: dataServer
             });
           });
         }
@@ -213,10 +213,10 @@ export default {
       this.localEnergyCutoffSets = this.energyCutoffSets;
       this.localEnergyCutoffSets.push({
         text: this.energyCutoffSet,
-        value: this.energyCutoffSet,
+        value: this.energyCutoffSet
       });
       this.reDisplayJolecule();
-    },
+    }
   },
   watch: {
     search(val) {
@@ -232,28 +232,28 @@ export default {
       handler() {
         if (this.isDisplayed) this.displayJolecule();
       },
-      deep: true,
+      deep: true
     },
     pdb: {
       handler() {
         if (this.isDisplayed) this.displayJolecule();
       },
-      deep: true,
+      deep: true
     },
     $route: {
       handler() {
         console.log('local', 'route change', this.$route, window.history);
         if (this.isDisplayed) this.displayJolecule();
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   beforeMount() {
     Validator.extend('isValidEnergyCutOffSet', {
       getMessage: field => 'The ' + field + ' value is not a valid cutoff.',
       validate: value => {
         return this.isValidEnergyCutOffSet(value);
-      },
+      }
     });
     let pdb = this.$route.query.pdb;
     let energyCutoffSet = this.$route.query.cutoff;
@@ -266,7 +266,7 @@ export default {
   },
   mounted() {
     this.displayJolecule();
-  },
+  }
 };
 </script>
 

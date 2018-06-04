@@ -119,8 +119,8 @@
                 <br/>
 
                 <strong>
-                  <a href="/#/view?pdb=2bmm">
-                    /#/view?pdb=2bmm</a>
+                  <a href="#/view?pdb=2bmm">
+                    #/view?pdb=2bmm</a>
                 </strong>
                 <br/>
                 <br/> Just replace ‘2bmm’ with any 4-letter PDB identifier.<br/>
@@ -128,8 +128,8 @@
                 energetically favourable (i.e., energy cutoff = “high”).<br/>
                 <br/>
                 <strong>
-                  <a href="/#/view?pdb=2bmm&amp;cutoff=high">
-                    /#/view?pdb=2bmm&amp;cutoff=high</a>
+                  <a href="#/view?pdb=2bmm&amp;cutoff=high">
+                    #/view?pdb=2bmm&amp;cutoff=high</a>
                 </strong>
                 <br/>
                 <br/>The available cutoffs (in kcal/mol) are listed below and may
@@ -146,7 +146,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=veryHigh">veryHigh</a>
+                      <a href="#/view?pdb=2bmm&cutoff=veryHigh">veryHigh</a>
                     </th>
                     <td>-0.6</td>
                     <td>-0.6</td>
@@ -157,7 +157,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=high">high</a>
+                      <a href="#/view?pdb=2bmm&cutoff=high">high</a>
                     </th>
                     <td>-0.4</td>
                     <td>-0.4</td>
@@ -168,7 +168,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=medium">medium</a>
+                      <a href="#/view?pdb=2bmm&cutoff=medium">medium</a>
                     </th>
                     <td>-0.3</td>
                     <td>-0.3</td>
@@ -179,7 +179,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=low">low</a>
+                      <a href="#/view?pdb=2bmm&cutoff=low">low</a>
                     </th>
                     <td>-0.3</td>
                     <td>-0.3</td>
@@ -190,7 +190,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=-0.9">-0.9</a>
+                      <a href="#/view?pdb=2bmm&cutoff=-0.9">-0.9</a>
                     </th>
                     <td>-0.9</td>
                     <td>-0.9</td>
@@ -201,7 +201,7 @@
                   </tr>
                   <tr>
                     <th>
-                      <a href="/#/view?pdb=2bmm&cutoff=-1.2">-1.2</a>
+                      <a href="#/view?pdb=2bmm&cutoff=-1.2">-1.2</a>
                     </th>
                     <td>-1.2</td>
                     <td>-1.2</td>
@@ -240,7 +240,10 @@
                 </tr>
                 <tr>
                   <td>Email:</td>
-                  <td><span class="emale" data-user="notnrohT.noraA" data-website="ua.orisc"></span>
+                  <td>
+                    <span class="emale"
+                          data-user="notnrohT.noraA"
+                          data-website="ua.orisc"></span>
                   </td>
                 </tr>
                 <tr>
@@ -259,7 +262,10 @@
                 </tr>
                 <tr>
                   <td>Email:</td>
-                  <td><span class="emale" data-user="euhgonoD'O.naeS" data-website="ua.orisc"></span>                  
+                  <td>
+                    <span class="emale"
+                          data-user="euhgonoD'O.naeS"
+                          data-website="ua.orisc"></span>
                   </td>
                 </tr>
               </table>
@@ -272,9 +278,13 @@
 </template>
 <style scoped>
 .emale:before {
-	content: attr(data-website) "\0040" attr(data-user);
-	unicode-bidi: bidi-override;
-	direction: rtl;
+  content: attr(data-website) '\0040' attr(data-user);
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+#jolecule_image {
+  width: 800px;
+  height: 600px;
 }
 </style>
 

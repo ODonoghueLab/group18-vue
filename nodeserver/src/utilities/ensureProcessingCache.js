@@ -6,31 +6,31 @@ const fs = require('fs-extra')
 var dataServersCaches = {}
 var dataServerCacheIdToRemove
 
-const flushCache = function (req, res) {
+const flushCache = function(req, res) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
-  delete (dataServersCaches[cacheId])
+  delete(dataServersCaches[cacheId])
   res.redirect('/' + pdb + '?cutoff=' + energyCutoffSet)
 }
 
-const retrieveCache = function (req) {
+const retrieveCache = function(req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let index = req.params.index
   let cacheId = pdb + '_' + energyCutoffSet
   return dataServersCaches[cacheId].dataServers
-    .then(function (dataServers) {
+    .then(function(dataServers) {
       return dataServers[index]
     })
 }
 
-const retrieveDataServersFromCache = function (pdb,energyCutoffSet) {
+const retrieveDataServersFromCache = function(pdb, energyCutoffSet) {
   let cacheId = pdb + '_' + energyCutoffSet
   return dataServersCaches[cacheId].dataServers
 }
 
-const retrievePDBFilesFromCache = async function (req) {
+const retrievePDBFilesFromCache = async function(req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
@@ -40,12 +40,12 @@ const retrievePDBFilesFromCache = async function (req) {
     dataServers = dataServersCaches[cacheId]
   }
   await dataServers.dataServers
-  let jol = joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
   let paths = jol.paths
   return paths.processedPdbLocalPath
 }
 
-const retrieveMapFilesFromCache = async function (req) {
+const retrieveMapFilesFromCache = async function(req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
@@ -55,35 +55,39 @@ const retrieveMapFilesFromCache = async function (req) {
     dataServers = dataServersCaches[cacheId]
   }
   await dataServers.dataServers
-  let jol = joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
   let paths = jol.paths
   return paths.mapLocalPaths
 }
 
-const checkFiles = async function (req) {
+const checkFiles = async function(req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
-  let jol = joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
   let cacheId = jol.pdb + '_' + jol.energyCutoffSet
 
-  const trimCache = function () {
+  const trimCache = async function() {
     if (sizeof(dataServersCaches) > config.web.MAX_CACHE_SIZE) {
-      console.log('Removing ' + dataServerCacheIdToRemove + ' from cache as cache [' + sizeof(dataServersCaches) + '] has exceeded maximum size of: ' + config.web.MAX_CACHE_SIZE)
-      removeLeastAccessedOldestFromCache()
-      trimCache()
+      console.log('Removing ' + dataServerCacheIdToRemove +
+        ' from cache as cache [' + sizeof(dataServersCaches) +
+        '] has exceeded maximum size of: ' + config.web.MAX_CACHE_SIZE)
+      await removeLeastAccessedOldestFromCache()
+      await trimCache()
     } else {
-      console.log(sizeof(dataServersCaches) + ' of ' + config.web.MAX_CACHE_SIZE + ' cache used.')
+      console.log(sizeof(dataServersCaches) + ' of ' + config.web.MAX_CACHE_SIZE +
+        ' cache used.')
     }
   }
 
-  const removeLeastAccessedOldestFromCache = function () {
+  const removeLeastAccessedOldestFromCache = async function() {
     delete dataServersCaches[dataServerCacheIdToRemove]
-    removeLocalFiles(dataServerCacheIdToRemove)
+    await removeLocalFiles(dataServerCacheIdToRemove)
     let oldestCacheDate = Date.now()
     let smallestAccessCount
     for (let cacheId in dataServersCaches) {
       let dataServersCache = dataServersCaches[cacheId]
-      if (dataServersCache.accessCount <= smallestAccessCount || !smallestAccessCount) {
+      if (dataServersCache.accessCount <= smallestAccessCount || !
+        smallestAccessCount) {
         smallestAccessCount = dataServersCache.accessCount
         if (dataServersCache.cacheDate <= oldestCacheDate) {
           dataServerCacheIdToRemove = cacheId
@@ -93,47 +97,68 @@ const checkFiles = async function (req) {
     }
   }
 
-  const removeLocalFiles = function (cacheId) {
+  const removeLocalFiles = async function(cacheId) {
     let args = cacheId.split('_')
     if (args.length !== 2) {
-      throw new Error('Error removing local files, could not read arguments from ' + cacheId)
+      throw new Error(
+        'Error removing local files, could not read arguments from ' +
+        cacheId)
     }
-    let jol = joleculeHelpers.set(args[0], args[1])
+    let jol = await joleculeHelpers.set(args[0], args[1])
     let pathToRemove = jol.paths.baseLocalPath
     console.log('Removing local files at ' + pathToRemove)
     fs.remove(pathToRemove)
   }
 
-  const getDataServersFromCache = function (jol) {
+  const getDataServersFromCache = async function(jol) {
     if (dataServersCaches[cacheId]) {
       dataServersCaches[cacheId].accessCount += 1
       dataServersCaches[cacheId].accessDate = new Date()
-      console.log('Retreived ' + cacheId + ' from cache.\n  Accesses: ' + dataServersCaches[cacheId].accessCount + ',\n  First Accessed: ' + dataServersCaches[cacheId].cacheDate.toString() + ',\n  Last Accessed: ' + dataServersCaches[cacheId].accessDate.toString())
+      console.log('Retreived ' + cacheId + ' from cache.\n  Accesses: ' +
+        dataServersCaches[cacheId].accessCount + ',\n  First Accessed: ' +
+        dataServersCaches[cacheId].cacheDate.toString() +
+        ',\n  Last Accessed: ' + dataServersCaches[cacheId].accessDate.toString()
+      )
     } else {
       let cacheDate = new Date()
       if (!dataServerCacheIdToRemove) {
         dataServerCacheIdToRemove = cacheId
       }
-      dataServersCaches[cacheId] = { 'cacheDate': cacheDate, 'accessDate': cacheDate, 'accessCount': 1, 'dataServers': jol.ensureJoleculeDataServers() }
-      console.log('Assigned ' + cacheId + ' to cache.\n  Accesses: ' + dataServersCaches[cacheId].accessCount + ',\n  First Accessed: ' + dataServersCaches[cacheId].cacheDate.toString() + ',\n  Last Accessed: ' + dataServersCaches[cacheId].accessDate.toString())
+      dataServersCaches[cacheId] = {
+        'cacheDate': cacheDate,
+        'accessDate': cacheDate,
+        'accessCount': 1,
+        'dataServers': jol.ensureJoleculeDataServers()
+      }
+      console.log('Assigned ' + cacheId + ' to cache.\n  Accesses: ' +
+        dataServersCaches[cacheId].accessCount + ',\n  First Accessed: ' +
+        dataServersCaches[cacheId].cacheDate.toString() +
+        ',\n  Last Accessed: ' + dataServersCaches[cacheId].accessDate.toString()
+      )
     }
-    trimCache()
+    await trimCache()
     return dataServersCaches[cacheId].dataServers
   }
-
+  await jol
   if (!jol.isPdb()) {
     let err = "'" + pdb + "' is not a valid PDB record"
     console.error(err)
     throw new Error(err)
   }
   if (!jol.isEnergyCutoffSet()) {
-    let err = "'" + energyCutoffSet + "' is not a valid energyCutoffSet. (Try: " + Object.keys(jol.ENERGY_CUTOFF_SETS).join(',') + ')'
+    let err = "'" + energyCutoffSet +
+      "' is not a valid energyCutoffSet. (Try: " + Object.keys(jol.ENERGY_CUTOFF_SETS)
+      .join(',') + ')'
     console.error(err)
     throw new Error(err.message)
   }
   try {
     await getDataServersFromCache(jol)
-    return JSON.stringify({ pdb: pdb, cutoff: energyCutoffSet, dataServerRoute: jol.paths.dataServerRoute })
+    return JSON.stringify({
+      pdb: pdb,
+      cutoff: energyCutoffSet,
+      dataServerRoute: jol.paths.dataServerRoute
+    })
   } catch (err) {
     const message = 'An Error occured during file preparation: ' + err.message
     console.error(message)
@@ -141,14 +166,16 @@ const checkFiles = async function (req) {
   }
 }
 
-const checkFilesAndReturnJSON = async function (req, res) {
+const checkFilesAndReturnJSON = async function(req, res) {
   try {
     const result = await checkFiles(req)
     res.setHeader('Content-Type', 'application/json')
     res.send(result)
   } catch (err) {
     res.setHeader('Content-Type', 'application/json')
-    res.send(JSON.stringify({ ErrorText: err.message }))
+    res.send(JSON.stringify({
+      ErrorText: err.message
+    }))
   }
 }
 
@@ -157,7 +184,7 @@ module.exports = {
   'checkFilesAndReturnJSON': checkFilesAndReturnJSON,
   'flushCache': flushCache,
   'retrieveCache': retrieveCache,
-  "retrieveDataServersFromCache":retrieveDataServersFromCache,
+  "retrieveDataServersFromCache": retrieveDataServersFromCache,
   'retrievePDBFilesFromCache': retrievePDBFilesFromCache,
   'retrieveMapFilesFromCache': retrieveMapFilesFromCache
 }
