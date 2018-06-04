@@ -14,7 +14,7 @@
   400italic';
 @import 'http://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'vuetify/dist/vuetify.min.css';
-@import 'http://jolecule.com/jolecule.css';
+@import 'jolecule/jolecule.css';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -51,7 +51,7 @@ a.jolecule-button.element-Xe.active {
 import Navbar from '@/components/Navbar.vue';
 export default {
   name: 'app',
-  components: { Navbar },
+  components: { Navbar }
 };
 </script>
 

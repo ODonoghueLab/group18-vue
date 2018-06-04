@@ -101,7 +101,7 @@
               <br/>
               <p>
                 <img id="jolecule_image"
-                     src="/static/assets/group18_jolecule_help.png"
+                     src="static/assets/group18_jolecule_help.png"
                      alt="About Jolecule" />
               </p>
             </v-card-text>
