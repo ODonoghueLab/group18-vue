@@ -185,7 +185,7 @@ export default {
         let dataServers = await rpc.rpcRun('getDataServers', payload);
         if (dataServers.error) {
           console.error(dataServers.error);
-          this.loadErrorMessage = dataServers.error;
+          this.loadErrorMessage = dataServers.error.message;
           document.getElementById(
             'loading-message'
           ).innerHTML = this.loadErrorMessage;
