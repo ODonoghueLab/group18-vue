@@ -25,7 +25,7 @@
                     slot-scope="props">
             <td class="text-xs-right">{{ props.item.element }}</td>
             <td class="text-xs-right">
-              <a :href="`/#/view?pdb=${ props.item.pdb }`">{{ props.item.pdb }}</a>
+              <a :href="`/#/?pdb=${ props.item.pdb }`">{{ props.item.pdb }}</a>
             </td>
             <td class="text-xs-right">{{ props.item.n_atoms }}</td>
             <td class="text-xs-right">{{ props.item.binding_energy }}</td>

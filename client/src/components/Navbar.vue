@@ -13,7 +13,8 @@
       </v-flex>
       <v-flex xs8>
         <v-tabs>
-          <v-tab id="tab-home"
+          <v-tab v-show="user.authenticated"
+                 id="tab-home"
                  to="/"
                  router>Home
           </v-tab>
@@ -22,10 +23,9 @@
                  to="/search"
                  router>Search
           </v-tab>
-          <v-tab v-show="user.authenticated"
-                 id="tab-view"
-                 to="/view"
-                 router>View
+          <v-tab id="tab-info"
+                 to="/info"
+                 router>Info
           </v-tab>
           <v-tab v-show="!user.authenticated"
                  id="tab-login"
@@ -67,13 +67,13 @@ export default {
   data() {
     return {
       title: config.title,
-      isUser: config.isUser,
+      isUser: config.isUser
     };
   },
   computed: {
     user: function() {
       return this.$store.state.user;
-    },
+    }
   },
   methods: {
     editUser() {
@@ -85,8 +85,8 @@ export default {
     async logout() {
       await auth.logout();
       this.$router.push('/login');
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

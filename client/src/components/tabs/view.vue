@@ -26,7 +26,6 @@
                       :error-messages="errors.collect('query')"
                       v-validate="''"
                       hint="Space separated list of search terms. eg oxygen transport 1000:2000 -1.6"
-          
                       persistent-hint
                       data-vv-name="query"
                       :loading="isWorking"
@@ -171,7 +170,7 @@ export default {
       this.isDisplayed = true;
       let host = window.location.href.split('/#')[0];
       let newURL =
-        host + `/#/view?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
+        host + `/#/?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
       console.log('local', 'newurl', host, newURL, window.location.href);
       if (window.location.href !== newURL) {
         window.history.pushState(null, '', newURL);
@@ -230,20 +229,20 @@ export default {
     },
     energyCutoffSet: {
       handler() {
-        if (this.isDisplayed) this.displayJolecule();
+        if (this.isDisplayed) this.reDisplayJolecule();
       },
       deep: true
     },
     pdb: {
       handler() {
-        if (this.isDisplayed) this.displayJolecule();
+        if (this.isDisplayed) this.reDisplayJolecule();
       },
       deep: true
     },
     $route: {
       handler() {
         console.log('local', 'route change', this.$route, window.history);
-        if (this.isDisplayed) this.displayJolecule();
+        if (this.isDisplayed) this.reDisplayJolecule();
       },
       deep: true
     }

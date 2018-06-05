@@ -100,7 +100,7 @@ export default {
         window.location.protocol +
         '//' +
         window.location.host +
-        `/#/view?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`
+        `/#/?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`
       console.log('local', 'newurl', newURL, window.location.href)
       if (window.location.href != newURL) {
         window.history.pushState(null, '', newURL)
