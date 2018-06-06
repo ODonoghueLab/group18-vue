@@ -23,9 +23,9 @@
                  to="/search"
                  router>Search
           </v-tab>
-          <v-tab id="tab-info"
-                 to="/info"
-                 router>Info
+          <v-tab id="tab-about"
+                 to="/about"
+                 router>About
           </v-tab>
           <v-tab v-show="!user.authenticated"
                  id="tab-login"

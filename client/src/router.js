@@ -7,7 +7,7 @@ import EditUser from './components/EditUser'
 import AdminUsers from './components/AdminUsers'
 import ResetPassword from './components/ResetPassword'
 import search from '@/components/tabs/search'
-import info from '@/components/tabs/info'
+import about from '@/components/tabs/about'
 import view from '@/components/tabs/view'
 
 Vue.use(Router)
@@ -50,9 +50,9 @@ let router = new Router({
       component: search
     },
     {
-      path: '/Info',
-      name: 'info',
-      component: info
+      path: '/About',
+      name: 'about',
+      component: about
     }
   ]
 })
