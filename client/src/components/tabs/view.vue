@@ -9,7 +9,7 @@
         <v-layout row
                   wrap>
           <v-flex sm2>
-            <v-select label="PDB"
+            <v-select label="History"
                       :items="pdbSelectItems"
                       v-model="pdb"
                       :error-messages="errors.collect('pdb')"
@@ -61,7 +61,7 @@
 </template>
 <script>
 import { mapMutations, mapGetters } from 'vuex';
-import { initEmbedJolecule } from '../../jolecule/main';
+import { initEmbedJolecule } from '../../jolecule/jolecule';
 import { Validator } from 'vee-validate';
 import rpc from '../../modules/rpc';
 
@@ -159,7 +159,7 @@ export default {
       if (document.getElementById('jolecule')) {
         document.getElementById('jolecule').innerHTML = '';
       }
-      let j = initEmbedJolecule({
+      let j = jolecule.initEmbedJolecule({
         divTag: '#jolecule',
         viewId: '',
         viewHeight: 100,
@@ -169,8 +169,7 @@ export default {
       });
       this.isDisplayed = true;
       let host = window.location.href.split('/#')[0];
-      let newURL =
-        host + `/#/?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
+      let newURL = host + `/#/?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
       console.log('local', 'newurl', host, newURL, window.location.href);
       if (window.location.href !== newURL) {
         window.history.pushState(null, '', newURL);

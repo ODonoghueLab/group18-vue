@@ -15,6 +15,7 @@
 @import 'http://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'vuetify/dist/vuetify.min.css';
 @import 'jolecule/jolecule.css';
+@import 'jolecule/select2.css';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

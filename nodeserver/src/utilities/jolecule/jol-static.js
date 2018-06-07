@@ -18,7 +18,7 @@ const _ = require('lodash');
 
 const dataServerMustache = `
 
-(function() {
+define(function() {
 
 var result = {
   get_protein_data: function(loadProteinData) {
@@ -30,9 +30,8 @@ var result = {
   get_views: function(loadViewDicts) {
     loadViewDicts(getViewDicts());
   },
-  save_views: function(views, success) {},
-  delete_protein_view: function(viewId, success) {},
-};
+  save_views: function(views, success) { success() },
+  delete_protein_view: function(viewId, success) { sucess() }, };
   
 function getPdbLines() {
     return pdbLines.join('\\n');
@@ -86,7 +85,9 @@ const embedIndexHtmlMustache = `
   require( ['jolecule'], function(jolecule) {
     var j = jolecule.initEmbedJolecule({
       divTag: '#jolecule',
-      isGrid: true});
+      isGrid: false,
+      isEditable: true,
+      backgroundColor: 0xCCCCCC});
     require([{{{dataServerLoadStr}}}], function({{{dataServerArgStr}}}) {
       var dataServers = [{{{dataServerArgStr}}}];
       for (var dataServer of dataServers) {
@@ -124,7 +125,10 @@ const fullPageIndexHtmlMustache = `
               '#jolecule-protein-container',
               '#jolecule-sequence-container',
               '#jolecule-views-container',
-              { isEditable: false });
+              { 
+                isEditable: false,
+                isGrid: false,
+              });
             require([{{{dataServerLoadStr}}}], function({{{dataServerArgStr}}}) {
               var dataServers = [{{{dataServerArgStr}}}];
               for (var dataServer of dataServers) {
@@ -179,7 +183,7 @@ if (remain.length < 1) {
     pdbLines = _.map(pdbLines, (l) => l.replace(/"/g, '\\"'));
     let pdbId = base;
     let viewsJson = pdb.replace('.pdb', '') + '.views.json';
-    console.log(`Checking ${viewsJson}`);
+    console.log(`> Checking ${viewsJson}`);
     let views = {};
     if (fs.existsSync(viewsJson)) {
       let text = fs.readFileSync(viewsJson, 'utf8');
@@ -191,10 +195,10 @@ if (remain.length < 1) {
       {pdbId, pdbLines, viewsJsonStr});
     fs.writeFileSync(dataJs, dataJsText);
   }
-/*
+
   let html = path.join(targetDir, 'index.html');
   let title = "jolecule";
-  let isFullPage = true;
+  let isFullPage = false;
   let htmlText;
   if (isFullPage) {
     let user_nickname = 'anonymous';
@@ -229,7 +233,6 @@ if (remain.length < 1) {
   if (!parsed.batch) {
     opener(html);
   }
-  */
 }
 
 
