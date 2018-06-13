@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dark
-             color="grey darken-2"
+             color="grey darken-4"
              dense>
     <v-toolbar-title style="cursor: pointer;"
                      @click="home()">
@@ -15,7 +15,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-tabs dark
-            color="grey darken-2">
+            color="grey darken-4">
       <v-tab v-show="user.authenticated"
              id="tab-home"
              to="/"
@@ -43,7 +43,7 @@
               open-on-hover
               v-if="user.authenticated">
         <v-btn slot="activator"
-               color="grey darken-2">
+               color="grey darken-4">
           {{user.name}}
           <v-icon dark>arrow_drop_down</v-icon>
         </v-btn>
@@ -92,6 +92,10 @@ export default {
 };
 </script>
 <style scoped>
+@font-face {
+  font-family: Clip;
+  src: url('/static/assets/Clip.ttf');
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -104,29 +108,36 @@ export default {
   font-size: 0;
 }
 .group18_title span {
-  font-size: 20px;
+  font-size: 24px;
+  font-family: Clip;
+  font-style: italic;
 }
 .tabs {
   width: 50%;
 }
 .letter1 {
-  font-weight: 20;
+  font-weight: 200;
   text-shadow: 0 0 8px #f59f7f;
+  color: #f59f7f;
 }
 .letter2 {
   font-weight: 100;
   text-shadow: 0 0 5px #add27a;
+  color: #add27a;
 }
 .letter3 {
   font-weight: 100;
   text-shadow: 0 0 5px #61c4be;
+  color: #61c4be;
 }
 .letter4 {
   font-weight: 100;
   text-shadow: 0 0 5px #a0d2e3;
+  color: #a0d2e3;
 }
 .letter5 {
   font-weight: 100;
   text-shadow: 0 0 5px #7b87c0;
+  color: #7b87c0;
 }
 </style>

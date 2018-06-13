@@ -27,8 +27,14 @@
                 </a> there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation
                 of this data is to provide a starting point for such exploration.
               </p>
-              <p>The datasets accessible from this page were created using AutoGrid4 to systematically map the energy of five noble gas (He, Ne, Ar, Kr, Xe) at all grid locations (in 0.375 Å steps) in all
-                ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same proteins exist.
+              <p>The datasets accessible from this page were created using AutoGrid4 to systematically map the energy of five noble gas (
+                <span class='element_He'>He</span>,
+                <span class='element_Ne'>Ne</span>,
+                <span class='element_Ar'>Ar</span>,
+                <span class='element_Kr'>Kr</span>,
+                <span class='element_Xe'>Xe</span>
+                ) at all grid locations (in 0.375 Å steps) in all ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same
+                proteins exist.
               </p>
               <p>
                 Before the grid calculations, the proteins were carefully prepared using an automatic script to remove water and other solvents, small molecule ligands such as drugs, metal and small inorganic ions except
@@ -103,12 +109,22 @@
                 <br/>
                 <table id="cutoffTable">
                   <tr>
-                    <th>cutoff</th>
-                    <th>He</th>
-                    <th>Ne</th>
-                    <th>Ar</th>
-                    <th>Kr</th>
-                    <th>Xe</th>
+                    <td>cutoff</td>
+                    <td>
+                      <span class='element_He'>He</span>
+                    </td>
+                    <td>
+                      <span class='element_Ne'>Ne</span>
+                    </td>
+                    <td>
+                      <span class='element_Ar'>Ar</span>
+                    </td>
+                    <td>
+                      <span class='element_Kr'>Kr</span>
+                    </td>
+                    <td>
+                      <span class='element_Xe'>Xe</span>
+                    </td>
                   </tr>
                   <tr>
                     <th>
@@ -262,6 +278,39 @@
 #jolecule_image {
   width: 800px;
   height: 600px;
+}
+
+@font-face {
+  font-family: Clip;
+  src: url('/static/assets/Clip.ttf');
+}
+.element_Xe {
+  background-color: #f59f7f;
+  border-radius: 3px;
+  padding: 2px;
+}
+.element_Kr {
+  background-color: #add27a;
+  border-radius: 3px;
+  padding: 2px;
+}
+.element_Ar {
+  background-color: #61c4be;
+  border-radius: 3px;
+  padding: 2px;
+}
+.element_Ne {
+  background-color: #a0d2e3;
+  border-radius: 3px;
+  padding: 2px;
+}
+.element_He {
+  background-color: #7b87c0;
+  border-radius: 3px;
+  padding: 2px;
+}
+#cutoffTable td {
+  padding-left: 1em;
 }
 </style>
 
