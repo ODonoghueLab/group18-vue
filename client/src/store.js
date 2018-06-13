@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     searchErrors: [],
     totalResults: 0,
     pdb: '2bmm',
-    energyCutoffSet: 'dynamic20',
+    energyCutoffSet: 'all',
     dataServers: [],
     elements: [{
         value: 'He',
@@ -48,6 +48,9 @@ const store = new Vuex.Store({
       }
     ],
     energyCutoffSets: [{
+      value: 'all',
+      text: 'all'
+    },{
         value: 'dynamic20',
         text: 'dynamic20'
       }, {

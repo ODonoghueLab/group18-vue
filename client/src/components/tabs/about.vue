@@ -14,11 +14,8 @@
                   <v-toolbar-title>Group18: Noble gas interactions with proteins</v-toolbar-title>
                 </v-layout>
                 <v-layout>
-                  <v-subheader> So, gone is the justification for “inert”. Now known collectively
-                    as the noble gases, a name intended to imply a kind of chemical
-                    aloofness rather than a rigorous chastity — Peter William Atkins:
-                    In The Periodic Kingdom: A Journey Into the Land of the Chemical
-                    Elements (1995), 9.</v-subheader>
+                  <v-subheader> So, gone is the justification for “inert”. Now known collectively as the noble gases, a name intended to imply a kind of chemical aloofness rather than a rigorous chastity — Peter William
+                    Atkins: In The Periodic Kingdom: A Journey Into the Land of the Chemical Elements (1995), 9.</v-subheader>
                 </v-layout>
               </v-container>
             </v-toolbar>
@@ -26,58 +23,32 @@
               <p>
                 As outlined in the review
                 <a href="https://www.ncbi.nlm.nih.gov/pubmed/26896563">
-                  ”The diverse biological properties of the chemically inert noble gases” (Winkler
-                  et al., 2016)
-                </a> there is a need to explore the possible interactions between
-                the noble gases and proteins in order to provide viable candidates
-                for clinical study. The drive behind the generation of this data
-                is to provide a starting point for such exploration.
+                  ”The diverse biological properties of the chemically inert noble gases” (Winkler et al., 2016)
+                </a> there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation
+                of this data is to provide a starting point for such exploration.
               </p>
-              <p>The datasets accessible from this page were created using AutoGrid4
-                to systematically map the energy of five noble gas (He, Ne, Ar, Kr,
-                Xe) at all grid locations (in 0.375 Å steps) in all ~60,000 unique
-                PDB structures filtered by 100% sequence similarity. This retains
-                the highest resolution structure where multiple structures of the
-                same proteins exist.
+              <p>The datasets accessible from this page were created using AutoGrid4 to systematically map the energy of five noble gas (He, Ne, Ar, Kr, Xe) at all grid locations (in 0.375 Å steps) in all
+                ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same proteins exist.
               </p>
               <p>
-                Before the grid calculations, the proteins were carefully prepared using an automatic
-                script to remove water and other solvents, small molecule ligands
-                such as drugs, metal and small inorganic ions except those important
-                for protein function, and small molecules except cofactors etc. essential
-                for function. Given the very large number of proteins studied, it
-                was not practical to hand curate each protein. Where structures included
-                small molecular effectors e.g. enzyme substrates, products, inhibitors,
-                or receptor agonists or antagonists, the proximity of the noble gas
-                binding to the small molecule ligand binding site is available.
+                Before the grid calculations, the proteins were carefully prepared using an automatic script to remove water and other solvents, small molecule ligands such as drugs, metal and small inorganic ions except
+                those important for protein function, and small molecules except cofactors etc. essential for function. Given the very large number of proteins studied, it was not practical to hand curate
+                each protein. Where structures included small molecular effectors e.g. enzyme substrates, products, inhibitors, or receptor agonists or antagonists, the proximity of the noble gas binding
+                to the small molecule ligand binding site is available.
               </p>
               <p>
-                For ease of navigation, each dataset has been divided into ‘high’, ‘medium’, and
-                ‘low’ subsets, based on the lowest energy (kcal/mol) in each map.
-                Thus, structures in the ‘low’ subset are those where noble gases
-                do not appear to make any favorable interactions. The probability
-                of productive binding relative to thermal energy is quantified by
-                Natural information units (Nats) that are related to the Boltzmann
-                distribution. Interactions with larger Nat values and smaller ligand
-                distances are more likely to be interesting pharmacologically. Clearly,
-                noble gases that bind with small energies that are comparable to
-                thermal energies will not remain bound for long enough to affect
-                the function of the protein.
+                For ease of navigation, each dataset has been divided into ‘high’, ‘medium’, and ‘low’ subsets, based on the lowest energy (kcal/mol) in each map. Thus, structures in the ‘low’ subset are those where noble
+                gases do not appear to make any favorable interactions. The probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related
+                to the Boltzmann distribution. Interactions with larger Nat values and smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with
+                small energies that are comparable to thermal energies will not remain bound for long enough to affect the function of the protein.
               </p>
               <p>
-                Clicking one of these datasets from the data tab opens the results in a Google Spreadsheet,
-                allowing you to use text search or sort to find map files of particular
-                interest.
+                Clicking one of these datasets from the data tab opens the results in a Google Spreadsheet, allowing you to use text search or sort to find map files of particular interest.
               </p>
               <p>
-                You can see the maps directly, either by clicking on a PDB Id. in the Google Spreadsheets
-                (below), or by typing in a PDB Id. in the field above. Note that
-                not all PDBs have been mapped. Multiple structures of the same protein
-                are represented by the structure with the best resolution, some proteins
-                with unusual functions (e.g. binding to DNA or RNA) may be missing,
-                and a very small percentage of proteins were not processed correctly
-                by the automatic protein preparation scripts. Protein multimers were
-                not separated into the monomeric species but mapped as the multimer.
+                You can see the maps directly, either by clicking on a PDB Id. in the Google Spreadsheets (below), or by typing in a PDB Id. in the field above. Note that not all PDBs have been mapped. Multiple structures
+                of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or RNA) may be missing, and a very small percentage
+                of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric species but mapped as the multimer.
               </p>
               <p>
                 The data is displayed using the 3D protein viewer
@@ -86,11 +57,8 @@
                 </a>
               </p>
               <p>
-                Jolecule optimizes a simple but rich interface that focuses on stereochemistry. The
-                focus is on Richardson ribbons that join with sidechains correctly.
-                Ligands are rendered as balls-and-sticks to allow the stereochemistry
-                to be seen clearly, as well as arrows that are used to indicate directionality
-                on both protein and DNA chains.
+                Jolecule optimizes a simple but rich interface that focuses on stereochemistry. The focus is on Richardson ribbons that join with sidechains correctly. Ligands are rendered as balls-and-sticks to allow
+                the stereochemistry to be seen clearly, as well as arrows that are used to indicate directionality on both protein and DNA chains.
               </p>
               <p>Basic controls include:
                 <br/> ZOOM: Right-Mouse, or Shift-Left-Mouse, or Pinch-Zoom
@@ -124,16 +92,14 @@
                 </strong>
                 <br/>
                 <br/> Just replace ‘2bmm’ with any 4-letter PDB identifier.<br/>
-                <br/> By default, noble gases are shown only in positions that are
-                energetically favourable (i.e., energy cutoff = “high”).<br/>
+                <br/> By default, noble gases are shown only in positions that are energetically favourable (i.e., energy cutoff = “high”).<br/>
                 <br/>
                 <strong>
                   <a href="#/?pdb=2bmm&amp;cutoff=high">
                     #/?pdb=2bmm&amp;cutoff=high</a>
                 </strong>
                 <br/>
-                <br/>The available cutoffs (in kcal/mol) are listed below and may
-                also include any number between -0.5 and -2.0:<br/>
+                <br/>The available cutoffs (in kcal/mol) are listed below and may also include any number between -0.5 and -2.0:<br/>
                 <br/>
                 <table id="cutoffTable">
                   <tr>
@@ -143,6 +109,17 @@
                     <th>Ar</th>
                     <th>Kr</th>
                     <th>Xe</th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <a href="#/?pdb=2bmm&cutoff=all">all</a>
+                    </th>
+                    <td>-0.3</td>
+                    <td>-0.3</td>
+                    <td>-0.3</td>
+                    <td>-0.3</td>
+                    <td>-0.3</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <th>

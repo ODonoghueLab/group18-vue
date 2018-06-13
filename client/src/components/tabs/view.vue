@@ -124,11 +124,11 @@ export default {
     isValidEnergyCutOffSet: function(value) {
       let checkValue = value.value ? value.value : value;
       return (
-        checkValue == 'veryHigh' ||
-        checkValue == 'high' ||
-        checkValue == 'medium' ||
-        checkValue == 'low' ||
-        checkValue == 'dynamic20' ||
+        this.energyCutoffSets
+          .map(set => {
+            return set.value;
+          })
+          .includes(checkValue) ||
         (checkValue <= -0.5 && checkValue >= -2.0)
       );
     },
@@ -155,28 +155,14 @@ export default {
       this.querySelectItems = searchResults;
       this.isWorking = false;
     },
-    async reDisplayJolecule() {
-      if (document.getElementById('jolecule')) {
-        document.getElementById('jolecule').innerHTML = '';
-      }
-      let j = jolecule.initEmbedJolecule({
-        divTag: '#jolecule',
-        viewId: '',
-        viewHeight: 100,
-        isLoop: false,
-        isGrid: true,
-        isEditable: false
-      });
-      this.isDisplayed = true;
+    updateURL() {
       let host = window.location.href.split('/#')[0];
       let newURL = host + `/#/?pdb=${this.pdb}&cutoff=${this.energyCutoffSet}`;
-      console.log('local', 'newurl', host, newURL, window.location.href);
       if (window.location.href !== newURL) {
         window.history.pushState(null, '', newURL);
-        console.log('local', 'url updated', newURL);
       }
-      this.pdbSelectItems.push(this.pdb);
-      this.localEnergyCutoffSets.push(this.energyCutoffSet);
+    },
+    async loadDataServers(embededJolecule) {
       let payload = { pdb: this.pdb, energyCutoffSet: this.energyCutoffSet };
       try {
         this.loadErrorMessage = '';
@@ -190,7 +176,7 @@ export default {
         } else {
           dataServers.result.forEach(dataServer => {
             this.addDataServer({
-              embededJolecule: j,
+              embededJolecule: embededJolecule,
               dataServer: dataServer
             });
           });
@@ -199,7 +185,29 @@ export default {
         alert(error);
       }
     },
-    displayJolecule() {
+    embedJolecule(tag) {
+      if (document.getElementById(tag)) {
+        document.getElementById(tag).innerHTML = '';
+      }
+      return jolecule.initEmbedJolecule({
+        divTag: '#' + tag,
+        viewId: '',
+        viewHeight: 100,
+        isLoop: false,
+        isGrid: true,
+        backgroundColor: '#cccccc',
+        isEditable: false
+      });
+    },
+    async reDisplayJolecule() {
+      let embededJolecule = this.embedJolecule('jolecule');
+      this.isDisplayed = true;
+      this.updateURL();
+      this.pdbSelectItems.push(this.pdb);
+      this.localEnergyCutoffSets.push(this.energyCutoffSet);
+      this.loadDataServers(embededJolecule);
+    },
+    setParamValues() {
       let pdb = this.$route.query.pdb;
       let energyCutoffSet = this.$route.query.cutoff;
       if (pdb && pdb > '') {
@@ -208,11 +216,17 @@ export default {
       if (energyCutoffSet && energyCutoffSet > '') {
         this.SET_ENERGYCUTOFFSET(energyCutoffSet);
       }
+    },
+    setLocalEnergyCutoffSets() {
       this.localEnergyCutoffSets = this.energyCutoffSets;
       this.localEnergyCutoffSets.push({
         text: this.energyCutoffSet,
         value: this.energyCutoffSet
       });
+    },
+    displayJolecule() {
+      this.setParamValues();
+      this.setLocalEnergyCutoffSets();
       this.reDisplayJolecule();
     }
   },
@@ -253,14 +267,7 @@ export default {
         return this.isValidEnergyCutOffSet(value);
       }
     });
-    let pdb = this.$route.query.pdb;
-    let energyCutoffSet = this.$route.query.cutoff;
-    if (pdb && pdb > '') {
-      this.SET_PDB(pdb);
-    }
-    if (energyCutoffSet && energyCutoffSet > '') {
-      this.SET_ENERGYCUTOFFSET(energyCutoffSet);
-    }
+    this.setParamValues();
   },
   mounted() {
     this.displayJolecule();
