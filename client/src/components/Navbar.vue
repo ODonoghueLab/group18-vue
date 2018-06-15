@@ -24,7 +24,7 @@
       <v-tab v-show="user.authenticated"
              id="tab-search"
              to="/search"
-             router>Search
+             router>Advanced Search
       </v-tab>
       <v-tab id="tab-about"
              to="/about"

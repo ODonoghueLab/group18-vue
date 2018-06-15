@@ -17,7 +17,7 @@ osascript 2>/dev/null <<EOF
     end
     tell application "Terminal"
         activate
-        do script with command "cd \"$DIR/nodeserver\"; $*" in window 0
+        do script with command "cd \"$DIR/server\"; $*" in window 0
         do script with command "./run_server.sh" in window 0
     end
     tell application "System Events"

@@ -1,6 +1,6 @@
 {
   "include": [
     "./client/src/**/*",
-    "./nodeserver/src/**/*"
+    "./server/src/**/*"
   ]
 }

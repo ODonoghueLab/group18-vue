@@ -6,31 +6,30 @@ const fs = require('fs-extra')
 var dataServersCaches = {}
 var dataServerCacheIdToRemove
 
-const flushCache = function(req, res) {
+const flushCache = function (req, res) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
-  delete(dataServersCaches[cacheId])
-  res.redirect('/' + pdb + '?cutoff=' + energyCutoffSet)
+  delete (dataServersCaches[cacheId])
 }
 
-const retrieveCache = function(req) {
+const retrieveCache = function (req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let index = req.params.index
   let cacheId = pdb + '_' + energyCutoffSet
   return dataServersCaches[cacheId].dataServers
-    .then(function(dataServers) {
+    .then(function (dataServers) {
       return dataServers[index]
     })
 }
 
-const retrieveDataServersFromCache = function(pdb, energyCutoffSet) {
+const retrieveDataServersFromCache = function (pdb, energyCutoffSet) {
   let cacheId = pdb + '_' + energyCutoffSet
   return dataServersCaches[cacheId].dataServers
 }
 
-const retrievePDBFilesFromCache = async function(req) {
+const retrievePDBFilesFromCache = async function (req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
@@ -45,7 +44,7 @@ const retrievePDBFilesFromCache = async function(req) {
   return paths.processedPdbLocalPath
 }
 
-const retrieveMapFilesFromCache = async function(req) {
+const retrieveMapFilesFromCache = async function (req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let cacheId = pdb + '_' + energyCutoffSet
@@ -60,13 +59,13 @@ const retrieveMapFilesFromCache = async function(req) {
   return paths.mapLocalPaths
 }
 
-const checkFiles = async function(req) {
+const checkFiles = async function (req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
   let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
   let cacheId = jol.pdb + '_' + jol.energyCutoffSet
 
-  const trimCache = async function() {
+  const trimCache = async function () {
     if (sizeof(dataServersCaches) > config.web.MAX_CACHE_SIZE) {
       console.log('Removing ' + dataServerCacheIdToRemove +
         ' from cache as cache [' + sizeof(dataServersCaches) +
@@ -79,15 +78,14 @@ const checkFiles = async function(req) {
     }
   }
 
-  const removeLeastAccessedOldestFromCache = async function() {
+  const removeLeastAccessedOldestFromCache = async function () {
     delete dataServersCaches[dataServerCacheIdToRemove]
     await removeLocalFiles(dataServerCacheIdToRemove)
     let oldestCacheDate = Date.now()
     let smallestAccessCount
     for (let cacheId in dataServersCaches) {
       let dataServersCache = dataServersCaches[cacheId]
-      if (dataServersCache.accessCount <= smallestAccessCount || !
-        smallestAccessCount) {
+      if (dataServersCache.accessCount <= smallestAccessCount || !smallestAccessCount) {
         smallestAccessCount = dataServersCache.accessCount
         if (dataServersCache.cacheDate <= oldestCacheDate) {
           dataServerCacheIdToRemove = cacheId
@@ -97,7 +95,7 @@ const checkFiles = async function(req) {
     }
   }
 
-  const removeLocalFiles = async function(cacheId) {
+  const removeLocalFiles = async function (cacheId) {
     let args = cacheId.split('_')
     if (args.length !== 2) {
       throw new Error(
@@ -110,7 +108,7 @@ const checkFiles = async function(req) {
     fs.remove(pathToRemove)
   }
 
-  const getDataServersFromCache = async function(jol) {
+  const getDataServersFromCache = async function (jol) {
     if (dataServersCaches[cacheId]) {
       dataServersCaches[cacheId].accessCount += 1
       dataServersCaches[cacheId].accessDate = new Date()
@@ -166,7 +164,7 @@ const checkFiles = async function(req) {
   }
 }
 
-const checkFilesAndReturnJSON = async function(req, res) {
+const checkFilesAndReturnJSON = async function (req, res) {
   try {
     const result = await checkFiles(req)
     res.setHeader('Content-Type', 'application/json')
@@ -184,7 +182,7 @@ module.exports = {
   'checkFilesAndReturnJSON': checkFilesAndReturnJSON,
   'flushCache': flushCache,
   'retrieveCache': retrieveCache,
-  "retrieveDataServersFromCache": retrieveDataServersFromCache,
+  'retrieveDataServersFromCache': retrieveDataServersFromCache,
   'retrievePDBFilesFromCache': retrievePDBFilesFromCache,
   'retrieveMapFilesFromCache': retrieveMapFilesFromCache
 }

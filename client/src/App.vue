@@ -23,6 +23,7 @@
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+  height: 100%;
 }
 .menuable__content__active {
   z-index: 101 !important;

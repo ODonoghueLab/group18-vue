@@ -26,7 +26,7 @@ const store = new Vuex.Store({
     pdb: '2bmm',
     energyCutoffSet: 'all',
     dataServers: [],
-    elements: [{
+    elementList: [{
         value: 'He',
         text: 'Helium'
       },
@@ -47,10 +47,11 @@ const store = new Vuex.Store({
         text: 'Xenon'
       }
     ],
+    elements: ["Xe"],
     energyCutoffSets: [{
-      value: 'all',
-      text: 'all'
-    },{
+        value: 'all',
+        text: 'all'
+      }, {
         value: 'dynamic20',
         text: 'dynamic20'
       }, {
@@ -84,6 +85,7 @@ const store = new Vuex.Store({
     pdb: state => state.pdb,
     energyCutoffSet: state => state.energyCutoffSet,
     energyCutoffSets: state => state.energyCutoffSets,
+    elementList: state => state.elementList,
     elements: state => state.elements
   },
   mutations: {
@@ -96,6 +98,9 @@ const store = new Vuex.Store({
     },
     SET_ISSEARCHSUBMITTED: (state, isSearchSubmitted) => {
       state.isSearchSubmitted = isSearchSubmitted
+    },
+    SET_ELEMENTS: (state, elements) => {
+      state.elements = elements
     },
     SET_PDB: (state, pdb) => {
       state.pdb = pdb

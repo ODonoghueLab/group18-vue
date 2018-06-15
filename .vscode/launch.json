@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/nodeserver/src/bin/www"
+      "program": "${workspaceFolder}/server/src/bin/www"
     }
   ]
 }
