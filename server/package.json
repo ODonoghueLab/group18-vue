@@ -47,6 +47,7 @@
     "passport": "*",
     "passport-local": "*",
     "pretty-ms": "*",
+    "request": "^2.87.0",
     "rimraf": "*",
     "sequelize": "*",
     "sequelize-json": "*",

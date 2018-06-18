@@ -136,7 +136,7 @@ const store = new Vuex.Store({
         pdb: this.pdb,
         energyCutoffSet: this.energyCutoffSet
       }
-      let dataServers = await rpc.rpcRun('getDataServers', payload)
+      let dataServers = await rpc.rpcRun('publicGetDataServers', payload)
       commit('SET_DATASERVERS', dataServers)
     },
     async search({
@@ -165,7 +165,7 @@ const store = new Vuex.Store({
         ''
 
       commit('SET_SEARCHQUERY', searchQuery)
-      const searchResponse = await rpc.rpcRun('getNobleGasBindingsByQuery',
+      const searchResponse = await rpc.rpcRun('publicGetNobleGasBindingsByQuery',
         searchQuery)
       if (searchResponse.error) {
         commit('SET_TOTALRESULTS', 0)

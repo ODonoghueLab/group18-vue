@@ -1,7 +1,7 @@
 const ecache = require('../utilities/ensureProcessingCache.js')
 var StringDecoder = require('string_decoder').StringDecoder
 
-async function getDataServers ({
+async function getDataServers({
   pdb
 }) {
   let energyCutoffSet = 'all'
@@ -30,7 +30,7 @@ async function getDataServers ({
   }
 }
 
-async function refreshDataServers ({
+async function refreshDataServers({
   pdb,
   energyCutoffSet
 }) {
@@ -45,6 +45,6 @@ async function refreshDataServers ({
 }
 
 module.exports = {
-  getDataServers,
+  'publicGetDataServers': getDataServers,
   refreshDataServers
 }

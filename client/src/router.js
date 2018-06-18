@@ -9,12 +9,12 @@ import ResetPassword from './components/ResetPassword'
 import search from '@/components/tabs/search'
 import about from '@/components/tabs/about'
 import view from '@/components/tabs/view'
+import store from './store'
 
 Vue.use(Router)
 
 let router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       component: view
@@ -47,7 +47,14 @@ let router = new Router({
     {
       path: '/Search',
       name: 'search',
-      component: search
+      component: search,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.user.authenticated) {
+          next('/login')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/About',

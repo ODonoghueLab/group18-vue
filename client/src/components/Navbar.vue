@@ -16,8 +16,7 @@
     <v-spacer></v-spacer>
     <v-tabs dark
             color="grey darken-4">
-      <v-tab v-show="user.authenticated"
-             id="tab-home"
+      <v-tab id="tab-home"
              to="/"
              router>Home
       </v-tab>
@@ -61,11 +60,11 @@
 </template>
 
 <script>
-import auth from '../modules/auth';
-import config from '../config';
+import auth from "../modules/auth";
+import config from "../config";
 
 export default {
-  name: 'navbar',
+  name: "navbar",
   data() {
     return {
       title: config.title,
@@ -79,14 +78,14 @@ export default {
   },
   methods: {
     editUser() {
-      this.$router.push('/edit-user');
+      this.$router.push("/edit-user");
     },
     home() {
-      this.$router.push('/');
+      this.$router.push("/");
     },
     async logout() {
       await auth.logout();
-      this.$router.push('/login');
+      this.$router.push("/login");
     }
   }
 };
@@ -94,10 +93,10 @@ export default {
 <style scoped>
 @font-face {
   font-family: Clip;
-  src: url('/static/assets/Clip.ttf');
+  src: url("/static/assets/Clip.ttf");
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

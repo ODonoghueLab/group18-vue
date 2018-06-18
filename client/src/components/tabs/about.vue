@@ -98,117 +98,14 @@
                 </strong>
                 <br/>
                 <br/> Just replace ‘2bmm’ with any 4-letter PDB identifier.<br/>
-                <br/> By default, noble gases are shown only in positions that are energetically favourable (i.e., energy cutoff = “high”).<br/>
+                <br/> By default, only a single noble gas (Xe) is shown in all calculated positions<br/>
+                <br/> You can also choose additional or alternative noble gases to display<br/>
                 <br/>
                 <strong>
-                  <a href="#/?pdb=2bmm&amp;cutoff=high">
-                    #/?pdb=2bmm&amp;cutoff=high</a>
+                  <a href="#/?pdb=2bmm&amp;elements=He,Ne">
+                    #/?pdb=2bmm&amp;elements=He,Ne</a>
                 </strong>
                 <br/>
-                <br/>The available cutoffs (in kcal/mol) are listed below and may also include any number between -0.5 and -2.0:<br/>
-                <br/>
-                <table id="cutoffTable">
-                  <tr>
-                    <td>cutoff</td>
-                    <td>
-                      <span class='element_He'>He</span>
-                    </td>
-                    <td>
-                      <span class='element_Ne'>Ne</span>
-                    </td>
-                    <td>
-                      <span class='element_Ar'>Ar</span>
-                    </td>
-                    <td>
-                      <span class='element_Kr'>Kr</span>
-                    </td>
-                    <td>
-                      <span class='element_Xe'>Xe</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=all">all</a>
-                    </th>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=veryHigh">veryHigh</a>
-                    </th>
-                    <td>-0.6</td>
-                    <td>-0.6</td>
-                    <td>-1.2</td>
-                    <td>-1.2</td>
-                    <td>-1.5</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=high">high</a>
-                    </th>
-                    <td>-0.4</td>
-                    <td>-0.4</td>
-                    <td>-0.9</td>
-                    <td>-0.9</td>
-                    <td>-1.3</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=medium">medium</a>
-                    </th>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td>-0.8</td>
-                    <td>-0.8</td>
-                    <td>-1.2</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=low">low</a>
-                    </th>
-                    <td>-0.3</td>
-                    <td>-0.3</td>
-                    <td>-0.6</td>
-                    <td>-0.6</td>
-                    <td>-0.8</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=-0.9">-0.9</a>
-                    </th>
-                    <td>-0.9</td>
-                    <td>-0.9</td>
-                    <td>-0.9</td>
-                    <td>-0.9</td>
-                    <td>-0.9</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <a href="#/?pdb=2bmm&cutoff=-1.2">-1.2</a>
-                    </th>
-                    <td>-1.2</td>
-                    <td>-1.2</td>
-                    <td>-1.2</td>
-                    <td>-1.2</td>
-                    <td>-1.2 </td>
-                  </tr>
-                  <tr>
-                    <th colspan="6"
-                        style="text-align:right;">
-                      <i>etc...</i>
-                    </th>
-                  </tr>
-                </table>
                 <div class="date_published">May 17, 2017</div>
             </v-card-text>
           </v-card>
@@ -271,7 +168,7 @@
 </template>
 <style scoped>
 .emale:before {
-  content: attr(data-website) '\0040' attr(data-user);
+  content: attr(data-website) "\0040" attr(data-user);
   unicode-bidi: bidi-override;
   direction: rtl;
 }
@@ -282,7 +179,7 @@
 
 @font-face {
   font-family: Clip;
-  src: url('/static/assets/Clip.ttf');
+  src: url("/static/assets/Clip.ttf");
 }
 .element_Xe {
   background-color: #f59f7f;

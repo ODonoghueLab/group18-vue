@@ -179,6 +179,6 @@ async function getNobleGasBindingById(id) {
 
 module.exports = {
   getNobleGasBindingById,
-  getNobleGasBindingsByQuery,
+  "publicGetNobleGasBindingsByQuery": getNobleGasBindingsByQuery,
   getAllNobleGasBindings
 };
