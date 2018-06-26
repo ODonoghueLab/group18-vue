@@ -1,7 +1,7 @@
 const ecache = require('../utilities/ensureProcessingCache.js')
 var StringDecoder = require('string_decoder').StringDecoder
 
-async function getDataServers({
+async function getDataServers ({
   pdb
 }) {
   let energyCutoffSet = 'all'
@@ -13,7 +13,7 @@ async function getDataServers({
       }
     })
     if (!checkedFiles) {
-      throw `Unable to find dataservers for ${pdb},${energyCutoffSet}`
+      throw new Error(`Unable to find dataservers for ${pdb},${energyCutoffSet}`)
     }
     const dataServers = []
     var decoder = new StringDecoder('utf8')
@@ -30,7 +30,7 @@ async function getDataServers({
   }
 }
 
-async function refreshDataServers({
+async function refreshDataServers ({
   pdb,
   energyCutoffSet
 }) {

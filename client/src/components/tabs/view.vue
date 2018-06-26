@@ -22,16 +22,7 @@
                     data-vv-name="pdb"
                     cache-items></v-select>
         </v-flex>
-        <v-flex sm2>
-          <v-select multiple
-                    label="Element"
-                    :items="elementList"
-                    v-model="elements"
-                    :error-messages="errors.collect('element')"
-                    v-validate="''"
-                    data-vv-name="element"></v-select>
-        </v-flex>
-        <v-flex sm8>
+        <v-flex sm10>
           <v-select combobox
                     label="Search"
                     :items="querySelectItems"
@@ -142,6 +133,7 @@ export default {
         return itemText;
       },
       dataServers: null,
+      energyCutoffs: null,
       loadedElements: [],
       isDisplayed: false,
       loadErrorMessage:
@@ -162,9 +154,9 @@ export default {
       }
       return -1;
     },
-    addDataServer: function(dataServer) {
+    async addDataServer(dataServer) {
       let dataServerFn = eval(dataServer);
-      this.embededJolecule.asyncAddDataServer(dataServerFn());
+      return this.embededJolecule.asyncAddDataServer(dataServerFn());
     },
     async querySelections(query) {
       this.isWorking = true;
@@ -193,37 +185,71 @@ export default {
         window.history.pushState(null, "", newURL);
       }
     },
-    loadElementDataServer(element) {
+    async loadElementDataServer(element) {
       if (this.loadedElements.includes(element) || !this.dataServers) {
         return;
       }
-      let elementDataServer = this.dataServers.result[
-        this.getElementIndex(element)
-      ];
-      this.addDataServer(elementDataServer);
+      let elementDataServer = this.dataServers[this.getElementIndex(element)];
+      let result = await this.addDataServer(elementDataServer);
+      this.setElementCutoff(element);
       this.loadedElements.push(element);
+      return result;
     },
-    async loadDataServers() {
-      let payload = { pdb: this.pdb };
+    async getEnergyCutoffs() {
       try {
-        this.loadErrorMessage = "";
-        this.dataServers = await rpc.rpcRun("publicGetDataServers", payload);
-        if (this.dataServers.error) {
-          console.error(this.dataServers.error);
-          this.loadErrorMessage = this.dataServers.error.message;
+        let payload = { pdb: this.pdb };
+        let energyCutoffs = await rpc.rpcRun("publicGetEnergyCutoffs", payload);
+        if (energyCutoffs.error) {
+          console.error(energyCutoffs.error);
+          this.loadErrorMessage = energyCutoffs.error.message;
           document.getElementById(
             "loading-message"
           ).innerHTML = this.loadErrorMessage;
         } else {
-          let pdbDataServer = this.dataServers.result[0];
-          this.addDataServer(pdbDataServer);
-          this.elements.forEach(element => {
-            this.loadElementDataServer(element);
-          });
+          return energyCutoffs.result;
         }
       } catch (error) {
         alert(error);
       }
+    },
+    async setElementCutoff(element) {
+      let energyCutoffs = await this.energyCutoffs;
+      let elementCutoff = energyCutoffs[this.getElementIndex(element) - 1];
+      this.setCutoff(elementCutoff);
+    },
+    setCutoff(val) {
+      let bCutoff = -1 * parseFloat(val);
+      this.embededJolecule.controller.setGridCutoff(bCutoff);
+      this.embededJolecule.gridControlWidget.update();
+    },
+    async getDataServers() {
+      try {
+        let payload = { pdb: this.pdb };
+        this.loadErrorMessage = "";
+        let dataServers = await rpc.rpcRun("publicGetDataServers", payload);
+        if (dataServers.error) {
+          console.error(dataServers.error);
+          this.loadErrorMessage = dataServers.error.message;
+          document.getElementById(
+            "loading-message"
+          ).innerHTML = this.loadErrorMessage;
+        } else {
+          return dataServers.result;
+        }
+      } catch (error) {
+        alert(error);
+      }
+    },
+    async loadDataServers() {
+      this.energyCutoffs = this.getEnergyCutoffs();
+      this.dataServers = await this.getDataServers();
+      let pdbDataServer = this.dataServers[0];
+      await this.addDataServer(pdbDataServer);
+      let dataServersToLoad = [];
+      this.elements.forEach(element => {
+        dataServersToLoad.push(this.loadElementDataServer(element));
+      });
+      return Promise.all(dataServersToLoad);
     },
     embedJolecule(tag) {
       if (document.getElementById(tag)) {
@@ -239,13 +265,39 @@ export default {
         isEditable: false
       });
     },
+    setupElements() {
+      let y = 10;
+      document.getElementById("grid-control-buttons").innerHTML = "";
+      this.elementList.forEach(({ text, value }) => {
+        this.embededJolecule.gridControlWidget.makeElemButton(value, y);
+        let id = "grid-button-" + value.toLowerCase();
+        document.getElementById(id).onclick = this.toggleElement;
+        y += 40;
+      });
+    },
+    async toggleElement(e) {
+      let element = e.srcElement.innerText;
+      let usedElements = [];
+      for (const [key, value] of Object.entries(
+        this.embededJolecule.soupView.soup.grid.isElem
+      )) {
+        if (value) usedElements.push(key);
+      }
+      this.elements = usedElements;
+      if (this.loadedElements.includes(element)) {
+        return;
+      }
+      await this.loadElementDataServer(element);
+      this.setupElements();
+    },
     async reDisplayJolecule() {
       this.embededJolecule = this.embedJolecule("jolecule");
       this.isDisplayed = true;
       this.updateURL();
       this.loadedElements = [];
       this.pdbSelectItems.push(this.pdb);
-      this.loadDataServers();
+      await this.loadDataServers();
+      this.setupElements();
     },
     setParamValues() {
       let pdb = this.$route.query.pdb;
@@ -283,24 +335,6 @@ export default {
     elements(val) {
       console.log("local", "element set to", val);
       this.updateURL();
-      this.loadedElements.forEach(element => {
-        let id = "grid-button-" + element.toLowerCase();
-        if (document.getElementById(id).style.backgroundColor) {
-          document.getElementById(id).click();
-        }
-      });
-      val.forEach(element => {
-        console.log("local", "selectedElement", element);
-        let id = "grid-button-" + element.toLowerCase();
-        if (
-          this.loadedElements.includes(element) &&
-          !document.getElementById(id).style.backgroundColor
-        ) {
-          document.getElementById(id).click();
-        } else {
-          this.loadElementDataServer(element);
-        }
-      });
     },
     pdbSelectItems: {
       handler() {
@@ -377,8 +411,7 @@ export default {
   padding: 0px;
 }
 #PDBHistory .input-group__selections,
-#PDBHistory .input-group__details,
-#sequence-widget {
+#PDBHistory .input-group__details {
   display: none;
 }
 </style>

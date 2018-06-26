@@ -39,7 +39,7 @@ const retrievePDBFilesFromCache = async function (req) {
     dataServers = dataServersCaches[cacheId]
   }
   await dataServers.dataServers
-  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
   return paths.processedPdbLocalPath
 }
@@ -54,7 +54,7 @@ const retrieveMapFilesFromCache = async function (req) {
     dataServers = dataServersCaches[cacheId]
   }
   await dataServers.dataServers
-  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
   return paths.mapLocalPaths
 }
@@ -62,7 +62,7 @@ const retrieveMapFilesFromCache = async function (req) {
 const checkFiles = async function (req) {
   let pdb = req.params.pdb
   let energyCutoffSet = req.params.energyCutoffSet
-  let jol = await joleculeHelpers.set(pdb, energyCutoffSet)
+  let jol = await joleculeHelpers.set(pdb)
   let cacheId = jol.pdb + '_' + jol.energyCutoffSet
 
   const trimCache = async function () {
@@ -102,7 +102,7 @@ const checkFiles = async function (req) {
         'Error removing local files, could not read arguments from ' +
         cacheId)
     }
-    let jol = await joleculeHelpers.set(args[0], args[1])
+    let jol = await joleculeHelpers.set(args[0])
     let pathToRemove = jol.paths.baseLocalPath
     console.log('Removing local files at ' + pathToRemove)
     fs.remove(pathToRemove)

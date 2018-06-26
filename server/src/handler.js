@@ -5,6 +5,7 @@ const config = require('./config')
 const dbmodel = require('./dbmodel')
 const dataServer = require('./handlers/dataServer')
 const nobleGasBindings = require('./handlers/nobleGasBindings')
+const getEnergyCutoffs = require('./handlers/getEnergyCutoffs')
 
 /**
  *
@@ -168,5 +169,6 @@ module.exports = {
   publicUploadFiles,
   publicResetPassword,
   ...nobleGasBindings,
-  ...dataServer
+  ...dataServer,
+  ...getEnergyCutoffs
 }
