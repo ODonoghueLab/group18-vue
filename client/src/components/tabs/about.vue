@@ -27,7 +27,7 @@
                 </a> there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation
                 of this data is to provide a starting point for such exploration.
               </p>
-              <p>The datasets accessible from this page were created using AutoGrid4 to systematically map the energy of five noble gas (
+              <p>The dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas (
                 <span class='element_He'>He</span>,
                 <span class='element_Ne'>Ne</span>,
                 <span class='element_Ar'>Ar</span>,
@@ -43,18 +43,27 @@
                 to the small molecule ligand binding site is available.
               </p>
               <p>
-                For ease of navigation, each dataset has been divided into ‘high’, ‘medium’, and ‘low’ subsets, based on the lowest energy (kcal/mol) in each map. Thus, structures in the ‘low’ subset are those where noble
-                gases do not appear to make any favorable interactions. The probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related
-                to the Boltzmann distribution. Interactions with larger Nat values and smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with
-                small energies that are comparable to thermal energies will not remain bound for long enough to affect the function of the protein.
+                The probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related to the Boltzmann distribution. Interactions with larger Nat values and
+                smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with small energies that are comparable to thermal energies will not remain
+                bound for long enough to affect the function of the protein.
               </p>
               <p>
-                Clicking one of these datasets from the data tab opens the results in a Google Spreadsheet, allowing you to use text search or sort to find map files of particular interest.
+                For ease of navigation, the dataset may be searched via "Search" field at the top of the view tab. The search field looks for partial matching text entries for PDB-Ids, Protein Type and/or Description(
+                eg. "oxygen transport") You may also search for a range of number of atoms (eg. "1000:2000") or a range of minimum binding energies (eg "-1.5:-2.0"). These searches may be combined as a
+                single separated query (eg. "oxygen transport 1000:2000 -1.6:-2.0"). Initially only a subset of all available grid positions will be displayed determined by a maximum binding energy level
+                set on a slider. This may be adjusted in the range from -0.3 to -2.0 kCal/Mol. You may also adjust the elements you are interested to see in the visualisation from the "Element" drop down
+                selection. You may also filter the elements displayed by clicking the appropriate button (
+                <span class='element_He'>He</span>,
+                <span class='element_Ne'>Ne</span>,
+                <span class='element_Ar'>Ar</span>,
+                <span class='element_Kr'>Kr</span>,
+                <span class='element_Xe'>Xe</span>
+                )
               </p>
               <p>
-                You can see the maps directly, either by clicking on a PDB Id. in the Google Spreadsheets (below), or by typing in a PDB Id. in the field above. Note that not all PDBs have been mapped. Multiple structures
-                of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or RNA) may be missing, and a very small percentage
-                of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric species but mapped as the multimer.
+                Note that not all PDBs have been mapped. Multiple structures of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or
+                RNA) may be missing, and a very small percentage of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric
+                species but mapped as the multimer.
               </p>
               <p>
                 The data is displayed using the 3D protein viewer
@@ -75,7 +84,7 @@
               <br/>
               <p>
                 <img id="jolecule_image"
-                     src="static/assets/group18_jolecule_help.png"
+                     src="static/assets/group18-help.svg"
                      alt="About Jolecule" />
               </p>
             </v-card-text>
@@ -173,8 +182,8 @@
   direction: rtl;
 }
 #jolecule_image {
-  width: 800px;
-  height: 600px;
+  width: 90%;
+  height: "AUTO";
 }
 
 @font-face {
