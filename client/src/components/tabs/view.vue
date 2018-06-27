@@ -315,6 +315,9 @@ export default {
       if (elements && elements.length > 0) {
         this.elements = elements;
       }
+      if(!this.elements || (this.elements && this.elements.length<1)){
+        this.elements = ["Xe"]
+      }
     },
     displayJolecule() {
       this.setParamValues();

@@ -1,8 +1,14 @@
 const joleculeHelpers = require('../utilities/joleculeHelpers.js')
 
-async function getEnergyCutoffs ({pdb}) {
+async function getEnergyCutoffs ({
+  pdb
+}) {
   let jol = await joleculeHelpers.set(pdb)
-  return jol.getDynamicEnergyCutoffSet()
+  try {
+    return jol.getDynamicEnergyCutoffSet()
+  } catch (e) {
+    return jol.ENERGY_CUTOFF_SETS['high']
+  }
 }
 
 module.exports = {
