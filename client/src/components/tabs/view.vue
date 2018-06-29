@@ -161,7 +161,7 @@ export default {
     },
     displayJolecule() {
       this.setParamValues();
-      this.reDisplayJolecule();
+      this.isDisplayed = true;
     },
     async reDisplayJolecule() {
       this.embededJolecule = this.embedJolecule("jolecule");

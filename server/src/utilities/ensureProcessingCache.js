@@ -126,7 +126,7 @@ const checkFiles = async function (req) {
     await trimCache()
     return dataServersCaches[cacheId].dataServers
   }
-  await jol
+
   if (!jol.isPdb()) {
     let err = "'" + pdb + "' is not a valid PDB record"
     console.error(err)
@@ -153,22 +153,8 @@ const checkFiles = async function (req) {
   }
 }
 
-const checkFilesAndReturnJSON = async function (req, res) {
-  try {
-    const result = await checkFiles(req)
-    res.setHeader('Content-Type', 'application/json')
-    res.send(result)
-  } catch (err) {
-    res.setHeader('Content-Type', 'application/json')
-    res.send(JSON.stringify({
-      ErrorText: err.message
-    }))
-  }
-}
-
 module.exports = {
   'checkFiles': checkFiles,
-  'checkFilesAndReturnJSON': checkFilesAndReturnJSON,
   'flushCache': flushCache,
   'retrieveCache': retrieveCache,
   'retrieveDataServersFromCache': retrieveDataServersFromCache,
