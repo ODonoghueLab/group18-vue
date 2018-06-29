@@ -163,7 +163,7 @@ export default {
       this.setParamValues();
       this.isDisplayed = true;
       if (this.pdb === "2bmm") {
-        reDisplayJolecule();
+        this.reDisplayJolecule();
       }
     },
     async reDisplayJolecule() {
