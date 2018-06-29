@@ -162,6 +162,9 @@ export default {
     displayJolecule() {
       this.setParamValues();
       this.isDisplayed = true;
+      if (this.pdb === "2bmm") {
+        reDisplayJolecule();
+      }
     },
     async reDisplayJolecule() {
       this.embededJolecule = this.embedJolecule("jolecule");
