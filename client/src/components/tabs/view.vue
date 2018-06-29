@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import { initEmbedJolecule } from "../../jolecule/jolecule";
 import { Validator } from "vee-validate";
 import rpc from "../../modules/rpc";
@@ -87,7 +87,7 @@ const PROMPT_COUNT = 3;
 
 export default {
   computed: {
-    ...mapGetters(["elementList", "searchQuery"]),
+    ...mapGetters(["elementList", "searchQuery", "errors"]),
     isWorking: {
       get() {
         return this.$store.state.isWorking;
@@ -98,7 +98,7 @@ export default {
     },
     elements: {
       get() {
-        return this.$store.state.elements;
+        return this.$store.state.jolecule.elements;
       },
       set(v) {
         if (Array.isArray(v)) {
@@ -108,7 +108,7 @@ export default {
     },
     pdb: {
       get() {
-        return this.$store.state.pdb;
+        return this.$store.state.jolecule.pdb;
       },
       set(v) {
         this.$store.commit("SET_PDB", v);
@@ -127,7 +127,10 @@ export default {
       },
       embededJolecule: null,
       search: null,
-      pdbSelectItems: JSON.parse(localStorage.getItem("pdbSelectItems")) || [],
+      pdbSelectItems:
+        JSON.parse(localStorage.getItem("pdbSelectItems")).filter(item => {
+          return item;
+        }) || [],
       querySelectItems: [],
       customFilter(item, queryText, itemText) {
         return itemText;
@@ -141,116 +144,7 @@ export default {
     };
   },
   methods: {
-    launchLoginDialog() {
-      localStorage.setItem("pdbSelectItemsCount", this.pdbSelectItems.length);
-      this.loginNotificationDialog = true;
-      console.log("dialog", this.loginNotificationDialog);
-    },
-    getElementIndex(element) {
-      for (var i = 0; i < this.elementList.length; i += 1) {
-        if (this.elementList[i]["value"] === element) {
-          return i + 1;
-        }
-      }
-      return -1;
-    },
-    async addDataServer(dataServer) {
-      let dataServerFn = eval(dataServer);
-      return this.embededJolecule.asyncAddDataServer(dataServerFn());
-    },
-    async querySelections(query) {
-      this.isWorking = true;
-      let limit = 100;
-      let response = await rpc.rpcRun("publicGetNobleGasBindingsByQuery", {
-        limit,
-        query
-      });
-      let searchResults = [];
-      response.result.rows.forEach(row => {
-        searchResults.push({
-          text: `[${row.pdb}]:${row.protein_type} - ${
-            row.protein_description
-          } (${row.binding_energy} kcal/mol)`,
-          value: row.pdb
-        });
-      });
-      this.querySelectItems = searchResults;
-      this.isWorking = false;
-    },
-    updateURL() {
-      let host = window.location.href.split("/#")[0];
-      let newURL =
-        host + `/#/?pdb=${this.pdb}&elements=${this.elements.join(",")}`;
-      if (window.location.href !== newURL) {
-        window.history.pushState(null, "", newURL);
-      }
-    },
-    async loadElementDataServer(element) {
-      if (this.loadedElements.includes(element) || !this.dataServers) {
-        return;
-      }
-      let elementDataServer = this.dataServers[this.getElementIndex(element)];
-      let result = await this.addDataServer(elementDataServer);
-      this.setElementCutoff(element);
-      this.loadedElements.push(element);
-      return result;
-    },
-    async getEnergyCutoffs() {
-      try {
-        let payload = { pdb: this.pdb };
-        let energyCutoffs = await rpc.rpcRun("publicGetEnergyCutoffs", payload);
-        if (energyCutoffs.error) {
-          console.error(energyCutoffs.error);
-          this.loadErrorMessage = energyCutoffs.error.message;
-          document.getElementById(
-            "loading-message"
-          ).innerHTML = this.loadErrorMessage;
-        } else {
-          return energyCutoffs.result;
-        }
-      } catch (error) {
-        alert(error);
-      }
-    },
-    async setElementCutoff(element) {
-      let energyCutoffs = await this.energyCutoffs;
-      let elementCutoff = energyCutoffs[this.getElementIndex(element) - 1];
-      this.setCutoff(elementCutoff);
-    },
-    setCutoff(val) {
-      let bCutoff = -1 * parseFloat(val);
-      this.embededJolecule.controller.setGridCutoff(bCutoff);
-      this.embededJolecule.gridControlWidget.update();
-    },
-    async getDataServers() {
-      try {
-        let payload = { pdb: this.pdb };
-        this.loadErrorMessage = "";
-        let dataServers = await rpc.rpcRun("publicGetDataServers", payload);
-        if (dataServers.error) {
-          console.error(dataServers.error);
-          this.loadErrorMessage = dataServers.error.message;
-          document.getElementById(
-            "loading-message"
-          ).innerHTML = this.loadErrorMessage;
-        } else {
-          return dataServers.result;
-        }
-      } catch (error) {
-        alert(error);
-      }
-    },
-    async loadDataServers() {
-      this.energyCutoffs = this.getEnergyCutoffs();
-      this.dataServers = await this.getDataServers();
-      let pdbDataServer = this.dataServers[0];
-      await this.addDataServer(pdbDataServer);
-      let dataServersToLoad = [];
-      this.elements.forEach(element => {
-        dataServersToLoad.push(this.loadElementDataServer(element));
-      });
-      return Promise.all(dataServersToLoad);
-    },
+    ...mapActions(["getDataServers", "getEnergyCutoffs", "querySelections"]),
     embedJolecule(tag) {
       if (document.getElementById(tag)) {
         document.getElementById(tag).innerHTML = "";
@@ -264,6 +158,98 @@ export default {
         backgroundColor: "#cccccc",
         isEditable: false
       });
+    },
+    displayJolecule() {
+      this.setParamValues();
+      this.reDisplayJolecule();
+    },
+    async reDisplayJolecule() {
+      this.embededJolecule = this.embedJolecule("jolecule");
+      this.isDisplayed = true;
+      this.updateURL();
+      this.loadedElements = [];
+      this.pdbSelectItems.push(this.pdb);
+      await this.loadDataServers();
+      this.setupElements();
+    },
+    launchLoginDialog() {
+      localStorage.setItem("pdbSelectItemsCount", this.pdbSelectItems.length);
+      this.loginNotificationDialog = true;
+    },
+    setParamValues() {
+      let pdb = this.$route.query.pdb;
+      let urlElements = this.$route.query.elements;
+      let elements = [];
+      if (urlElements) {
+        urlElements = this.$route.query.elements.split(",");
+        elements = urlElements.filter(element => {
+          return this.getElementIndex(element) > -1;
+        });
+      }
+      if (pdb && pdb > "") {
+        this.pdb = pdb;
+      }
+      if (elements && elements.length > 0) {
+        this.elements = elements;
+      }
+      if (!this.elements || (this.elements && this.elements.length < 1)) {
+        this.elements = ["Xe"];
+      }
+    },
+    updateURL() {
+      let host = window.location.href.split("/#")[0];
+      let newURL =
+        host + `/#/?pdb=${this.pdb}&elements=${this.elements.join(",")}`;
+      if (window.location.href !== newURL) {
+        window.history.pushState(null, "", newURL);
+      }
+    },
+    async addDataServer(dataServer) {
+      let dataServerFn = eval(dataServer);
+      return this.embededJolecule.asyncAddDataServer(dataServerFn());
+    },
+    async loadDataServers() {
+      this.loadErrorMessage = "";
+      this.energyCutoffs = this.getEnergyCutoffs();
+      this.dataServers = await this.getDataServers();
+      document.getElementById(
+        "loading-message"
+      ).innerHTML = this.loadErrorMessage;
+      let pdbDataServer = this.dataServers[0];
+      await this.addDataServer(pdbDataServer);
+      let dataServersToLoad = [];
+      this.elements.forEach(element => {
+        dataServersToLoad.push(this.loadElementDataServer(element));
+      });
+      return Promise.all(dataServersToLoad);
+    },
+    getElementIndex(element) {
+      for (var i = 0; i < this.elementList.length; i += 1) {
+        if (this.elementList[i]["value"] === element) {
+          return i + 1;
+        }
+      }
+      return -1;
+    },
+    async loadElementDataServer(element) {
+      if (this.loadedElements.includes(element) || !this.dataServers) {
+        return;
+      }
+      let elementDataServer = this.dataServers[this.getElementIndex(element)];
+      let result = await this.addDataServer(elementDataServer);
+      this.setElementCutoff(element);
+      this.loadedElements.push(element);
+      return result;
+    },
+    async setElementCutoff(element) {
+      let energyCutoffs = await this.energyCutoffs;
+      let elementCutoff = energyCutoffs[this.getElementIndex(element) - 1];
+      this.setCutoff(elementCutoff);
+    },
+    setCutoff(val) {
+      let bCutoff = -1 * parseFloat(val);
+      this.embededJolecule.controller.setGridCutoff(bCutoff);
+      this.embededJolecule.gridControlWidget.update();
     },
     setupElements() {
       let y = 10;
@@ -289,54 +275,22 @@ export default {
       }
       await this.loadElementDataServer(element);
       this.setupElements();
-    },
-    async reDisplayJolecule() {
-      this.embededJolecule = this.embedJolecule("jolecule");
-      this.isDisplayed = true;
-      this.updateURL();
-      this.loadedElements = [];
-      this.pdbSelectItems.push(this.pdb);
-      await this.loadDataServers();
-      this.setupElements();
-    },
-    setParamValues() {
-      let pdb = this.$route.query.pdb;
-      let urlElements = this.$route.query.elements;
-      let elements = [];
-      if (urlElements) {
-        urlElements = this.$route.query.elements.split(",");
-        elements = urlElements.filter(element => {
-          return this.getElementIndex(element) > -1;
-        });
-      }
-      if (pdb && pdb > "") {
-        this.pdb = pdb;
-      }
-      if (elements && elements.length > 0) {
-        this.elements = elements;
-      }
-      if(!this.elements || (this.elements && this.elements.length<1)){
-        this.elements = ["Xe"]
-      }
-    },
-    displayJolecule() {
-      this.setParamValues();
-      this.reDisplayJolecule();
     }
   },
   watch: {
-    search(val) {
-      val && this.querySelections(val);
+    async search(val) {
+      if (val) {
+        this.querySelectItems = await this.querySelections(val);
+      }
     },
     query(val) {
       if (val.text && val.value) {
-        console.log("updating pdbSelectItems", this.pdbSelectItems, this.pdb);
+        console.log("updating PDB history", this.pdbSelectItems, this.pdb);
         this.pdbSelectItems.push(this.pdb);
         this.pdb = val.value;
       }
     },
     elements(val) {
-      console.log("local", "element set to", val);
       this.updateURL();
     },
     pdbSelectItems: {

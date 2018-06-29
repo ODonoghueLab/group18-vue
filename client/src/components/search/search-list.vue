@@ -92,7 +92,7 @@ export default {
     ]),
     pagination: {
       get() {
-        return this.$store.state.searchPagination;
+        return this.$store.state.search.searchPagination;
       },
       set(v) {
         this.$store.commit('SET_SEARCHPAGINATION', v);

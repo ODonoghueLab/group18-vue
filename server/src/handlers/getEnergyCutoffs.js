@@ -5,7 +5,8 @@ async function getEnergyCutoffs ({
 }) {
   let jol = await joleculeHelpers.set(pdb)
   try {
-    return await jol.getDynamicEnergyCutoffSet()
+    let result = await jol.getDynamicEnergyCutoffSet()
+    return result
   } catch (e) {
     return jol.ENERGY_CUTOFF_SETS['high']
   }

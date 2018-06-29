@@ -8,31 +8,28 @@ var dataServerCacheIdToRemove
 
 const flushCache = function (req, res) {
   let pdb = req.params.pdb
-  let energyCutoffSet = req.params.energyCutoffSet
-  let cacheId = pdb + '_' + energyCutoffSet
+  let cacheId = pdb
   delete (dataServersCaches[cacheId])
 }
 
 const retrieveCache = function (req) {
   let pdb = req.params.pdb
-  let energyCutoffSet = req.params.energyCutoffSet
   let index = req.params.index
-  let cacheId = pdb + '_' + energyCutoffSet
+  let cacheId = pdb
   return dataServersCaches[cacheId].dataServers
     .then(function (dataServers) {
       return dataServers[index]
     })
 }
 
-const retrieveDataServersFromCache = function (pdb, energyCutoffSet) {
-  let cacheId = pdb + '_' + energyCutoffSet
+const retrieveDataServersFromCache = function (pdb) {
+  let cacheId = pdb
   return dataServersCaches[cacheId].dataServers
 }
 
 const retrievePDBFilesFromCache = async function (req) {
   let pdb = req.params.pdb
-  let energyCutoffSet = req.params.energyCutoffSet
-  let cacheId = pdb + '_' + energyCutoffSet
+  let cacheId = pdb
   let dataServers = dataServersCaches[cacheId]
   if (!dataServers) {
     await checkFiles(req)
@@ -46,8 +43,7 @@ const retrievePDBFilesFromCache = async function (req) {
 
 const retrieveMapFilesFromCache = async function (req) {
   let pdb = req.params.pdb
-  let energyCutoffSet = req.params.energyCutoffSet
-  let cacheId = pdb + '_' + energyCutoffSet
+  let cacheId = pdb
   let dataServers = dataServersCaches[cacheId]
   if (!dataServers) {
     await checkFiles(req)
@@ -61,9 +57,8 @@ const retrieveMapFilesFromCache = async function (req) {
 
 const checkFiles = async function (req) {
   let pdb = req.params.pdb
-  let energyCutoffSet = req.params.energyCutoffSet
   let jol = await joleculeHelpers.set(pdb)
-  let cacheId = jol.pdb + '_' + jol.energyCutoffSet
+  let cacheId = jol.pdb
 
   const trimCache = async function () {
     if (sizeof(dataServersCaches) > config.web.MAX_CACHE_SIZE) {
@@ -96,13 +91,7 @@ const checkFiles = async function (req) {
   }
 
   const removeLocalFiles = async function (cacheId) {
-    let args = cacheId.split('_')
-    if (args.length !== 2) {
-      throw new Error(
-        'Error removing local files, could not read arguments from ' +
-        cacheId)
-    }
-    let jol = await joleculeHelpers.set(args[0])
+    let jol = await joleculeHelpers.set(cacheId)
     let pathToRemove = jol.paths.baseLocalPath
     console.log('Removing local files at ' + pathToRemove)
     fs.remove(pathToRemove)
@@ -144,7 +133,7 @@ const checkFiles = async function (req) {
     throw new Error(err)
   }
   if (!jol.isEnergyCutoffSet()) {
-    let err = "'" + energyCutoffSet +
+    let err = "'" + jol.energyCutoffSet +
       "' is not a valid energyCutoffSet. (Try: " + Object.keys(jol.ENERGY_CUTOFF_SETS)
       .join(',') + ')'
     console.error(err)
@@ -154,7 +143,7 @@ const checkFiles = async function (req) {
     await getDataServersFromCache(jol)
     return JSON.stringify({
       pdb: pdb,
-      cutoff: energyCutoffSet,
+      cutoff: jol.energyCutoffSet,
       dataServerRoute: jol.paths.dataServerRoute
     })
   } catch (err) {

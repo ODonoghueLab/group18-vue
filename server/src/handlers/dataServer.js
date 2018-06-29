@@ -4,22 +4,19 @@ var StringDecoder = require('string_decoder').StringDecoder
 async function getDataServers ({
   pdb
 }) {
-  let energyCutoffSet = 'all'
   try {
     let checkedFiles = await ecache.checkFiles({
       params: {
-        pdb: pdb,
-        energyCutoffSet: energyCutoffSet
+        pdb: pdb
       }
     })
     if (!checkedFiles) {
-      throw new Error(`Unable to find dataservers for ${pdb},${energyCutoffSet}`)
+      throw new Error(`Unable to find dataservers for ${pdb}`)
     }
     const dataServers = []
     var decoder = new StringDecoder('utf8')
     const rawDataservers = await ecache.retrieveDataServersFromCache(
-      pdb,
-      energyCutoffSet
+      pdb
     )
     rawDataservers.forEach(dataServer => {
       dataServers.push(decoder.write(dataServer))
@@ -31,16 +28,13 @@ async function getDataServers ({
 }
 
 async function refreshDataServers ({
-  pdb,
-  energyCutoffSet
+  pdb
 }) {
   ecache.flushCache(
-    pdb,
-    energyCutoffSet
+    pdb
   )
   return getDataServers({
-    pdb,
-    energyCutoffSet
+    pdb
   })
 }
 
