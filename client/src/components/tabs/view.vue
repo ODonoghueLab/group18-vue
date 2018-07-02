@@ -127,10 +127,7 @@ export default {
       },
       embededJolecule: null,
       search: null,
-      pdbSelectItems:
-        JSON.parse(localStorage.getItem("pdbSelectItems")).filter(item => {
-          return item;
-        }) || [],
+      pdbSelectItems:[],
       querySelectItems: [],
       customFilter(item, queryText, itemText) {
         return itemText;
@@ -336,6 +333,12 @@ export default {
   },
   mounted() {
     this.displayJolecule();
+  },
+  beforeMount(){
+    let pdbSelectedItems = JSON.parse(localStorage.getItem("pdbSelectItems"))||[]
+    this.pdbSelectItems = pdbSelectedItems.filter(item => {
+          return item;
+        }) || []
   }
 };
 </script>
