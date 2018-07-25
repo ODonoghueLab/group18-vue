@@ -2,6 +2,8 @@ const joleculeHelpers = require('./joleculeHelpers.js')
 const config = require('../config')
 const sizeof = require('object-sizeof')
 const fs = require('fs-extra')
+const archiver = require('archiver')
+const path = require('path')
 
 var dataServersCaches = {}
 var dataServerCacheIdToRemove
@@ -27,32 +29,64 @@ const retrieveDataServersFromCache = function (pdb) {
   return dataServersCaches[cacheId].dataServers
 }
 
-const retrievePDBFilesFromCache = async function (req) {
-  let pdb = req.params.pdb
-  let cacheId = pdb
-  let dataServers = dataServersCaches[cacheId]
-  if (!dataServers) {
-    await checkFiles(req)
-    dataServers = dataServersCaches[cacheId]
+const retrieveZipFile = async function (zipFile, contentsPath) {
+  let zipFilePath = path.join(contentsPath, '..', zipFile + '.zip')
+  let checkFileExists = s => new Promise(resolve => fs.access(s, fs.F_OK, e => resolve(!e)))
+  if (await checkFileExists(zipFilePath)) {
+    return zipFilePath
   }
-  await dataServers.dataServers
-  let jol = await joleculeHelpers.set(pdb)
-  let paths = jol.paths
-  return paths.processedPdbLocalPath
+  let zipFileOutput = fs.createWriteStream(zipFilePath)
+  var archive = archiver('zip', {
+    zlib: {
+      level: 9
+    }
+  })
+  archive.pipe(zipFileOutput)
+  archive.directory(contentsPath, zipFile)
+  archive.finalize()
+
+  var fileZipped = new Promise((resolve, reject) => {
+    zipFileOutput.on('close', function () {
+      console.log(`Archive ${zipFilePath} created [${archive.pointer()} total bytes]`)
+      resolve(zipFilePath)
+    })
+    archive.on('error', function (err) {
+      reject(err)
+    })
+  })
+
+  return fileZipped
 }
 
-const retrieveMapFilesFromCache = async function (req) {
-  let pdb = req.params.pdb
+const retrievePDBFilesFromCache = async function (pdb) {
   let cacheId = pdb
   let dataServers = dataServersCaches[cacheId]
   if (!dataServers) {
-    await checkFiles(req)
+    await checkFiles(pdb)
+    dataServers = dataServersCaches[cacheId]
+  }
+  await dataServers.dataServers
+  let jol = await joleculeHelpers.set(pdb)
+  let processedPdbLocalPath = jol.paths.processedPdbLocalPath
+  let zipfile = `${pdb}_Grid_PDBs`
+  let zipfilePath = await retrieveZipFile(zipfile, processedPdbLocalPath)
+  return zipfilePath
+}
+
+const retrieveMapFilesFromCache = async function (pdb) {
+  let cacheId = pdb
+  let dataServers = dataServersCaches[cacheId]
+  if (!dataServers) {
+    await checkFiles(pdb)
     dataServers = dataServersCaches[cacheId]
   }
   await dataServers.dataServers
   let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
-  return paths.mapLocalPaths
+  let mapLocalPath = paths.mapLocalPaths
+  let zipfile = `${pdb}_Grid_Maps`
+  let zipfilePath = await retrieveZipFile(zipfile, mapLocalPath)
+  return zipfilePath
 }
 
 const checkFiles = async function (req) {

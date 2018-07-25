@@ -1,5 +1,6 @@
 export default {
   apiUrl: `http://localhost:3000`,
   title: "Group18",
-  isUser: true
+  isUser: true,
+  debug: true
 };

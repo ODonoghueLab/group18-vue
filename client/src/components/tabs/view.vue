@@ -10,6 +10,15 @@
                class="input-group">
             <label for="pdb">PDB</label>
             <h1>{{pdb}}</h1>
+ <!--           <v-btn @click="downloadMapFiles()">
+              Map Files
+            </v-btn>
+            <v-btn @click="downloadPDBFiles()">
+              PDB Files
+            </v-btn>
+            <v-btn @click="downloadReadme()">
+              Readme File
+            </v-btn>-->
           </div>
         </v-flex>
         <v-flex sm1>
@@ -82,6 +91,7 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 import { initEmbedJolecule } from "../../jolecule/jolecule";
 import { Validator } from "vee-validate";
 import rpc from "../../modules/rpc";
+import debugConsole from "../../modules/debugConsole";
 
 const PROMPT_COUNT = 3;
 
@@ -127,7 +137,7 @@ export default {
       },
       embededJolecule: null,
       search: null,
-      pdbSelectItems:[],
+      pdbSelectItems: [],
       querySelectItems: [],
       customFilter(item, queryText, itemText) {
         return itemText;
@@ -141,10 +151,18 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getDataServers", "getEnergyCutoffs", "querySelections"]),
+    ...mapActions([
+      "getDataServers",
+      "getEnergyCutoffs",
+      "downloadMapFiles",
+      "downloadPDBFiles",
+      "downloadReadme",
+      "querySelections"
+    ]),
     embedJolecule(tag) {
-      if (document.getElementById(tag)) {
-        document.getElementById(tag).innerHTML = "";
+      if (this.embededJolecule) {
+        this.embededJolecule.clear()
+        return this.embededJolecule
       }
       return jolecule.initEmbedJolecule({
         divTag: "#" + tag,
@@ -285,7 +303,7 @@ export default {
     },
     query(val) {
       if (val.text && val.value) {
-        console.log("updating PDB history", this.pdbSelectItems, this.pdb);
+        debugConsole.log("updating PDB history", this.pdbSelectItems, this.pdb);
         this.pdbSelectItems.push(this.pdb);
         this.pdb = val.value;
       }
@@ -325,7 +343,7 @@ export default {
     },
     $route: {
       handler() {
-        console.log("local", "route change", this.$route, window.history);
+        debugConsole.log("route change", this.$route, window.history);
         if (this.isDisplayed) this.reDisplayJolecule();
       },
       deep: true
@@ -334,11 +352,12 @@ export default {
   mounted() {
     this.displayJolecule();
   },
-  beforeMount(){
-    let pdbSelectedItems = JSON.parse(localStorage.getItem("pdbSelectItems"))||[]
+  beforeMount() {
+    let pdbSelectedItems =
+      JSON.parse(localStorage.getItem("pdbSelectItems")) || [];
     this.pdbSelectItems = pdbSelectedItems.filter(item => {
-          return item;
-        }) || []
+      return item;
+    });
   }
 };
 </script>

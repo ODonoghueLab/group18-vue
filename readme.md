@@ -1,59 +1,112 @@
+# Group18
 
-# plasticgui
+## Overview
 
-Plasticgui is a template GUI for prototyping data-visualisations using RPC protocols
+As outlined in the review [”The diverse biological properties of the chemically inert noble gases” (Winkler et al., 2016)](https://www.ncbi.nlm.nih.gov/pubmed/26896563) there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation of this data is to provide a starting point for such exploration.
 
-Out of the box, it includes:
+The dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas ( He, Ne, Ar, Kr, Xe ) at all grid locations (in 0.375 Å steps) in all ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same proteins exist.
 
-- Vue framework with Google Material design
-- Webpack hot-reloading for client development
-- easily switch from static web-page to client/server 
-- choice of server in Node.js or Python 2/3
-- robust rpc talk between client and server
-- basic user system with secure passwords
-- simple SQLite database by default
+Before the grid calculations, the proteins were carefully prepared using an automatic script to remove water and other solvents, small molecule ligands such as drugs, metal and small inorganic ions except those important for protein function, and small molecules except cofactors etc. essential for function. Given the very large number of proteins studied, it was not practical to hand curate each protein. Where structures included small molecular effectors e.g. enzyme substrates, products, inhibitors, or receptor agonists or antagonists, the proximity of the noble gas binding to the small molecule ligand binding site is available.
 
-## Quick start
+The probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related to the Boltzmann distribution. Interactions with larger Nat values and smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with small energies that are comparable to thermal energies will not remain bound for long enough to affect the function of the protein.
 
-First, download the [package](https://github.com/boscoh/plasticgui/archive/master.zip)
+For ease of navigation, the dataset may be searched via "Search" field at the top of the view tab. The search field looks for partial matching text entries for PDB-Ids, Protein Type and/or Description( eg. "oxygen transport") You may also search for a range of number of atoms (eg. "1000:2000") or a range of minimum binding energies (eg "-1.5:-2.0"). These searches may be combined as a single separated query (eg. "oxygen transport 1000:2000 -1.6:-2.0"). Initially only a subset of all available grid positions will be displayed determined by a maximum binding energy level set on a slider. This may be adjusted in the range from -0.3 to -2.0 kCal/Mol. You may also adjust the elements you are interested to see in the visualisation from the "Element" drop down selection. You may also filter the elements displayed by clicking the appropriate button ( He, Ne, Ar, Kr, Xe )
 
-1. To quickly run PlasticGui in the client/Nodejs-server combo, in the  `nodeserver` directory, install the dependencies:
+Note that not all PDBs have been mapped. Multiple structures of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or RNA) may be missing, and a very small percentage of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric species but mapped as the multimer.
 
-   ```
-   > npm install
-   ```
+The data is displayed using the 3D protein viewer Jolecule
 
-   Then in the `plasticgui` directory:
+Jolecule optimizes a simple but rich interface that focuses on stereochemistry. The focus is on Richardson ribbons that join with sidechains correctly. Ligands are rendered as balls-and-sticks to allow the stereochemistry to be seen clearly, as well as arrows that are used to indicate directionality on both protein and DNA chains.
 
-   ```
-   > node gui.js
-   ```
+Basic controls include:
+ZOOM: Right-Mouse, or Shift-Left-Mouse, or Pinch-Zoom
+DISTANCE LABELS: Drag from central atom
+ATOM LABELS: Double click on central atom
 
-2. Alternatively, for the Python server version, in the `pyserver` directory, install
+The Project architecture is based on [plasticgui](https://github.com/boscoh/plasticgui).
 
-   ```
-   > pip install -r requirements.txt
-   ```
+## Setup
 
-   Then in the `plasticgui` directory:
+Clone the repository
+run "npm install" in both the /client directory and the /server directory
+create the config files based on the defaultConfig.js files found in both the /client directory and the /server directory
 
-   ```
-   > python gui.py
-   ```
+### client config:
 
-This will open the template client that can talk to a local server: fetching text, register/login users, download/upload files.
+```
+  title: "Group18",
+  isUser: true,
+  debug: false,
+  apiUrl: `http://localhost:3000`, //probably the only setting that needs changing for your local install
+```
 
-## Why?
+### server config:
 
-I make a lot of data visualization webapps. Sometimes it's just a static webapp, with which I can just zip and send to users. Other times, I want to emulate a desktop app with a local client/server architecture, perhaps interfacing with some modeling code. I might even decide serve it on a regular website.
-
-I wrote this webapp template to provide the minimum architecture required to seamlessly cycle through these kinds of situation. There is very little setup, yet more powerful pieces can be easily swapped out should the need arise.
+```
+  filesDir: path.join(__dirname, '..', 'files'),
+  ip: 'localhost',
+  port: 3000,
+  secretKey: 'plasticgui-secret',// you will need to change this to a secret of your choosing for password hashing
+  development: {
+    host: 'localhost',
+    dialect: 'sqlite',
+    storage: path.join(__dirname, '..', 'database.sqlite')
+  },
+  group18SearchDB_sequelize_options: { // pretty much all the database variables will need to be changed to reflect your details
+    database: 'group18',
+    username: 'username',
+    password: 'password',
+    host: 'www.odonoghuelab.org',
+    dialect: 'mysql',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
+    define: {
+      freezeTableName: true,
+      underscored: true,
+      paranoid: true
+    }
+  },
+  aquaria: {
+    UNIPROT_FILE_PATH: 'http://aquaria.ws'
+  },
+  jolecule: {
+    SPACIAL_CUTOFF: 2,
+    MAP_FILE_PATH: 'http://hpc.csiro.au/users/272675/airliquide/mapfiles',
+    MAP_SHARED_FILE_PATH: false,
+    PDB_FILE_PATH: 'http://files.rcsb.org/pub/pdb/data/structures/divided/pdb',
+    PREPROCESSING_SCRIPT: '/jolecule/autodock2pdbES5.js',
+    JOL_STATIC_SCRIPT: '/jolecule/jol-static.js',
+    NOBLE_GAS_SYMBOLS: ['He', 'Ne', 'Ar', 'Kr', 'Xe'],
+    ENERGY_CUTOFF_SETS: {
+      veryHigh: [-0.6, -0.6, -1.2, -1.2, -1.5],
+      high: [-0.4, -0.4, -0.9, -0.9, -1.3],
+      medium: [-0.3, -0.3, -0.8, -0.8, -1.2],
+      low: [-0.3, -0.3, -0.6, -0.6, -0.8],
+      all: [-0.3, -0.3, -0.3, -0.3, -0.3],
+      dynamic20: []
+    },
+    MAX_ENERGY_CUTOFF: -0.5,
+    MIN_ENERGY_CUTOFF: -2.0
+  },
+  web: {
+    baseWebsite: 'http://group18.csiro.au', //you will need to change this to reflect your local domain
+    baseStatic: path.join(__dirname, '..', 'files'),
+    MAX_CACHE_SIZE: 500000,
+    helpDocument: 'https://docs.google.com/document/d/1jLpzLvHNIwmnzuLMfgerGgbYSdKGLez2ivL3ViTULss/pub'
+  }
+```
 
 ## Client architecture
 
+As per plastic-gui
+
 First off, the client is a single-page-application architecture. This allows the client to be detached from the server, and even allows the client to talk to servers in different languages. As well, this results in easier-to-read code due to separation of concerns.
 
-The client is written in the Vue framework, as Vue is small and works well with other Javascript libraries. As well, Vue leverages HTML and CSS directly -  I really like Vue templates that mixes HTML, CSS and Javascript in one single file for a given component/web-page. 
+The client is written in the Vue framework, as Vue is small and works well with other Javascript libraries. As well, Vue leverages HTML and CSS directly - I really like Vue templates that mixes HTML, CSS and Javascript in one single file for a given component/web-page.
 
 The client is setup with webpack that allows compilation to a static web-page, which can opened from the command-line. Webpack also makes it easy to transpile from ES6, leading to more readable and concise code.
 
@@ -65,7 +118,7 @@ As well, the web-pack configuration allows hot-reloading the client, which is gr
 
 You can access the client at `http://localhost:8080`. As you change the source code, the client will hot-reload! If the server is running, CORS has been enabled to allow the client at port 8080 to talk to the server at port 3000.
 
-To get started, the first file you will work on will be `client/src/components/Home.vue`. The components in that file are from [Vue Material](https://vue-material-old.netlify.com/). This is a Google Material Design library written for Vue. From experience, using a slick and comprehensive theme such as Google Material Design will save a lot of time later on. Google Material Design has many well-designed components readily, which are  web-responsive and works well with desktop and mobile.
+To get started, the first file you will work on will be `client/src/components/Home.vue`. The components in that file are from [Vue Material](https://vue-material-old.netlify.com/). This is a Google Material Design library written for Vue. From experience, using a slick and comprehensive theme such as Google Material Design will save a lot of time later on. Google Material Design has many well-designed components readily, which are web-responsive and works well with desktop and mobile.
 
 To help things along, I've included two wrappers, `chartContainer` and `CanvasWidget`. These are convenient classes that simplify the API to `chart.js` for interactive charts, and to the HTML `canvas` element for raster graphics.
 
@@ -77,7 +130,7 @@ There are quite a few different ways of communicating to the server, the most po
 
 I've found for data visualization, the data will often need to be massaged and transformed, and will unlikely be stored in a database. This makes it extremely tedious to map to a static REstful interface. Instead, the RPC approach allows the client to call Javascript functions in the server. The downside is if your data starts increasing in complexity then you'll be writing a lot of interfacing Javascript functions. However, that is far off in the future, and now you just want to be prototyping.
 
-To do any kind of communicating, you need matching end-points on the client and the server. The infrastructure allows the  `rpc` module in the client builds to call functions directly in the  `handler` module in the server. There are four basic ways the client can talk to the server:
+To do any kind of communicating, you need matching end-points on the client and the server. The infrastructure allows the `rpc` module in the client builds to call functions directly in the `handler` module in the server. There are four basic ways the client can talk to the server:
 
 - basic functions
 - file upload functions
@@ -110,12 +163,11 @@ how to deploy the server, autoreloading for development
 
 deployment
 
-## TODO 
+## TODO
 
-* admin reset password on server; resetToken field in user
-* test object database table
-* adminGetUsers/adminDeleteUsers in nodeserver
-* switch to vuetify
-* email to lowercase
+- admin reset password on server; resetToken field in user
+- test object database table
+- adminGetUsers/adminDeleteUsers in nodeserver
+- email to lowercase
 
   ​

@@ -24,6 +24,3 @@ The base user class in the database is implemented, which hooks into the the aut
 - `handlers.js` - this defines all the javascript functions that are automatically accessible via the RPC-JSON api. These functions interface the database to the web-client. 
 
 The specific domain functions are placed in the `modules` directory:
-
-
-

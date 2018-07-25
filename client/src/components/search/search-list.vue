@@ -65,6 +65,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
+import debugConsole from '../../modules/debugConsole'
 
 export default {
   data() {
@@ -99,7 +100,7 @@ export default {
       },
     },
     pages() {
-      console.log('pagination for pages', this.pagination);
+      debugConsole.log('pagination for pages', this.pagination);
       return this.pagination.rowsPerPage
         ? Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
         : 0;

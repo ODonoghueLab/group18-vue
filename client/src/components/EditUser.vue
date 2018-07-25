@@ -15,7 +15,7 @@
               <v-text-field v-model="name"
                             label="User name"
                             :error-messages="errors.collect('name')"
-                            v-validate="'name'"
+                            v-validate="'required'"
                             data-vv-name="name"></v-text-field>
               <v-text-field v-model="email"
                             label="E-mail address"
@@ -35,16 +35,13 @@
               <v-text-field hint="At least 6 characters"
                             v-model="rawConfirmPassword"
                             :append-icon="confirmPasswordHidden ? 'visibility' : 'visibility_off'"
-            
                             :append-icon-cb="() => (confirmPasswordHidden = !confirmPasswordHidden)"
-            
                             :type="confirmPasswordHidden ? 'password' : 'text'"
                             counter
                             label="Confirm New Password"
                             :error-messages="errors.collect('Confirm_Password')"
                             v-validate="'required|confirmed:Password'"
                             data-vv-name="Confirm_Password"></v-text-field>
-              <div class="alert alert-danger">{{loginMessage}}</div>
             </v-flex>
           </v-layout>
           <v-btn type="submit"
@@ -61,30 +58,30 @@
 </template>
 
 <script>
-import auth from '../modules/auth';
-import _ from 'lodash';
+import auth from "../modules/auth";
+import _ from "lodash";
 
 export default {
-  name: 'EditUser',
+  name: "EditUser",
   data() {
     let result = {};
     _.assign(result, this.$store.state.user);
     _.assign(result, {
-      title: 'Edit Your Details',
-      rawPassword: '',
+      title: "Edit Your Details",
+      rawPassword: "",
       passwordHidden: true,
-      rawPasswordConfirm: '',
+      rawConfirmPassword: "",
       confirmPasswordHidden: true,
-      error: '',
+      error: ""
     });
     return result;
   },
   methods: {
     async submit() {
-      this.error = '';
+      this.error = "";
 
       let payload = {};
-      const keys = ['id', 'name', 'email', 'rawPassword', 'rawPasswordConfirm'];
+      const keys = ["id", "name", "email", "rawPassword", "rawPasswordConfirm"];
       for (let key of keys) {
         if (this.$data[key]) {
           payload[key] = this.$data[key];
@@ -93,12 +90,12 @@ export default {
 
       let response = await auth.update(payload);
       if (response.result) {
-        this.error = 'User updated';
+        this.error = "User updated";
       } else {
-        console.log('> EditUser.submit fail', response);
+        console.log("> EditUser.submit fail", response);
         this.error = response.error.message;
       }
-    },
-  },
+    }
+  }
 };
 </script>

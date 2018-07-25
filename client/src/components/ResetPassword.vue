@@ -14,28 +14,30 @@
             <v-flex class="xs12">
               <v-text-field hint="At least 6 characters"
                             v-model="rawPassword"
+                            ref="password"
+                            name="password"
                             :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
                             :append-icon-cb="() => (passwordHidden = !passwordHidden)"
                             :type="passwordHidden ? 'password' : 'text'"
                             counter
                             label="Password"
                             :error-messages="errors.collect('password')"
-                            v-validate="'required|min:6|confirmed:$password_confirmation'"
-                            data-vv-name="password"></v-text-field>
+                            v-validate="'required|min:6'"
+                            data-vv-name="password"
+                            data-vv-delay="300"></v-text-field>
               <v-text-field hint="At least 6 characters"
                             v-model="rawPasswordConfirm"
                             :append-icon="confirmPasswordHidden ? 'visibility' : 'visibility_off'"
-            
                             ref="password_confirmation"
                             :append-icon-cb="() => (confirmPasswordHidden = !confirmPasswordHidden)"
-            
                             :type="confirmPasswordHidden ? 'password' : 'text'"
                             counter
                             label="Confirm Password"
                             :error-messages="errors.collect('password_confirmation')"
-                            v-validate="'required'"
-                            data-vv-name="password_confirmation"></v-text-field>
-              <div class="alert alert-danger">{{loginMessage}}</div>
+                            target="password"
+                            v-validate="'required|confirmed:password'"
+                            data-vv-name="password_confirmation"
+                            data-vv-delay="300"></v-text-field>
             </v-flex>
           </v-layout>
           <v-btn type="submit"
@@ -52,31 +54,33 @@
 </template>
 
 <script>
-import auth from '../modules/auth';
+import auth from "../modules/auth";
 export default {
-  name: 'ResetPassword',
+  name: "ResetPassword",
   data() {
     let tokenId = this.$route.params.tokenId;
     console.log(`> ResetPassword tokenId=${tokenId}`);
     return {
-      title: 'Reset Password',
+      title: "Reset Password",
       tokenId,
-      rawPassword: '',
-      rawPasswordConfirm: '',
-      error: '',
+      rawPassword: "",
+      passwordHidden: true,
+      rawPasswordConfirm: "",
+      confirmPasswordHidden: true,
+      error: ""
     };
   },
   methods: {
     async submit() {
-      this.error = '';
+      this.error = "";
       let response = await auth.resetPassword(this.tokenId, this.rawPassword);
       if (response.result) {
-        this.error = 'Password reset';
+        this.error = "Password reset";
       } else {
-        console.log('> ResetPassword.submit fail', response);
+        console.log("> ResetPassword.submit fail", response);
         this.error = response.error.message;
       }
-    },
-  },
+    }
+  }
 };
 </script>

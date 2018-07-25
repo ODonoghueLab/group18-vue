@@ -80,6 +80,39 @@ const jolecule = {
       } catch (error) {
         state.loadErrorMessage += error
       }
+    },
+    async downloadPDBFiles({
+      state
+    }) {
+      let payload = {
+        pdb: state.pdb
+      };
+      let response = await rpc.rpcDownload("downloadPDBFiles", payload);
+      if (response.error) {
+        this.loadErrorMessage += response.error.message;
+      }
+    },
+    async downloadMapFiles({
+      state
+    }) {
+      let payload = {
+        pdb: state.pdb
+      };
+      let response = await rpc.rpcDownload("downloadMapFiles", payload);
+      if (response.error) {
+        this.loadErrorMessage += response.error.message;
+      }
+    },
+    async downloadReadme({
+      state
+    }) {
+      let payload = {
+        pdb: state.pdb
+      };
+      let response = await rpc.rpcDownload("downloadReadme", payload);
+      if (response.error) {
+        this.loadErrorMessage += response.error.message;
+      }
     }
   }
 }

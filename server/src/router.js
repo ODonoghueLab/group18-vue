@@ -188,8 +188,8 @@ router.post('/api/rpc-upload', upload.array('uploadFiles'), (req, res) => {
 })
 
 /**
- * Upload file handlers, sends to 'upload*' function with the
- * implicit first argument, a filelist of the uploaded files.
+ * Download file handlers, sends to 'download*' function with the
+ * implicit first argument, a filelist of the downloaded files.
  */
 router.post('/api/rpc-download', (req, res) => {
   let method = req.body.method
@@ -231,7 +231,7 @@ router.post('/api/rpc-download', (req, res) => {
   } else {
     let error = {
       code: -1,
-      message: `Remote uploadFn ${method} not found`
+      message: `Remote downloadFn ${method} not found`
     }
     res.set('data', JSON.stringify({
       error,
@@ -244,20 +244,20 @@ router.post('/api/rpc-download', (req, res) => {
 // /**
 //  * Returns a file stored on the server
 //  */
-// router.get('/file/:subDir/:basename', (req, res) => {
-//   let basename = req.params.basename
-//   let subDir = req.params.subDir
-//   console.log('>> router.file', subDir, basename)
-//
-//   let filename = path.join(config.filesDir, subDir, basename)
-//   if (!fs.existsSync(filename)) {
-//     throw `File not found ${filename}`
-//   }
-//
-//   let mimeType = mime.lookup(filename)
-//
-//   res.setHeader('Content-disposition', `attachment; filename=${basename}`)
-//   res.setHeader('Content-type', mimeType)
-//   fs.createReadStream(filename).pipe(res)
-// })
+router.get('/file/:subDir/:basename', (req, res) => {
+  let basename = req.params.basename
+  let subDir = req.params.subDir
+  console.log('>> router.file', subDir, basename)
+
+  let filename = path.join(config.filesDir, subDir, basename)
+  if (!fs.existsSync(filename)) {
+    throw new Error(`File not found ${filename}`)
+  }
+
+  let mimeType = mime.lookup(filename)
+
+  res.setHeader('Content-disposition', `attachment; filename=${basename}`)
+  res.setHeader('Content-type', mimeType)
+  fs.createReadStream(filename).pipe(res)
+})
 //

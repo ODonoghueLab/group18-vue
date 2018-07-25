@@ -19,11 +19,11 @@
     "jquery.scrollto": "^2.1.2",
     "three": "^0.88.0",
     "lodash": "^4.17.4",
-    "vee-validate": "^2.0.0-rc.25",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "vuetify": "^1.0.16",
-    "vuex": "^3.0.1"
+    "vee-validate": "*",
+    "vue": "*",
+    "vue-router": "*",
+    "vuetify": "*",
+    "vuex": "*"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

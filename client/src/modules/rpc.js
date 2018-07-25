@@ -1,6 +1,7 @@
 import axios from 'axios'
 import config from '../config'
 import saveAs from 'file-saver'
+import debugConsole from './debugConsole'
 
 /**
  * @fileOverview rpc module provides a clean rpc interface for JSON-based
@@ -13,11 +14,13 @@ axios.defaults.withCredentials = true
 
 export default {
 
-  async rpcRun (method, ...params) {
-    let payload = {method, params, jsonrpc: '2.0'}
-
-    console.log('> rpc.rpcRun', method, ...params)
-
+  async rpcRun(method, ...params) {
+    let payload = {
+      method,
+      params,
+      jsonrpc: '2.0'
+    }
+    debugConsole.log(`rpc.rpcRun ${method}`, ...params)
     try {
       let response = await axios.post(`${config.apiUrl}/api/rpc-run`, payload)
       return response.data
@@ -31,7 +34,7 @@ export default {
     }
   },
 
-  async rpcUpload (method, files, ...params) {
+  async rpcUpload(method, files, ...params) {
     let formData = new FormData()
     formData.append('method', method)
     formData.append('params', JSON.stringify(params))
@@ -41,7 +44,7 @@ export default {
       formData.append('uploadFiles', f, f.name)
     }
 
-    console.log('> rpc.rpcUpoad', method, files, ...params)
+    debugConsole.log('rpc.rpcUpoad', method, files, ...params)
 
     try {
       let response = await axios.post(`${config.apiUrl}/api/rpc-upload`, formData)
@@ -56,16 +59,20 @@ export default {
     }
   },
 
-  async rpcDownload (method, ...params) {
-    let payload = {method, params, jsonrpc: '2.0'}
+  async rpcDownload(method, ...params) {
+    let payload = {
+      method,
+      params,
+      jsonrpc: '2.0'
+    }
 
-    console.log('> rpc.rpcDownload', ...params)
+    debugConsole.log(`rpc.rpcDownload ${method}`, ...params)
 
     try {
       let response = await axios.post(`${config.apiUrl}/api/rpc-download`, payload)
       let filename = response.headers.filename
       let data = JSON.parse(response.headers.data)
-      console.log('> rpc.rpcDownload response', data)
+      debugConsole.log('rpc.rpcDownload response', response)
       if (!data.error) {
         let blob = new Blob([response.data])
         saveAs.saveAs(blob, (filename))

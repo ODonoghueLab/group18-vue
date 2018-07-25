@@ -27,7 +27,10 @@
                 </a> there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation
                 of this data is to provide a starting point for such exploration.
               </p>
-              <p>The dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas (
+              <p>As per
+                <a href="http://dx.doi.org/10.1002/cmdc.201800434">
+                  ”Decoding the rich biological properties of noble gases: how well can we predict noble gas binding to diverse proteins?” (Winkler et al., 2018)
+                </a> the dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas (
                 <span class='element_He'>He</span>,
                 <span class='element_Ne'>Ne</span>,
                 <span class='element_Ar'>Ar</span>,

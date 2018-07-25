@@ -76,7 +76,12 @@ export default {
   async resetPassword (tokenId, rawPassword) {
     let password = sha224(rawPassword).toString()
     console.log('> auth.resetPassword', tokenId, password)
-    return rpc.rpcRun('publicForceUpdatePassword', tokenId, password)
+    return rpc.rpcRun('publicResetPassword', tokenId, password)
+  },
+
+  async forgotPassword (email) {
+    console.log('> auth.forgotPassword', email)
+    return rpc.rpcRun('publicForgotPassword', email)
   },
 
   async restoreLastUser () {
@@ -89,7 +94,9 @@ export default {
 
   logout () {
     localStorage.removeItem('user')
-    store.commit('setUser', {authenticated: false})
+    store.commit('setUser', {
+      authenticated: false
+    })
     return rpc.rpcRun('publicLogoutUser')
   }
 }

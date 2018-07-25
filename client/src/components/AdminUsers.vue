@@ -20,32 +20,36 @@
 </template>
 
 <script>
-import rpc from '../modules/rpc';
-import config from '../config';
+import rpc from "../modules/rpc";
+import config from "../config";
+import debugConsole from "../modules/debugConsole";
 
 export default {
-  name: 'AdminUser',
+  name: "AdminUser",
   data() {
     return {
       title: config.title,
-      users: [],
+      users: []
     };
   },
   async mounted() {
-    let response = await rpc.rpcRun('adminGetUsers');
+    let response = await rpc.rpcRun("adminGetUsers");
     if (response.result) {
-      console.log('> AdminUsers.mounted users', response.result.users);
+      debugConsole.log("AdminUsers.mounted users", response.result.users);
       this.users = response.result.users;
     }
   },
   methods: {
     async deleteUser(userId) {
-      let response = await rpc.rpcRun('adminDeleteUser', userId);
+      let response = await rpc.rpcRun("adminDeleteUser", userId);
       if (response.result) {
-        console.log('> AdminUsers.deleteUser remaining', response.result.users);
+        debugConsole.log(
+          "AdminUsers.deleteUser remaining",
+          response.result.users
+        );
         this.users = response.result.users;
       }
-    },
-  },
+    }
+  }
 };
 </script>

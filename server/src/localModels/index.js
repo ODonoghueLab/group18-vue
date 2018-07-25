@@ -6,15 +6,15 @@ const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require('../config')[env]
-const sequelizeConfig = require('../config').group18SearchDB_sequelize_options
+const dbConfig = config.db
 const db = {}
 
 db.Sequelize = Sequelize
 db.sequelize = new Sequelize(
-  sequelizeConfig.database,
-  sequelizeConfig.username,
-  sequelizeConfig.password,
-  sequelizeConfig
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  dbConfig
 )
 
 db.config = config
