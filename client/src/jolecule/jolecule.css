@@ -1,23 +1,17 @@
-.jolecule-residue-selector,
-.jolecule-slider,
 .jolecule-button {
-    -moz-border-radius: 3px;
     border-radius: 3px;
-    text-align: center;
     margin-right: 2px;
+    margin-bottom: 2px;
     padding: 10px 7px;
+    text-align: center;
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 0.1em;
     cursor: pointer;
-    user-select: none;
     box-sizing: content-box;
     height: 20px;
+    user-select: none;
 }
-.jolecule-residue-selector {
-    border: 0;
-}
-.jolecule-residue-selector,
 .jolecule-button,
 a.jolecule-button input a,
 a.jolecule-button,
@@ -85,7 +79,7 @@ a.jolecule-large-button:active {
     line-height: 1em;
 }
 .jolecule-embed-header,
-.jolecule-embed-view-bar  {
+.jolecule-embed-footer  {
     display: flex;
     padding: 5px;
     vertical-align: middle;
@@ -96,18 +90,8 @@ a.jolecule-large-button:active {
     letter-spacing: 0.05em;
     overflow: hidden;
 }
-.jolecule-embed-view-bar {
+.jolecule-embed-footer {
     border-top: 2px solid #AAA;
-}
-.flex-left {
-    flex: 1 1;
-    text-align: left;
-    vertical-align: middle;
-}
-.flex-right {
-    flex: 1 1;
-    text-align: right;
-    vertical-align: middle;
 }
 .jolecule-embed-header,
 .jolecule-embed-header a {
@@ -131,36 +115,7 @@ a.jolecule-large-button:active {
     letter-spacing: 0.05em;
     line-height: 1em;
 }
-.jolecule-view {
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    -webkit-flex-direction: row;
-    padding: 5px 5px 15px 5px;
-    box-sizing: border-box;
-    margin: 0px 5px 5px 5px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-}
-.jolecule-view,
-.jolecule-view-text {
-    font-size: 12px;
-    font-family: Helvetica, sans-serif;
-    letter-spacing: 0.05em;
-    line-height: 1.5em;
-    background-color: #BBB;
-    color: #333;
-}
-textarea.jolecule-view-text,
-.jolecule-edit-textarea {
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    font-family: Helvetica, sans-serif;
-    color: #333;
-    background-color: #888;
-    margin-top: 0.5em;
-    margin-bottom: 1em;
-}
+
 .jolecule-loading-message {
     z-index: 5000;
     background-color: rgba(180, 180, 180, 0.9);
