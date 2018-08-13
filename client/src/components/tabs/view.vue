@@ -136,6 +136,7 @@ export default {
         value: ""
       },
       currentQueryId: 0,
+      autocompleteDelay: 500, //time in ms to wait before sending query
       embededJolecule: null,
       search: null,
       pdbSelectItems: [],
@@ -160,6 +161,9 @@ export default {
       "downloadReadme",
       "querySelections"
     ]),
+    timeout(ms) {
+      return new Promise(res => setTimeout(res, ms));
+    },
     embedJolecule(tag) {
       if (this.embededJolecule) {
         this.embededJolecule.clear();
@@ -299,6 +303,15 @@ export default {
   watch: {
     async search(val) {
       if (val) {
+        this.lastAutoCompleteQueryStarted = new Date().getTime();
+        await this.timeout(this.autocompleteDelay);
+        let autoCompleteQueryStarted = new Date().getTime();
+        if (
+          autoCompleteQueryStarted - this.lastAutoCompleteQueryStarted <
+          this.autocompleteDelay
+        ) {
+          return;
+        }
         let queryId = ++this.currentQueryId;
         let result = await this.querySelections(val);
         if (result && this.currentQueryId === queryId) {
