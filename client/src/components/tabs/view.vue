@@ -10,7 +10,7 @@
                class="input-group">
             <label for="pdb">PDB</label>
             <h1>{{pdb}}</h1>
- <!--           <v-btn @click="downloadMapFiles()">
+            <!--           <v-btn @click="downloadMapFiles()">
               Map Files
             </v-btn>
             <v-btn @click="downloadPDBFiles()">
@@ -135,6 +135,7 @@ export default {
         text: "",
         value: ""
       },
+      currentQueryId: 0,
       embededJolecule: null,
       search: null,
       pdbSelectItems: [],
@@ -161,8 +162,8 @@ export default {
     ]),
     embedJolecule(tag) {
       if (this.embededJolecule) {
-        this.embededJolecule.clear()
-        return this.embededJolecule
+        this.embededJolecule.clear();
+        return this.embededJolecule;
       }
       return jolecule.initEmbedJolecule({
         divTag: "#" + tag,
@@ -298,7 +299,11 @@ export default {
   watch: {
     async search(val) {
       if (val) {
-        this.querySelectItems = await this.querySelections(val);
+        let queryId = ++this.currentQueryId;
+        let result = await this.querySelections(val);
+        if (result && this.currentQueryId === queryId) {
+          this.querySelectItems = result;
+        }
       }
     },
     query(val) {
