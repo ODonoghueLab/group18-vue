@@ -62,7 +62,7 @@ function addQueryToSearchOptions (searchOptions, query) {
       let textQueries = []
       textQueries.push({
         pdb: {
-          [Op.like]: '%' + splitValue + '%'
+          [Op.like]: splitValue + '%'
         }
       })
       textQueries.push({
@@ -80,7 +80,7 @@ function addQueryToSearchOptions (searchOptions, query) {
       })
       searchOptions.order.push(
         models.sequelize.literal(
-          `case when pdb like '${'%' +
+          `case when pdb like '${
             splitValue +
             '%'}' then 3 when protein_type like '${'%' +
             splitValue +
@@ -97,7 +97,7 @@ function addQueryToSearchOptions (searchOptions, query) {
 function searchOptionsFromQuery (query) {
   const Op = models.sequelize.Op
   let searchOptions = {}
-  let field = '';
+  let field = ''
   let operator = Op.and
   searchOptions.where = {}
   searchOptions.limit = query.limit
@@ -111,7 +111,7 @@ function searchOptionsFromQuery (query) {
       case 'ligand':
       case 'element':
         searchOptions.where[key] = value
-        break;
+        break
       case 'pdb':
       case 'protein_type':
       case 'protein_description':
@@ -120,7 +120,7 @@ function searchOptionsFromQuery (query) {
         searchOptions.where[key] = {
           [Op.like]: '%' + value + '%'
         }
-        break;
+        break
       case 'min_binding_energy':
       case 'min_n_atoms':
       case 'max_binding_energy':
@@ -146,13 +146,13 @@ function searchOptionsFromQuery (query) {
         searchOptions.where[field] = {
           [Op.ne]: null
         }
-        break;
+        break
       case 'sort':
         searchOptions.order = [value.split(' ')]
-        break;
+        break
       case 'query':
         addQueryToSearchOptions(searchOptions, value)
-        break;
+        break
     }
   })
   return searchOptions
