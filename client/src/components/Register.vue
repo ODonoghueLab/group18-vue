@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <v-container>
+    <v-card>
     <v-toolbar>
       <v-toolbar-title>Register to {{ title }}</v-toolbar-title>
     </v-toolbar>
@@ -61,6 +62,7 @@
       </form>
     </v-card-text>
   </v-card>
+  </v-container>
 </template>
 
 <script>
