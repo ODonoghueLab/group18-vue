@@ -16,14 +16,14 @@
     <v-spacer></v-spacer>
     <v-menu bottom
             left
-            open-on-hover>
+            open-on-hover
+            max-height="200px">
       <v-btn slot="activator"
              color="grey darken-4">
         {{pdb}}
         <v-icon dark>arrow_drop_down</v-icon>
       </v-btn>
-      <v-list dark
-              color="grey darken-4"
+      <v-list dense
               v-for="pdbSelectItem in pdbSelectItems"
               :key="pdbSelectItem">
         <v-list-tile @click="setPDB(pdbSelectItem)">
@@ -36,13 +36,11 @@
             open-on-hover
             v-if="user.authenticated">
       <v-btn slot="activator"
-             color="grey darken-4"
              v-show="user.authenticated">
         File Downloads
         <v-icon dark>arrow_drop_down</v-icon>
       </v-btn>
-      <v-list dark
-              color="grey darken-4">
+      <v-list dense>
         <v-list-tile @click="downloadMapFiles()">
           <v-list-tile-title>Map Files</v-list-tile-title>
         </v-list-tile>
@@ -84,8 +82,7 @@
           {{user.name}}
           <v-icon dark>arrow_drop_down</v-icon>
         </v-btn>
-        <v-list dark
-                color="grey darken-4">
+        <v-list dense>
           <v-list-tile @click="editUser">
             <v-list-tile-title>Edit User</v-list-tile-title>
           </v-list-tile>
