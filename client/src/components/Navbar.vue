@@ -14,6 +14,27 @@
       </span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
+    {{pdb}}
+    <v-menu bottom
+            left
+            open-on-hover
+            v-if="user.authenticated">
+      <v-btn slot="activator"
+             color="grey darken-4"
+             v-show="user.authenticated">
+        File Downloads
+        <v-icon dark>arrow_drop_down</v-icon>
+      </v-btn>
+      <v-list>
+        <v-list-tile @click="downloadMapFiles()">
+          <v-list-tile-title>Map Files</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="downloadPDBFiles()">
+          <v-list-tile-title>PDB Files</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+    <v-spacer></v-spacer>
     <v-tabs dark
             color="grey darken-4">
       <v-tab id="tab-home"
@@ -35,25 +56,6 @@
              router>Login
       </v-tab>
     </v-tabs>
-    <v-menu bottom
-            left
-            open-on-hover
-            v-if="user.authenticated">
-      <v-btn slot="activator"
-             color="grey darken-4"
-             v-show="user.authenticated">
-        File Downloads
-        <v-icon dark>arrow_drop_down</v-icon>
-      </v-btn>
-      <v-list>
-        <v-list-tile @click="downloadMapFiles()">
-          <v-list-tile-title>Map Files</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="downloadPDBFiles()">
-          <v-list-tile-title>PDB Files</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-menu>
     <v-spacer></v-spacer>
     <div v-if="isUser">
       <v-menu bottom
@@ -81,7 +83,7 @@
 <script>
 import auth from "../modules/auth";
 import config from "../config";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "navbar",
@@ -92,6 +94,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["pdb"]),
     user: function() {
       return this.$store.state.user;
     }

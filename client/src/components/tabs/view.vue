@@ -6,13 +6,6 @@
                 row
                 wrap>
         <v-flex sm1>
-          <div id="pdb"
-               class="input-group">
-            <label for="pdb">PDB</label>
-            <h1>{{pdb}}</h1>
-          </div>
-        </v-flex>
-        <v-flex sm1>
           <v-select id="PDBHistory"
                     label="History"
                     :items="pdbSelectItems"
@@ -22,7 +15,7 @@
                     data-vv-name="pdb"
                     cache-items></v-select>
         </v-flex>
-        <v-flex sm10>
+        <v-flex sm11>
           <v-select combobox
                     label="Search"
                     :items="querySelectItems"
