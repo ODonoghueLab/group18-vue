@@ -216,7 +216,7 @@ export default {
       return this.embededJolecule.asyncAddDataServer(dataServerFn());
     },
     async loadDataServers() {
-      this.loadErrorMessage = "";
+      this.loadErrorMessage = "Preparing data...";
       this.energyCutoffs = this.getEnergyCutoffs();
       this.dataServers = await this.getDataServers();
       document.getElementById(
@@ -374,6 +374,7 @@ export default {
 }
 #loading-message {
   font-size: 2em;
+  line-height: 1em;
   padding: 15px 15px;
   width: 50%;
   color: #b4b4b4;
@@ -387,7 +388,7 @@ export default {
   margin: auto;
 }
 #joleculeView {
-  height: calc(100% - 74px);
+  height: calc(100vh - 74px - 48px);
 }
 #jolecule {
   height: 100%;
