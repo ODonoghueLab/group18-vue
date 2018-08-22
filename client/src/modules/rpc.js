@@ -69,7 +69,11 @@ export default {
     debugConsole.log(`rpc.rpcDownload ${method}`, ...params)
 
     try {
-      let response = await axios.post(`${config.apiUrl}/api/rpc-download`, payload)
+      let response = await axios.post(
+        `${config.apiUrl}/api/rpc-download`,
+        payload, {
+          responseType: 'arraybuffer'
+        })
       let filename = response.headers.filename
       let data = JSON.parse(response.headers.data)
       debugConsole.log('rpc.rpcDownload response', response)

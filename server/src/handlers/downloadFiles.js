@@ -28,7 +28,8 @@ async function downloadPDBFiles ({
 }
 
 async function downloadMapFiles ({
-  pdb
+  pdb,
+  elements
 }) {
   try {
     let checkedFiles = await ecache.checkFiles({
@@ -39,7 +40,7 @@ async function downloadMapFiles ({
     if (!checkedFiles) {
       throw new Error(`Unable to find map files for ${pdb}`)
     }
-    const mapFiles = await ecache.retrieveMapFilesFromCache(pdb)
+    const mapFiles = await ecache.retrieveMapFilesFromCache(pdb, elements)
     let payload = {
       'filename': path.resolve(mapFiles),
       'data': {

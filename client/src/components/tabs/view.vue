@@ -10,15 +10,6 @@
                class="input-group">
             <label for="pdb">PDB</label>
             <h1>{{pdb}}</h1>
-            <!--           <v-btn @click="downloadMapFiles()">
-              Map Files
-            </v-btn>
-            <v-btn @click="downloadPDBFiles()">
-              PDB Files
-            </v-btn>
-            <v-btn @click="downloadReadme()">
-              Readme File
-            </v-btn>-->
           </div>
         </v-flex>
         <v-flex sm1>
@@ -149,18 +140,11 @@ export default {
       loadedElements: [],
       isDisplayed: false,
       loadErrorMessage:
-        "You need to be logged in to view any PDB file other than the example 2bmm"
+        ""
     };
   },
   methods: {
-    ...mapActions([
-      "getDataServers",
-      "getEnergyCutoffs",
-      "downloadMapFiles",
-      "downloadPDBFiles",
-      "downloadReadme",
-      "querySelections"
-    ]),
+    ...mapActions(["getDataServers", "getEnergyCutoffs", "querySelections"]),
     timeout(ms) {
       return new Promise(res => setTimeout(res, ms));
     },
@@ -260,6 +244,7 @@ export default {
       }
       let elementDataServer = this.dataServers[this.getElementIndex(element)];
       let result = await this.addDataServer(elementDataServer);
+      console.log("added element", element);
       this.setElementCutoff(element);
       this.loadedElements.push(element);
       return result;
@@ -273,6 +258,7 @@ export default {
       let bCutoff = -1 * parseFloat(val);
       this.embededJolecule.controller.setGridCutoff(bCutoff);
       this.embededJolecule.gridControlWidget.update();
+      console.log("bCutoff", bCutoff);
     },
     setupElements() {
       let y = 10;

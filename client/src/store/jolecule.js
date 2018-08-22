@@ -96,7 +96,8 @@ const jolecule = {
       state
     }) {
       let payload = {
-        pdb: state.pdb
+        pdb: state.pdb,
+        elements: state.elements
       };
       let response = await rpc.rpcDownload("downloadMapFiles", payload);
       if (response.error) {

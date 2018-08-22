@@ -29,8 +29,8 @@ const retrieveDataServersFromCache = function (pdb) {
   return dataServersCaches[cacheId].dataServers
 }
 
-const retrieveZipFile = async function (zipFile, contentsPath) {
-  let zipFilePath = path.join(contentsPath, '..', zipFile + '.zip')
+const retrieveZipFile = async function (zipFile, contentsPaths) {
+  let zipFilePath = path.join(contentsPaths[0], '..', zipFile + '.zip')
   let checkFileExists = s => new Promise(resolve => fs.access(s, fs.F_OK, e => resolve(!e)))
   if (await checkFileExists(zipFilePath)) {
     return zipFilePath
@@ -42,7 +42,10 @@ const retrieveZipFile = async function (zipFile, contentsPath) {
     }
   })
   archive.pipe(zipFileOutput)
-  archive.directory(contentsPath, zipFile)
+  contentsPaths.forEach((contentsPath) => {
+    archive.directory(contentsPath, zipFile)
+  })
+
   archive.finalize()
 
   var fileZipped = new Promise((resolve, reject) => {
@@ -69,7 +72,7 @@ const retrievePDBFilesFromCache = async function (pdb) {
   let jol = await joleculeHelpers.set(pdb)
   let processedPdbLocalPath = jol.paths.processedPdbLocalPath
   let zipfile = `${pdb}_Grid_PDBs`
-  let zipfilePath = await retrieveZipFile(zipfile, processedPdbLocalPath)
+  let zipfilePath = await retrieveZipFile(zipfile, [processedPdbLocalPath])
   return zipfilePath
 }
 
@@ -83,9 +86,9 @@ const retrieveMapFilesFromCache = async function (pdb) {
   await dataServers.dataServers
   let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
-  let mapLocalPath = paths.mapLocalPaths
+  let mapLocalPaths = paths.mapLocalPaths
   let zipfile = `${pdb}_Grid_Maps`
-  let zipfilePath = await retrieveZipFile(zipfile, mapLocalPath)
+  let zipfilePath = await retrieveZipFile(zipfile, mapLocalPaths)
   return zipfilePath
 }
 
