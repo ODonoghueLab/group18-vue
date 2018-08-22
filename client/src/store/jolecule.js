@@ -4,6 +4,7 @@ import rpc from '../modules/rpc'
 const jolecule = {
   state: {
     pdb: '2bmm',
+    pdbSelectItems: [],
     dataServers: [],
     elementList: [{
         value: 'He',
@@ -30,6 +31,7 @@ const jolecule = {
   },
   getters: {
     pdb: state => state.pdb,
+    pdbSelectItems: state => state.pdbSelectItems,
     elementList: state => state.elementList,
     elements: state => state.elements
   },
@@ -39,6 +41,9 @@ const jolecule = {
     },
     SET_PDB: (state, pdb) => {
       state.pdb = pdb
+    },
+    SET_pdbSelectItems: (state, pdbSelectItems) => {
+      state.pdbSelectItems = pdbSelectItems
     },
     SET_DATASERVERS: (state, dataServers) => {
       state.dataServers = dataServers

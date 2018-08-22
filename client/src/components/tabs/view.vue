@@ -5,17 +5,7 @@
       <v-layout id="joleculeControls"
                 row
                 wrap>
-        <v-flex sm1>
-          <v-select id="PDBHistory"
-                    label="History"
-                    :items="pdbSelectItems"
-                    v-model="pdb"
-                    :error-messages="errors.collect('pdb')"
-                    v-validate="'length:4'"
-                    data-vv-name="pdb"
-                    cache-items></v-select>
-        </v-flex>
-        <v-flex sm11>
+        <v-flex sm12>
           <v-select combobox
                     label="Search"
                     :items="querySelectItems"
@@ -100,6 +90,14 @@ export default {
         }
       }
     },
+    pdbSelectItems: {
+      get() {
+        return this.$store.state.jolecule.pdbSelectItems;
+      },
+      set(v) {
+        this.$store.commit("SET_pdbSelectItems", v);
+      }
+    },
     pdb: {
       get() {
         return this.$store.state.jolecule.pdb;
@@ -123,7 +121,6 @@ export default {
       autocompleteDelay: 500, //time in ms to wait before sending query
       embededJolecule: null,
       search: null,
-      pdbSelectItems: [],
       querySelectItems: [],
       customFilter(item, queryText, itemText) {
         return itemText;
@@ -132,8 +129,7 @@ export default {
       energyCutoffs: null,
       loadedElements: [],
       isDisplayed: false,
-      loadErrorMessage:
-        ""
+      loadErrorMessage: ""
     };
   },
   methods: {
@@ -389,9 +385,5 @@ export default {
 #joleculeView .flex,
 #joleculeControls .flex {
   padding: 0px;
-}
-#PDBHistory .input-group__selections,
-#PDBHistory .input-group__details {
-  display: none;
 }
 </style>

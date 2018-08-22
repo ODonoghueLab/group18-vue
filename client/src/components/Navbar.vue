@@ -14,7 +14,23 @@
       </span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    {{pdb}}
+    <v-menu bottom
+            left
+            open-on-hover>
+      <v-btn slot="activator"
+             color="grey darken-4">
+        {{pdb}}
+        <v-icon dark>arrow_drop_down</v-icon>
+      </v-btn>
+      <v-list dark
+              color="grey darken-4"
+              v-for="pdbSelectItem in pdbSelectItems"
+              :key="pdbSelectItem">
+        <v-list-tile @click="setPDB(pdbSelectItem)">
+          <v-list-tile-title>{{pdbSelectItem}}</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
     <v-menu bottom
             left
             open-on-hover
@@ -25,7 +41,8 @@
         File Downloads
         <v-icon dark>arrow_drop_down</v-icon>
       </v-btn>
-      <v-list>
+      <v-list dark
+              color="grey darken-4">
         <v-list-tile @click="downloadMapFiles()">
           <v-list-tile-title>Map Files</v-list-tile-title>
         </v-list-tile>
@@ -67,7 +84,8 @@
           {{user.name}}
           <v-icon dark>arrow_drop_down</v-icon>
         </v-btn>
-        <v-list>
+        <v-list dark
+                color="grey darken-4">
           <v-list-tile @click="editUser">
             <v-list-tile-title>Edit User</v-list-tile-title>
           </v-list-tile>
@@ -83,7 +101,7 @@
 <script>
 import auth from "../modules/auth";
 import config from "../config";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "navbar",
@@ -94,9 +112,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pdb"]),
     user: function() {
       return this.$store.state.user;
+    },
+    pdbSelectItems: {
+      get() {
+        return this.$store.state.jolecule.pdbSelectItems;
+      },
+      set(v) {
+        this.$store.commit("SET_pdbSelectItems", v);
+      }
+    },
+    pdb: {
+      get() {
+        return this.$store.state.jolecule.pdb;
+      },
+      set(v) {
+        this.$store.commit("SET_PDB", v);
+      }
     }
   },
   methods: {
@@ -110,6 +143,9 @@ export default {
     async logout() {
       await auth.logout();
       this.$router.push("/login");
+    },
+    setPDB(pdbSelectItem) {
+      this.pdb = pdbSelectItem;
     }
   }
 };
