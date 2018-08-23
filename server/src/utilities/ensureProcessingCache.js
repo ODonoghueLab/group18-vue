@@ -29,12 +29,13 @@ const retrieveDataServersFromCache = function (pdb) {
   return dataServersCaches[cacheId].dataServers
 }
 
-const retrieveZipFile = async function (zipFile, contentsPaths) {
-  let zipFilePath = path.join(contentsPaths[0], '..', zipFile + '.zip')
+const retrieveZipFile = async function (zipFile, sourcePaths, destinationPath) {
+  let zipFilePath = path.join(destinationPath, zipFile + '.zip')
   let checkFileExists = s => new Promise(resolve => fs.access(s, fs.F_OK, e => resolve(!e)))
   if (await checkFileExists(zipFilePath)) {
     return zipFilePath
   }
+  fs.ensureDirSync(destinationPath)
   let zipFileOutput = fs.createWriteStream(zipFilePath)
   var archive = archiver('zip', {
     zlib: {
@@ -42,7 +43,7 @@ const retrieveZipFile = async function (zipFile, contentsPaths) {
     }
   })
   archive.pipe(zipFileOutput)
-  contentsPaths.forEach((contentsPath) => {
+  sourcePaths.forEach((contentsPath) => {
     archive.directory(contentsPath, zipFile)
   })
 
@@ -71,8 +72,9 @@ const retrievePDBFilesFromCache = async function (pdb) {
   await dataServers.dataServers
   let jol = await joleculeHelpers.set(pdb)
   let processedPdbLocalPath = jol.paths.processedPdbLocalPath
+  let destinationPath = path.join(processedPdbLocalPath[0], '..')
   let zipfile = `${pdb}_Grid_PDBs`
-  let zipfilePath = await retrieveZipFile(zipfile, [processedPdbLocalPath])
+  let zipfilePath = await retrieveZipFile(zipfile, [processedPdbLocalPath], destinationPath)
   return zipfilePath
 }
 
@@ -87,8 +89,11 @@ const retrieveMapFilesFromCache = async function (pdb) {
   let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
   let mapLocalPaths = paths.mapLocalPaths
+  let mapSharedPaths = paths.mapSharedPaths
+  let mapPaths = mapSharedPaths || mapLocalPaths
+  let destinationPath = path.join(mapLocalPaths[0], '..')
   let zipfile = `${pdb}_Grid_Maps`
-  let zipfilePath = await retrieveZipFile(zipfile, mapLocalPaths)
+  let zipfilePath = await retrieveZipFile(zipfile, mapPaths, destinationPath)
   return zipfilePath
 }
 
