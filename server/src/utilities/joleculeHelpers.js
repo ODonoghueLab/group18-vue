@@ -121,7 +121,8 @@ var joleculeHelpers = async function (pdb, energyCutoffSet = 'all') {
 
   exports.paths = {
     mapFileRemotePaths: NOBLE_GAS_SYMBOLS.map(mapFileRemotePath),
-    mapLocalPaths: NOBLE_GAS_SYMBOLS.map(mapLocalPath),
+    mapSharedPaths: NOBLE_GAS_SYMBOLS.map(mapSharedPath),
+    mapLocalPaths: NOBLE_GAS_SYMBOLS.map(mapSharedPath),
     mapFileLocalPath: NOBLE_GAS_SYMBOLS.map(mapFileLocalPath),
     pdbFileRemotePath: mapFileLocalPath(),
     pdbFileLocalPath: pdbFileLocalPath(),
