@@ -45,6 +45,7 @@ const retrieveZipFile = async function (zipFile, sourcePaths, destinationPath) {
   archive.pipe(zipFileOutput)
   sourcePaths.forEach((contentsPath) => {
     archive.directory(contentsPath, zipFile)
+    console.log(`Added ${contentsPath} to Archive ${zipFilePath}`)
   })
 
   archive.finalize()
@@ -90,7 +91,12 @@ const retrieveMapFilesFromCache = async function (pdb) {
   let paths = jol.paths
   let mapLocalPaths = paths.mapLocalPaths
   let mapSharedPaths = paths.mapSharedPaths
-  let mapPaths = mapSharedPaths || mapLocalPaths
+  let mapPaths
+  if (mapSharedPaths[0]) {
+    mapPaths = mapSharedPaths
+  } else {
+    mapPaths = mapLocalPaths
+  }
   let destinationPath = path.join(mapLocalPaths[0], '..')
   let zipfile = `${pdb}_Grid_Maps`
   let zipfilePath = await retrieveZipFile(zipfile, mapPaths, destinationPath)
