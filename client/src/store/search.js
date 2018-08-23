@@ -97,7 +97,7 @@ const search = {
         query
       });
       let searchResults = [];
-      response.result.rows.forEach(row => {
+      response.result && response.result.rows.forEach(row => {
         searchResults.push({
           text: `[${row.pdb}]:${row.protein_type} - ${
             row.protein_description

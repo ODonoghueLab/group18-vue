@@ -164,7 +164,9 @@ export default {
       this.isDisplayed = true;
       this.updateURL();
       this.loadedElements = [];
-      this.pdbSelectItems.push(this.pdb);
+      if (this.pdbSelectItems.indexOf(this.pdb) <= -1) {
+        this.pdbSelectItems.push(this.pdb);
+      }
       await this.loadDataServers();
       this.setupElements();
     },
@@ -206,11 +208,9 @@ export default {
     },
     async loadDataServers() {
       this.loadErrorMessage = "Preparing data...";
+      this.embededJolecule.display.setMesssage(this.loadErrorMessage);
       this.energyCutoffs = this.getEnergyCutoffs();
       this.dataServers = await this.getDataServers();
-      document.getElementById(
-        "loading-message"
-      ).innerHTML = this.loadErrorMessage;
       let pdbDataServer = this.dataServers[0];
       await this.addDataServer(pdbDataServer);
       let dataServersToLoad = [];
@@ -297,7 +297,9 @@ export default {
     query(val) {
       if (val.text && val.value) {
         debugConsole.log("updating PDB history", this.pdbSelectItems, this.pdb);
-        this.pdbSelectItems.push(this.pdb);
+        if (this.pdbSelectItems.indexOf(this.pdb) <= -1) {
+          this.pdbSelectItems.push(this.pdb);
+        }
         this.pdb = val.value;
       }
     },

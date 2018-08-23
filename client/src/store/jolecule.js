@@ -43,7 +43,13 @@ const jolecule = {
       state.pdb = pdb
     },
     SET_pdbSelectItems: (state, pdbSelectItems) => {
-      state.pdbSelectItems = pdbSelectItems
+      console.log("pdbSelectItems before", pdbSelectItems)
+
+      function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      }
+      state.pdbSelectItems = pdbSelectItems.filter(onlyUnique)
+      console.log("pdbSelectItems after", pdbSelectItems)
     },
     SET_DATASERVERS: (state, dataServers) => {
       state.dataServers = dataServers
