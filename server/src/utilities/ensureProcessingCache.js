@@ -90,10 +90,10 @@ const retrieveMapFilesFromCache = async function (pdb) {
   let jol = await joleculeHelpers.set(pdb)
   let paths = jol.paths
   let mapLocalPaths = paths.mapLocalPaths
-  let mapSharedPaths = paths.mapSharedPaths
+  let mapSharedPath = paths.mapSharedPath
   let mapPaths
-  if (mapSharedPaths[0]) {
-    mapPaths = mapSharedPaths
+  if (mapSharedPath) {
+    mapPaths = [mapSharedPath]
   } else {
     mapPaths = mapLocalPaths
   }
