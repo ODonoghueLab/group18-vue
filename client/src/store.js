@@ -16,12 +16,14 @@ const store = new Vuex.Store({
     },
     // below are group18
     loginMessage: '',
-    isWorking: false
+    isWorking: false,
+    isDownloading: false
   },
   getters: {
     errors: state => state.errors,
     loginMessage: state => state.loginMessage,
-    isWorking: state => state.isWorking
+    isWorking: state => state.isWorking,
+    isDownloading: state => state.isDownloading
   },
   mutations: {
     setUser(state, user) {
@@ -30,6 +32,9 @@ const store = new Vuex.Store({
     // below are group18 specific
     SET_ISWORKING: (state, isWorking) => {
       state.isWorking = isWorking
+    },
+    SET_ISDOWNLOADING: (state, isDownloading) => {
+      state.isDownloading = isDownloading
     }
   }
 })

@@ -93,24 +93,30 @@ const jolecule = {
       }
     },
     async downloadPDBFiles({
-      state
+      state,
+      commit
     }) {
       let payload = {
         pdb: state.pdb
       };
+      commit('SET_ISDOWNLOADING', true)
       let response = await rpc.rpcDownload("downloadPDBFiles", payload);
+      commit('SET_ISDOWNLOADING', false)
       if (response.error) {
         this.loadErrorMessage += response.error.message;
       }
     },
     async downloadMapFiles({
-      state
+      state,
+      commit
     }) {
       let payload = {
         pdb: state.pdb,
         elements: state.elements
       };
+      commit('SET_ISDOWNLOADING', true)
       let response = await rpc.rpcDownload("downloadMapFiles", payload);
+      commit('SET_ISDOWNLOADING', false)
       if (response.error) {
         this.loadErrorMessage += response.error.message;
       }

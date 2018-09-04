@@ -45,7 +45,15 @@
           <v-list-tile-title>Map Files</v-list-tile-title>
         </v-list-tile>
         <v-list-tile @click="downloadPDBFiles()">
-          <v-list-tile-title>PDB Files</v-list-tile-title>
+          <v-list-tile-content>
+            <v-list-tile-title>PDB Files</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-progress-linear :indeterminate="isDownloading"
+                               height="2"></v-progress-linear>
+          </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -98,7 +106,7 @@
 <script>
 import auth from "../modules/auth";
 import config from "../config";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "navbar",
@@ -109,6 +117,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["isDownloading"]),
     user: function() {
       return this.$store.state.user;
     },

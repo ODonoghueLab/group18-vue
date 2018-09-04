@@ -223,9 +223,11 @@ export default {
     getElementIndex(element) {
       for (var i = 0; i < this.elementList.length; i += 1) {
         if (this.elementList[i]["value"] === element) {
+          console.log("getElementIndex", this.elementList, element, i + 1);
           return i + 1;
         }
       }
+      console.log("getElementIndex", this.elementList, element, -1);
       return -1;
     },
     async loadElementDataServer(element) {
@@ -252,12 +254,21 @@ export default {
     setupElements() {
       let y = 10;
       document.getElementById("grid-control-buttons").innerHTML = "";
+      for (let i = 0; i < this.elementList.length; i++) {
+        let { text, value } = this.elementList[i];
+        this.embededJolecule.widget.grid.makeElemButton(value, y);
+        let id = "grid-button-" + value.toLowerCase();
+        document.getElementById(id).onclick = this.toggleElement;
+        y += 40;
+      }
+      /*
       this.elementList.forEach(({ text, value }) => {
         this.embededJolecule.widget.grid.makeElemButton(value, y);
         let id = "grid-button-" + value.toLowerCase();
         document.getElementById(id).onclick = this.toggleElement;
         y += 40;
       });
+      */
     },
     async toggleElement(e) {
       let element = e.srcElement.innerText;

@@ -176,7 +176,7 @@ var joleculeHelpers = async function (pdb, energyCutoffSet = 'all') {
       'pdb': pdb
     }
     searchOptions.order = models.sequelize.literal(
-      "case when element = 'He' then 1 when element = 'Ne' then 2 when element = 'Ar' then 3 when element = 'Kr' then 4 when element = 'Xe' then 5 else null end ASC"
+      "case when element = 'He' then 5 when element = 'Ne' then 4 when element = 'Ar' then 3 when element = 'Kr' then 2 when element = 'Xe' then 1 else null end ASC"
     )
     searchOptions.limit = 5
     let results = await models.pdb.findAll(
