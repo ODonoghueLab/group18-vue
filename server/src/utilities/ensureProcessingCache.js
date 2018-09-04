@@ -29,6 +29,53 @@ const retrieveDataServersFromCache = function (pdb) {
   return dataServersCaches[cacheId].dataServers
 }
 
+const getFilesInDirectory = function (directory) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(directory, (err, files) => {
+      if (!err) {
+        resolve(files)
+      }
+    })
+  })
+}
+const getAllResolvedFilePaths = function (sourcePaths) {
+  return Promise.all(sourcePaths.map(async (contentsPath) => {
+    return getResolvedFilePaths(contentsPath)
+  }))
+}
+
+const getResolvedFilePaths = async function (directory) {
+  let filePaths = await getFilesInDirectory(directory)
+  let resolvedFilePaths = filePaths
+    .map(async (file) => {
+      return getResolvedFilePath(path.join(directory, file))
+    })
+    .filter((file) => {
+      return file
+    })
+  return Promise.all(resolvedFilePaths)
+}
+
+const getResolvedFilePath = function (filePath) {
+  return new Promise((resolve, reject) => {
+    fs.lstat(filePath, function (err, stats) {
+      if (err) {
+        reject(err)
+      } else if (stats.isDirectory()) {
+        return null
+      } else if (stats.isSymbolicLink()) {
+        fs.readlink(filePath, function (err, fileRedirect) {
+          if (err) reject(err)
+          let originalDirectory = path.dirname(filePath)
+          resolve(path.join(originalDirectory, fileRedirect))
+        })
+      } else {
+        resolve(filePath)
+      }
+    })
+  })
+}
+
 const retrieveZipFile = async function (zipFile, sourcePaths, destinationPath) {
   let zipFilePath = path.join(destinationPath, zipFile + '.zip')
   let checkFileExists = s => new Promise(resolve => fs.access(s, fs.F_OK, e => resolve(!e)))
@@ -43,9 +90,14 @@ const retrieveZipFile = async function (zipFile, sourcePaths, destinationPath) {
     }
   })
   archive.pipe(zipFileOutput)
-  sourcePaths.forEach((contentsPath) => {
-    archive.directory(contentsPath, zipFile)
-    console.log(`Added ${contentsPath} to Archive ${zipFilePath}`)
+
+  let filePaths = await getAllResolvedFilePaths(sourcePaths)
+  filePaths = [].concat(...filePaths)
+  filePaths.forEach((filePath) => {
+    archive.file(filePath, {
+      name: path.basename(filePath)
+    })
+    console.log(`Added ${filePath} to Archive ${zipFilePath}`)
   })
 
   archive.finalize()
