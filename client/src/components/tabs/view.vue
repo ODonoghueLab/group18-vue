@@ -247,8 +247,7 @@ export default {
     setCutoff(val) {
       let bCutoff = -1 * parseFloat(val);
       this.embededJolecule.controller.setGridCutoff(bCutoff);
-      this.embededJolecule.widget.grid.update();
-      console.log("bCutoff", bCutoff);
+      console.log("view.setCutoff bCutoff", bCutoff);
     },
     setupElements() {
       let y = 10;

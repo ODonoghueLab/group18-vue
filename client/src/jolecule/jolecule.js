@@ -79604,6 +79604,10 @@ var EmbedJolecule = function () {
     this.soupView.msPerStep = this.params.msPerStep;
     this.soupView.maxWaitStep = this.params.maxWaitStep;
 
+    if (this.params.bCutoff !== null) {
+      this.soup.grid.bCutoff = this.params.bCutoff;
+    }
+
     this.controller = new _soup.Controller(this.soupView);
 
     this.widget = {};
@@ -79685,29 +79689,25 @@ var EmbedJolecule = function () {
 
               case 12:
 
-                if (this.params.bCutoff !== null) {
-                  this.soup.grid.bCutoff = this.params.bCutoff;
-                }
-
                 this.soupWidget.buildScene();
 
                 this.resize();
 
                 this.controller.zoomOut();
 
-                _context2.next = 18;
+                _context2.next = 17;
                 return this.soupWidget.asyncSetMesssage('Loading views...');
 
-              case 18:
+              case 17:
                 if (!_lodash2.default.isNil(this.soupView.dataServer)) {
-                  _context2.next = 25;
+                  _context2.next = 24;
                   break;
                 }
 
                 // save only first loaded dataServer for saving and deleting
                 this.soupWidget.dataServer = dataServer;
 
-                _context2.next = 22;
+                _context2.next = 21;
                 return new Promise(function (resolve) {
                   dataServer.get_views(function (viewDicts) {
                     _this2.controller.loadViewsFromViewDicts(viewDicts);
@@ -79715,7 +79715,7 @@ var EmbedJolecule = function () {
                   });
                 });
 
-              case 22:
+              case 21:
                 isDefaultViewId = this.params.viewId in this.soupView.savedViewsByViewId;
 
                 if (isDefaultViewId) {
@@ -79723,13 +79723,13 @@ var EmbedJolecule = function () {
                 }
                 this.soupView.updateObservers = true;
 
-              case 25:
+              case 24:
 
                 this.soupWidget.cleanupMessage();
 
                 this.isProcessing.flag = false;
 
-              case 27:
+              case 26:
               case 'end':
                 return _context2.stop();
             }
@@ -79924,7 +79924,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * methods
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *   resize (): called when the browser window changes
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *   rebuild (): called when underlying Soup is modified
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   update (): called when Display goes through a rendering change
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   update (): called when SoupWidget goes through a rendering change
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *   drawFrame (): called every animation frame
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
@@ -81375,6 +81375,7 @@ var GridControlWidget = function (_CanvasWidget3) {
     _this9.div.attr('id', 'grid-control');
     _this9.div.css('height', _this9.height());
     _this9.div.addClass('jolecule-button');
+
     _this9.buttonsDiv = (0, _jquery2.default)('<div id="grid-control-buttons">');
     _this9.div.append(_this9.buttonsDiv);
     return _this9;
@@ -81574,7 +81575,6 @@ var ResidueSelectorWidget = function () {
   function ResidueSelectorWidget(soupWidget, selector) {
     _classCallCheck(this, ResidueSelectorWidget);
 
-    this.scene = soupWidget.displayScene;
     this.controller = soupWidget.controller;
     this.soupView = soupWidget.soupView;
     this.soupWidget = soupWidget;
@@ -81582,7 +81582,6 @@ var ResidueSelectorWidget = function () {
 
     this.div = (0, _jquery2.default)(selector);
     this.divId = this.div.attr('id');
-    this.selectDivTag = '#' + this.divId + '-residue-select';
     this.$select = (0, _jquery2.default)('<select>').attr('id', this.divId + '-residue-select');
     this.div.append(this.$select);
     this.$select.select2();
@@ -87148,9 +87147,9 @@ exports.remoteDataServer = exports.initFullPageJolecule = exports.initEmbedJolec
 
 var _animation = __webpack_require__(132);
 
-var _embedjolecule = __webpack_require__(133);
+var _embedWidget = __webpack_require__(133);
 
-var _fullpagejolecule = __webpack_require__(347);
+var _fullPageWidget = __webpack_require__(347);
 
 var _lodash = __webpack_require__(27);
 
@@ -87178,21 +87177,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 function initEmbedJolecule(userArgs) {
-  return new _embedjolecule.EmbedJolecule(_lodash2.default.merge(_embedjolecule.defaultArgs, userArgs));
+  return new _embedWidget.EmbedJolecule(_lodash2.default.merge(_embedWidget.defaultArgs, userArgs));
 }
 
 /**
  * @param protein_display_tag
  * @param sequenceDisplayTag
  * @param views_display_tag
- * @returns {FullPageJolecule}
+ * @returns {FullPageWidget}
  */
 function initFullPageJolecule() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
 
-  return new (Function.prototype.bind.apply(_fullpagejolecule.FullPageJolecule, [null].concat(args)))();
+  return new (Function.prototype.bind.apply(_fullPageWidget.FullPageWidget, [null].concat(args)))();
 }
 
 function remoteDataServer(pdbId, userId) {
@@ -88065,7 +88064,13 @@ var Soup = function () {
 
                 this.maxLength = this.calcMaxLength();
 
-              case 25:
+                this.findGridLimits();
+
+                this.colorResidues();
+
+                this.calculateTracesForRibbons();
+
+              case 28:
               case 'end':
                 return _context.stop();
             }
@@ -89179,7 +89184,7 @@ var Soup = function () {
       if (this.grid.bMax === null) {
         this.grid.bMin = 0;
       }
-      if (!('bCutoff' in this.grid)) {
+      if (_lodash2.default.isNil(this.grid)) {
         this.grid.bCutoff = this.grid.bMin;
       }
     }
@@ -89619,10 +89624,7 @@ var SoupView = function () {
       if (this.savedViews.length === 0 && !this.soup.isEmpty()) {
         this.setCurrentViewToDefaultAndSave();
       }
-      this.soup.findGridLimits();
       this.saveGridToCurrentView();
-      this.soup.colorResidues();
-      this.soup.calculateTracesForRibbons();
     }
   }, {
     key: 'saveGridToCurrentView',
@@ -89632,7 +89634,7 @@ var SoupView = function () {
           this.currentView.grid.isElem[elem] = this.soup.grid.isElem[elem];
         }
       }
-      if (!_lodash2.default.isNil(this.soup.grid.bCutoff)) {
+      if ((0, _util.exists)(this.soup.grid.bCutoff)) {
         this.currentView.grid.bCutoff = this.soup.grid.bCutoff;
       }
     }
@@ -89878,6 +89880,7 @@ var SoupView = function () {
         if (elem in this.soup.grid.isElem) {
           if (view.grid.isElem[elem] !== this.soup.grid.isElem[elem]) {
             this.soup.grid.isElem[elem] = view.grid.isElem[elem];
+            this.updateObservers = true;
             this.soup.grid.changed = true;
           }
         }
@@ -89885,6 +89888,7 @@ var SoupView = function () {
       if (!_lodash2.default.isNil(view.grid.bCutoff)) {
         if (this.soup.grid.bCutoff !== view.grid.bCutoff) {
           this.soup.grid.bCutoff = view.grid.bCutoff;
+          this.updateObservers = true;
           this.soup.grid.changed = true;
         }
       }
@@ -90386,10 +90390,12 @@ var Controller = function () {
                 return this.soup.asyncLoadProteinData(proteinData, asyncSetMessageFn);
 
               case 2:
+                // pre-calculations needed before building meshes
+                this.soupView.build();
                 this.soupView.changed = true;
                 this.soupView.updateObservers = true;
 
-              case 4:
+              case 5:
               case 'end':
                 return _context2.stop();
             }
@@ -90432,27 +90438,36 @@ var Controller = function () {
       var cameraParams = this.soupView.currentView.cameraParams;
       cameraParams.zBack = zBack;
       cameraParams.zFront = zFront;
+      this.soupView.updateObservers = true;
       this.soupView.changed = true;
     }
   }, {
     key: 'toggleGridElem',
     value: function toggleGridElem(elem) {
-      var b = this.soupView.soup.grid.isElem[elem];
-      this.soupView.soup.grid.isElem[elem] = !b;
-      this.soupView.soup.grid.changed = true;
-      this.soupView.currentView.grid.isElem = _lodash2.default.cloneDeep(this.soupView.soup.grid.isElem);
+      var b = this.soup.grid.isElem[elem];
+      this.soup.grid.isElem[elem] = !b;
+      this.soup.grid.changed = true;
+      this.soup.colorResidues();
+
+      this.soupView.currentView.grid.isElem = _lodash2.default.cloneDeep(this.soup.grid.isElem);
       this.soupView.changed = true;
 
-      this.soupView.soup.colorResidues();
-
+      this.soupView.updateObservers = true;
       this.soupView.updateSelection = true;
     }
   }, {
     key: 'setGridCutoff',
     value: function setGridCutoff(bCutoff) {
-      this.soupView.soup.grid.bCutoff = bCutoff;
-      this.soupView.soup.grid.changed = true;
+      this.soup.grid.bCutoff = bCutoff;
+      this.soup.grid.changed = true;
       this.soupView.currentView.grid.bCutoff = bCutoff;
+      if ((0, _util.exists)(this.soupView.targetView)) {
+        this.soupView.targetView.grid.bCutoff = bCutoff;
+      }
+      if ((0, _util.exists)(this.soupView.saveTargetView)) {
+        this.soupView.saveTargetView.grid.bCutoff = bCutoff;
+      }
+      this.soupView.updateObservers = true;
       this.soupView.changed = true;
     }
   }, {
@@ -91389,7 +91404,7 @@ var WebglWidget = function () {
   }, {
     key: 'setMesssage',
     value: function setMesssage(message) {
-      console.log('Display.setMesssage:', message);
+      console.log('SoupWidget.setMesssage:', message);
       this.messageDiv.html(message).show();
     }
   }, {
@@ -91826,9 +91841,6 @@ var SoupWidget = function (_WebglWidget) {
   }, {
     key: 'buildScene',
     value: function buildScene() {
-      // pre-calculations needed before building meshes
-      this.soupView.build();
-
       // clear this.displayMeshes and this.pickingMeshes
       var _iteratorNormalCompletion3 = true;
       var _didIteratorError3 = false;
@@ -100151,7 +100163,7 @@ exports.BackboneRepresentation = BackboneRepresentation;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FullPageJolecule = undefined;
+exports.FullPageWidget = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // eslint-disable-line
 
@@ -100168,7 +100180,7 @@ var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _embedjolecule = __webpack_require__(133);
+var _embedWidget = __webpack_require__(133);
 
 var _util = __webpack_require__(49);
 
@@ -100544,16 +100556,16 @@ function getParameterByName(name) {
 }
 
 /**
- * FullPageJolecule - full page wrapper around an embedded EmbedJolecule
+ * FullPageWidget - full page wrapper around an embedded EmbedJolecule
  * widget. Handles keypresses and urls and adds a view list side-panel
- * FullPageJolecule satisfies the interface for animation.js
+ * FullPageWidget satisfies the interface for animation.js
  */
 
-var FullPageJolecule = function () {
-  function FullPageJolecule(proteinDisplayTag, viewsDisplayTag, params) {
+var FullPageWidget = function () {
+  function FullPageWidget(proteinDisplayTag, viewsDisplayTag, params) {
     var _this7 = this;
 
-    _classCallCheck(this, FullPageJolecule);
+    _classCallCheck(this, FullPageWidget);
 
     this.viewsDisplayTag = viewsDisplayTag;
     this.params = {
@@ -100578,7 +100590,7 @@ var FullPageJolecule = function () {
         console.log('FullPageJolecule.constructor viewId=' + this.params.viewId);
       }
     }
-    this.embedJolecule = new _embedjolecule.EmbedJolecule(this.params);
+    this.embedJolecule = new _embedWidget.EmbedJolecule(this.params);
     this.embedJolecule.soupWidget.addObserver(this);
     document.oncontextmenu = _lodash2.default.noop;
     document.onkeydown = function (e) {
@@ -100586,7 +100598,7 @@ var FullPageJolecule = function () {
     };
   }
 
-  _createClass(FullPageJolecule, [{
+  _createClass(FullPageWidget, [{
     key: 'clear',
     value: function clear() {
       this.embedJolecule.clear();
@@ -100599,7 +100611,7 @@ var FullPageJolecule = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('FullPageJolecule.asyncAddDataServer');
+                console.log('FullPageWidget.asyncAddDataServer');
                 _context.next = 3;
                 return this.embedJolecule.asyncAddDataServer(dataServer);
 
@@ -100691,10 +100703,10 @@ var FullPageJolecule = function () {
     }
   }]);
 
-  return FullPageJolecule;
+  return FullPageWidget;
 }();
 
-exports.FullPageJolecule = FullPageJolecule;
+exports.FullPageWidget = FullPageWidget;
 
 /***/ }),
 /* 348 */
