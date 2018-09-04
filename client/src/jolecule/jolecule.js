@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 136);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -199,7 +199,7 @@ module.exports = !__webpack_require__(3)(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(1);
-var IE8_DOM_DEFINE = __webpack_require__(97);
+var IE8_DOM_DEFINE = __webpack_require__(98);
 var toPrimitive = __webpack_require__(22);
 var dP = Object.defineProperty;
 
@@ -356,7 +356,7 @@ var createDesc = __webpack_require__(33);
 var toIObject = __webpack_require__(15);
 var toPrimitive = __webpack_require__(22);
 var has = __webpack_require__(11);
-var IE8_DOM_DEFINE = __webpack_require__(97);
+var IE8_DOM_DEFINE = __webpack_require__(98);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(6) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -376,7 +376,7 @@ exports.f = __webpack_require__(6) ? gOPD : function getOwnPropertyDescriptor(O,
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has = __webpack_require__(11);
 var toObject = __webpack_require__(9);
-var IE_PROTO = __webpack_require__(71)('IE_PROTO');
+var IE_PROTO = __webpack_require__(70)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function (O) {
@@ -521,7 +521,7 @@ var ctx = __webpack_require__(18);
 var IObject = __webpack_require__(50);
 var toObject = __webpack_require__(9);
 var toLength = __webpack_require__(8);
-var asc = __webpack_require__(88);
+var asc = __webpack_require__(87);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
   var IS_FILTER = TYPE == 2;
@@ -560,550 +560,6 @@ module.exports = function (TYPE, $create) {
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-if (__webpack_require__(6)) {
-  var LIBRARY = __webpack_require__(35);
-  var global = __webpack_require__(2);
-  var fails = __webpack_require__(3);
-  var $export = __webpack_require__(0);
-  var $typed = __webpack_require__(63);
-  var $buffer = __webpack_require__(94);
-  var ctx = __webpack_require__(18);
-  var anInstance = __webpack_require__(41);
-  var propertyDesc = __webpack_require__(33);
-  var hide = __webpack_require__(12);
-  var redefineAll = __webpack_require__(43);
-  var toInteger = __webpack_require__(24);
-  var toLength = __webpack_require__(8);
-  var toIndex = __webpack_require__(123);
-  var toAbsoluteIndex = __webpack_require__(37);
-  var toPrimitive = __webpack_require__(22);
-  var has = __webpack_require__(11);
-  var classof = __webpack_require__(52);
-  var isObject = __webpack_require__(4);
-  var toObject = __webpack_require__(9);
-  var isArrayIter = __webpack_require__(85);
-  var create = __webpack_require__(38);
-  var getPrototypeOf = __webpack_require__(17);
-  var gOPN = __webpack_require__(39).f;
-  var getIterFn = __webpack_require__(87);
-  var uid = __webpack_require__(34);
-  var wks = __webpack_require__(5);
-  var createArrayMethod = __webpack_require__(26);
-  var createArrayIncludes = __webpack_require__(54);
-  var speciesConstructor = __webpack_require__(61);
-  var ArrayIterators = __webpack_require__(90);
-  var Iterators = __webpack_require__(46);
-  var $iterDetect = __webpack_require__(58);
-  var setSpecies = __webpack_require__(40);
-  var arrayFill = __webpack_require__(89);
-  var arrayCopyWithin = __webpack_require__(113);
-  var $DP = __webpack_require__(7);
-  var $GOPD = __webpack_require__(16);
-  var dP = $DP.f;
-  var gOPD = $GOPD.f;
-  var RangeError = global.RangeError;
-  var TypeError = global.TypeError;
-  var Uint8Array = global.Uint8Array;
-  var ARRAY_BUFFER = 'ArrayBuffer';
-  var SHARED_BUFFER = 'Shared' + ARRAY_BUFFER;
-  var BYTES_PER_ELEMENT = 'BYTES_PER_ELEMENT';
-  var PROTOTYPE = 'prototype';
-  var ArrayProto = Array[PROTOTYPE];
-  var $ArrayBuffer = $buffer.ArrayBuffer;
-  var $DataView = $buffer.DataView;
-  var arrayForEach = createArrayMethod(0);
-  var arrayFilter = createArrayMethod(2);
-  var arraySome = createArrayMethod(3);
-  var arrayEvery = createArrayMethod(4);
-  var arrayFind = createArrayMethod(5);
-  var arrayFindIndex = createArrayMethod(6);
-  var arrayIncludes = createArrayIncludes(true);
-  var arrayIndexOf = createArrayIncludes(false);
-  var arrayValues = ArrayIterators.values;
-  var arrayKeys = ArrayIterators.keys;
-  var arrayEntries = ArrayIterators.entries;
-  var arrayLastIndexOf = ArrayProto.lastIndexOf;
-  var arrayReduce = ArrayProto.reduce;
-  var arrayReduceRight = ArrayProto.reduceRight;
-  var arrayJoin = ArrayProto.join;
-  var arraySort = ArrayProto.sort;
-  var arraySlice = ArrayProto.slice;
-  var arrayToString = ArrayProto.toString;
-  var arrayToLocaleString = ArrayProto.toLocaleString;
-  var ITERATOR = wks('iterator');
-  var TAG = wks('toStringTag');
-  var TYPED_CONSTRUCTOR = uid('typed_constructor');
-  var DEF_CONSTRUCTOR = uid('def_constructor');
-  var ALL_CONSTRUCTORS = $typed.CONSTR;
-  var TYPED_ARRAY = $typed.TYPED;
-  var VIEW = $typed.VIEW;
-  var WRONG_LENGTH = 'Wrong length!';
-
-  var $map = createArrayMethod(1, function (O, length) {
-    return allocate(speciesConstructor(O, O[DEF_CONSTRUCTOR]), length);
-  });
-
-  var LITTLE_ENDIAN = fails(function () {
-    // eslint-disable-next-line no-undef
-    return new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
-  });
-
-  var FORCED_SET = !!Uint8Array && !!Uint8Array[PROTOTYPE].set && fails(function () {
-    new Uint8Array(1).set({});
-  });
-
-  var toOffset = function (it, BYTES) {
-    var offset = toInteger(it);
-    if (offset < 0 || offset % BYTES) throw RangeError('Wrong offset!');
-    return offset;
-  };
-
-  var validate = function (it) {
-    if (isObject(it) && TYPED_ARRAY in it) return it;
-    throw TypeError(it + ' is not a typed array!');
-  };
-
-  var allocate = function (C, length) {
-    if (!(isObject(C) && TYPED_CONSTRUCTOR in C)) {
-      throw TypeError('It is not a typed array constructor!');
-    } return new C(length);
-  };
-
-  var speciesFromList = function (O, list) {
-    return fromList(speciesConstructor(O, O[DEF_CONSTRUCTOR]), list);
-  };
-
-  var fromList = function (C, list) {
-    var index = 0;
-    var length = list.length;
-    var result = allocate(C, length);
-    while (length > index) result[index] = list[index++];
-    return result;
-  };
-
-  var addGetter = function (it, key, internal) {
-    dP(it, key, { get: function () { return this._d[internal]; } });
-  };
-
-  var $from = function from(source /* , mapfn, thisArg */) {
-    var O = toObject(source);
-    var aLen = arguments.length;
-    var mapfn = aLen > 1 ? arguments[1] : undefined;
-    var mapping = mapfn !== undefined;
-    var iterFn = getIterFn(O);
-    var i, length, values, result, step, iterator;
-    if (iterFn != undefined && !isArrayIter(iterFn)) {
-      for (iterator = iterFn.call(O), values = [], i = 0; !(step = iterator.next()).done; i++) {
-        values.push(step.value);
-      } O = values;
-    }
-    if (mapping && aLen > 2) mapfn = ctx(mapfn, arguments[2], 2);
-    for (i = 0, length = toLength(O.length), result = allocate(this, length); length > i; i++) {
-      result[i] = mapping ? mapfn(O[i], i) : O[i];
-    }
-    return result;
-  };
-
-  var $of = function of(/* ...items */) {
-    var index = 0;
-    var length = arguments.length;
-    var result = allocate(this, length);
-    while (length > index) result[index] = arguments[index++];
-    return result;
-  };
-
-  // iOS Safari 6.x fails here
-  var TO_LOCALE_BUG = !!Uint8Array && fails(function () { arrayToLocaleString.call(new Uint8Array(1)); });
-
-  var $toLocaleString = function toLocaleString() {
-    return arrayToLocaleString.apply(TO_LOCALE_BUG ? arraySlice.call(validate(this)) : validate(this), arguments);
-  };
-
-  var proto = {
-    copyWithin: function copyWithin(target, start /* , end */) {
-      return arrayCopyWithin.call(validate(this), target, start, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    every: function every(callbackfn /* , thisArg */) {
-      return arrayEvery(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    fill: function fill(value /* , start, end */) { // eslint-disable-line no-unused-vars
-      return arrayFill.apply(validate(this), arguments);
-    },
-    filter: function filter(callbackfn /* , thisArg */) {
-      return speciesFromList(this, arrayFilter(validate(this), callbackfn,
-        arguments.length > 1 ? arguments[1] : undefined));
-    },
-    find: function find(predicate /* , thisArg */) {
-      return arrayFind(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    findIndex: function findIndex(predicate /* , thisArg */) {
-      return arrayFindIndex(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    forEach: function forEach(callbackfn /* , thisArg */) {
-      arrayForEach(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    indexOf: function indexOf(searchElement /* , fromIndex */) {
-      return arrayIndexOf(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    includes: function includes(searchElement /* , fromIndex */) {
-      return arrayIncludes(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    join: function join(separator) { // eslint-disable-line no-unused-vars
-      return arrayJoin.apply(validate(this), arguments);
-    },
-    lastIndexOf: function lastIndexOf(searchElement /* , fromIndex */) { // eslint-disable-line no-unused-vars
-      return arrayLastIndexOf.apply(validate(this), arguments);
-    },
-    map: function map(mapfn /* , thisArg */) {
-      return $map(validate(this), mapfn, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    reduce: function reduce(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
-      return arrayReduce.apply(validate(this), arguments);
-    },
-    reduceRight: function reduceRight(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
-      return arrayReduceRight.apply(validate(this), arguments);
-    },
-    reverse: function reverse() {
-      var that = this;
-      var length = validate(that).length;
-      var middle = Math.floor(length / 2);
-      var index = 0;
-      var value;
-      while (index < middle) {
-        value = that[index];
-        that[index++] = that[--length];
-        that[length] = value;
-      } return that;
-    },
-    some: function some(callbackfn /* , thisArg */) {
-      return arraySome(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    },
-    sort: function sort(comparefn) {
-      return arraySort.call(validate(this), comparefn);
-    },
-    subarray: function subarray(begin, end) {
-      var O = validate(this);
-      var length = O.length;
-      var $begin = toAbsoluteIndex(begin, length);
-      return new (speciesConstructor(O, O[DEF_CONSTRUCTOR]))(
-        O.buffer,
-        O.byteOffset + $begin * O.BYTES_PER_ELEMENT,
-        toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - $begin)
-      );
-    }
-  };
-
-  var $slice = function slice(start, end) {
-    return speciesFromList(this, arraySlice.call(validate(this), start, end));
-  };
-
-  var $set = function set(arrayLike /* , offset */) {
-    validate(this);
-    var offset = toOffset(arguments[1], 1);
-    var length = this.length;
-    var src = toObject(arrayLike);
-    var len = toLength(src.length);
-    var index = 0;
-    if (len + offset > length) throw RangeError(WRONG_LENGTH);
-    while (index < len) this[offset + index] = src[index++];
-  };
-
-  var $iterators = {
-    entries: function entries() {
-      return arrayEntries.call(validate(this));
-    },
-    keys: function keys() {
-      return arrayKeys.call(validate(this));
-    },
-    values: function values() {
-      return arrayValues.call(validate(this));
-    }
-  };
-
-  var isTAIndex = function (target, key) {
-    return isObject(target)
-      && target[TYPED_ARRAY]
-      && typeof key != 'symbol'
-      && key in target
-      && String(+key) == String(key);
-  };
-  var $getDesc = function getOwnPropertyDescriptor(target, key) {
-    return isTAIndex(target, key = toPrimitive(key, true))
-      ? propertyDesc(2, target[key])
-      : gOPD(target, key);
-  };
-  var $setDesc = function defineProperty(target, key, desc) {
-    if (isTAIndex(target, key = toPrimitive(key, true))
-      && isObject(desc)
-      && has(desc, 'value')
-      && !has(desc, 'get')
-      && !has(desc, 'set')
-      // TODO: add validation descriptor w/o calling accessors
-      && !desc.configurable
-      && (!has(desc, 'writable') || desc.writable)
-      && (!has(desc, 'enumerable') || desc.enumerable)
-    ) {
-      target[key] = desc.value;
-      return target;
-    } return dP(target, key, desc);
-  };
-
-  if (!ALL_CONSTRUCTORS) {
-    $GOPD.f = $getDesc;
-    $DP.f = $setDesc;
-  }
-
-  $export($export.S + $export.F * !ALL_CONSTRUCTORS, 'Object', {
-    getOwnPropertyDescriptor: $getDesc,
-    defineProperty: $setDesc
-  });
-
-  if (fails(function () { arrayToString.call({}); })) {
-    arrayToString = arrayToLocaleString = function toString() {
-      return arrayJoin.call(this);
-    };
-  }
-
-  var $TypedArrayPrototype$ = redefineAll({}, proto);
-  redefineAll($TypedArrayPrototype$, $iterators);
-  hide($TypedArrayPrototype$, ITERATOR, $iterators.values);
-  redefineAll($TypedArrayPrototype$, {
-    slice: $slice,
-    set: $set,
-    constructor: function () { /* noop */ },
-    toString: arrayToString,
-    toLocaleString: $toLocaleString
-  });
-  addGetter($TypedArrayPrototype$, 'buffer', 'b');
-  addGetter($TypedArrayPrototype$, 'byteOffset', 'o');
-  addGetter($TypedArrayPrototype$, 'byteLength', 'l');
-  addGetter($TypedArrayPrototype$, 'length', 'e');
-  dP($TypedArrayPrototype$, TAG, {
-    get: function () { return this[TYPED_ARRAY]; }
-  });
-
-  // eslint-disable-next-line max-statements
-  module.exports = function (KEY, BYTES, wrapper, CLAMPED) {
-    CLAMPED = !!CLAMPED;
-    var NAME = KEY + (CLAMPED ? 'Clamped' : '') + 'Array';
-    var GETTER = 'get' + KEY;
-    var SETTER = 'set' + KEY;
-    var TypedArray = global[NAME];
-    var Base = TypedArray || {};
-    var TAC = TypedArray && getPrototypeOf(TypedArray);
-    var FORCED = !TypedArray || !$typed.ABV;
-    var O = {};
-    var TypedArrayPrototype = TypedArray && TypedArray[PROTOTYPE];
-    var getter = function (that, index) {
-      var data = that._d;
-      return data.v[GETTER](index * BYTES + data.o, LITTLE_ENDIAN);
-    };
-    var setter = function (that, index, value) {
-      var data = that._d;
-      if (CLAMPED) value = (value = Math.round(value)) < 0 ? 0 : value > 0xff ? 0xff : value & 0xff;
-      data.v[SETTER](index * BYTES + data.o, value, LITTLE_ENDIAN);
-    };
-    var addElement = function (that, index) {
-      dP(that, index, {
-        get: function () {
-          return getter(this, index);
-        },
-        set: function (value) {
-          return setter(this, index, value);
-        },
-        enumerable: true
-      });
-    };
-    if (FORCED) {
-      TypedArray = wrapper(function (that, data, $offset, $length) {
-        anInstance(that, TypedArray, NAME, '_d');
-        var index = 0;
-        var offset = 0;
-        var buffer, byteLength, length, klass;
-        if (!isObject(data)) {
-          length = toIndex(data);
-          byteLength = length * BYTES;
-          buffer = new $ArrayBuffer(byteLength);
-        } else if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
-          buffer = data;
-          offset = toOffset($offset, BYTES);
-          var $len = data.byteLength;
-          if ($length === undefined) {
-            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
-            byteLength = $len - offset;
-            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
-          } else {
-            byteLength = toLength($length) * BYTES;
-            if (byteLength + offset > $len) throw RangeError(WRONG_LENGTH);
-          }
-          length = byteLength / BYTES;
-        } else if (TYPED_ARRAY in data) {
-          return fromList(TypedArray, data);
-        } else {
-          return $from.call(TypedArray, data);
-        }
-        hide(that, '_d', {
-          b: buffer,
-          o: offset,
-          l: byteLength,
-          e: length,
-          v: new $DataView(buffer)
-        });
-        while (index < length) addElement(that, index++);
-      });
-      TypedArrayPrototype = TypedArray[PROTOTYPE] = create($TypedArrayPrototype$);
-      hide(TypedArrayPrototype, 'constructor', TypedArray);
-    } else if (!fails(function () {
-      TypedArray(1);
-    }) || !fails(function () {
-      new TypedArray(-1); // eslint-disable-line no-new
-    }) || !$iterDetect(function (iter) {
-      new TypedArray(); // eslint-disable-line no-new
-      new TypedArray(null); // eslint-disable-line no-new
-      new TypedArray(1.5); // eslint-disable-line no-new
-      new TypedArray(iter); // eslint-disable-line no-new
-    }, true)) {
-      TypedArray = wrapper(function (that, data, $offset, $length) {
-        anInstance(that, TypedArray, NAME);
-        var klass;
-        // `ws` module bug, temporarily remove validation length for Uint8Array
-        // https://github.com/websockets/ws/pull/645
-        if (!isObject(data)) return new Base(toIndex(data));
-        if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
-          return $length !== undefined
-            ? new Base(data, toOffset($offset, BYTES), $length)
-            : $offset !== undefined
-              ? new Base(data, toOffset($offset, BYTES))
-              : new Base(data);
-        }
-        if (TYPED_ARRAY in data) return fromList(TypedArray, data);
-        return $from.call(TypedArray, data);
-      });
-      arrayForEach(TAC !== Function.prototype ? gOPN(Base).concat(gOPN(TAC)) : gOPN(Base), function (key) {
-        if (!(key in TypedArray)) hide(TypedArray, key, Base[key]);
-      });
-      TypedArray[PROTOTYPE] = TypedArrayPrototype;
-      if (!LIBRARY) TypedArrayPrototype.constructor = TypedArray;
-    }
-    var $nativeIterator = TypedArrayPrototype[ITERATOR];
-    var CORRECT_ITER_NAME = !!$nativeIterator
-      && ($nativeIterator.name == 'values' || $nativeIterator.name == undefined);
-    var $iterator = $iterators.values;
-    hide(TypedArray, TYPED_CONSTRUCTOR, true);
-    hide(TypedArrayPrototype, TYPED_ARRAY, NAME);
-    hide(TypedArrayPrototype, VIEW, true);
-    hide(TypedArrayPrototype, DEF_CONSTRUCTOR, TypedArray);
-
-    if (CLAMPED ? new TypedArray(1)[TAG] != NAME : !(TAG in TypedArrayPrototype)) {
-      dP(TypedArrayPrototype, TAG, {
-        get: function () { return NAME; }
-      });
-    }
-
-    O[NAME] = TypedArray;
-
-    $export($export.G + $export.W + $export.F * (TypedArray != Base), O);
-
-    $export($export.S, NAME, {
-      BYTES_PER_ELEMENT: BYTES
-    });
-
-    $export($export.S + $export.F * fails(function () { Base.of.call(TypedArray, 1); }), NAME, {
-      from: $from,
-      of: $of
-    });
-
-    if (!(BYTES_PER_ELEMENT in TypedArrayPrototype)) hide(TypedArrayPrototype, BYTES_PER_ELEMENT, BYTES);
-
-    $export($export.P, NAME, proto);
-
-    setSpecies(NAME);
-
-    $export($export.P + $export.F * FORCED_SET, NAME, { set: $set });
-
-    $export($export.P + $export.F * !CORRECT_ITER_NAME, NAME, $iterators);
-
-    if (!LIBRARY && TypedArrayPrototype.toString != arrayToString) TypedArrayPrototype.toString = arrayToString;
-
-    $export($export.P + $export.F * fails(function () {
-      new TypedArray(1).slice();
-    }), NAME, { slice: $slice });
-
-    $export($export.P + $export.F * (fails(function () {
-      return [1, 2].toLocaleString() != new TypedArray([1, 2]).toLocaleString();
-    }) || !fails(function () {
-      TypedArrayPrototype.toLocaleString.call([1, 2]);
-    })), NAME, { toLocaleString: $toLocaleString });
-
-    Iterators[NAME] = CORRECT_ITER_NAME ? $nativeIterator : $iterator;
-    if (!LIBRARY && !CORRECT_ITER_NAME) hide(TypedArrayPrototype, ITERATOR, $iterator);
-  };
-} else module.exports = function () { /* empty */ };
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Map = __webpack_require__(118);
-var $export = __webpack_require__(0);
-var shared = __webpack_require__(53)('metadata');
-var store = shared.store || (shared.store = new (__webpack_require__(121))());
-
-var getOrCreateMetadataMap = function (target, targetKey, create) {
-  var targetMetadata = store.get(target);
-  if (!targetMetadata) {
-    if (!create) return undefined;
-    store.set(target, targetMetadata = new Map());
-  }
-  var keyMetadata = targetMetadata.get(targetKey);
-  if (!keyMetadata) {
-    if (!create) return undefined;
-    targetMetadata.set(targetKey, keyMetadata = new Map());
-  } return keyMetadata;
-};
-var ordinaryHasOwnMetadata = function (MetadataKey, O, P) {
-  var metadataMap = getOrCreateMetadataMap(O, P, false);
-  return metadataMap === undefined ? false : metadataMap.has(MetadataKey);
-};
-var ordinaryGetOwnMetadata = function (MetadataKey, O, P) {
-  var metadataMap = getOrCreateMetadataMap(O, P, false);
-  return metadataMap === undefined ? undefined : metadataMap.get(MetadataKey);
-};
-var ordinaryDefineOwnMetadata = function (MetadataKey, MetadataValue, O, P) {
-  getOrCreateMetadataMap(O, P, true).set(MetadataKey, MetadataValue);
-};
-var ordinaryOwnMetadataKeys = function (target, targetKey) {
-  var metadataMap = getOrCreateMetadataMap(target, targetKey, false);
-  var keys = [];
-  if (metadataMap) metadataMap.forEach(function (_, key) { keys.push(key); });
-  return keys;
-};
-var toMetaKey = function (it) {
-  return it === undefined || typeof it == 'symbol' ? it : String(it);
-};
-var exp = function (O) {
-  $export($export.S, 'Reflect', O);
-};
-
-module.exports = {
-  store: store,
-  map: getOrCreateMetadataMap,
-  has: ordinaryHasOwnMetadata,
-  get: ordinaryGetOwnMetadata,
-  set: ordinaryDefineOwnMetadata,
-  keys: ordinaryOwnMetadataKeys,
-  key: toMetaKey,
-  exp: exp
-};
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
  * @license
  * Lodash <https://lodash.com/>
@@ -1118,7 +574,7 @@ module.exports = {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.4';
+  var VERSION = '4.17.10';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -1249,7 +705,6 @@ module.exports = {
   /** Used to match property names within property paths. */
   var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
       reIsPlainProp = /^\w*$/,
-      reLeadingDot = /^\./,
       rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
   /**
@@ -1349,8 +804,8 @@ module.exports = {
       reOptMod = rsModifier + '?',
       rsOptVar = '[' + rsVarRange + ']?',
       rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
-      rsOrdLower = '\\d*(?:(?:1st|2nd|3rd|(?![123])\\dth)\\b)',
-      rsOrdUpper = '\\d*(?:(?:1ST|2ND|3RD|(?![123])\\dTH)\\b)',
+      rsOrdLower = '\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])',
+      rsOrdUpper = '\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])',
       rsSeq = rsOptVar + reOptMod + rsOptJoin,
       rsEmoji = '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq,
       rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
@@ -1543,6 +998,14 @@ module.exports = {
   /** Used to access faster Node.js helpers. */
   var nodeUtil = (function() {
     try {
+      // Use `util.types` for Node.js 10+.
+      var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+      if (types) {
+        return types;
+      }
+
+      // Legacy `process.binding('util')` for Node.js < 10.
       return freeProcess && freeProcess.binding && freeProcess.binding('util');
     } catch (e) {}
   }());
@@ -1556,34 +1019,6 @@ module.exports = {
       nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
   /*--------------------------------------------------------------------------*/
-
-  /**
-   * Adds the key-value `pair` to `map`.
-   *
-   * @private
-   * @param {Object} map The map to modify.
-   * @param {Array} pair The key-value pair to add.
-   * @returns {Object} Returns `map`.
-   */
-  function addMapEntry(map, pair) {
-    // Don't return `map.set` because it's not chainable in IE 11.
-    map.set(pair[0], pair[1]);
-    return map;
-  }
-
-  /**
-   * Adds `value` to `set`.
-   *
-   * @private
-   * @param {Object} set The set to modify.
-   * @param {*} value The value to add.
-   * @returns {Object} Returns `set`.
-   */
-  function addSetEntry(set, value) {
-    // Don't return `set.add` because it's not chainable in IE 11.
-    set.add(value);
-    return set;
-  }
 
   /**
    * A faster alternative to `Function#apply`, this function invokes `func`
@@ -2349,6 +1784,20 @@ module.exports = {
       }
     }
     return result;
+  }
+
+  /**
+   * Gets the value at `key`, unless `key` is "__proto__".
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @param {string} key The key of the property to get.
+   * @returns {*} Returns the property value.
+   */
+  function safeGet(object, key) {
+    return key == '__proto__'
+      ? undefined
+      : object[key];
   }
 
   /**
@@ -3783,7 +3232,7 @@ module.exports = {
           if (!cloneableTags[tag]) {
             return object ? value : {};
           }
-          result = initCloneByTag(value, tag, baseClone, isDeep);
+          result = initCloneByTag(value, tag, isDeep);
         }
       }
       // Check for circular references and return its corresponding clone.
@@ -3793,6 +3242,22 @@ module.exports = {
         return stacked;
       }
       stack.set(value, result);
+
+      if (isSet(value)) {
+        value.forEach(function(subValue) {
+          result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+        });
+
+        return result;
+      }
+
+      if (isMap(value)) {
+        value.forEach(function(subValue, key) {
+          result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
+        });
+
+        return result;
+      }
 
       var keysFunc = isFull
         ? (isFlat ? getAllKeysIn : getAllKeys)
@@ -4721,7 +4186,7 @@ module.exports = {
         }
         else {
           var newValue = customizer
-            ? customizer(object[key], srcValue, (key + ''), object, source, stack)
+            ? customizer(safeGet(object, key), srcValue, (key + ''), object, source, stack)
             : undefined;
 
           if (newValue === undefined) {
@@ -4748,8 +4213,8 @@ module.exports = {
      *  counterparts.
      */
     function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-      var objValue = object[key],
-          srcValue = source[key],
+      var objValue = safeGet(object, key),
+          srcValue = safeGet(source, key),
           stacked = stack.get(srcValue);
 
       if (stacked) {
@@ -5658,20 +5123,6 @@ module.exports = {
     }
 
     /**
-     * Creates a clone of `map`.
-     *
-     * @private
-     * @param {Object} map The map to clone.
-     * @param {Function} cloneFunc The function to clone values.
-     * @param {boolean} [isDeep] Specify a deep clone.
-     * @returns {Object} Returns the cloned map.
-     */
-    function cloneMap(map, isDeep, cloneFunc) {
-      var array = isDeep ? cloneFunc(mapToArray(map), CLONE_DEEP_FLAG) : mapToArray(map);
-      return arrayReduce(array, addMapEntry, new map.constructor);
-    }
-
-    /**
      * Creates a clone of `regexp`.
      *
      * @private
@@ -5682,20 +5133,6 @@ module.exports = {
       var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
       result.lastIndex = regexp.lastIndex;
       return result;
-    }
-
-    /**
-     * Creates a clone of `set`.
-     *
-     * @private
-     * @param {Object} set The set to clone.
-     * @param {Function} cloneFunc The function to clone values.
-     * @param {boolean} [isDeep] Specify a deep clone.
-     * @returns {Object} Returns the cloned set.
-     */
-    function cloneSet(set, isDeep, cloneFunc) {
-      var array = isDeep ? cloneFunc(setToArray(set), CLONE_DEEP_FLAG) : setToArray(set);
-      return arrayReduce(array, addSetEntry, new set.constructor);
     }
 
     /**
@@ -7292,7 +6729,7 @@ module.exports = {
      */
     function initCloneArray(array) {
       var length = array.length,
-          result = array.constructor(length);
+          result = new array.constructor(length);
 
       // Add properties assigned by `RegExp#exec`.
       if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
@@ -7319,16 +6756,15 @@ module.exports = {
      * Initializes an object clone based on its `toStringTag`.
      *
      * **Note:** This function only supports cloning values with tags of
-     * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+     * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
      *
      * @private
      * @param {Object} object The object to clone.
      * @param {string} tag The `toStringTag` of the object to clone.
-     * @param {Function} cloneFunc The function to clone values.
      * @param {boolean} [isDeep] Specify a deep clone.
      * @returns {Object} Returns the initialized clone.
      */
-    function initCloneByTag(object, tag, cloneFunc, isDeep) {
+    function initCloneByTag(object, tag, isDeep) {
       var Ctor = object.constructor;
       switch (tag) {
         case arrayBufferTag:
@@ -7347,7 +6783,7 @@ module.exports = {
           return cloneTypedArray(object, isDeep);
 
         case mapTag:
-          return cloneMap(object, isDeep, cloneFunc);
+          return new Ctor;
 
         case numberTag:
         case stringTag:
@@ -7357,7 +6793,7 @@ module.exports = {
           return cloneRegExp(object);
 
         case setTag:
-          return cloneSet(object, isDeep, cloneFunc);
+          return new Ctor;
 
         case symbolTag:
           return cloneSymbol(object);
@@ -7404,10 +6840,13 @@ module.exports = {
      * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
      */
     function isIndex(value, length) {
+      var type = typeof value;
       length = length == null ? MAX_SAFE_INTEGER : length;
+
       return !!length &&
-        (typeof value == 'number' || reIsUint.test(value)) &&
-        (value > -1 && value % 1 == 0 && value < length);
+        (type == 'number' ||
+          (type != 'symbol' && reIsUint.test(value))) &&
+            (value > -1 && value % 1 == 0 && value < length);
     }
 
     /**
@@ -7857,11 +7296,11 @@ module.exports = {
      */
     var stringToPath = memoizeCapped(function(string) {
       var result = [];
-      if (reLeadingDot.test(string)) {
+      if (string.charCodeAt(0) === 46 /* . */) {
         result.push('');
       }
-      string.replace(rePropName, function(match, number, quote, string) {
-        result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+      string.replace(rePropName, function(match, number, quote, subString) {
+        result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
       });
       return result;
     });
@@ -11469,9 +10908,11 @@ module.exports = {
       function remainingWait(time) {
         var timeSinceLastCall = time - lastCallTime,
             timeSinceLastInvoke = time - lastInvokeTime,
-            result = wait - timeSinceLastCall;
+            timeWaiting = wait - timeSinceLastCall;
 
-        return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+        return maxing
+          ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+          : timeWaiting;
       }
 
       function shouldInvoke(time) {
@@ -13903,9 +13344,35 @@ module.exports = {
      * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
      * // => { 'a': 1, 'b': 2 }
      */
-    var defaults = baseRest(function(args) {
-      args.push(undefined, customDefaultsAssignIn);
-      return apply(assignInWith, undefined, args);
+    var defaults = baseRest(function(object, sources) {
+      object = Object(object);
+
+      var index = -1;
+      var length = sources.length;
+      var guard = length > 2 ? sources[2] : undefined;
+
+      if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+        length = 1;
+      }
+
+      while (++index < length) {
+        var source = sources[index];
+        var props = keysIn(source);
+        var propsIndex = -1;
+        var propsLength = props.length;
+
+        while (++propsIndex < propsLength) {
+          var key = props[propsIndex];
+          var value = object[key];
+
+          if (value === undefined ||
+              (eq(value, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+            object[key] = source[key];
+          }
+        }
+      }
+
+      return object;
     });
 
     /**
@@ -14302,6 +13769,11 @@ module.exports = {
      * // => { '1': 'c', '2': 'b' }
      */
     var invert = createInverter(function(result, value, key) {
+      if (value != null &&
+          typeof value.toString != 'function') {
+        value = nativeObjectToString.call(value);
+      }
+
       result[value] = key;
     }, constant(identity));
 
@@ -14332,6 +13804,11 @@ module.exports = {
      * // => { 'group1': ['a', 'c'], 'group2': ['b'] }
      */
     var invertBy = createInverter(function(result, value, key) {
+      if (value != null &&
+          typeof value.toString != 'function') {
+        value = nativeObjectToString.call(value);
+      }
+
       if (hasOwnProperty.call(result, value)) {
         result[value].push(key);
       } else {
@@ -18190,7 +17667,551 @@ module.exports = {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(68), __webpack_require__(340)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67), __webpack_require__(339)(module)))
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+if (__webpack_require__(6)) {
+  var LIBRARY = __webpack_require__(35);
+  var global = __webpack_require__(2);
+  var fails = __webpack_require__(3);
+  var $export = __webpack_require__(0);
+  var $typed = __webpack_require__(63);
+  var $buffer = __webpack_require__(93);
+  var ctx = __webpack_require__(18);
+  var anInstance = __webpack_require__(41);
+  var propertyDesc = __webpack_require__(33);
+  var hide = __webpack_require__(12);
+  var redefineAll = __webpack_require__(43);
+  var toInteger = __webpack_require__(24);
+  var toLength = __webpack_require__(8);
+  var toIndex = __webpack_require__(124);
+  var toAbsoluteIndex = __webpack_require__(37);
+  var toPrimitive = __webpack_require__(22);
+  var has = __webpack_require__(11);
+  var classof = __webpack_require__(52);
+  var isObject = __webpack_require__(4);
+  var toObject = __webpack_require__(9);
+  var isArrayIter = __webpack_require__(84);
+  var create = __webpack_require__(38);
+  var getPrototypeOf = __webpack_require__(17);
+  var gOPN = __webpack_require__(39).f;
+  var getIterFn = __webpack_require__(86);
+  var uid = __webpack_require__(34);
+  var wks = __webpack_require__(5);
+  var createArrayMethod = __webpack_require__(26);
+  var createArrayIncludes = __webpack_require__(54);
+  var speciesConstructor = __webpack_require__(61);
+  var ArrayIterators = __webpack_require__(89);
+  var Iterators = __webpack_require__(47);
+  var $iterDetect = __webpack_require__(58);
+  var setSpecies = __webpack_require__(40);
+  var arrayFill = __webpack_require__(88);
+  var arrayCopyWithin = __webpack_require__(114);
+  var $DP = __webpack_require__(7);
+  var $GOPD = __webpack_require__(16);
+  var dP = $DP.f;
+  var gOPD = $GOPD.f;
+  var RangeError = global.RangeError;
+  var TypeError = global.TypeError;
+  var Uint8Array = global.Uint8Array;
+  var ARRAY_BUFFER = 'ArrayBuffer';
+  var SHARED_BUFFER = 'Shared' + ARRAY_BUFFER;
+  var BYTES_PER_ELEMENT = 'BYTES_PER_ELEMENT';
+  var PROTOTYPE = 'prototype';
+  var ArrayProto = Array[PROTOTYPE];
+  var $ArrayBuffer = $buffer.ArrayBuffer;
+  var $DataView = $buffer.DataView;
+  var arrayForEach = createArrayMethod(0);
+  var arrayFilter = createArrayMethod(2);
+  var arraySome = createArrayMethod(3);
+  var arrayEvery = createArrayMethod(4);
+  var arrayFind = createArrayMethod(5);
+  var arrayFindIndex = createArrayMethod(6);
+  var arrayIncludes = createArrayIncludes(true);
+  var arrayIndexOf = createArrayIncludes(false);
+  var arrayValues = ArrayIterators.values;
+  var arrayKeys = ArrayIterators.keys;
+  var arrayEntries = ArrayIterators.entries;
+  var arrayLastIndexOf = ArrayProto.lastIndexOf;
+  var arrayReduce = ArrayProto.reduce;
+  var arrayReduceRight = ArrayProto.reduceRight;
+  var arrayJoin = ArrayProto.join;
+  var arraySort = ArrayProto.sort;
+  var arraySlice = ArrayProto.slice;
+  var arrayToString = ArrayProto.toString;
+  var arrayToLocaleString = ArrayProto.toLocaleString;
+  var ITERATOR = wks('iterator');
+  var TAG = wks('toStringTag');
+  var TYPED_CONSTRUCTOR = uid('typed_constructor');
+  var DEF_CONSTRUCTOR = uid('def_constructor');
+  var ALL_CONSTRUCTORS = $typed.CONSTR;
+  var TYPED_ARRAY = $typed.TYPED;
+  var VIEW = $typed.VIEW;
+  var WRONG_LENGTH = 'Wrong length!';
+
+  var $map = createArrayMethod(1, function (O, length) {
+    return allocate(speciesConstructor(O, O[DEF_CONSTRUCTOR]), length);
+  });
+
+  var LITTLE_ENDIAN = fails(function () {
+    // eslint-disable-next-line no-undef
+    return new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
+  });
+
+  var FORCED_SET = !!Uint8Array && !!Uint8Array[PROTOTYPE].set && fails(function () {
+    new Uint8Array(1).set({});
+  });
+
+  var toOffset = function (it, BYTES) {
+    var offset = toInteger(it);
+    if (offset < 0 || offset % BYTES) throw RangeError('Wrong offset!');
+    return offset;
+  };
+
+  var validate = function (it) {
+    if (isObject(it) && TYPED_ARRAY in it) return it;
+    throw TypeError(it + ' is not a typed array!');
+  };
+
+  var allocate = function (C, length) {
+    if (!(isObject(C) && TYPED_CONSTRUCTOR in C)) {
+      throw TypeError('It is not a typed array constructor!');
+    } return new C(length);
+  };
+
+  var speciesFromList = function (O, list) {
+    return fromList(speciesConstructor(O, O[DEF_CONSTRUCTOR]), list);
+  };
+
+  var fromList = function (C, list) {
+    var index = 0;
+    var length = list.length;
+    var result = allocate(C, length);
+    while (length > index) result[index] = list[index++];
+    return result;
+  };
+
+  var addGetter = function (it, key, internal) {
+    dP(it, key, { get: function () { return this._d[internal]; } });
+  };
+
+  var $from = function from(source /* , mapfn, thisArg */) {
+    var O = toObject(source);
+    var aLen = arguments.length;
+    var mapfn = aLen > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    var iterFn = getIterFn(O);
+    var i, length, values, result, step, iterator;
+    if (iterFn != undefined && !isArrayIter(iterFn)) {
+      for (iterator = iterFn.call(O), values = [], i = 0; !(step = iterator.next()).done; i++) {
+        values.push(step.value);
+      } O = values;
+    }
+    if (mapping && aLen > 2) mapfn = ctx(mapfn, arguments[2], 2);
+    for (i = 0, length = toLength(O.length), result = allocate(this, length); length > i; i++) {
+      result[i] = mapping ? mapfn(O[i], i) : O[i];
+    }
+    return result;
+  };
+
+  var $of = function of(/* ...items */) {
+    var index = 0;
+    var length = arguments.length;
+    var result = allocate(this, length);
+    while (length > index) result[index] = arguments[index++];
+    return result;
+  };
+
+  // iOS Safari 6.x fails here
+  var TO_LOCALE_BUG = !!Uint8Array && fails(function () { arrayToLocaleString.call(new Uint8Array(1)); });
+
+  var $toLocaleString = function toLocaleString() {
+    return arrayToLocaleString.apply(TO_LOCALE_BUG ? arraySlice.call(validate(this)) : validate(this), arguments);
+  };
+
+  var proto = {
+    copyWithin: function copyWithin(target, start /* , end */) {
+      return arrayCopyWithin.call(validate(this), target, start, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    every: function every(callbackfn /* , thisArg */) {
+      return arrayEvery(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    fill: function fill(value /* , start, end */) { // eslint-disable-line no-unused-vars
+      return arrayFill.apply(validate(this), arguments);
+    },
+    filter: function filter(callbackfn /* , thisArg */) {
+      return speciesFromList(this, arrayFilter(validate(this), callbackfn,
+        arguments.length > 1 ? arguments[1] : undefined));
+    },
+    find: function find(predicate /* , thisArg */) {
+      return arrayFind(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    findIndex: function findIndex(predicate /* , thisArg */) {
+      return arrayFindIndex(validate(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    forEach: function forEach(callbackfn /* , thisArg */) {
+      arrayForEach(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    indexOf: function indexOf(searchElement /* , fromIndex */) {
+      return arrayIndexOf(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    includes: function includes(searchElement /* , fromIndex */) {
+      return arrayIncludes(validate(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    join: function join(separator) { // eslint-disable-line no-unused-vars
+      return arrayJoin.apply(validate(this), arguments);
+    },
+    lastIndexOf: function lastIndexOf(searchElement /* , fromIndex */) { // eslint-disable-line no-unused-vars
+      return arrayLastIndexOf.apply(validate(this), arguments);
+    },
+    map: function map(mapfn /* , thisArg */) {
+      return $map(validate(this), mapfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    reduce: function reduce(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
+      return arrayReduce.apply(validate(this), arguments);
+    },
+    reduceRight: function reduceRight(callbackfn /* , initialValue */) { // eslint-disable-line no-unused-vars
+      return arrayReduceRight.apply(validate(this), arguments);
+    },
+    reverse: function reverse() {
+      var that = this;
+      var length = validate(that).length;
+      var middle = Math.floor(length / 2);
+      var index = 0;
+      var value;
+      while (index < middle) {
+        value = that[index];
+        that[index++] = that[--length];
+        that[length] = value;
+      } return that;
+    },
+    some: function some(callbackfn /* , thisArg */) {
+      return arraySome(validate(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    },
+    sort: function sort(comparefn) {
+      return arraySort.call(validate(this), comparefn);
+    },
+    subarray: function subarray(begin, end) {
+      var O = validate(this);
+      var length = O.length;
+      var $begin = toAbsoluteIndex(begin, length);
+      return new (speciesConstructor(O, O[DEF_CONSTRUCTOR]))(
+        O.buffer,
+        O.byteOffset + $begin * O.BYTES_PER_ELEMENT,
+        toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - $begin)
+      );
+    }
+  };
+
+  var $slice = function slice(start, end) {
+    return speciesFromList(this, arraySlice.call(validate(this), start, end));
+  };
+
+  var $set = function set(arrayLike /* , offset */) {
+    validate(this);
+    var offset = toOffset(arguments[1], 1);
+    var length = this.length;
+    var src = toObject(arrayLike);
+    var len = toLength(src.length);
+    var index = 0;
+    if (len + offset > length) throw RangeError(WRONG_LENGTH);
+    while (index < len) this[offset + index] = src[index++];
+  };
+
+  var $iterators = {
+    entries: function entries() {
+      return arrayEntries.call(validate(this));
+    },
+    keys: function keys() {
+      return arrayKeys.call(validate(this));
+    },
+    values: function values() {
+      return arrayValues.call(validate(this));
+    }
+  };
+
+  var isTAIndex = function (target, key) {
+    return isObject(target)
+      && target[TYPED_ARRAY]
+      && typeof key != 'symbol'
+      && key in target
+      && String(+key) == String(key);
+  };
+  var $getDesc = function getOwnPropertyDescriptor(target, key) {
+    return isTAIndex(target, key = toPrimitive(key, true))
+      ? propertyDesc(2, target[key])
+      : gOPD(target, key);
+  };
+  var $setDesc = function defineProperty(target, key, desc) {
+    if (isTAIndex(target, key = toPrimitive(key, true))
+      && isObject(desc)
+      && has(desc, 'value')
+      && !has(desc, 'get')
+      && !has(desc, 'set')
+      // TODO: add validation descriptor w/o calling accessors
+      && !desc.configurable
+      && (!has(desc, 'writable') || desc.writable)
+      && (!has(desc, 'enumerable') || desc.enumerable)
+    ) {
+      target[key] = desc.value;
+      return target;
+    } return dP(target, key, desc);
+  };
+
+  if (!ALL_CONSTRUCTORS) {
+    $GOPD.f = $getDesc;
+    $DP.f = $setDesc;
+  }
+
+  $export($export.S + $export.F * !ALL_CONSTRUCTORS, 'Object', {
+    getOwnPropertyDescriptor: $getDesc,
+    defineProperty: $setDesc
+  });
+
+  if (fails(function () { arrayToString.call({}); })) {
+    arrayToString = arrayToLocaleString = function toString() {
+      return arrayJoin.call(this);
+    };
+  }
+
+  var $TypedArrayPrototype$ = redefineAll({}, proto);
+  redefineAll($TypedArrayPrototype$, $iterators);
+  hide($TypedArrayPrototype$, ITERATOR, $iterators.values);
+  redefineAll($TypedArrayPrototype$, {
+    slice: $slice,
+    set: $set,
+    constructor: function () { /* noop */ },
+    toString: arrayToString,
+    toLocaleString: $toLocaleString
+  });
+  addGetter($TypedArrayPrototype$, 'buffer', 'b');
+  addGetter($TypedArrayPrototype$, 'byteOffset', 'o');
+  addGetter($TypedArrayPrototype$, 'byteLength', 'l');
+  addGetter($TypedArrayPrototype$, 'length', 'e');
+  dP($TypedArrayPrototype$, TAG, {
+    get: function () { return this[TYPED_ARRAY]; }
+  });
+
+  // eslint-disable-next-line max-statements
+  module.exports = function (KEY, BYTES, wrapper, CLAMPED) {
+    CLAMPED = !!CLAMPED;
+    var NAME = KEY + (CLAMPED ? 'Clamped' : '') + 'Array';
+    var GETTER = 'get' + KEY;
+    var SETTER = 'set' + KEY;
+    var TypedArray = global[NAME];
+    var Base = TypedArray || {};
+    var TAC = TypedArray && getPrototypeOf(TypedArray);
+    var FORCED = !TypedArray || !$typed.ABV;
+    var O = {};
+    var TypedArrayPrototype = TypedArray && TypedArray[PROTOTYPE];
+    var getter = function (that, index) {
+      var data = that._d;
+      return data.v[GETTER](index * BYTES + data.o, LITTLE_ENDIAN);
+    };
+    var setter = function (that, index, value) {
+      var data = that._d;
+      if (CLAMPED) value = (value = Math.round(value)) < 0 ? 0 : value > 0xff ? 0xff : value & 0xff;
+      data.v[SETTER](index * BYTES + data.o, value, LITTLE_ENDIAN);
+    };
+    var addElement = function (that, index) {
+      dP(that, index, {
+        get: function () {
+          return getter(this, index);
+        },
+        set: function (value) {
+          return setter(this, index, value);
+        },
+        enumerable: true
+      });
+    };
+    if (FORCED) {
+      TypedArray = wrapper(function (that, data, $offset, $length) {
+        anInstance(that, TypedArray, NAME, '_d');
+        var index = 0;
+        var offset = 0;
+        var buffer, byteLength, length, klass;
+        if (!isObject(data)) {
+          length = toIndex(data);
+          byteLength = length * BYTES;
+          buffer = new $ArrayBuffer(byteLength);
+        } else if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
+          buffer = data;
+          offset = toOffset($offset, BYTES);
+          var $len = data.byteLength;
+          if ($length === undefined) {
+            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
+            byteLength = $len - offset;
+            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
+          } else {
+            byteLength = toLength($length) * BYTES;
+            if (byteLength + offset > $len) throw RangeError(WRONG_LENGTH);
+          }
+          length = byteLength / BYTES;
+        } else if (TYPED_ARRAY in data) {
+          return fromList(TypedArray, data);
+        } else {
+          return $from.call(TypedArray, data);
+        }
+        hide(that, '_d', {
+          b: buffer,
+          o: offset,
+          l: byteLength,
+          e: length,
+          v: new $DataView(buffer)
+        });
+        while (index < length) addElement(that, index++);
+      });
+      TypedArrayPrototype = TypedArray[PROTOTYPE] = create($TypedArrayPrototype$);
+      hide(TypedArrayPrototype, 'constructor', TypedArray);
+    } else if (!fails(function () {
+      TypedArray(1);
+    }) || !fails(function () {
+      new TypedArray(-1); // eslint-disable-line no-new
+    }) || !$iterDetect(function (iter) {
+      new TypedArray(); // eslint-disable-line no-new
+      new TypedArray(null); // eslint-disable-line no-new
+      new TypedArray(1.5); // eslint-disable-line no-new
+      new TypedArray(iter); // eslint-disable-line no-new
+    }, true)) {
+      TypedArray = wrapper(function (that, data, $offset, $length) {
+        anInstance(that, TypedArray, NAME);
+        var klass;
+        // `ws` module bug, temporarily remove validation length for Uint8Array
+        // https://github.com/websockets/ws/pull/645
+        if (!isObject(data)) return new Base(toIndex(data));
+        if (data instanceof $ArrayBuffer || (klass = classof(data)) == ARRAY_BUFFER || klass == SHARED_BUFFER) {
+          return $length !== undefined
+            ? new Base(data, toOffset($offset, BYTES), $length)
+            : $offset !== undefined
+              ? new Base(data, toOffset($offset, BYTES))
+              : new Base(data);
+        }
+        if (TYPED_ARRAY in data) return fromList(TypedArray, data);
+        return $from.call(TypedArray, data);
+      });
+      arrayForEach(TAC !== Function.prototype ? gOPN(Base).concat(gOPN(TAC)) : gOPN(Base), function (key) {
+        if (!(key in TypedArray)) hide(TypedArray, key, Base[key]);
+      });
+      TypedArray[PROTOTYPE] = TypedArrayPrototype;
+      if (!LIBRARY) TypedArrayPrototype.constructor = TypedArray;
+    }
+    var $nativeIterator = TypedArrayPrototype[ITERATOR];
+    var CORRECT_ITER_NAME = !!$nativeIterator
+      && ($nativeIterator.name == 'values' || $nativeIterator.name == undefined);
+    var $iterator = $iterators.values;
+    hide(TypedArray, TYPED_CONSTRUCTOR, true);
+    hide(TypedArrayPrototype, TYPED_ARRAY, NAME);
+    hide(TypedArrayPrototype, VIEW, true);
+    hide(TypedArrayPrototype, DEF_CONSTRUCTOR, TypedArray);
+
+    if (CLAMPED ? new TypedArray(1)[TAG] != NAME : !(TAG in TypedArrayPrototype)) {
+      dP(TypedArrayPrototype, TAG, {
+        get: function () { return NAME; }
+      });
+    }
+
+    O[NAME] = TypedArray;
+
+    $export($export.G + $export.W + $export.F * (TypedArray != Base), O);
+
+    $export($export.S, NAME, {
+      BYTES_PER_ELEMENT: BYTES
+    });
+
+    $export($export.S + $export.F * fails(function () { Base.of.call(TypedArray, 1); }), NAME, {
+      from: $from,
+      of: $of
+    });
+
+    if (!(BYTES_PER_ELEMENT in TypedArrayPrototype)) hide(TypedArrayPrototype, BYTES_PER_ELEMENT, BYTES);
+
+    $export($export.P, NAME, proto);
+
+    setSpecies(NAME);
+
+    $export($export.P + $export.F * FORCED_SET, NAME, { set: $set });
+
+    $export($export.P + $export.F * !CORRECT_ITER_NAME, NAME, $iterators);
+
+    if (!LIBRARY && TypedArrayPrototype.toString != arrayToString) TypedArrayPrototype.toString = arrayToString;
+
+    $export($export.P + $export.F * fails(function () {
+      new TypedArray(1).slice();
+    }), NAME, { slice: $slice });
+
+    $export($export.P + $export.F * (fails(function () {
+      return [1, 2].toLocaleString() != new TypedArray([1, 2]).toLocaleString();
+    }) || !fails(function () {
+      TypedArrayPrototype.toLocaleString.call([1, 2]);
+    })), NAME, { toLocaleString: $toLocaleString });
+
+    Iterators[NAME] = CORRECT_ITER_NAME ? $nativeIterator : $iterator;
+    if (!LIBRARY && !CORRECT_ITER_NAME) hide(TypedArrayPrototype, ITERATOR, $iterator);
+  };
+} else module.exports = function () { /* empty */ };
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Map = __webpack_require__(119);
+var $export = __webpack_require__(0);
+var shared = __webpack_require__(53)('metadata');
+var store = shared.store || (shared.store = new (__webpack_require__(122))());
+
+var getOrCreateMetadataMap = function (target, targetKey, create) {
+  var targetMetadata = store.get(target);
+  if (!targetMetadata) {
+    if (!create) return undefined;
+    store.set(target, targetMetadata = new Map());
+  }
+  var keyMetadata = targetMetadata.get(targetKey);
+  if (!keyMetadata) {
+    if (!create) return undefined;
+    targetMetadata.set(targetKey, keyMetadata = new Map());
+  } return keyMetadata;
+};
+var ordinaryHasOwnMetadata = function (MetadataKey, O, P) {
+  var metadataMap = getOrCreateMetadataMap(O, P, false);
+  return metadataMap === undefined ? false : metadataMap.has(MetadataKey);
+};
+var ordinaryGetOwnMetadata = function (MetadataKey, O, P) {
+  var metadataMap = getOrCreateMetadataMap(O, P, false);
+  return metadataMap === undefined ? undefined : metadataMap.get(MetadataKey);
+};
+var ordinaryDefineOwnMetadata = function (MetadataKey, MetadataValue, O, P) {
+  getOrCreateMetadataMap(O, P, true).set(MetadataKey, MetadataValue);
+};
+var ordinaryOwnMetadataKeys = function (target, targetKey) {
+  var metadataMap = getOrCreateMetadataMap(target, targetKey, false);
+  var keys = [];
+  if (metadataMap) metadataMap.forEach(function (_, key) { keys.push(key); });
+  return keys;
+};
+var toMetaKey = function (it) {
+  return it === undefined || typeof it == 'symbol' ? it : String(it);
+};
+var exp = function (O) {
+  $export($export.S, 'Reflect', O);
+};
+
+module.exports = {
+  store: store,
+  map: getOrCreateMetadataMap,
+  has: ordinaryHasOwnMetadata,
+  get: ordinaryGetOwnMetadata,
+  set: ordinaryDefineOwnMetadata,
+  keys: ordinaryOwnMetadataKeys,
+  key: toMetaKey,
+  exp: exp
+};
+
 
 /***/ }),
 /* 30 */
@@ -18269,7 +18290,7 @@ module.exports = function (key) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.2.1
+ * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -18279,7 +18300,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2017-03-20T18:59Z
+ * Date: 2018-01-20T17:24Z
  */
 ( function( global, factory ) {
 
@@ -18341,16 +18362,57 @@ var ObjectFunctionString = fnToString.call( Object );
 
 var support = {};
 
+var isFunction = function isFunction( obj ) {
+
+      // Support: Chrome <=57, Firefox <=52
+      // In some browsers, typeof returns "function" for HTML <object> elements
+      // (i.e., `typeof document.createElement( "object" ) === "function"`).
+      // We don't want to classify *any* DOM node as a function.
+      return typeof obj === "function" && typeof obj.nodeType !== "number";
+  };
 
 
-	function DOMEval( code, doc ) {
+var isWindow = function isWindow( obj ) {
+		return obj != null && obj === obj.window;
+	};
+
+
+
+
+	var preservedScriptAttributes = {
+		type: true,
+		src: true,
+		noModule: true
+	};
+
+	function DOMEval( code, doc, node ) {
 		doc = doc || document;
 
-		var script = doc.createElement( "script" );
+		var i,
+			script = doc.createElement( "script" );
 
 		script.text = code;
+		if ( node ) {
+			for ( i in preservedScriptAttributes ) {
+				if ( node[ i ] ) {
+					script[ i ] = node[ i ];
+				}
+			}
+		}
 		doc.head.appendChild( script ).parentNode.removeChild( script );
 	}
+
+
+function toType( obj ) {
+	if ( obj == null ) {
+		return obj + "";
+	}
+
+	// Support: Android <=2.3 only (functionish RegExp)
+	return typeof obj === "object" || typeof obj === "function" ?
+		class2type[ toString.call( obj ) ] || "object" :
+		typeof obj;
+}
 /* global Symbol */
 // Defining this global in .eslintrc.json would create a danger of using the global
 // unguarded in another place, it seems safer to define global only for this module
@@ -18358,7 +18420,7 @@ var support = {};
 
 
 var
-	version = "3.2.1",
+	version = "3.3.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -18370,16 +18432,7 @@ var
 
 	// Support: Android <=4.0 only
 	// Make sure we trim BOM and NBSP
-	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
-
-	// Matches dashed string for camelizing
-	rmsPrefix = /^-ms-/,
-	rdashAlpha = /-([a-z])/g,
-
-	// Used by jQuery.camelCase as callback to replace()
-	fcamelCase = function( all, letter ) {
-		return letter.toUpperCase();
-	};
+	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
 jQuery.fn = jQuery.prototype = {
 
@@ -18479,7 +18532,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	// Handle case when target is a string or something (possible in deep copy)
-	if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
+	if ( typeof target !== "object" && !isFunction( target ) ) {
 		target = {};
 	}
 
@@ -18545,28 +18598,6 @@ jQuery.extend( {
 
 	noop: function() {},
 
-	isFunction: function( obj ) {
-		return jQuery.type( obj ) === "function";
-	},
-
-	isWindow: function( obj ) {
-		return obj != null && obj === obj.window;
-	},
-
-	isNumeric: function( obj ) {
-
-		// As of jQuery 3.0, isNumeric is limited to
-		// strings and numbers (primitives or objects)
-		// that can be coerced to finite numbers (gh-2662)
-		var type = jQuery.type( obj );
-		return ( type === "number" || type === "string" ) &&
-
-			// parseFloat NaNs numeric-cast false positives ("")
-			// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-			// subtraction forces infinities to NaN
-			!isNaN( obj - parseFloat( obj ) );
-	},
-
 	isPlainObject: function( obj ) {
 		var proto, Ctor;
 
@@ -18600,27 +18631,9 @@ jQuery.extend( {
 		return true;
 	},
 
-	type: function( obj ) {
-		if ( obj == null ) {
-			return obj + "";
-		}
-
-		// Support: Android <=2.3 only (functionish RegExp)
-		return typeof obj === "object" || typeof obj === "function" ?
-			class2type[ toString.call( obj ) ] || "object" :
-			typeof obj;
-	},
-
 	// Evaluates a script in a global context
 	globalEval: function( code ) {
 		DOMEval( code );
-	},
-
-	// Convert dashed to camelCase; used by the css and data modules
-	// Support: IE <=9 - 11, Edge 12 - 13
-	// Microsoft forgot to hump their vendor prefix (#9572)
-	camelCase: function( string ) {
-		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 	},
 
 	each: function( obj, callback ) {
@@ -18743,37 +18756,6 @@ jQuery.extend( {
 	// A global GUID counter for objects
 	guid: 1,
 
-	// Bind a function to a context, optionally partially applying any
-	// arguments.
-	proxy: function( fn, context ) {
-		var tmp, args, proxy;
-
-		if ( typeof context === "string" ) {
-			tmp = fn[ context ];
-			context = fn;
-			fn = tmp;
-		}
-
-		// Quick check to determine if target is callable, in the spec
-		// this throws a TypeError, but we will just return undefined.
-		if ( !jQuery.isFunction( fn ) ) {
-			return undefined;
-		}
-
-		// Simulated bind
-		args = slice.call( arguments, 2 );
-		proxy = function() {
-			return fn.apply( context || this, args.concat( slice.call( arguments ) ) );
-		};
-
-		// Set the guid of unique handler to the same of original handler, so it can be removed
-		proxy.guid = fn.guid = fn.guid || jQuery.guid++;
-
-		return proxy;
-	},
-
-	now: Date.now,
-
 	// jQuery.support is not used in Core but other projects attach their
 	// properties to it so it needs to exist.
 	support: support
@@ -18796,9 +18778,9 @@ function isArrayLike( obj ) {
 	// hasOwn isn't used here due to false negatives
 	// regarding Nodelist length in IE
 	var length = !!obj && "length" in obj && obj.length,
-		type = jQuery.type( obj );
+		type = toType( obj );
 
-	if ( type === "function" || jQuery.isWindow( obj ) ) {
+	if ( isFunction( obj ) || isWindow( obj ) ) {
 		return false;
 	}
 
@@ -21118,11 +21100,9 @@ var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|
 
 
 
-var risSimple = /^.[^:#\[\.,]*$/;
-
 // Implement the identical functionality for filter and not
 function winnow( elements, qualifier, not ) {
-	if ( jQuery.isFunction( qualifier ) ) {
+	if ( isFunction( qualifier ) ) {
 		return jQuery.grep( elements, function( elem, i ) {
 			return !!qualifier.call( elem, i, elem ) !== not;
 		} );
@@ -21142,16 +21122,8 @@ function winnow( elements, qualifier, not ) {
 		} );
 	}
 
-	// Simple selector that can be filtered directly, removing non-Elements
-	if ( risSimple.test( qualifier ) ) {
-		return jQuery.filter( qualifier, elements, not );
-	}
-
-	// Complex selector, compare the two sets, removing non-Elements
-	qualifier = jQuery.filter( qualifier, elements );
-	return jQuery.grep( elements, function( elem ) {
-		return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
-	} );
+	// Filtered directly for both simple and complex selectors
+	return jQuery.filter( qualifier, elements, not );
 }
 
 jQuery.filter = function( expr, elems, not ) {
@@ -21272,7 +21244,7 @@ var rootjQuery,
 						for ( match in context ) {
 
 							// Properties of context are called as methods if possible
-							if ( jQuery.isFunction( this[ match ] ) ) {
+							if ( isFunction( this[ match ] ) ) {
 								this[ match ]( context[ match ] );
 
 							// ...and otherwise set as attributes
@@ -21315,7 +21287,7 @@ var rootjQuery,
 
 		// HANDLE: $(function)
 		// Shortcut for document ready
-		} else if ( jQuery.isFunction( selector ) ) {
+		} else if ( isFunction( selector ) ) {
 			return root.ready !== undefined ?
 				root.ready( selector ) :
 
@@ -21630,11 +21602,11 @@ jQuery.Callbacks = function( options ) {
 
 					( function add( args ) {
 						jQuery.each( args, function( _, arg ) {
-							if ( jQuery.isFunction( arg ) ) {
+							if ( isFunction( arg ) ) {
 								if ( !options.unique || !self.has( arg ) ) {
 									list.push( arg );
 								}
-							} else if ( arg && arg.length && jQuery.type( arg ) !== "string" ) {
+							} else if ( arg && arg.length && toType( arg ) !== "string" ) {
 
 								// Inspect recursively
 								add( arg );
@@ -21749,11 +21721,11 @@ function adoptValue( value, resolve, reject, noValue ) {
 	try {
 
 		// Check for promise aspect first to privilege synchronous behavior
-		if ( value && jQuery.isFunction( ( method = value.promise ) ) ) {
+		if ( value && isFunction( ( method = value.promise ) ) ) {
 			method.call( value ).done( resolve ).fail( reject );
 
 		// Other thenables
-		} else if ( value && jQuery.isFunction( ( method = value.then ) ) ) {
+		} else if ( value && isFunction( ( method = value.then ) ) ) {
 			method.call( value, resolve, reject );
 
 		// Other non-thenables
@@ -21811,14 +21783,14 @@ jQuery.extend( {
 						jQuery.each( tuples, function( i, tuple ) {
 
 							// Map tuples (progress, done, fail) to arguments (done, fail, progress)
-							var fn = jQuery.isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
+							var fn = isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
 
 							// deferred.progress(function() { bind to newDefer or newDefer.notify })
 							// deferred.done(function() { bind to newDefer or newDefer.resolve })
 							// deferred.fail(function() { bind to newDefer or newDefer.reject })
 							deferred[ tuple[ 1 ] ]( function() {
 								var returned = fn && fn.apply( this, arguments );
-								if ( returned && jQuery.isFunction( returned.promise ) ) {
+								if ( returned && isFunction( returned.promise ) ) {
 									returned.promise()
 										.progress( newDefer.notify )
 										.done( newDefer.resolve )
@@ -21872,7 +21844,7 @@ jQuery.extend( {
 										returned.then;
 
 									// Handle a returned thenable
-									if ( jQuery.isFunction( then ) ) {
+									if ( isFunction( then ) ) {
 
 										// Special processors (notify) just wait for resolution
 										if ( special ) {
@@ -21968,7 +21940,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onProgress ) ?
+								isFunction( onProgress ) ?
 									onProgress :
 									Identity,
 								newDefer.notifyWith
@@ -21980,7 +21952,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onFulfilled ) ?
+								isFunction( onFulfilled ) ?
 									onFulfilled :
 									Identity
 							)
@@ -21991,7 +21963,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onRejected ) ?
+								isFunction( onRejected ) ?
 									onRejected :
 									Thrower
 							)
@@ -22031,8 +22003,15 @@ jQuery.extend( {
 					// fulfilled_callbacks.disable
 					tuples[ 3 - i ][ 2 ].disable,
 
+					// rejected_handlers.disable
+					// fulfilled_handlers.disable
+					tuples[ 3 - i ][ 3 ].disable,
+
 					// progress_callbacks.lock
-					tuples[ 0 ][ 2 ].lock
+					tuples[ 0 ][ 2 ].lock,
+
+					// progress_handlers.lock
+					tuples[ 0 ][ 3 ].lock
 				);
 			}
 
@@ -22102,7 +22081,7 @@ jQuery.extend( {
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
 			if ( master.state() === "pending" ||
-				jQuery.isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
+				isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
 				return master.then();
 			}
@@ -22230,7 +22209,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		bulk = key == null;
 
 	// Sets many values
-	if ( jQuery.type( key ) === "object" ) {
+	if ( toType( key ) === "object" ) {
 		chainable = true;
 		for ( i in key ) {
 			access( elems, fn, i, key[ i ], true, emptyGet, raw );
@@ -22240,7 +22219,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 	} else if ( value !== undefined ) {
 		chainable = true;
 
-		if ( !jQuery.isFunction( value ) ) {
+		if ( !isFunction( value ) ) {
 			raw = true;
 		}
 
@@ -22282,6 +22261,23 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 
 	return len ? fn( elems[ 0 ], key ) : emptyGet;
 };
+
+
+// Matches dashed string for camelizing
+var rmsPrefix = /^-ms-/,
+	rdashAlpha = /-([a-z])/g;
+
+// Used by camelCase as callback to replace()
+function fcamelCase( all, letter ) {
+	return letter.toUpperCase();
+}
+
+// Convert dashed to camelCase; used by the css and data modules
+// Support: IE <=9 - 11, Edge 12 - 15
+// Microsoft forgot to hump their vendor prefix (#9572)
+function camelCase( string ) {
+	return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
+}
 var acceptData = function( owner ) {
 
 	// Accepts only:
@@ -22344,14 +22340,14 @@ Data.prototype = {
 		// Handle: [ owner, key, value ] args
 		// Always use camelCase key (gh-2257)
 		if ( typeof data === "string" ) {
-			cache[ jQuery.camelCase( data ) ] = value;
+			cache[ camelCase( data ) ] = value;
 
 		// Handle: [ owner, { properties } ] args
 		} else {
 
 			// Copy the properties one-by-one to the cache object
 			for ( prop in data ) {
-				cache[ jQuery.camelCase( prop ) ] = data[ prop ];
+				cache[ camelCase( prop ) ] = data[ prop ];
 			}
 		}
 		return cache;
@@ -22361,7 +22357,7 @@ Data.prototype = {
 			this.cache( owner ) :
 
 			// Always use camelCase key (gh-2257)
-			owner[ this.expando ] && owner[ this.expando ][ jQuery.camelCase( key ) ];
+			owner[ this.expando ] && owner[ this.expando ][ camelCase( key ) ];
 	},
 	access: function( owner, key, value ) {
 
@@ -22409,9 +22405,9 @@ Data.prototype = {
 
 				// If key is an array of keys...
 				// We always set camelCase keys, so remove that.
-				key = key.map( jQuery.camelCase );
+				key = key.map( camelCase );
 			} else {
-				key = jQuery.camelCase( key );
+				key = camelCase( key );
 
 				// If a key with the spaces exists, use it.
 				// Otherwise, create an array by matching non-whitespace
@@ -22557,7 +22553,7 @@ jQuery.fn.extend( {
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
 							if ( name.indexOf( "data-" ) === 0 ) {
-								name = jQuery.camelCase( name.slice( 5 ) );
+								name = camelCase( name.slice( 5 ) );
 								dataAttr( elem, name, data[ name ] );
 							}
 						}
@@ -22804,8 +22800,7 @@ var swap = function( elem, options, callback, args ) {
 
 
 function adjustCSS( elem, prop, valueParts, tween ) {
-	var adjusted,
-		scale = 1,
+	var adjusted, scale,
 		maxIterations = 20,
 		currentValue = tween ?
 			function() {
@@ -22823,30 +22818,33 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 
 	if ( initialInUnit && initialInUnit[ 3 ] !== unit ) {
 
+		// Support: Firefox <=54
+		// Halve the iteration target value to prevent interference from CSS upper bounds (gh-2144)
+		initial = initial / 2;
+
 		// Trust units reported by jQuery.css
 		unit = unit || initialInUnit[ 3 ];
-
-		// Make sure we update the tween properties later on
-		valueParts = valueParts || [];
 
 		// Iteratively approximate from a nonzero starting point
 		initialInUnit = +initial || 1;
 
-		do {
+		while ( maxIterations-- ) {
 
-			// If previous iteration zeroed out, double until we get *something*.
-			// Use string for doubling so we don't accidentally see scale as unchanged below
-			scale = scale || ".5";
-
-			// Adjust and apply
-			initialInUnit = initialInUnit / scale;
+			// Evaluate and update our best guess (doubling guesses that zero out).
+			// Finish if the scale equals or crosses 1 (making the old*new product non-positive).
 			jQuery.style( elem, prop, initialInUnit + unit );
+			if ( ( 1 - scale ) * ( 1 - ( scale = currentValue() / initial || 0.5 ) ) <= 0 ) {
+				maxIterations = 0;
+			}
+			initialInUnit = initialInUnit / scale;
 
-		// Update scale, tolerating zero or NaN from tween.cur()
-		// Break the loop if scale is unchanged or perfect, or if we've just had enough.
-		} while (
-			scale !== ( scale = currentValue() / initial ) && scale !== 1 && --maxIterations
-		);
+		}
+
+		initialInUnit = initialInUnit * 2;
+		jQuery.style( elem, prop, initialInUnit + unit );
+
+		// Make sure we update the tween properties later on
+		valueParts = valueParts || [];
 	}
 
 	if ( valueParts ) {
@@ -22964,7 +22962,7 @@ var rcheckableType = ( /^(?:checkbox|radio)$/i );
 
 var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
 
-var rscriptType = ( /^$|\/(?:java|ecma)script/i );
+var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 
 
 
@@ -23046,7 +23044,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 		if ( elem || elem === 0 ) {
 
 			// Add nodes directly
-			if ( jQuery.type( elem ) === "object" ) {
+			if ( toType( elem ) === "object" ) {
 
 				// Support: Android <=4.0 only, PhantomJS 1 only
 				// push.apply(_, arraylike) throws on ancient WebKit
@@ -23556,7 +23554,7 @@ jQuery.event = {
 			enumerable: true,
 			configurable: true,
 
-			get: jQuery.isFunction( hook ) ?
+			get: isFunction( hook ) ?
 				function() {
 					if ( this.originalEvent ) {
 							return hook( this.originalEvent );
@@ -23691,7 +23689,7 @@ jQuery.Event = function( src, props ) {
 	}
 
 	// Create a timestamp if incoming event doesn't have one
-	this.timeStamp = src && src.timeStamp || jQuery.now();
+	this.timeStamp = src && src.timeStamp || Date.now();
 
 	// Mark it as fixed
 	this[ jQuery.expando ] = true;
@@ -23890,14 +23888,13 @@ var
 
 	/* eslint-enable */
 
-	// Support: IE <=10 - 11, Edge 12 - 13
+	// Support: IE <=10 - 11, Edge 12 - 13 only
 	// In IE/Edge using regex groups here causes severe slowdowns.
 	// See https://connect.microsoft.com/IE/feedback/details/1736512/
 	rnoInnerhtml = /<script|<style|<link/i,
 
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-	rscriptTypeMasked = /^true\/(.*)/,
 	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
 
 // Prefer a tbody over its parent table for containing new rows
@@ -23905,7 +23902,7 @@ function manipulationTarget( elem, content ) {
 	if ( nodeName( elem, "table" ) &&
 		nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
 
-		return jQuery( ">tbody", elem )[ 0 ] || elem;
+		return jQuery( elem ).children( "tbody" )[ 0 ] || elem;
 	}
 
 	return elem;
@@ -23917,10 +23914,8 @@ function disableScript( elem ) {
 	return elem;
 }
 function restoreScript( elem ) {
-	var match = rscriptTypeMasked.exec( elem.type );
-
-	if ( match ) {
-		elem.type = match[ 1 ];
+	if ( ( elem.type || "" ).slice( 0, 5 ) === "true/" ) {
+		elem.type = elem.type.slice( 5 );
 	} else {
 		elem.removeAttribute( "type" );
 	}
@@ -23986,15 +23981,15 @@ function domManip( collection, args, callback, ignored ) {
 		l = collection.length,
 		iNoClone = l - 1,
 		value = args[ 0 ],
-		isFunction = jQuery.isFunction( value );
+		valueIsFunction = isFunction( value );
 
 	// We can't cloneNode fragments that contain checked, in WebKit
-	if ( isFunction ||
+	if ( valueIsFunction ||
 			( l > 1 && typeof value === "string" &&
 				!support.checkClone && rchecked.test( value ) ) ) {
 		return collection.each( function( index ) {
 			var self = collection.eq( index );
-			if ( isFunction ) {
+			if ( valueIsFunction ) {
 				args[ 0 ] = value.call( this, index, self.html() );
 			}
 			domManip( self, args, callback, ignored );
@@ -24048,14 +24043,14 @@ function domManip( collection, args, callback, ignored ) {
 						!dataPriv.access( node, "globalEval" ) &&
 						jQuery.contains( doc, node ) ) {
 
-						if ( node.src ) {
+						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
 
 							// Optional AJAX dependency, but won't run scripts if not present
 							if ( jQuery._evalUrl ) {
 								jQuery._evalUrl( node.src );
 							}
 						} else {
-							DOMEval( node.textContent.replace( rcleanScript, "" ), doc );
+							DOMEval( node.textContent.replace( rcleanScript, "" ), doc, node );
 						}
 					}
 				}
@@ -24335,8 +24330,6 @@ jQuery.each( {
 		return this.pushStack( ret );
 	};
 } );
-var rmargin = ( /^margin/ );
-
 var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
 var getStyles = function( elem ) {
@@ -24353,6 +24346,8 @@ var getStyles = function( elem ) {
 		return view.getComputedStyle( elem );
 	};
 
+var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
+
 
 
 ( function() {
@@ -24366,25 +24361,33 @@ var getStyles = function( elem ) {
 			return;
 		}
 
+		container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
+			"margin-top:1px;padding:0;border:0";
 		div.style.cssText =
-			"box-sizing:border-box;" +
-			"position:relative;display:block;" +
+			"position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
 			"margin:auto;border:1px;padding:1px;" +
-			"top:1%;width:50%";
-		div.innerHTML = "";
-		documentElement.appendChild( container );
+			"width:60%;top:1%";
+		documentElement.appendChild( container ).appendChild( div );
 
 		var divStyle = window.getComputedStyle( div );
 		pixelPositionVal = divStyle.top !== "1%";
 
 		// Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
-		reliableMarginLeftVal = divStyle.marginLeft === "2px";
-		boxSizingReliableVal = divStyle.width === "4px";
+		reliableMarginLeftVal = roundPixelMeasures( divStyle.marginLeft ) === 12;
 
-		// Support: Android 4.0 - 4.3 only
+		// Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
 		// Some styles come back with percentage values, even though they shouldn't
-		div.style.marginRight = "50%";
-		pixelMarginRightVal = divStyle.marginRight === "4px";
+		div.style.right = "60%";
+		pixelBoxStylesVal = roundPixelMeasures( divStyle.right ) === 36;
+
+		// Support: IE 9 - 11 only
+		// Detect misreporting of content dimensions for box-sizing:border-box elements
+		boxSizingReliableVal = roundPixelMeasures( divStyle.width ) === 36;
+
+		// Support: IE 9 only
+		// Detect overflow:scroll screwiness (gh-3699)
+		div.style.position = "absolute";
+		scrollboxSizeVal = div.offsetWidth === 36 || "absolute";
 
 		documentElement.removeChild( container );
 
@@ -24393,7 +24396,12 @@ var getStyles = function( elem ) {
 		div = null;
 	}
 
-	var pixelPositionVal, boxSizingReliableVal, pixelMarginRightVal, reliableMarginLeftVal,
+	function roundPixelMeasures( measure ) {
+		return Math.round( parseFloat( measure ) );
+	}
+
+	var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal,
+		reliableMarginLeftVal,
 		container = document.createElement( "div" ),
 		div = document.createElement( "div" );
 
@@ -24408,26 +24416,26 @@ var getStyles = function( elem ) {
 	div.cloneNode( true ).style.backgroundClip = "";
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
 
-	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
-		"padding:0;margin-top:1px;position:absolute";
-	container.appendChild( div );
-
 	jQuery.extend( support, {
-		pixelPosition: function() {
-			computeStyleTests();
-			return pixelPositionVal;
-		},
 		boxSizingReliable: function() {
 			computeStyleTests();
 			return boxSizingReliableVal;
 		},
-		pixelMarginRight: function() {
+		pixelBoxStyles: function() {
 			computeStyleTests();
-			return pixelMarginRightVal;
+			return pixelBoxStylesVal;
+		},
+		pixelPosition: function() {
+			computeStyleTests();
+			return pixelPositionVal;
 		},
 		reliableMarginLeft: function() {
 			computeStyleTests();
 			return reliableMarginLeftVal;
+		},
+		scrollboxSize: function() {
+			computeStyleTests();
+			return scrollboxSizeVal;
 		}
 	} );
 } )();
@@ -24459,7 +24467,7 @@ function curCSS( elem, name, computed ) {
 		// but width seems to be reliably pixels.
 		// This is against the CSSOM draft spec:
 		// https://drafts.csswg.org/cssom/#resolved-values
-		if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
+		if ( !support.pixelBoxStyles() && rnumnonpx.test( ret ) && rboxStyle.test( name ) ) {
 
 			// Remember the original values
 			width = style.width;
@@ -24564,87 +24572,120 @@ function setPositiveNumber( elem, value, subtract ) {
 		value;
 }
 
-function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
-	var i,
-		val = 0;
+function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computedVal ) {
+	var i = dimension === "width" ? 1 : 0,
+		extra = 0,
+		delta = 0;
 
-	// If we already have the right measurement, avoid augmentation
-	if ( extra === ( isBorderBox ? "border" : "content" ) ) {
-		i = 4;
-
-	// Otherwise initialize for horizontal or vertical properties
-	} else {
-		i = name === "width" ? 1 : 0;
+	// Adjustment may not be necessary
+	if ( box === ( isBorderBox ? "border" : "content" ) ) {
+		return 0;
 	}
 
 	for ( ; i < 4; i += 2 ) {
 
-		// Both box models exclude margin, so add it if we want it
-		if ( extra === "margin" ) {
-			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
+		// Both box models exclude margin
+		if ( box === "margin" ) {
+			delta += jQuery.css( elem, box + cssExpand[ i ], true, styles );
 		}
 
-		if ( isBorderBox ) {
+		// If we get here with a content-box, we're seeking "padding" or "border" or "margin"
+		if ( !isBorderBox ) {
 
-			// border-box includes padding, so remove it if we want content
-			if ( extra === "content" ) {
-				val -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			// Add padding
+			delta += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+
+			// For "border" or "margin", add border
+			if ( box !== "padding" ) {
+				delta += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+
+			// But still keep track of it otherwise
+			} else {
+				extra += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 
-			// At this point, extra isn't border nor margin, so remove border
-			if ( extra !== "margin" ) {
-				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
-			}
+		// If we get here with a border-box (content + padding + border), we're seeking "content" or
+		// "padding" or "margin"
 		} else {
 
-			// At this point, extra isn't content, so add padding
-			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			// For "content", subtract padding
+			if ( box === "content" ) {
+				delta -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			}
 
-			// At this point, extra isn't content nor padding, so add border
-			if ( extra !== "padding" ) {
-				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+			// For "content" or "padding", subtract border
+			if ( box !== "margin" ) {
+				delta -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		}
 	}
 
-	return val;
+	// Account for positive content-box scroll gutter when requested by providing computedVal
+	if ( !isBorderBox && computedVal >= 0 ) {
+
+		// offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
+		// Assuming integer scroll gutter, subtract the rest and round down
+		delta += Math.max( 0, Math.ceil(
+			elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
+			computedVal -
+			delta -
+			extra -
+			0.5
+		) );
+	}
+
+	return delta;
 }
 
-function getWidthOrHeight( elem, name, extra ) {
+function getWidthOrHeight( elem, dimension, extra ) {
 
 	// Start with computed style
-	var valueIsBorderBox,
-		styles = getStyles( elem ),
-		val = curCSS( elem, name, styles ),
-		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+	var styles = getStyles( elem ),
+		val = curCSS( elem, dimension, styles ),
+		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+		valueIsBorderBox = isBorderBox;
 
-	// Computed unit is not pixels. Stop here and return.
+	// Support: Firefox <=54
+	// Return a confounding non-pixel value or feign ignorance, as appropriate.
 	if ( rnumnonpx.test( val ) ) {
-		return val;
+		if ( !extra ) {
+			return val;
+		}
+		val = "auto";
 	}
 
 	// Check for style in case a browser which returns unreliable values
 	// for getComputedStyle silently falls back to the reliable elem.style
-	valueIsBorderBox = isBorderBox &&
-		( support.boxSizingReliable() || val === elem.style[ name ] );
+	valueIsBorderBox = valueIsBorderBox &&
+		( support.boxSizingReliable() || val === elem.style[ dimension ] );
 
-	// Fall back to offsetWidth/Height when value is "auto"
+	// Fall back to offsetWidth/offsetHeight when value is "auto"
 	// This happens for inline elements with no explicit setting (gh-3571)
-	if ( val === "auto" ) {
-		val = elem[ "offset" + name[ 0 ].toUpperCase() + name.slice( 1 ) ];
+	// Support: Android <=4.1 - 4.3 only
+	// Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
+	if ( val === "auto" ||
+		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) {
+
+		val = elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ];
+
+		// offsetWidth/offsetHeight provide border-box values
+		valueIsBorderBox = true;
 	}
 
-	// Normalize "", auto, and prepare for extra
+	// Normalize "" and auto
 	val = parseFloat( val ) || 0;
 
-	// Use the active box-sizing model to add/subtract irrelevant styles
+	// Adjust for the element's box model
 	return ( val +
-		augmentWidthOrHeight(
+		boxModelAdjustment(
 			elem,
-			name,
+			dimension,
 			extra || ( isBorderBox ? "border" : "content" ),
 			valueIsBorderBox,
-			styles
+			styles,
+
+			// Provide the current computed size to request scroll gutter calculation (gh-3589)
+			val
 		)
 	) + "px";
 }
@@ -24685,9 +24726,7 @@ jQuery.extend( {
 
 	// Add in properties whose names you wish to fix before
 	// setting or getting the value
-	cssProps: {
-		"float": "cssFloat"
-	},
+	cssProps: {},
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
@@ -24699,7 +24738,7 @@ jQuery.extend( {
 
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
-			origName = jQuery.camelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
 
@@ -24767,7 +24806,7 @@ jQuery.extend( {
 
 	css: function( elem, name, extra, styles ) {
 		var val, num, hooks,
-			origName = jQuery.camelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name );
 
 		// Make sure that we're working with the right name. We don't
@@ -24805,8 +24844,8 @@ jQuery.extend( {
 	}
 } );
 
-jQuery.each( [ "height", "width" ], function( i, name ) {
-	jQuery.cssHooks[ name ] = {
+jQuery.each( [ "height", "width" ], function( i, dimension ) {
+	jQuery.cssHooks[ dimension ] = {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 
@@ -24822,29 +24861,41 @@ jQuery.each( [ "height", "width" ], function( i, name ) {
 					// in IE throws an error.
 					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
 						swap( elem, cssShow, function() {
-							return getWidthOrHeight( elem, name, extra );
+							return getWidthOrHeight( elem, dimension, extra );
 						} ) :
-						getWidthOrHeight( elem, name, extra );
+						getWidthOrHeight( elem, dimension, extra );
 			}
 		},
 
 		set: function( elem, value, extra ) {
 			var matches,
-				styles = extra && getStyles( elem ),
-				subtract = extra && augmentWidthOrHeight(
+				styles = getStyles( elem ),
+				isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+				subtract = extra && boxModelAdjustment(
 					elem,
-					name,
+					dimension,
 					extra,
-					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+					isBorderBox,
 					styles
 				);
+
+			// Account for unreliable border-box dimensions by comparing offset* to computed and
+			// faking a content-box to get border and padding (gh-3699)
+			if ( isBorderBox && support.scrollboxSize() === styles.position ) {
+				subtract -= Math.ceil(
+					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
+					parseFloat( styles[ dimension ] ) -
+					boxModelAdjustment( elem, dimension, "border", false, styles ) -
+					0.5
+				);
+			}
 
 			// Convert to pixels if value adjustment is needed
 			if ( subtract && ( matches = rcssNum.exec( value ) ) &&
 				( matches[ 3 ] || "px" ) !== "px" ) {
 
-				elem.style[ name ] = value;
-				value = jQuery.css( elem, name );
+				elem.style[ dimension ] = value;
+				value = jQuery.css( elem, dimension );
 			}
 
 			return setPositiveNumber( elem, value, subtract );
@@ -24888,7 +24939,7 @@ jQuery.each( {
 		}
 	};
 
-	if ( !rmargin.test( prefix ) ) {
+	if ( prefix !== "margin" ) {
 		jQuery.cssHooks[ prefix + suffix ].set = setPositiveNumber;
 	}
 } );
@@ -25059,7 +25110,7 @@ function createFxNow() {
 	window.setTimeout( function() {
 		fxNow = undefined;
 	} );
-	return ( fxNow = jQuery.now() );
+	return ( fxNow = Date.now() );
 }
 
 // Generate parameters to create a standard animation
@@ -25163,9 +25214,10 @@ function defaultPrefilter( elem, props, opts ) {
 	// Restrict "overflow" and "display" styles during box animations
 	if ( isBox && elem.nodeType === 1 ) {
 
-		// Support: IE <=9 - 11, Edge 12 - 13
+		// Support: IE <=9 - 11, Edge 12 - 15
 		// Record all 3 overflow attributes because IE does not infer the shorthand
-		// from identically-valued overflowX and overflowY
+		// from identically-valued overflowX and overflowY and Edge just mirrors
+		// the overflowX value there.
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
 		// Identify a display type, preferring old show/hide data over the CSS cascade
@@ -25273,7 +25325,7 @@ function propFilter( props, specialEasing ) {
 
 	// camelCase, specialEasing and expand cssHook pass
 	for ( index in props ) {
-		name = jQuery.camelCase( index );
+		name = camelCase( index );
 		easing = specialEasing[ name ];
 		value = props[ index ];
 		if ( Array.isArray( value ) ) {
@@ -25398,9 +25450,9 @@ function Animation( elem, properties, options ) {
 	for ( ; index < length; index++ ) {
 		result = Animation.prefilters[ index ].call( animation, elem, props, animation.opts );
 		if ( result ) {
-			if ( jQuery.isFunction( result.stop ) ) {
+			if ( isFunction( result.stop ) ) {
 				jQuery._queueHooks( animation.elem, animation.opts.queue ).stop =
-					jQuery.proxy( result.stop, result );
+					result.stop.bind( result );
 			}
 			return result;
 		}
@@ -25408,7 +25460,7 @@ function Animation( elem, properties, options ) {
 
 	jQuery.map( props, createTween, animation );
 
-	if ( jQuery.isFunction( animation.opts.start ) ) {
+	if ( isFunction( animation.opts.start ) ) {
 		animation.opts.start.call( elem, animation );
 	}
 
@@ -25441,7 +25493,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 	},
 
 	tweener: function( props, callback ) {
-		if ( jQuery.isFunction( props ) ) {
+		if ( isFunction( props ) ) {
 			callback = props;
 			props = [ "*" ];
 		} else {
@@ -25473,9 +25525,9 @@ jQuery.Animation = jQuery.extend( Animation, {
 jQuery.speed = function( speed, easing, fn ) {
 	var opt = speed && typeof speed === "object" ? jQuery.extend( {}, speed ) : {
 		complete: fn || !fn && easing ||
-			jQuery.isFunction( speed ) && speed,
+			isFunction( speed ) && speed,
 		duration: speed,
-		easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
+		easing: fn && easing || easing && !isFunction( easing ) && easing
 	};
 
 	// Go to the end state if fx are off
@@ -25502,7 +25554,7 @@ jQuery.speed = function( speed, easing, fn ) {
 	opt.old = opt.complete;
 
 	opt.complete = function() {
-		if ( jQuery.isFunction( opt.old ) ) {
+		if ( isFunction( opt.old ) ) {
 			opt.old.call( this );
 		}
 
@@ -25666,7 +25718,7 @@ jQuery.fx.tick = function() {
 		i = 0,
 		timers = jQuery.timers;
 
-	fxNow = jQuery.now();
+	fxNow = Date.now();
 
 	for ( ; i < timers.length; i++ ) {
 		timer = timers[ i ];
@@ -26019,7 +26071,7 @@ jQuery.each( [
 
 
 	// Strip and collapse whitespace according to HTML spec
-	// https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
+	// https://infra.spec.whatwg.org/#strip-and-collapse-ascii-whitespace
 	function stripAndCollapse( value ) {
 		var tokens = value.match( rnothtmlwhite ) || [];
 		return tokens.join( " " );
@@ -26030,20 +26082,30 @@ function getClass( elem ) {
 	return elem.getAttribute && elem.getAttribute( "class" ) || "";
 }
 
+function classesToArray( value ) {
+	if ( Array.isArray( value ) ) {
+		return value;
+	}
+	if ( typeof value === "string" ) {
+		return value.match( rnothtmlwhite ) || [];
+	}
+	return [];
+}
+
 jQuery.fn.extend( {
 	addClass: function( value ) {
 		var classes, elem, cur, curValue, clazz, j, finalValue,
 			i = 0;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).addClass( value.call( this, j, getClass( this ) ) );
 			} );
 		}
 
-		if ( typeof value === "string" && value ) {
-			classes = value.match( rnothtmlwhite ) || [];
+		classes = classesToArray( value );
 
+		if ( classes.length ) {
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
 				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
@@ -26072,7 +26134,7 @@ jQuery.fn.extend( {
 		var classes, elem, cur, curValue, clazz, j, finalValue,
 			i = 0;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).removeClass( value.call( this, j, getClass( this ) ) );
 			} );
@@ -26082,9 +26144,9 @@ jQuery.fn.extend( {
 			return this.attr( "class", "" );
 		}
 
-		if ( typeof value === "string" && value ) {
-			classes = value.match( rnothtmlwhite ) || [];
+		classes = classesToArray( value );
 
+		if ( classes.length ) {
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
 
@@ -26114,13 +26176,14 @@ jQuery.fn.extend( {
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var type = typeof value;
+		var type = typeof value,
+			isValidValue = type === "string" || Array.isArray( value );
 
-		if ( typeof stateVal === "boolean" && type === "string" ) {
+		if ( typeof stateVal === "boolean" && isValidValue ) {
 			return stateVal ? this.addClass( value ) : this.removeClass( value );
 		}
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).toggleClass(
 					value.call( this, i, getClass( this ), stateVal ),
@@ -26132,12 +26195,12 @@ jQuery.fn.extend( {
 		return this.each( function() {
 			var className, i, self, classNames;
 
-			if ( type === "string" ) {
+			if ( isValidValue ) {
 
 				// Toggle individual class names
 				i = 0;
 				self = jQuery( this );
-				classNames = value.match( rnothtmlwhite ) || [];
+				classNames = classesToArray( value );
 
 				while ( ( className = classNames[ i++ ] ) ) {
 
@@ -26196,7 +26259,7 @@ var rreturn = /\r/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
-		var hooks, ret, isFunction,
+		var hooks, ret, valueIsFunction,
 			elem = this[ 0 ];
 
 		if ( !arguments.length ) {
@@ -26225,7 +26288,7 @@ jQuery.fn.extend( {
 			return;
 		}
 
-		isFunction = jQuery.isFunction( value );
+		valueIsFunction = isFunction( value );
 
 		return this.each( function( i ) {
 			var val;
@@ -26234,7 +26297,7 @@ jQuery.fn.extend( {
 				return;
 			}
 
-			if ( isFunction ) {
+			if ( valueIsFunction ) {
 				val = value.call( this, i, jQuery( this ).val() );
 			} else {
 				val = value;
@@ -26376,18 +26439,24 @@ jQuery.each( [ "radio", "checkbox" ], function() {
 // Return jQuery for attributes-only inclusion
 
 
-var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+support.focusin = "onfocusin" in window;
+
+
+var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
+	stopPropagationCallback = function( e ) {
+		e.stopPropagation();
+	};
 
 jQuery.extend( jQuery.event, {
 
 	trigger: function( event, data, elem, onlyHandlers ) {
 
-		var i, cur, tmp, bubbleType, ontype, handle, special,
+		var i, cur, tmp, bubbleType, ontype, handle, special, lastElement,
 			eventPath = [ elem || document ],
 			type = hasOwn.call( event, "type" ) ? event.type : event,
 			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split( "." ) : [];
 
-		cur = tmp = elem = elem || document;
+		cur = lastElement = tmp = elem = elem || document;
 
 		// Don't do events on text and comment nodes
 		if ( elem.nodeType === 3 || elem.nodeType === 8 ) {
@@ -26439,7 +26508,7 @@ jQuery.extend( jQuery.event, {
 
 		// Determine event propagation path in advance, per W3C events spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
-		if ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
+		if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
 
 			bubbleType = special.delegateType || type;
 			if ( !rfocusMorph.test( bubbleType + type ) ) {
@@ -26459,7 +26528,7 @@ jQuery.extend( jQuery.event, {
 		// Fire handlers on the event path
 		i = 0;
 		while ( ( cur = eventPath[ i++ ] ) && !event.isPropagationStopped() ) {
-
+			lastElement = cur;
 			event.type = i > 1 ?
 				bubbleType :
 				special.bindType || type;
@@ -26491,7 +26560,7 @@ jQuery.extend( jQuery.event, {
 
 				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (#6170)
-				if ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
+				if ( ontype && isFunction( elem[ type ] ) && !isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
 					tmp = elem[ ontype ];
@@ -26502,7 +26571,17 @@ jQuery.extend( jQuery.event, {
 
 					// Prevent re-triggering of the same event, since we already bubbled it above
 					jQuery.event.triggered = type;
+
+					if ( event.isPropagationStopped() ) {
+						lastElement.addEventListener( type, stopPropagationCallback );
+					}
+
 					elem[ type ]();
+
+					if ( event.isPropagationStopped() ) {
+						lastElement.removeEventListener( type, stopPropagationCallback );
+					}
+
 					jQuery.event.triggered = undefined;
 
 					if ( tmp ) {
@@ -26548,31 +26627,6 @@ jQuery.fn.extend( {
 } );
 
 
-jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
-	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
-	function( i, name ) {
-
-	// Handle event binding
-	jQuery.fn[ name ] = function( data, fn ) {
-		return arguments.length > 0 ?
-			this.on( name, null, data, fn ) :
-			this.trigger( name );
-	};
-} );
-
-jQuery.fn.extend( {
-	hover: function( fnOver, fnOut ) {
-		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
-	}
-} );
-
-
-
-
-support.focusin = "onfocusin" in window;
-
-
 // Support: Firefox <=44
 // Firefox doesn't have focus(in | out) events
 // Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
@@ -26616,7 +26670,7 @@ if ( !support.focusin ) {
 }
 var location = window.location;
 
-var nonce = jQuery.now();
+var nonce = Date.now();
 
 var rquery = ( /\?/ );
 
@@ -26674,7 +26728,7 @@ function buildParams( prefix, obj, traditional, add ) {
 			}
 		} );
 
-	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
+	} else if ( !traditional && toType( obj ) === "object" ) {
 
 		// Serialize object item.
 		for ( name in obj ) {
@@ -26696,7 +26750,7 @@ jQuery.param = function( a, traditional ) {
 		add = function( key, valueOrFunction ) {
 
 			// If value is a function, invoke it and use its return value
-			var value = jQuery.isFunction( valueOrFunction ) ?
+			var value = isFunction( valueOrFunction ) ?
 				valueOrFunction() :
 				valueOrFunction;
 
@@ -26814,7 +26868,7 @@ function addToPrefiltersOrTransports( structure ) {
 			i = 0,
 			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
-		if ( jQuery.isFunction( func ) ) {
+		if ( isFunction( func ) ) {
 
 			// For each dataType in the dataTypeExpression
 			while ( ( dataType = dataTypes[ i++ ] ) ) {
@@ -27286,7 +27340,7 @@ jQuery.extend( {
 		if ( s.crossDomain == null ) {
 			urlAnchor = document.createElement( "a" );
 
-			// Support: IE <=8 - 11, Edge 12 - 13
+			// Support: IE <=8 - 11, Edge 12 - 15
 			// IE throws exception on accessing the href property if url is malformed,
 			// e.g. http://example.com:80x/
 			try {
@@ -27344,8 +27398,8 @@ jQuery.extend( {
 			// Remember the hash so we can put it back
 			uncached = s.url.slice( cacheURL.length );
 
-			// If data is available, append data to url
-			if ( s.data ) {
+			// If data is available and should be processed, append data to url
+			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
 				// #9682: remove data so that it's not used in an eventual retry
@@ -27582,7 +27636,7 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 	jQuery[ method ] = function( url, data, callback, type ) {
 
 		// Shift arguments if data argument was omitted
-		if ( jQuery.isFunction( data ) ) {
+		if ( isFunction( data ) ) {
 			type = type || callback;
 			callback = data;
 			data = undefined;
@@ -27620,7 +27674,7 @@ jQuery.fn.extend( {
 		var wrap;
 
 		if ( this[ 0 ] ) {
-			if ( jQuery.isFunction( html ) ) {
+			if ( isFunction( html ) ) {
 				html = html.call( this[ 0 ] );
 			}
 
@@ -27646,7 +27700,7 @@ jQuery.fn.extend( {
 	},
 
 	wrapInner: function( html ) {
-		if ( jQuery.isFunction( html ) ) {
+		if ( isFunction( html ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).wrapInner( html.call( this, i ) );
 			} );
@@ -27666,10 +27720,10 @@ jQuery.fn.extend( {
 	},
 
 	wrap: function( html ) {
-		var isFunction = jQuery.isFunction( html );
+		var htmlIsFunction = isFunction( html );
 
 		return this.each( function( i ) {
-			jQuery( this ).wrapAll( isFunction ? html.call( this, i ) : html );
+			jQuery( this ).wrapAll( htmlIsFunction ? html.call( this, i ) : html );
 		} );
 	},
 
@@ -27761,7 +27815,8 @@ jQuery.ajaxTransport( function( options ) {
 					return function() {
 						if ( callback ) {
 							callback = errorCallback = xhr.onload =
-								xhr.onerror = xhr.onabort = xhr.onreadystatechange = null;
+								xhr.onerror = xhr.onabort = xhr.ontimeout =
+									xhr.onreadystatechange = null;
 
 							if ( type === "abort" ) {
 								xhr.abort();
@@ -27801,7 +27856,7 @@ jQuery.ajaxTransport( function( options ) {
 
 				// Listen to events
 				xhr.onload = callback();
-				errorCallback = xhr.onerror = callback( "error" );
+				errorCallback = xhr.onerror = xhr.ontimeout = callback( "error" );
 
 				// Support: IE 9 only
 				// Use onreadystatechange to replace onabort
@@ -27955,7 +28010,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
-		callbackName = s.jsonpCallback = jQuery.isFunction( s.jsonpCallback ) ?
+		callbackName = s.jsonpCallback = isFunction( s.jsonpCallback ) ?
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
@@ -28006,7 +28061,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			}
 
 			// Call if it was a function and we have a response
-			if ( responseContainer && jQuery.isFunction( overwritten ) ) {
+			if ( responseContainer && isFunction( overwritten ) ) {
 				overwritten( responseContainer[ 0 ] );
 			}
 
@@ -28098,7 +28153,7 @@ jQuery.fn.load = function( url, params, callback ) {
 	}
 
 	// If it's a function
-	if ( jQuery.isFunction( params ) ) {
+	if ( isFunction( params ) ) {
 
 		// We assume that it's the callback
 		callback = params;
@@ -28206,7 +28261,7 @@ jQuery.offset = {
 			curLeft = parseFloat( curCSSLeft ) || 0;
 		}
 
-		if ( jQuery.isFunction( options ) ) {
+		if ( isFunction( options ) ) {
 
 			// Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
 			options = options.call( elem, i, jQuery.extend( {}, curOffset ) );
@@ -28229,6 +28284,8 @@ jQuery.offset = {
 };
 
 jQuery.fn.extend( {
+
+	// offset() relates an element's border box to the document origin
 	offset: function( options ) {
 
 		// Preserve chaining for setter
@@ -28240,7 +28297,7 @@ jQuery.fn.extend( {
 				} );
 		}
 
-		var doc, docElem, rect, win,
+		var rect, win,
 			elem = this[ 0 ];
 
 		if ( !elem ) {
@@ -28255,50 +28312,52 @@ jQuery.fn.extend( {
 			return { top: 0, left: 0 };
 		}
 
+		// Get document-relative position by adding viewport scroll to viewport-relative gBCR
 		rect = elem.getBoundingClientRect();
-
-		doc = elem.ownerDocument;
-		docElem = doc.documentElement;
-		win = doc.defaultView;
-
+		win = elem.ownerDocument.defaultView;
 		return {
-			top: rect.top + win.pageYOffset - docElem.clientTop,
-			left: rect.left + win.pageXOffset - docElem.clientLeft
+			top: rect.top + win.pageYOffset,
+			left: rect.left + win.pageXOffset
 		};
 	},
 
+	// position() relates an element's margin box to its offset parent's padding box
+	// This corresponds to the behavior of CSS absolute positioning
 	position: function() {
 		if ( !this[ 0 ] ) {
 			return;
 		}
 
-		var offsetParent, offset,
+		var offsetParent, offset, doc,
 			elem = this[ 0 ],
 			parentOffset = { top: 0, left: 0 };
 
-		// Fixed elements are offset from window (parentOffset = {top:0, left: 0},
-		// because it is its only offset parent
+		// position:fixed elements are offset from the viewport, which itself always has zero offset
 		if ( jQuery.css( elem, "position" ) === "fixed" ) {
 
-			// Assume getBoundingClientRect is there when computed position is fixed
+			// Assume position:fixed implies availability of getBoundingClientRect
 			offset = elem.getBoundingClientRect();
 
 		} else {
-
-			// Get *real* offsetParent
-			offsetParent = this.offsetParent();
-
-			// Get correct offsets
 			offset = this.offset();
-			if ( !nodeName( offsetParent[ 0 ], "html" ) ) {
-				parentOffset = offsetParent.offset();
-			}
 
-			// Add offsetParent borders
-			parentOffset = {
-				top: parentOffset.top + jQuery.css( offsetParent[ 0 ], "borderTopWidth", true ),
-				left: parentOffset.left + jQuery.css( offsetParent[ 0 ], "borderLeftWidth", true )
-			};
+			// Account for the *real* offset parent, which can be the document or its root element
+			// when a statically positioned element is identified
+			doc = elem.ownerDocument;
+			offsetParent = elem.offsetParent || doc.documentElement;
+			while ( offsetParent &&
+				( offsetParent === doc.body || offsetParent === doc.documentElement ) &&
+				jQuery.css( offsetParent, "position" ) === "static" ) {
+
+				offsetParent = offsetParent.parentNode;
+			}
+			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 ) {
+
+				// Incorporate borders into its offset, since they are outside its content origin
+				parentOffset = jQuery( offsetParent ).offset();
+				parentOffset.top += jQuery.css( offsetParent, "borderTopWidth", true );
+				parentOffset.left += jQuery.css( offsetParent, "borderLeftWidth", true );
+			}
 		}
 
 		// Subtract parent offsets and element margins
@@ -28340,7 +28399,7 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 
 			// Coalesce documents and windows
 			var win;
-			if ( jQuery.isWindow( elem ) ) {
+			if ( isWindow( elem ) ) {
 				win = elem;
 			} else if ( elem.nodeType === 9 ) {
 				win = elem.defaultView;
@@ -28398,7 +28457,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 			return access( this, function( elem, type, value ) {
 				var doc;
 
-				if ( jQuery.isWindow( elem ) ) {
+				if ( isWindow( elem ) ) {
 
 					// $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
 					return funcName.indexOf( "outer" ) === 0 ?
@@ -28432,6 +28491,28 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 } );
 
 
+jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
+	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
+	function( i, name ) {
+
+	// Handle event binding
+	jQuery.fn[ name ] = function( data, fn ) {
+		return arguments.length > 0 ?
+			this.on( name, null, data, fn ) :
+			this.trigger( name );
+	};
+} );
+
+jQuery.fn.extend( {
+	hover: function( fnOver, fnOut ) {
+		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
+	}
+} );
+
+
+
+
 jQuery.fn.extend( {
 
 	bind: function( types, data, fn ) {
@@ -28453,6 +28534,37 @@ jQuery.fn.extend( {
 	}
 } );
 
+// Bind a function to a context, optionally partially applying any
+// arguments.
+// jQuery.proxy is deprecated to promote standards (specifically Function#bind)
+// However, it is not slated for removal any time soon
+jQuery.proxy = function( fn, context ) {
+	var tmp, args, proxy;
+
+	if ( typeof context === "string" ) {
+		tmp = fn[ context ];
+		context = fn;
+		fn = tmp;
+	}
+
+	// Quick check to determine if target is callable, in the spec
+	// this throws a TypeError, but we will just return undefined.
+	if ( !isFunction( fn ) ) {
+		return undefined;
+	}
+
+	// Simulated bind
+	args = slice.call( arguments, 2 );
+	proxy = function() {
+		return fn.apply( context || this, args.concat( slice.call( arguments ) ) );
+	};
+
+	// Set the guid of unique handler to the same of original handler, so it can be removed
+	proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+
+	return proxy;
+};
+
 jQuery.holdReady = function( hold ) {
 	if ( hold ) {
 		jQuery.readyWait++;
@@ -28463,6 +28575,26 @@ jQuery.holdReady = function( hold ) {
 jQuery.isArray = Array.isArray;
 jQuery.parseJSON = JSON.parse;
 jQuery.nodeName = nodeName;
+jQuery.isFunction = isFunction;
+jQuery.isWindow = isWindow;
+jQuery.camelCase = camelCase;
+jQuery.type = toType;
+
+jQuery.now = Date.now;
+
+jQuery.isNumeric = function( obj ) {
+
+	// As of jQuery 3.0, isNumeric is limited to
+	// strings and numbers (primitives or objects)
+	// that can be coerced to finite numbers (gh-2662)
+	var type = jQuery.type( obj );
+	return ( type === "number" || type === "string" ) &&
+
+		// parseFloat NaNs numeric-cast false positives ("")
+		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+		// subtraction forces infinities to NaN
+		!isNaN( obj - parseFloat( obj ) );
+};
 
 
 
@@ -28561,8 +28693,8 @@ module.exports = false;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(99);
-var enumBugKeys = __webpack_require__(72);
+var $keys = __webpack_require__(100);
+var enumBugKeys = __webpack_require__(71);
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
@@ -28588,22 +28720,22 @@ module.exports = function (index, length) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(1);
-var dPs = __webpack_require__(100);
-var enumBugKeys = __webpack_require__(72);
-var IE_PROTO = __webpack_require__(71)('IE_PROTO');
+var dPs = __webpack_require__(101);
+var enumBugKeys = __webpack_require__(71);
+var IE_PROTO = __webpack_require__(70)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(69)('iframe');
+  var iframe = __webpack_require__(68)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(73).appendChild(iframe);
+  __webpack_require__(72).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -28634,8 +28766,8 @@ module.exports = Object.create || function create(O, Properties) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(99);
-var hiddenKeys = __webpack_require__(72).concat('length', 'prototype');
+var $keys = __webpack_require__(100);
+var hiddenKeys = __webpack_require__(71).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return $keys(O, hiddenKeys);
@@ -28678,11 +28810,11 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(18);
-var call = __webpack_require__(111);
-var isArrayIter = __webpack_require__(85);
+var call = __webpack_require__(112);
+var isArrayIter = __webpack_require__(84);
 var anObject = __webpack_require__(1);
 var toLength = __webpack_require__(8);
-var getIterFn = __webpack_require__(87);
+var getIterFn = __webpack_require__(86);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -28717,73 +28849,6 @@ module.exports = function (target, src, safe) {
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(7).f;
-var has = __webpack_require__(11);
-var TAG = __webpack_require__(5)('toStringTag');
-
-module.exports = function (it, tag, stat) {
-  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-};
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(0);
-var defined = __webpack_require__(23);
-var fails = __webpack_require__(3);
-var spaces = __webpack_require__(75);
-var space = '[' + spaces + ']';
-var non = '\u200b\u0085';
-var ltrim = RegExp('^' + space + space + '*');
-var rtrim = RegExp(space + space + '*$');
-
-var exporter = function (KEY, exec, ALIAS) {
-  var exp = {};
-  var FORCE = fails(function () {
-    return !!spaces[KEY]() || non[KEY]() != non;
-  });
-  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
-  if (ALIAS) exp[ALIAS] = fn;
-  $export($export.P + $export.F * FORCE, 'String', exp);
-};
-
-// 1 -> String#trimLeft
-// 2 -> String#trimRight
-// 3 -> String#trim
-var trim = exporter.trim = function (string, TYPE) {
-  string = String(defined(string));
-  if (TYPE & 1) string = string.replace(ltrim, '');
-  if (TYPE & 2) string = string.replace(rtrim, '');
-  return string;
-};
-
-module.exports = exporter;
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(4);
-module.exports = function (it, TYPE) {
-  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
-  return it;
-};
-
-
-/***/ }),
-/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75047,6 +75112,73 @@ function LensFlare() {
 
 
 /***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(7).f;
+var has = __webpack_require__(11);
+var TAG = __webpack_require__(5)('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(0);
+var defined = __webpack_require__(23);
+var fails = __webpack_require__(3);
+var spaces = __webpack_require__(74);
+var space = '[' + spaces + ']';
+var non = '\u200b\u0085';
+var ltrim = RegExp('^' + space + space + '*');
+var rtrim = RegExp(space + space + '*$');
+
+var exporter = function (KEY, exec, ALIAS) {
+  var exp = {};
+  var FORCE = fails(function () {
+    return !!spaces[KEY]() || non[KEY]() != non;
+  });
+  var fn = exp[KEY] = FORCE ? exec(trim) : spaces[KEY];
+  if (ALIAS) exp[ALIAS] = fn;
+  $export($export.P + $export.F * FORCE, 'String', exp);
+};
+
+// 1 -> String#trimLeft
+// 2 -> String#trimRight
+// 3 -> String#trim
+var trim = exporter.trim = function (string, TYPE) {
+  string = String(defined(string));
+  if (TYPE & 1) string = string.replace(ltrim, '');
+  if (TYPE & 2) string = string.replace(rtrim, '');
+  return string;
+};
+
+module.exports = exporter;
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(4);
+module.exports = function (it, TYPE) {
+  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
+  return it;
+};
+
+
+/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -75056,13 +75188,13 @@ function LensFlare() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.delay = exports.textEntryDialog = exports.getCurrentDateStr = exports.randomId = exports.inArray = exports.stickJqueryDivInTopLeft = exports.stickJqueryDivInCenter = exports.linkButton = exports.getWindowUrl = exports.exists = exports.jstr = undefined;
+exports.delay = exports.textEntryDialog = exports.randomId = exports.inArray = exports.stickJqueryDivInTopLeft = exports.stickJqueryDivInCenter = exports.linkButton = exports.exists = undefined;
 
 var _jquery = __webpack_require__(32);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -75075,33 +75207,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  */
 
-function jstr(s) {
-  return JSON.stringify(s, null, 2);
-}
-
 function exists(x) {
-  return !_lodash2.default.isUndefined(x) && x !== null;
+  return !_lodash2.default.isNil(x);
 }
 
-function getWindowUrl() {
-  return '' + window.location;
-}
-
-function linkButton(idTag, text, classTag, callback) {
-  var item = (0, _jquery2.default)('<span>').attr('id', idTag).attr('href', '').html(text);
-
-  if (classTag) {
-    item.addClass(classTag);
-  }
-
-  if (callback) {
-    item.on(' click touch ', function (e) {
-      e.preventDefault();
-      callback();
-    });
-  }
-
-  return item;
+function linkButton(text, classTag, callback) {
+  return (0, _jquery2.default)('<span>').html(text).addClass(classTag).on('click touch', function (e) {
+    e.preventDefault();
+    callback();
+  });
 }
 
 function stickJqueryDivInTopLeft(parent, target, xOffset, yOffset) {
@@ -75154,14 +75268,6 @@ function randomId() {
   return 'view:' + randomString(6);
 }
 
-function getCurrentDateStr() {
-  var now = new Date();
-  var month = now.getMonth() + 1;
-  var day = now.getDate();
-  var year = now.getFullYear();
-  return day + '/' + month + '/' + year;
-}
-
 function textEntryDialog(parentDiv, label, callback) {
   if (!label) {
     label = '';
@@ -75185,11 +75291,11 @@ function textEntryDialog(parentDiv, label, callback) {
     window.keyboardLock = false;
   }
 
-  var saveButton = linkButton('okay', 'okay', 'jolecule-small-button', accept);
+  var saveButton = linkButton('okay', 'jolecule-small-button', accept);
 
-  var discardButton = linkButton('discard', 'discard', 'jolecule-small-button', discard);
+  var discardButton = linkButton('discard', 'jolecule-small-button', discard);
 
-  var textarea = (0, _jquery2.default)('<textarea>').css('width', '100%').addClass('jolecule-view-text').keydown(function (e) {
+  var textarea = (0, _jquery2.default)('<textarea>').css('width', '100%').css('margin-bottom', '0.5em').addClass('jolecule-view-text').keydown(function (e) {
     if (e.keyCode === 27) {
       discard();
       return true;
@@ -75213,15 +75319,12 @@ function delay(timeMs) {
   });
 }
 
-exports.jstr = jstr;
 exports.exists = exists;
-exports.getWindowUrl = getWindowUrl;
 exports.linkButton = linkButton;
 exports.stickJqueryDivInCenter = stickJqueryDivInCenter;
 exports.stickJqueryDivInTopLeft = stickJqueryDivInTopLeft;
 exports.inArray = inArray;
 exports.randomId = randomId;
-exports.getCurrentDateStr = getCurrentDateStr;
 exports.textEntryDialog = textEntryDialog;
 exports.delay = delay;
 
@@ -75460,8 +75563,8 @@ var anInstance = __webpack_require__(41);
 var isObject = __webpack_require__(4);
 var fails = __webpack_require__(3);
 var $iterDetect = __webpack_require__(58);
-var setToStringTag = __webpack_require__(44);
-var inheritIfRequired = __webpack_require__(76);
+var setToStringTag = __webpack_require__(45);
+var inheritIfRequired = __webpack_require__(75);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
   var Base = global[NAME];
@@ -75642,194 +75745,6 @@ module.exports = function (COLLECTION) {
 
 /***/ }),
 /* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _three = __webpack_require__(48);
-
-var THREE = _interopRequireWildcard(_three);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var SMALL = 1E-6;
-/**
- *
- * v3.js - is a simple function based wrapper library around the vector
- * portion of THREE.js. THREE.Vector3 are created and manipulated using
- * factory functions, which was the original approach used in a deprecated
- * vector library. This was replaced with the fully-featured vector library
- * in THREE.js
- *
- */
-
-function isNearZero(a) {
-  return Math.abs(a) < SMALL;
-}
-
-function create(x, y, z) {
-  return new THREE.Vector3(x, y, z);
-}
-
-function clone(v) {
-  return v.clone();
-}
-
-function scaled(v, s) {
-  var w = create(v.x, v.y, v.z);
-  w.multiplyScalar(s);
-  return w;
-}
-
-function normalized(v) {
-  return scaled(v, 1.0 / v.length());
-}
-
-function diff(b, a) {
-  return create(b.x - a.x, b.y - a.y, b.z - a.z);
-}
-
-function sum(a, b) {
-  return create(b.x + a.x, b.y + a.y, b.z + a.z);
-}
-
-function parallel(v, axis) {
-  var axisLen = axis.length();
-  var result = void 0;
-  if (isNearZero(axisLen)) {
-    result = create(v.x, v.y, v.z);
-  } else {
-    var scale = dotProduct(v, axis) / axisLen / axisLen;
-    result = scaled(axis, scale);
-  }
-  return result;
-}
-
-function perpendicular(v, axis) {
-  return diff(v, parallel(v, axis));
-}
-
-function crossProduct(a, b) {
-  return new THREE.Vector3().crossVectors(a, b);
-}
-
-function dotProduct(a, b) {
-  return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-function distance(p1, p2) {
-  return diff(p1, p2).length();
-}
-
-function angle(a, b) {
-  var aLen = a.length();
-  var bLen = b.length();
-  if (isNearZero(aLen * bLen)) {
-    return 0.0;
-  }
-  var c = dotProduct(a, b) / aLen / bLen;
-  if (c >= 1.0) {
-    return 0.0;
-  }
-  if (c < -1.0) {
-    return Math.PI;
-  }
-  return Math.acos(c);
-}
-
-function dihedral(ref, axis, v) {
-  // + values: right-hand screw rotation of v
-  //           around axis relative to ref
-  var refPerp = perpendicular(ref, axis);
-  var vPerp = perpendicular(v, axis);
-  var a = angle(refPerp, vPerp);
-  var cross = crossProduct(refPerp, vPerp);
-  if (dotProduct(cross, axis) > 0) {
-    a = -a;
-  }
-  return a;
-}
-
-function midPoint(p, q) {
-  var s = sum(p, q);
-  return scaled(s, 0.5);
-}
-
-function random() {
-  return create(Math.random(), Math.random(), Math.random());
-}
-
-function isEqual(v, w) {
-  if (!isNearZero(v.x - w.x)) {
-    return false;
-  } else if (!isNearZero(v.y - w.y)) {
-    return false;
-  } else if (!isNearZero(v.y - w.y)) {
-    return false;
-  }
-  return true;
-}
-
-function isAligned(v, w) {
-  return isNearZero(angle(v, w));
-}
-
-var Matrix4 = THREE.Matrix4;
-
-function matrixProduct(lhs, rhs) {
-  var c = new Matrix4();
-  c.multiplyMatrices(lhs, rhs);
-  return c;
-}
-
-function rotation(axis, theta) {
-  var a = axis.clone().normalize();
-  return new Matrix4().makeRotationAxis(a, theta);
-}
-
-function translation(p) {
-  var c = new Matrix4();
-  return c.makeTranslation(p.x, p.y, p.z);
-}
-
-function degToRad(deg) {
-  return deg * Math.PI / 180.0;
-}
-
-exports.default = {
-  SMALL: SMALL,
-  isNearZero: isNearZero,
-  create: create,
-  clone: clone,
-  scaled: scaled,
-  normalized: normalized,
-  diff: diff,
-  sum: sum,
-  parallel: parallel,
-  perpendicular: perpendicular,
-  crossProduct: crossProduct,
-  dotProduct: dotProduct,
-  distance: distance,
-  angle: angle,
-  dihedral: dihedral,
-  midPoint: midPoint,
-  random: random,
-  isEqual: isEqual,
-  isAligned: isAligned,
-  Matrix4: Matrix4,
-  matrixProduct: matrixProduct,
-  rotation: rotation,
-  translation: translation,
-  degToRad: degToRad
-};
-
-/***/ }),
-/* 68 */
 /***/ (function(module, exports) {
 
 var g;
@@ -75856,7 +75771,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(4);
@@ -75869,13 +75784,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
 var core = __webpack_require__(21);
 var LIBRARY = __webpack_require__(35);
-var wksExt = __webpack_require__(98);
+var wksExt = __webpack_require__(99);
 var defineProperty = __webpack_require__(7).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -75884,7 +75799,7 @@ module.exports = function (name) {
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(53)('keys');
@@ -75895,7 +75810,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -75905,7 +75820,7 @@ module.exports = (
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(2).document;
@@ -75913,7 +75828,7 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -75944,7 +75859,7 @@ module.exports = {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports) {
 
 module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
@@ -75952,11 +75867,11 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(4);
-var setPrototypeOf = __webpack_require__(74).set;
+var setPrototypeOf = __webpack_require__(73).set;
 module.exports = function (that, target, C) {
   var S = target.constructor;
   var P;
@@ -75967,7 +75882,7 @@ module.exports = function (that, target, C) {
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -75986,7 +75901,7 @@ module.exports = function repeat(count) {
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports) {
 
 // 20.2.2.28 Math.sign(x)
@@ -75997,7 +75912,7 @@ module.exports = Math.sign || function sign(x) {
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports) {
 
 // 20.2.2.14 Math.expm1(x)
@@ -76013,7 +75928,7 @@ module.exports = (!$expm1
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(24);
@@ -76036,7 +75951,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -76046,9 +75961,9 @@ var $export = __webpack_require__(0);
 var redefine = __webpack_require__(13);
 var hide = __webpack_require__(12);
 var has = __webpack_require__(11);
-var Iterators = __webpack_require__(46);
-var $iterCreate = __webpack_require__(82);
-var setToStringTag = __webpack_require__(44);
+var Iterators = __webpack_require__(47);
+var $iterCreate = __webpack_require__(81);
+var setToStringTag = __webpack_require__(45);
 var getPrototypeOf = __webpack_require__(17);
 var ITERATOR = __webpack_require__(5)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
@@ -76113,14 +76028,14 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create = __webpack_require__(38);
 var descriptor = __webpack_require__(33);
-var setToStringTag = __webpack_require__(44);
+var setToStringTag = __webpack_require__(45);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -76133,7 +76048,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // helper for String#{startsWith, endsWith, includes}
@@ -76147,7 +76062,7 @@ module.exports = function (that, searchString, NAME) {
 
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var MATCH = __webpack_require__(5)('match');
@@ -76165,11 +76080,11 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators = __webpack_require__(46);
+var Iterators = __webpack_require__(47);
 var ITERATOR = __webpack_require__(5)('iterator');
 var ArrayProto = Array.prototype;
 
@@ -76179,7 +76094,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -76194,12 +76109,12 @@ module.exports = function (object, index, value) {
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(52);
 var ITERATOR = __webpack_require__(5)('iterator');
-var Iterators = __webpack_require__(46);
+var Iterators = __webpack_require__(47);
 module.exports = __webpack_require__(21).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR]
     || it['@@iterator']
@@ -76208,11 +76123,11 @@ module.exports = __webpack_require__(21).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(229);
+var speciesConstructor = __webpack_require__(228);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -76220,7 +76135,7 @@ module.exports = function (original, length) {
 
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -76242,21 +76157,21 @@ module.exports = function fill(value /* , start = 0, end = @length */) {
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var addToUnscopables = __webpack_require__(31);
-var step = __webpack_require__(114);
-var Iterators = __webpack_require__(46);
+var step = __webpack_require__(115);
+var Iterators = __webpack_require__(47);
 var toIObject = __webpack_require__(15);
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(81)(Array, 'Array', function (iterated, kind) {
+module.exports = __webpack_require__(80)(Array, 'Array', function (iterated, kind) {
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -76283,13 +76198,13 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(18);
-var invoke = __webpack_require__(104);
-var html = __webpack_require__(73);
-var cel = __webpack_require__(69);
+var invoke = __webpack_require__(105);
+var html = __webpack_require__(72);
+var cel = __webpack_require__(68);
 var global = __webpack_require__(2);
 var process = global.process;
 var setTask = global.setImmediate;
@@ -76373,11 +76288,11 @@ module.exports = {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var macrotask = __webpack_require__(91).set;
+var macrotask = __webpack_require__(90).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -76447,7 +76362,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -76472,7 +76387,7 @@ module.exports.f = function (C) {
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -76487,11 +76402,11 @@ var fails = __webpack_require__(3);
 var anInstance = __webpack_require__(41);
 var toInteger = __webpack_require__(24);
 var toLength = __webpack_require__(8);
-var toIndex = __webpack_require__(123);
+var toIndex = __webpack_require__(124);
 var gOPN = __webpack_require__(39).f;
 var dP = __webpack_require__(7).f;
-var arrayFill = __webpack_require__(89);
-var setToStringTag = __webpack_require__(44);
+var arrayFill = __webpack_require__(88);
+var setToStringTag = __webpack_require__(45);
 var ARRAY_BUFFER = 'ArrayBuffer';
 var DATA_VIEW = 'DataView';
 var PROTOTYPE = 'prototype';
@@ -76755,7 +76670,7 @@ exports[DATA_VIEW] = $DataView;
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
@@ -76765,4498 +76680,195 @@ module.exports = navigator && navigator.userAgent || '';
 
 
 /***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _three = __webpack_require__(44);
+
+var THREE = _interopRequireWildcard(_three);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var SMALL = 1E-6;
+/**
+ *
+ * v3.js - is a simple function based wrapper library around the vector
+ * portion of THREE.js. THREE.Vector3 are created and manipulated using
+ * factory functions, which was the original approach used in a deprecated
+ * vector library. This was replaced with the fully-featured vector library
+ * in THREE.js
+ *
+ */
+
+function isNearZero(a) {
+  return Math.abs(a) < SMALL;
+}
+
+function create(x, y, z) {
+  return new THREE.Vector3(x, y, z);
+}
+
+function clone(v) {
+  return v.clone();
+}
+
+function scaled(v, s) {
+  var w = create(v.x, v.y, v.z);
+  w.multiplyScalar(s);
+  return w;
+}
+
+function normalized(v) {
+  return scaled(v, 1.0 / v.length());
+}
+
+function diff(b, a) {
+  return create(b.x - a.x, b.y - a.y, b.z - a.z);
+}
+
+function sum(a, b) {
+  return create(b.x + a.x, b.y + a.y, b.z + a.z);
+}
+
+function parallel(v, axis) {
+  var axisLen = axis.length();
+  var result = void 0;
+  if (isNearZero(axisLen)) {
+    result = create(v.x, v.y, v.z);
+  } else {
+    var scale = dotProduct(v, axis) / axisLen / axisLen;
+    result = scaled(axis, scale);
+  }
+  return result;
+}
+
+function perpendicular(v, axis) {
+  return diff(v, parallel(v, axis));
+}
+
+function crossProduct(a, b) {
+  return new THREE.Vector3().crossVectors(a, b);
+}
+
+function dotProduct(a, b) {
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+function distance(p1, p2) {
+  return diff(p1, p2).length();
+}
+
+function angle(a, b) {
+  var aLen = a.length();
+  var bLen = b.length();
+  if (isNearZero(aLen * bLen)) {
+    return 0.0;
+  }
+  var c = dotProduct(a, b) / aLen / bLen;
+  if (c >= 1.0) {
+    return 0.0;
+  }
+  if (c < -1.0) {
+    return Math.PI;
+  }
+  return Math.acos(c);
+}
+
+function dihedral(ref, axis, v) {
+  // + values: right-hand screw rotation of v
+  //           around axis relative to ref
+  var refPerp = perpendicular(ref, axis);
+  var vPerp = perpendicular(v, axis);
+  var a = angle(refPerp, vPerp);
+  var cross = crossProduct(refPerp, vPerp);
+  if (dotProduct(cross, axis) > 0) {
+    a = -a;
+  }
+  return a;
+}
+
+function midPoint(p, q) {
+  var s = sum(p, q);
+  return scaled(s, 0.5);
+}
+
+function random() {
+  return create(Math.random(), Math.random(), Math.random());
+}
+
+function isEqual(v, w) {
+  if (!isNearZero(v.x - w.x)) {
+    return false;
+  } else if (!isNearZero(v.y - w.y)) {
+    return false;
+  } else if (!isNearZero(v.y - w.y)) {
+    return false;
+  }
+  return true;
+}
+
+function isAligned(v, w) {
+  return isNearZero(angle(v, w));
+}
+
+var Matrix4 = THREE.Matrix4;
+
+function matrixProduct(lhs, rhs) {
+  var c = new Matrix4();
+  c.multiplyMatrices(lhs, rhs);
+  return c;
+}
+
+function rotation(axis, theta) {
+  var a = axis.clone().normalize();
+  return new Matrix4().makeRotationAxis(a, theta);
+}
+
+function translation(p) {
+  var c = new Matrix4();
+  return c.makeTranslation(p.x, p.y, p.z);
+}
+
+function degToRad(deg) {
+  return deg * Math.PI / 180.0;
+}
+
+exports.default = {
+  SMALL: SMALL,
+  isNearZero: isNearZero,
+  create: create,
+  clone: clone,
+  scaled: scaled,
+  normalized: normalized,
+  diff: diff,
+  sum: sum,
+  parallel: parallel,
+  perpendicular: perpendicular,
+  crossProduct: crossProduct,
+  dotProduct: dotProduct,
+  distance: distance,
+  angle: angle,
+  dihedral: dihedral,
+  midPoint: midPoint,
+  random: random,
+  isEqual: isEqual,
+  isAligned: isAligned,
+  Matrix4: Matrix4,
+  matrixProduct: matrixProduct,
+  rotation: rotation,
+  translation: translation,
+  degToRad: degToRad
+};
+
+/***/ }),
 /* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getNucleotideConnectorBondAtomTypes = exports.getNucleotideBaseAtomTypes = exports.rnaResTypes = exports.dnaResTypes = exports.proteinResTypes = exports.ElementColors = exports.darkGrey = exports.red = exports.grey = exports.purple = exports.yellow = exports.blue = exports.green = exports.fatCoilFace = exports.coilFace = exports.getSsFace = exports.backboneAtomTypes = exports.resToAa = exports.getSsColor = undefined;
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Central place to store constants and color
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * accesors
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
-
-var _lodash = __webpack_require__(29);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _three = __webpack_require__(48);
-
-var THREE = _interopRequireWildcard(_three);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var proteinResTypes = ['ALA', 'CYS', 'ASP', 'GLU', 'PHE', 'GLY', 'HIS', 'ILE', 'LYS', 'LEU', 'MET', 'ASN', 'PRO', 'GLN', 'ARG', 'SER', 'THR', 'TRP', 'VAL', 'TYR'];
-var dnaResTypes = ['DA', 'DT', 'DG', 'DC', 'A', 'T', 'G', 'C'];
-var rnaResTypes = ['RA', 'RU', 'RC', 'RG', 'A', 'G', 'C', 'U'];
-
-// Color constants
-
-var green = new THREE.Color(0x639941);
-var blue = new THREE.Color(0x568AB5);
-var yellow = new THREE.Color(0xFFC900);
-var purple = new THREE.Color(0x9578AA);
-var grey = new THREE.Color(0xBBBBBB);
-var red = new THREE.Color(0x993333);
-var darkGrey = new THREE.Color(0x999999);
-
-var ElementColors = {
-  'H': 0xCCCCCC,
-  'C': 0xAAAAAA,
-  'O': 0xCC0000,
-  'N': 0x0000CC,
-  'S': 0xAAAA00,
-  'P': 0x6622CC,
-  'F': 0x00CC00,
-  'CL': 0x00CC00,
-  'BR': 0x882200,
-  'I': 0x6600AA,
-  'FE': 0xCC6600,
-  'CA': 0x8888AA,
-  'He': 0x7B86C2,
-  'Ne': 0x9ED2E4,
-  'Ar': 0x5DC4BE,
-  'Kr': 0xACD376,
-  'Xe': 0xF79F7C,
-  'Rn': 0xE29EC5
-};
-
-var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
-
-try {
-  for (var _iterator = _lodash2.default.toPairs(ElementColors)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    var _step$value = _slicedToArray(_step.value, 2),
-        k = _step$value[0],
-        v = _step$value[1];
-
-    ElementColors[k] = new THREE.Color(v);
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}
-
-function getSsColor(ss) {
-  if (ss === 'E') {
-    return yellow;
-  } else if (ss === 'H') {
-    return blue;
-  } else if (ss === 'D') {
-    return purple;
-  } else if (ss === 'C') {
-    return green;
-  } else if (ss === 'W') {
-    return red;
-  }
-  return grey;
-}
-
-var resToAa = {
-  'ALA': 'A',
-  'CYS': 'C',
-  'ASP': 'D',
-  'GLU': 'E',
-  'PHE': 'F',
-  'GLY': 'G',
-  'HIS': 'H',
-  'ILE': 'I',
-  'LYS': 'K',
-  'LEU': 'L',
-  'MET': 'M',
-  'ASN': 'N',
-  'PRO': 'P',
-  'GLN': 'Q',
-  'ARG': 'R',
-  'SER': 'S',
-  'THR': 'T',
-  'VAL': 'V',
-  'TRP': 'W',
-  'TYR': 'Y',
-  'DA': 'A',
-  'DT': 'T',
-  'DG': 'G',
-  'DC': 'C',
-  'A': 'A',
-  'T': 'T',
-  'G': 'G',
-  'C': 'C',
-  'RA': 'A',
-  'RU': 'U',
-  'RC': 'C',
-  'RG': 'G',
-  'U': 'U'
-
-  // Backbone atom names
-
-};var backboneAtomTypes = ['N', 'C', 'O', 'H', 'HA', 'CA', 'OXT', 'C3\'', 'P', 'OP1', 'O5\'', 'OP2', 'C5\'', 'O5\'', 'O3\'', 'C4\'', 'O4\'', 'C1\'', 'C2\'', 'O2\'', 'H2\'', 'H2\'\'', 'H3\'', 'H4\'', 'H5\'', 'H5\'\'', 'HO3\''];
-
-// Cartoon cross-sections
-var ribbonFace = new THREE.Shape([new THREE.Vector2(-1.5, -0.2), new THREE.Vector2(-1.5, +0.2), new THREE.Vector2(+1.5, +0.2), new THREE.Vector2(+1.5, -0.2)]);
-var coilFace = new THREE.Shape([new THREE.Vector2(-0.2, -0.2), new THREE.Vector2(-0.2, +0.2), new THREE.Vector2(+0.2, +0.2), new THREE.Vector2(+0.2, -0.2)]);
-
-// Tube cross-sections
-var fatCoilFace = new THREE.Shape([new THREE.Vector2(-0.25, -0.25), new THREE.Vector2(-0.25, +0.25), new THREE.Vector2(+0.25, +0.25), new THREE.Vector2(+0.25, -0.25)]);
-
-function getSsFace(ss) {
-  if (ss === 'C' || ss === '-') {
-    return coilFace;
-  }
-  return ribbonFace;
-}
-
-function getNucleotideBaseAtomTypes(resType) {
-  var atomTypes = [];
-  if (resType === 'DA' || resType === 'A') {
-    atomTypes = ['N9', 'C8', 'N7', 'C5', 'C6', 'N1', 'C2', 'N3', 'C4'];
-  } else if (resType === 'DG' || resType === 'G') {
-    atomTypes = ['N9', 'C8', 'N7', 'C5', 'C6', 'N1', 'C2', 'N3', 'C4'];
-  } else if (resType === 'DT' || resType === 'U') {
-    atomTypes = ['C6', 'N1', 'C2', 'N3', 'C4', 'C5'];
-  } else if (resType === 'DC' || resType === 'C') {
-    atomTypes = ['C6', 'N1', 'C2', 'N3', 'C4', 'C5'];
-  }
-  return atomTypes;
-}
-
-function getNucleotideConnectorBondAtomTypes(resType) {
-  var bondTypes = [];
-  if (resType === 'DA' || resType === 'A') {
-    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N9']];
-  } else if (resType === 'DG' || resType === 'G') {
-    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N9']];
-  } else if (resType === 'DT' || resType === 'U') {
-    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N1']];
-  } else if (resType === 'DC' || resType === 'C') {
-    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N1']];
-  }
-  return bondTypes;
-}
-
-exports.getSsColor = getSsColor;
-exports.resToAa = resToAa;
-exports.backboneAtomTypes = backboneAtomTypes;
-exports.getSsFace = getSsFace;
-exports.coilFace = coilFace;
-exports.fatCoilFace = fatCoilFace;
-exports.green = green;
-exports.blue = blue;
-exports.yellow = yellow;
-exports.purple = purple;
-exports.grey = grey;
-exports.red = red;
-exports.darkGrey = darkGrey;
-exports.ElementColors = ElementColors;
-exports.proteinResTypes = proteinResTypes;
-exports.dnaResTypes = dnaResTypes;
-exports.rnaResTypes = rnaResTypes;
-exports.getNucleotideBaseAtomTypes = getNucleotideBaseAtomTypes;
-exports.getNucleotideConnectorBondAtomTypes = getNucleotideConnectorBondAtomTypes;
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__(6) && !__webpack_require__(3)(function () {
-  return Object.defineProperty(__webpack_require__(69)('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(5);
-
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__(11);
-var toIObject = __webpack_require__(15);
-var arrayIndexOf = __webpack_require__(54)(false);
-var IE_PROTO = __webpack_require__(71)('IE_PROTO');
-
-module.exports = function (object, names) {
-  var O = toIObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__(7);
-var anObject = __webpack_require__(1);
-var getKeys = __webpack_require__(36);
-
-module.exports = __webpack_require__(6) ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = getKeys(Properties);
-  var length = keys.length;
-  var i = 0;
-  var P;
-  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
-  return O;
-};
-
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(15);
-var gOPN = __webpack_require__(39).f;
-var toString = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function (it) {
-  try {
-    return gOPN(it);
-  } catch (e) {
-    return windowNames.slice();
-  }
-};
-
-module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
-};
-
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// 19.1.2.1 Object.assign(target, source, ...)
-var getKeys = __webpack_require__(36);
-var gOPS = __webpack_require__(55);
-var pIE = __webpack_require__(51);
-var toObject = __webpack_require__(9);
-var IObject = __webpack_require__(50);
-var $assign = Object.assign;
-
-// should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(3)(function () {
-  var A = {};
-  var B = {};
-  // eslint-disable-next-line no-undef
-  var S = Symbol();
-  var K = 'abcdefghijklmnopqrst';
-  A[S] = 7;
-  K.split('').forEach(function (k) { B[k] = k; });
-  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
-  var T = toObject(target);
-  var aLen = arguments.length;
-  var index = 1;
-  var getSymbols = gOPS.f;
-  var isEnum = pIE.f;
-  while (aLen > index) {
-    var S = IObject(arguments[index++]);
-    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
-    var length = keys.length;
-    var j = 0;
-    var key;
-    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
-  } return T;
-} : $assign;
-
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var aFunction = __webpack_require__(10);
-var isObject = __webpack_require__(4);
-var invoke = __webpack_require__(104);
-var arraySlice = [].slice;
-var factories = {};
-
-var construct = function (F, len, args) {
-  if (!(len in factories)) {
-    for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
-    // eslint-disable-next-line no-new-func
-    factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
-  } return factories[len](F, args);
-};
-
-module.exports = Function.bind || function bind(that /* , ...args */) {
-  var fn = aFunction(this);
-  var partArgs = arraySlice.call(arguments, 1);
-  var bound = function (/* args... */) {
-    var args = partArgs.concat(arraySlice.call(arguments));
-    return this instanceof bound ? construct(fn, args.length, args) : invoke(fn, args, that);
-  };
-  if (isObject(fn.prototype)) bound.prototype = fn.prototype;
-  return bound;
-};
-
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports) {
-
-// fast apply, http://jsperf.lnkit.com/fast-apply/5
-module.exports = function (fn, args, that) {
-  var un = that === undefined;
-  switch (args.length) {
-    case 0: return un ? fn()
-                      : fn.call(that);
-    case 1: return un ? fn(args[0])
-                      : fn.call(that, args[0]);
-    case 2: return un ? fn(args[0], args[1])
-                      : fn.call(that, args[0], args[1]);
-    case 3: return un ? fn(args[0], args[1], args[2])
-                      : fn.call(that, args[0], args[1], args[2]);
-    case 4: return un ? fn(args[0], args[1], args[2], args[3])
-                      : fn.call(that, args[0], args[1], args[2], args[3]);
-  } return fn.apply(that, args);
-};
-
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $parseInt = __webpack_require__(2).parseInt;
-var $trim = __webpack_require__(45).trim;
-var ws = __webpack_require__(75);
-var hex = /^[-+]?0[xX]/;
-
-module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt(str, radix) {
-  var string = $trim(String(str), 3);
-  return $parseInt(string, (radix >>> 0) || (hex.test(string) ? 16 : 10));
-} : $parseInt;
-
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $parseFloat = __webpack_require__(2).parseFloat;
-var $trim = __webpack_require__(45).trim;
-
-module.exports = 1 / $parseFloat(__webpack_require__(75) + '-0') !== -Infinity ? function parseFloat(str) {
-  var string = $trim(String(str), 3);
-  var result = $parseFloat(string);
-  return result === 0 && string.charAt(0) == '-' ? -0 : result;
-} : $parseFloat;
-
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var cof = __webpack_require__(19);
-module.exports = function (it, msg) {
-  if (typeof it != 'number' && cof(it) != 'Number') throw TypeError(msg);
-  return +it;
-};
-
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 20.1.2.3 Number.isInteger(number)
-var isObject = __webpack_require__(4);
-var floor = Math.floor;
-module.exports = function isInteger(it) {
-  return !isObject(it) && isFinite(it) && floor(it) === it;
-};
-
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports) {
-
-// 20.2.2.20 Math.log1p(x)
-module.exports = Math.log1p || function log1p(x) {
-  return (x = +x) > -1e-8 && x < 1e-8 ? x - x * x / 2 : Math.log(1 + x);
-};
-
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 20.2.2.16 Math.fround(x)
-var sign = __webpack_require__(78);
-var pow = Math.pow;
-var EPSILON = pow(2, -52);
-var EPSILON32 = pow(2, -23);
-var MAX32 = pow(2, 127) * (2 - EPSILON32);
-var MIN32 = pow(2, -126);
-
-var roundTiesToEven = function (n) {
-  return n + 1 / EPSILON - 1 / EPSILON;
-};
-
-module.exports = Math.fround || function fround(x) {
-  var $abs = Math.abs(x);
-  var $sign = sign(x);
-  var a, result;
-  if ($abs < MIN32) return $sign * roundTiesToEven($abs / MIN32 / EPSILON32) * MIN32 * EPSILON32;
-  a = (1 + EPSILON32 / EPSILON) * $abs;
-  result = a - (a - $abs);
-  // eslint-disable-next-line no-self-compare
-  if (result > MAX32 || result != result) return $sign * Infinity;
-  return $sign * result;
-};
-
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// call something on iterator step with safe closing on error
-var anObject = __webpack_require__(1);
-module.exports = function (iterator, fn, value, entries) {
-  try {
-    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (e) {
-    var ret = iterator['return'];
-    if (ret !== undefined) anObject(ret.call(iterator));
-    throw e;
-  }
-};
-
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var aFunction = __webpack_require__(10);
-var toObject = __webpack_require__(9);
-var IObject = __webpack_require__(50);
-var toLength = __webpack_require__(8);
-
-module.exports = function (that, callbackfn, aLen, memo, isRight) {
-  aFunction(callbackfn);
-  var O = toObject(that);
-  var self = IObject(O);
-  var length = toLength(O.length);
-  var index = isRight ? length - 1 : 0;
-  var i = isRight ? -1 : 1;
-  if (aLen < 2) for (;;) {
-    if (index in self) {
-      memo = self[index];
-      index += i;
-      break;
-    }
-    index += i;
-    if (isRight ? index < 0 : length <= index) {
-      throw TypeError('Reduce of empty array with no initial value');
-    }
-  }
-  for (;isRight ? index >= 0 : length > index; index += i) if (index in self) {
-    memo = callbackfn(memo, self[index], index, O);
-  }
-  return memo;
-};
-
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
-
-var toObject = __webpack_require__(9);
-var toAbsoluteIndex = __webpack_require__(37);
-var toLength = __webpack_require__(8);
-
-module.exports = [].copyWithin || function copyWithin(target /* = 0 */, start /* = 0, end = @length */) {
-  var O = toObject(this);
-  var len = toLength(O.length);
-  var to = toAbsoluteIndex(target, len);
-  var from = toAbsoluteIndex(start, len);
-  var end = arguments.length > 2 ? arguments[2] : undefined;
-  var count = Math.min((end === undefined ? len : toAbsoluteIndex(end, len)) - from, len - to);
-  var inc = 1;
-  if (from < to && to < from + count) {
-    inc = -1;
-    from += count - 1;
-    to += count - 1;
-  }
-  while (count-- > 0) {
-    if (from in O) O[to] = O[from];
-    else delete O[to];
-    to += inc;
-    from += inc;
-  } return O;
-};
-
-
-/***/ }),
-/* 114 */
-/***/ (function(module, exports) {
-
-module.exports = function (done, value) {
-  return { value: value, done: !!done };
-};
-
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 21.2.5.3 get RegExp.prototype.flags()
-if (__webpack_require__(6) && /./g.flags != 'g') __webpack_require__(7).f(RegExp.prototype, 'flags', {
-  configurable: true,
-  get: __webpack_require__(59)
-});
-
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return { e: false, v: exec() };
-  } catch (e) {
-    return { e: true, v: e };
-  }
-};
-
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(1);
-var isObject = __webpack_require__(4);
-var newPromiseCapability = __webpack_require__(93);
-
-module.exports = function (C, x) {
-  anObject(C);
-  if (isObject(x) && x.constructor === C) return x;
-  var promiseCapability = newPromiseCapability.f(C);
-  var resolve = promiseCapability.resolve;
-  resolve(x);
-  return promiseCapability.promise;
-};
-
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var strong = __webpack_require__(119);
-var validate = __webpack_require__(47);
-var MAP = 'Map';
-
-// 23.1 Map Objects
-module.exports = __webpack_require__(62)(MAP, function (get) {
-  return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
-}, {
-  // 23.1.3.6 Map.prototype.get(key)
-  get: function get(key) {
-    var entry = strong.getEntry(validate(this, MAP), key);
-    return entry && entry.v;
-  },
-  // 23.1.3.9 Map.prototype.set(key, value)
-  set: function set(key, value) {
-    return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
-  }
-}, strong, true);
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var dP = __webpack_require__(7).f;
-var create = __webpack_require__(38);
-var redefineAll = __webpack_require__(43);
-var ctx = __webpack_require__(18);
-var anInstance = __webpack_require__(41);
-var forOf = __webpack_require__(42);
-var $iterDefine = __webpack_require__(81);
-var step = __webpack_require__(114);
-var setSpecies = __webpack_require__(40);
-var DESCRIPTORS = __webpack_require__(6);
-var fastKey = __webpack_require__(30).fastKey;
-var validate = __webpack_require__(47);
-var SIZE = DESCRIPTORS ? '_s' : 'size';
-
-var getEntry = function (that, key) {
-  // fast case
-  var index = fastKey(key);
-  var entry;
-  if (index !== 'F') return that._i[index];
-  // frozen object case
-  for (entry = that._f; entry; entry = entry.n) {
-    if (entry.k == key) return entry;
-  }
-};
-
-module.exports = {
-  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
-    var C = wrapper(function (that, iterable) {
-      anInstance(that, C, NAME, '_i');
-      that._t = NAME;         // collection type
-      that._i = create(null); // index
-      that._f = undefined;    // first entry
-      that._l = undefined;    // last entry
-      that[SIZE] = 0;         // size
-      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
-    });
-    redefineAll(C.prototype, {
-      // 23.1.3.1 Map.prototype.clear()
-      // 23.2.3.2 Set.prototype.clear()
-      clear: function clear() {
-        for (var that = validate(this, NAME), data = that._i, entry = that._f; entry; entry = entry.n) {
-          entry.r = true;
-          if (entry.p) entry.p = entry.p.n = undefined;
-          delete data[entry.i];
-        }
-        that._f = that._l = undefined;
-        that[SIZE] = 0;
-      },
-      // 23.1.3.3 Map.prototype.delete(key)
-      // 23.2.3.4 Set.prototype.delete(value)
-      'delete': function (key) {
-        var that = validate(this, NAME);
-        var entry = getEntry(that, key);
-        if (entry) {
-          var next = entry.n;
-          var prev = entry.p;
-          delete that._i[entry.i];
-          entry.r = true;
-          if (prev) prev.n = next;
-          if (next) next.p = prev;
-          if (that._f == entry) that._f = next;
-          if (that._l == entry) that._l = prev;
-          that[SIZE]--;
-        } return !!entry;
-      },
-      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
-      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
-      forEach: function forEach(callbackfn /* , that = undefined */) {
-        validate(this, NAME);
-        var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
-        var entry;
-        while (entry = entry ? entry.n : this._f) {
-          f(entry.v, entry.k, this);
-          // revert to the last existing entry
-          while (entry && entry.r) entry = entry.p;
-        }
-      },
-      // 23.1.3.7 Map.prototype.has(key)
-      // 23.2.3.7 Set.prototype.has(value)
-      has: function has(key) {
-        return !!getEntry(validate(this, NAME), key);
-      }
-    });
-    if (DESCRIPTORS) dP(C.prototype, 'size', {
-      get: function () {
-        return validate(this, NAME)[SIZE];
-      }
-    });
-    return C;
-  },
-  def: function (that, key, value) {
-    var entry = getEntry(that, key);
-    var prev, index;
-    // change existing entry
-    if (entry) {
-      entry.v = value;
-    // create new entry
-    } else {
-      that._l = entry = {
-        i: index = fastKey(key, true), // <- index
-        k: key,                        // <- key
-        v: value,                      // <- value
-        p: prev = that._l,             // <- previous entry
-        n: undefined,                  // <- next entry
-        r: false                       // <- removed
-      };
-      if (!that._f) that._f = entry;
-      if (prev) prev.n = entry;
-      that[SIZE]++;
-      // add to index
-      if (index !== 'F') that._i[index] = entry;
-    } return that;
-  },
-  getEntry: getEntry,
-  setStrong: function (C, NAME, IS_MAP) {
-    // add .keys, .values, .entries, [@@iterator]
-    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
-    $iterDefine(C, NAME, function (iterated, kind) {
-      this._t = validate(iterated, NAME); // target
-      this._k = kind;                     // kind
-      this._l = undefined;                // previous
-    }, function () {
-      var that = this;
-      var kind = that._k;
-      var entry = that._l;
-      // revert to the last existing entry
-      while (entry && entry.r) entry = entry.p;
-      // get next entry
-      if (!that._t || !(that._l = entry = entry ? entry.n : that._t._f)) {
-        // or finish the iteration
-        that._t = undefined;
-        return step(1);
-      }
-      // return step by kind
-      if (kind == 'keys') return step(0, entry.k);
-      if (kind == 'values') return step(0, entry.v);
-      return step(0, [entry.k, entry.v]);
-    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
-
-    // add [@@species], 23.1.2.2, 23.2.2.2
-    setSpecies(NAME);
-  }
-};
-
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var strong = __webpack_require__(119);
-var validate = __webpack_require__(47);
-var SET = 'Set';
-
-// 23.2 Set Objects
-module.exports = __webpack_require__(62)(SET, function (get) {
-  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
-}, {
-  // 23.2.3.1 Set.prototype.add(value)
-  add: function add(value) {
-    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
-  }
-}, strong);
-
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var each = __webpack_require__(26)(0);
-var redefine = __webpack_require__(13);
-var meta = __webpack_require__(30);
-var assign = __webpack_require__(102);
-var weak = __webpack_require__(122);
-var isObject = __webpack_require__(4);
-var fails = __webpack_require__(3);
-var validate = __webpack_require__(47);
-var WEAK_MAP = 'WeakMap';
-var getWeak = meta.getWeak;
-var isExtensible = Object.isExtensible;
-var uncaughtFrozenStore = weak.ufstore;
-var tmp = {};
-var InternalMap;
-
-var wrapper = function (get) {
-  return function WeakMap() {
-    return get(this, arguments.length > 0 ? arguments[0] : undefined);
-  };
-};
-
-var methods = {
-  // 23.3.3.3 WeakMap.prototype.get(key)
-  get: function get(key) {
-    if (isObject(key)) {
-      var data = getWeak(key);
-      if (data === true) return uncaughtFrozenStore(validate(this, WEAK_MAP)).get(key);
-      return data ? data[this._i] : undefined;
-    }
-  },
-  // 23.3.3.5 WeakMap.prototype.set(key, value)
-  set: function set(key, value) {
-    return weak.def(validate(this, WEAK_MAP), key, value);
-  }
-};
-
-// 23.3 WeakMap Objects
-var $WeakMap = module.exports = __webpack_require__(62)(WEAK_MAP, wrapper, methods, weak, true, true);
-
-// IE11 WeakMap frozen keys fix
-if (fails(function () { return new $WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7; })) {
-  InternalMap = weak.getConstructor(wrapper, WEAK_MAP);
-  assign(InternalMap.prototype, methods);
-  meta.NEED = true;
-  each(['delete', 'has', 'get', 'set'], function (key) {
-    var proto = $WeakMap.prototype;
-    var method = proto[key];
-    redefine(proto, key, function (a, b) {
-      // store frozen objects on internal weakmap shim
-      if (isObject(a) && !isExtensible(a)) {
-        if (!this._f) this._f = new InternalMap();
-        var result = this._f[key](a, b);
-        return key == 'set' ? this : result;
-      // store all the rest on native weakmap
-      } return method.call(this, a, b);
-    });
-  });
-}
-
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var redefineAll = __webpack_require__(43);
-var getWeak = __webpack_require__(30).getWeak;
-var anObject = __webpack_require__(1);
-var isObject = __webpack_require__(4);
-var anInstance = __webpack_require__(41);
-var forOf = __webpack_require__(42);
-var createArrayMethod = __webpack_require__(26);
-var $has = __webpack_require__(11);
-var validate = __webpack_require__(47);
-var arrayFind = createArrayMethod(5);
-var arrayFindIndex = createArrayMethod(6);
-var id = 0;
-
-// fallback for uncaught frozen keys
-var uncaughtFrozenStore = function (that) {
-  return that._l || (that._l = new UncaughtFrozenStore());
-};
-var UncaughtFrozenStore = function () {
-  this.a = [];
-};
-var findUncaughtFrozen = function (store, key) {
-  return arrayFind(store.a, function (it) {
-    return it[0] === key;
-  });
-};
-UncaughtFrozenStore.prototype = {
-  get: function (key) {
-    var entry = findUncaughtFrozen(this, key);
-    if (entry) return entry[1];
-  },
-  has: function (key) {
-    return !!findUncaughtFrozen(this, key);
-  },
-  set: function (key, value) {
-    var entry = findUncaughtFrozen(this, key);
-    if (entry) entry[1] = value;
-    else this.a.push([key, value]);
-  },
-  'delete': function (key) {
-    var index = arrayFindIndex(this.a, function (it) {
-      return it[0] === key;
-    });
-    if (~index) this.a.splice(index, 1);
-    return !!~index;
-  }
-};
-
-module.exports = {
-  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
-    var C = wrapper(function (that, iterable) {
-      anInstance(that, C, NAME, '_i');
-      that._t = NAME;      // collection type
-      that._i = id++;      // collection id
-      that._l = undefined; // leak store for uncaught frozen objects
-      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
-    });
-    redefineAll(C.prototype, {
-      // 23.3.3.2 WeakMap.prototype.delete(key)
-      // 23.4.3.3 WeakSet.prototype.delete(value)
-      'delete': function (key) {
-        if (!isObject(key)) return false;
-        var data = getWeak(key);
-        if (data === true) return uncaughtFrozenStore(validate(this, NAME))['delete'](key);
-        return data && $has(data, this._i) && delete data[this._i];
-      },
-      // 23.3.3.4 WeakMap.prototype.has(key)
-      // 23.4.3.4 WeakSet.prototype.has(value)
-      has: function has(key) {
-        if (!isObject(key)) return false;
-        var data = getWeak(key);
-        if (data === true) return uncaughtFrozenStore(validate(this, NAME)).has(key);
-        return data && $has(data, this._i);
-      }
-    });
-    return C;
-  },
-  def: function (that, key, value) {
-    var data = getWeak(anObject(key), true);
-    if (data === true) uncaughtFrozenStore(that).set(key, value);
-    else data[that._i] = value;
-    return that;
-  },
-  ufstore: uncaughtFrozenStore
-};
-
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/ecma262/#sec-toindex
-var toInteger = __webpack_require__(24);
-var toLength = __webpack_require__(8);
-module.exports = function (it) {
-  if (it === undefined) return 0;
-  var number = toInteger(it);
-  var length = toLength(number);
-  if (number !== length) throw RangeError('Wrong length!');
-  return length;
-};
-
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// all object keys, includes non-enumerable and symbols
-var gOPN = __webpack_require__(39);
-var gOPS = __webpack_require__(55);
-var anObject = __webpack_require__(1);
-var Reflect = __webpack_require__(2).Reflect;
-module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
-  var keys = gOPN.f(anObject(it));
-  var getSymbols = gOPS.f;
-  return getSymbols ? keys.concat(getSymbols(it)) : keys;
-};
-
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// https://tc39.github.io/proposal-flatMap/#sec-FlattenIntoArray
-var isArray = __webpack_require__(56);
-var isObject = __webpack_require__(4);
-var toLength = __webpack_require__(8);
-var ctx = __webpack_require__(18);
-var IS_CONCAT_SPREADABLE = __webpack_require__(5)('isConcatSpreadable');
-
-function flattenIntoArray(target, original, source, sourceLen, start, depth, mapper, thisArg) {
-  var targetIndex = start;
-  var sourceIndex = 0;
-  var mapFn = mapper ? ctx(mapper, thisArg, 3) : false;
-  var element, spreadable;
-
-  while (sourceIndex < sourceLen) {
-    if (sourceIndex in source) {
-      element = mapFn ? mapFn(source[sourceIndex], sourceIndex, original) : source[sourceIndex];
-
-      spreadable = false;
-      if (isObject(element)) {
-        spreadable = element[IS_CONCAT_SPREADABLE];
-        spreadable = spreadable !== undefined ? !!spreadable : isArray(element);
-      }
-
-      if (spreadable && depth > 0) {
-        targetIndex = flattenIntoArray(target, original, element, toLength(element.length), targetIndex, depth - 1) - 1;
-      } else {
-        if (targetIndex >= 0x1fffffffffffff) throw TypeError();
-        target[targetIndex] = element;
-      }
-
-      targetIndex++;
-    }
-    sourceIndex++;
-  }
-  return targetIndex;
-}
-
-module.exports = flattenIntoArray;
-
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/tc39/proposal-string-pad-start-end
-var toLength = __webpack_require__(8);
-var repeat = __webpack_require__(77);
-var defined = __webpack_require__(23);
-
-module.exports = function (that, maxLength, fillString, left) {
-  var S = String(defined(that));
-  var stringLength = S.length;
-  var fillStr = fillString === undefined ? ' ' : String(fillString);
-  var intMaxLength = toLength(maxLength);
-  if (intMaxLength <= stringLength || fillStr == '') return S;
-  var fillLen = intMaxLength - stringLength;
-  var stringFiller = repeat.call(fillStr, Math.ceil(fillLen / fillStr.length));
-  if (stringFiller.length > fillLen) stringFiller = stringFiller.slice(0, fillLen);
-  return left ? stringFiller + S : S + stringFiller;
-};
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__(36);
-var toIObject = __webpack_require__(15);
-var isEnum = __webpack_require__(51).f;
-module.exports = function (isEntries) {
-  return function (it) {
-    var O = toIObject(it);
-    var keys = getKeys(O);
-    var length = keys.length;
-    var i = 0;
-    var result = [];
-    var key;
-    while (length > i) if (isEnum.call(O, key = keys[i++])) {
-      result.push(isEntries ? [key, O[key]] : O[key]);
-    } return result;
-  };
-};
-
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var classof = __webpack_require__(52);
-var from = __webpack_require__(129);
-module.exports = function (NAME) {
-  return function toJSON() {
-    if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
-    return from(this);
-  };
-};
-
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var forOf = __webpack_require__(42);
-
-module.exports = function (iter, ITERATOR) {
-  var result = [];
-  forOf(iter, false, result.push, result, ITERATOR);
-  return result;
-};
-
-
-/***/ }),
-/* 130 */
-/***/ (function(module, exports) {
-
-// https://rwaldron.github.io/proposal-math-extensions/
-module.exports = Math.scale || function scale(x, inLow, inHigh, outLow, outHigh) {
-  if (
-    arguments.length === 0
-      // eslint-disable-next-line no-self-compare
-      || x != x
-      // eslint-disable-next-line no-self-compare
-      || inLow != inLow
-      // eslint-disable-next-line no-self-compare
-      || inHigh != inHigh
-      // eslint-disable-next-line no-self-compare
-      || outLow != outLow
-      // eslint-disable-next-line no-self-compare
-      || outHigh != outHigh
-  ) return NaN;
-  if (x === Infinity || x === -Infinity) return x;
-  return (x - inLow) * (outHigh - outLow) / (inHigh - inLow) + outLow;
-};
-
-
-/***/ }),
-/* 131 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * This is a separate file to allow multiple jolecule
- * widgets to be animated in the same global event loop.
- * the interface to a widget is:
- *
- * class Widget {
- *   animate() {}
- *   isChanged: boolean
- *   draw() {}
- * }
- *
- * Global storage
- * - window.globalWidgets
- * - window.lastTime
- */
-
-var MS_PER_STEP = 17;
-
-function loop() {
-  requestAnimationFrame(loop);
-
-  if (window.globalWidgets === []) {
-    return;
-  }
-  var currTime = new Date().getTime();
-  var elapsedTime = currTime - window.lastTime;
-
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = window.globalWidgets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var widget = _step.value;
-
-      widget.animate(elapsedTime);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = window.globalWidgets[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var _widget = _step2.value;
-
-      if (_widget.isChanged()) {
-        _widget.drawFrame();
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-
-  window.lastTime = currTime;
-}
-
-/**
- * run loop() as a singleton by using the global
- * window space to lock one single copy of loop
- */
-function registerGlobalAnimationLoop(widget) {
-  console.log('registerGlobalAnimationLoop window', window);
-  if (typeof window.globalWidgets === 'undefined') {
-    window.globalWidgets = [];
-    loop();
-    window.lastTime = new Date().getTime();
-  }
-  window.globalWidgets.push(widget);
-}
-
-exports.registerGlobalAnimationLoop = registerGlobalAnimationLoop;
-
-/***/ }),
-/* 132 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.defaultArgs = exports.EmbedJolecule = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _jquery = __webpack_require__(32);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _lodash = __webpack_require__(29);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _soup = __webpack_require__(133);
-
-var _display = __webpack_require__(344);
-
-var _util = __webpack_require__(49);
-
-var _widgets = __webpack_require__(135);
-
-var _widgets2 = _interopRequireDefault(_widgets);
-
-var _v = __webpack_require__(67);
-
-var _v2 = _interopRequireDefault(_v);
-
-var _util2 = __webpack_require__(49);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * EmbedJolecule - the widget that shows proteins and
- * annotations
- */
-
-var defaultArgs = {
-  divTag: '',
-  backgroundColor: 0x000000,
-  viewId: '',
-  viewHeight: 170,
-  isViewTextShown: false,
-  isSequenceBar: true,
-  isEditable: true,
-  isLoop: false,
-  isGrid: false,
-  bCutoff: 0.5,
-  isPlayable: false,
-  maxUpdateStep: 30,
-  msPerStep: 17,
-  maxWaitStep: 30
-};
-
-var EmbedJolecule = function () {
-  function EmbedJolecule(params) {
-    var _this = this;
-
-    _classCallCheck(this, EmbedJolecule);
-
-    this.params = _lodash2.default.cloneDeep(defaultArgs);
-    _lodash2.default.assign(this.params, params);
-    console.log('EmbedJolecule.constructor', this.params);
-    this.isProcessing = { flag: false };
-
-    this.divTag = this.params.divTag;
-    this.div = (0, _jquery2.default)(this.params.divTag);
-    this.div[0].oncontextmenu = _lodash2.default.noop;
-
-    this.soup = new _soup.Soup();
-    this.soupView = new _soup.SoupView(this.soup);
-    this.soupView.isLoop = params.isLoop;
-    this.soupView.maxUpdateStep = params.maxUpdateStep;
-    this.soupView.msPerStep = params.msPerStep;
-    this.soupView.maxWaitStep = params.maxWaitStep;
-
-    this.controller = new _soup.Controller(this.soupView);
-
-    this.createDivs();
-
-    var resizeFn = function resizeFn() {
-      return _this.resize();
-    };
-    (0, _jquery2.default)(window).resize(resizeFn);
-    window.onorientationchange = resizeFn;
-    resizeFn();
-  }
-
-  _createClass(EmbedJolecule, [{
-    key: 'asyncAddDataServer',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dataServer) {
-        var _this2 = this;
-
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                console.log('EmbedJolecule.asyncAddDataServer');
-
-              case 1:
-                if (!this.isProcessing.flag) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                _context2.next = 4;
-                return (0, _util.delay)(100);
-
-              case 4:
-                _context2.next = 1;
-                break;
-
-              case 6:
-
-                this.isProcessing.flag = true;
-
-                _context2.next = 9;
-                return this.display.asyncSetMesssage('Loading structure...');
-
-              case 9:
-                _context2.next = 11;
-                return new Promise(function (resolve) {
-                  dataServer.get_protein_data(function () {
-                    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(proteinData) {
-                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              _context.next = 2;
-                              return _this2.controller.asyncLoadProteinData(proteinData, function (m) {
-                                return _this2.display.asyncSetMesssage(m);
-                              });
-
-                            case 2:
-                              if (_this2.params.bCutoff !== null) {
-                                _this2.soup.grid.bCutoff = _this2.params.bCutoff;
-                              }
-                              _this2.display.buildScene();
-                              _this2.resize();
-                              resolve();
-
-                            case 6:
-                            case 'end':
-                              return _context.stop();
-                          }
-                        }
-                      }, _callee, _this2);
-                    }));
-
-                    return function (_x2) {
-                      return _ref2.apply(this, arguments);
-                    };
-                  }());
-                });
-
-              case 11:
-                _context2.next = 13;
-                return this.display.asyncSetMesssage('Loading views...');
-
-              case 13:
-                dataServer.get_views(function (viewDicts) {
-                  _this2.controller.loadViewsFromViewDicts(viewDicts);
-                  if (_this2.params.viewId in _this2.soupView.savedViewsByViewId) {
-                    _this2.controller.setTargetViewByViewId(_this2.params.viewId);
-                  }
-                });
-
-                this.display.dataServer = dataServer;
-
-                this.controller.zoomOut();
-
-                this.display.observers.rebuilt.dispatch();
-                this.display.cleanupMessage();
-
-                this.isProcessing.flag = false;
-
-              case 19:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function asyncAddDataServer(_x) {
-        return _ref.apply(this, arguments);
-      }
-
-      return asyncAddDataServer;
-    }()
-  }, {
-    key: 'clear',
-    value: function clear() {
-      while (this.display.soup.structureIds.length > 0) {
-        this.display.deleteStructure(0);
-      }
-    }
-  }, {
-    key: 'createDivs',
-    value: function createDivs() {
-      var _this3 = this;
-
-      this.headerDiv = (0, _jquery2.default)('<div>').attr('id', 'sequence-widget');
-
-      this.bodyDiv = (0, _jquery2.default)('<div>').attr('id', 'jolecule-soup-display').addClass('jolecule-embed-body').css('overflow', 'hidden').css('width', this.div.outerWidth());
-
-      this.div.append(this.headerDiv).append(this.bodyDiv);
-
-      this.display = new _display.Display(this.soupView, '#jolecule-soup-display', this.controller, this.params.isGrid, this.params.backgroundColor);
-
-      if (this.params.isSequenceBar) {
-        this.sequenceWidget = new _widgets2.default.SequenceWidget('#sequence-widget', this.display);
-      }
-
-      if (this.params.isGrid) {
-        this.gridControlWidget = new _widgets2.default.GridControlWidget(this.display);
-      }
-
-      this.footerDiv = (0, _jquery2.default)('<div class="jolecule-embed-footer" style="display: flex; flex-wrap: wrap; flex-direction: row">');
-      this.div.append(this.footerDiv);
-
-      if (this.params.isPlayable) {
-        this.playableDiv = (0, _jquery2.default)('<div id="playable" style="width: 100%; display: flex; flex-direction: row">');
-        this.footerDiv.append(this.playableDiv);
-        this.playableDiv.append((0, _util.linkButton)('', '<', 'jolecule-button', function () {
-          _this3.controller.setTargetToPrevView();
-        }));
-
-        this.playableDiv.append((0, _jquery2.default)('<div id="loop">'));
-        this.loopToggleWidget = new _widgets2.default.TogglePlayButtonWidget(this.display, '#loop');
-
-        this.playableDiv.append((0, _util.linkButton)('', '>', 'jolecule-button', function () {
-          _this3.controller.setTargetToNextView();
-        }));
-
-        this.playableDiv.append((0, _jquery2.default)('<div id="view-text" class="jolecule-button" style="background-color: #BBB; flex: 1 1; box-sizing: content-box; white-space: nowrap; overflow: hidden; text-align: left">'));
-        this.viewTextWidget = new _widgets2.default.ViewTextWidget(this.display, '#view-text');
-      }
-
-      this.footerDiv.append((0, _jquery2.default)('<div id="res-selector" class="jolecule-button" style="padding-top: 6px; height: 24px; box-sizing: content-box;"></div>'));
-      this.residueSelectorWidget = new _widgets2.default.ResidueSelectorWidget(this.display, '#res-selector');
-
-      this.footerDiv.append((0, _jquery2.default)('<div id="zslab" class="jolecule-button" style="flex: 1 0 120px; display: flex; flex-direction: row; justify-content: center;">'));
-      this.clippingPlaneWidget = new _widgets2.default.ClippingPlaneWidget(this.display, '#zslab');
-
-      this.footerDiv.append((0, _jquery2.default)('<div style="flex: 0; display: flex; flex-direction: row; justify-content: flex-end;">').append((0, _util.linkButton)('', 'Clear', 'jolecule-button', function () {
-        _this3.controller.clear();
-      })).append((0, _util.linkButton)('', 'Sidechains', 'jolecule-button', function () {
-        _this3.controller.toggleSelectedSidechains();
-      })).append((0, _util.linkButton)('', 'Neighbors', 'jolecule-button', function () {
-        _this3.controller.toggleResidueNeighbors();
-      })).append((0, _jquery2.default)('<div id="ligand">')));
-      this.ligandWidget = new _widgets2.default.ToggleButtonWidget(this.display, '#ligand', 'ligands');
-    }
-  }, {
-    key: 'resize',
-    value: function resize() {
-      this.bodyDiv.width(this.div.outerWidth());
-
-      var height = this.div.outerHeight();
-      if ('sequenceWidget' in this) {
-        height -= this.sequenceWidget.height();
-        this.bodyDiv.css('top', this.sequenceWidget.height());
-      }
-      if ('footerDiv' in this) {
-        height -= this.footerDiv.outerHeight();
-      }
-      this.bodyDiv.css('height', height);
-
-      this.display.resize();
-    }
-  }]);
-
-  return EmbedJolecule;
-}();
-
-exports.EmbedJolecule = EmbedJolecule;
-exports.defaultArgs = defaultArgs;
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.View = exports.SoupView = exports.interpolateCameras = exports.Controller = exports.Soup = undefined;
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _lodash = __webpack_require__(29);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _v = __webpack_require__(67);
-
-var _v2 = _interopRequireDefault(_v);
-
-var _util = __webpack_require__(49);
-
-var _glgeom = __webpack_require__(134);
-
-var glgeom = _interopRequireWildcard(_glgeom);
-
-var _pairs = __webpack_require__(341);
-
-var _store = __webpack_require__(342);
-
-var _store2 = _interopRequireDefault(_store);
-
-var _bitarray = __webpack_require__(343);
-
-var _bitarray2 = _interopRequireDefault(_bitarray);
-
-var _data = __webpack_require__(96);
-
-var data = _interopRequireWildcard(_data);
-
-var _three = __webpack_require__(48);
-
-var THREE = _interopRequireWildcard(_three);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var user = 'public'; // will be overriden by server
-
-function deleteNumbers(text) {
-  return text.replace(/\d+/, '');
-}
-
-function pushToListInDict(dict, key, value) {
-  if (!(key in dict)) {
-    dict[key] = [];
-  }
-  dict[key].push(value);
-}
-
-function getValueTableIndex(valueList, value) {
-  if (!_lodash2.default.includes(valueList, value)) {
-    valueList.push(value);
-  }
-  return valueList.indexOf(value);
-}
-
-function intToBool(i) {
-  return i === 1;
-}
-
-function boolToInt(b) {
-  return b ? 1 : 0;
-}
-
-function intToChar(i) {
-  return i ? String.fromCharCode(i) : '';
-}
-
-function charToInt(c) {
-  return c.charCodeAt(0);
-}
-
-function parsetTitleFromPdbText(text) {
-  var result = '';
-  var lines = text.split(/\r?\n/);
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = lines[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var line = _step.value;
-
-      if (line.substring(0, 5) === 'TITLE') {
-        result += line.substring(10);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return result;
-}
-
-function getIndexColor(i) {
-  return new THREE.Color().setHex(i + 1);
-}
-
-var atomStoreFields = [['x', 1, 'float32'], ['y', 1, 'float32'], ['z', 1, 'float32'], ['bfactor', 1, 'float32'], ['alt', 1, 'uint8'], ['iAtomType', 1, 'uint16'], ['iElem', 1, 'uint16'], ['iRes', 1, 'uint32'], ['iChain', 1, 'int32'], ['bondOffset', 1, 'uint32'], ['bondCount', 1, 'uint16']];
-
-var AtomProxy = function () {
-  function AtomProxy(soup, iAtom) {
-    _classCallCheck(this, AtomProxy);
-
-    this.soup = soup;
-    if (Number.isInteger(iAtom)) {
-      this.load(iAtom);
-    }
-    this._pos = _v2.default.create();
-  }
-
-  _createClass(AtomProxy, [{
-    key: 'load',
-    value: function load(iAtom) {
-      this.iAtom = iAtom;
-      return this;
-    }
-  }, {
-    key: 'getBondIndices',
-    value: function getBondIndices() {
-      var iStart = this.soup.atomStore.bondOffset[this.iAtom];
-      var n = this.soup.atomStore.bondCount[this.iAtom];
-      var iEnd = iStart + n;
-      return _lodash2.default.range(iStart, iEnd);
-    }
-  }, {
-    key: 'pos',
-    get: function get() {
-      this._pos.x = this.soup.atomStore.x[this.iAtom];
-      this._pos.y = this.soup.atomStore.y[this.iAtom];
-      this._pos.z = this.soup.atomStore.z[this.iAtom];
-      return this._pos;
-    }
-  }, {
-    key: 'resId',
-    get: function get() {
-      return this.soup.resIds[this.iRes];
-    }
-  }, {
-    key: 'elem',
-    get: function get() {
-      var iElem = this.soup.atomStore.iElem[this.iAtom];
-      return this.soup.elemTable[iElem];
-    }
-  }, {
-    key: 'bfactor',
-    get: function get() {
-      return this.soup.atomStore.bfactor[this.iAtom];
-    }
-  }, {
-    key: 'atomType',
-    get: function get() {
-      var iAtomType = this.soup.atomStore.iAtomType[this.iAtom];
-      return this.soup.atomTypeTable[iAtomType];
-    }
-  }, {
-    key: 'alt',
-    get: function get() {
-      return intToChar(this.soup.atomStore.alt[this.iAtom]);
-    },
-    set: function set(c) {
-      this.soup.atomStore.alt[this.iAtom] = charToInt(c);
-    }
-  }, {
-    key: 'iRes',
-    get: function get() {
-      return this.soup.atomStore.iRes[this.iAtom];
-    },
-    set: function set(iRes) {
-      this.soup.atomStore.iRes[this.iAtom] = iRes;
-    }
-  }, {
-    key: 'resType',
-    get: function get() {
-      var iResType = this.soup.residueStore.iResType[this.iRes];
-      return this.soup.resTypeTable[iResType];
-    }
-  }, {
-    key: 'label',
-    get: function get() {
-      var iResType = this.soup.residueStore.iResType[this.iRes];
-      var resType = this.soup.resTypeTable[iResType];
-      var label = this.soup.resIds[this.iRes] + ':' + resType + ':' + this.atomType;
-      if (this.alt) {
-        label += ':' + this.alt;
-      }
-      return label;
-    }
-  }, {
-    key: 'color',
-    get: function get() {
-      if (this.elem === 'C' || this.elem === 'H') {
-        var residue = this.soup.getResidueProxy(this.iRes);
-        return residue.activeColor;
-      } else if (this.elem in data.ElementColors) {
-        return data.ElementColors[this.elem];
-      }
-      return data.darkGrey;
-    }
-  }]);
-
-  return AtomProxy;
-}();
-
-var residueStoreFields = [['atomOffset', 1, 'uint32'], ['atomCount', 1, 'uint16'], ['iCentralAtom', 1, 'uint32'], ['iResType', 1, 'uint16'], ['iChain', 1, 'uint8'], ['iStructure', 1, 'uint8'], ['resNum', 1, 'int32'], ['insCode', 1, 'uint8'], ['sstruc', 1, 'uint8'], ['iColor', 1, 'uint8'], ['isPolymer', 1, 'uint8']];
-
-var ResidueProxy = function () {
-  function ResidueProxy(soup, iRes) {
-    _classCallCheck(this, ResidueProxy);
-
-    this.soup = soup;
-    if (Number.isInteger(iRes)) {
-      this.load(iRes);
-    }
-  }
-
-  _createClass(ResidueProxy, [{
-    key: 'load',
-    value: function load(iRes) {
-      this.iRes = iRes;
-      return this;
-    }
-  }, {
-    key: 'getAtomIndices',
-    value: function getAtomIndices() {
-      var iStart = this.soup.residueStore.atomOffset[this.iRes];
-      var n = this.soup.residueStore.atomCount[this.iRes];
-      var iEnd = iStart + n;
-      return _lodash2.default.range(iStart, iEnd);
-    }
-  }, {
-    key: 'getAtomProxy',
-    value: function getAtomProxy(atomType) {
-      var atom = this.soup.getAtomProxy();
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = this.getAtomIndices()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var iAtom = _step2.value;
-
-          atom.iAtom = iAtom;
-          if (atom.atomType === atomType) {
-            return atom;
-          }
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      return null;
-    }
-  }, {
-    key: 'getIAtom',
-    value: function getIAtom(atomType) {
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
-
-      try {
-        for (var _iterator3 = this.getAtomIndices()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var iAtom = _step3.value;
-
-          var iAtomType = this.soup.atomStore.iAtomType[iAtom];
-          var testAatomType = this.soup.atomTypeTable[iAtomType];
-          if (testAatomType === atomType) {
-            return iAtom;
-          }
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-            _iterator3.return();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
-      }
-
-      return null;
-    }
-  }, {
-    key: 'checkAtomTypes',
-    value: function checkAtomTypes(atomTypes) {
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
-
-      try {
-        for (var _iterator4 = atomTypes[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var atomType = _step4.value;
-
-          if (this.getIAtom(atomType) === null) {
-            return false;
-          }
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
-
-      return true;
-    }
-  }, {
-    key: 'isProteinConnectedToPrev',
-    value: function isProteinConnectedToPrev() {
-      if (this.iRes === 0) {
-        return false;
-      }
-
-      var thisRes = this;
-      var prevRes = new ResidueProxy(this.soup, this.iRes - 1);
-
-      var proteinAtomTypes = ['CA'];
-      if (prevRes.checkAtomTypes(proteinAtomTypes) && thisRes.checkAtomTypes(proteinAtomTypes)) {
-        var ca0 = prevRes.getAtomProxy('CA').pos;
-        var ca1 = thisRes.getAtomProxy('CA').pos;
-        if (_v2.default.distance(ca0, ca1) < 5) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-  }, {
-    key: 'isNucleotideConnectedToPrev',
-    value: function isNucleotideConnectedToPrev() {
-      if (this.iRes === 0) {
-        return false;
-      }
-
-      var thisRes = this;
-      var prevRes = new ResidueProxy(this.soup, this.iRes - 1);
-
-      var nucleicAtomTypes = ['C3\'', 'O3\''];
-
-      if (prevRes.checkAtomTypes(nucleicAtomTypes) && thisRes.checkAtomTypes(nucleicAtomTypes) && thisRes.checkAtomTypes(['P'])) {
-        var o3 = prevRes.getAtomProxy('O3\'').pos;
-        var p = thisRes.getAtomProxy('P').pos;
-        if (_v2.default.distance(o3, p) < 2.5) {
-          return true;
-        }
-      }
-      return false;
-    }
-  }, {
-    key: 'isConnectedToPrev',
-    value: function isConnectedToPrev() {
-      return this.isProteinConnectedToPrev() || this.isNucleotideConnectedToPrev();
-    }
-  }, {
-    key: 'getNucleotideNormal',
-    value: function getNucleotideNormal() {
-      var c3 = this.getAtomProxy('C3\'').pos;
-      var c5 = this.getAtomProxy('C5\'').pos;
-      var c1 = this.getAtomProxy('C1\'').pos;
-      var forward = _v2.default.diff(c3, c5);
-      var up = _v2.default.diff(c1, c3);
-      return _v2.default.crossProduct(forward, up);
-    }
-  }, {
-    key: 'iAtom',
-    get: function get() {
-      return this.soup.residueStore.iCentralAtom[this.iRes];
-    },
-    set: function set(iAtom) {
-      this.soup.residueStore.iCentralAtom[this.iRes] = iAtom;
-    }
-  }, {
-    key: 'iChain',
-    get: function get() {
-      return this.soup.residueStore.iChain[this.iRes];
-    }
-  }, {
-    key: 'iStructure',
-    get: function get() {
-      return this.soup.residueStore.iStructure[this.iRes];
-    },
-    set: function set(iStructure) {
-      this.soup.residueStore.iStructure[this.iRes] = iStructure;
-    }
-  }, {
-    key: 'resId',
-    get: function get() {
-      return this.soup.resIds[this.iRes];
-    }
-  }, {
-    key: 'resNum',
-    get: function get() {
-      return this.soup.residueStore.resNum[this.iRes];
-    }
-  }, {
-    key: 'insCode',
-    get: function get() {
-      return intToChar(this.soup.residueStore.insCode[this.iRes]);
-    },
-    set: function set(c) {
-      this.soup.residueStore.insCode[this.iRes] = charToInt(c);
-    }
-  }, {
-    key: 'isPolymer',
-    get: function get() {
-      return intToBool(this.soup.residueStore.isPolymer[this.iRes]);
-    },
-    set: function set(v) {
-      this.soup.residueStore.isPolymer[this.iRes] = boolToInt(v);
-    }
-  }, {
-    key: 'color',
-    get: function get() {
-      var iColor = this.soup.residueStore.iColor[this.iRes];
-      return this.soup.colorTable[iColor];
-    },
-    set: function set(color) {
-      var iColor = getValueTableIndex(this.soup.colorTable, color);
-      this.soup.residueStore.iColor[this.iRes] = iColor;
-    }
-  }, {
-    key: 'activeColor',
-    get: function get() {
-      var iColor = this.soup.residueStore.iColor[this.iRes];
-      var color = this.soup.colorTable[iColor];
-      if (this.soup.residueSelect.get(this.iRes)) {
-        color = color.clone().offsetHSL(0, 0, +0.3);
-      }
-      return color;
-    }
-  }, {
-    key: 'selected',
-    get: function get() {
-      return this.soup.residueSelect.get(this.iRes);
-    },
-    set: function set(v) {
-      if (v) {
-        this.soup.residueSelect.set(this.iRes);
-      } else {
-        this.soup.residueSelect.clear(this.iRes);
-      }
-    }
-  }, {
-    key: 'sidechain',
-    get: function get() {
-      return this.soup.residueSidechain.get(this.iRes);
-    },
-    set: function set(v) {
-      if (v) {
-        this.soup.residueSidechain.set(this.iRes);
-      } else {
-        this.soup.residueSidechain.clear(this.iRes);
-      }
-    }
-  }, {
-    key: 'resType',
-    get: function get() {
-      var iResType = this.soup.residueStore.iResType[this.iRes];
-      return this.soup.resTypeTable[iResType];
-    }
-  }, {
-    key: 'normal',
-    get: function get() {
-      var hasNormal = this.iRes in this.soup.residueNormal;
-      return hasNormal ? this.soup.residueNormal[this.iRes].clone() : null;
-    }
-  }, {
-    key: 'ss',
-    get: function get() {
-      return intToChar(this.soup.residueStore.sstruc[this.iRes]);
-    },
-    set: function set(c) {
-      this.soup.residueStore.sstruc[this.iRes] = charToInt(c);
-    }
-  }, {
-    key: 'label',
-    get: function get() {
-      var iResType = this.soup.residueStore.iResType[this.iRes];
-      var resType = this.soup.resTypeTable[iResType];
-      var label = this.soup.resIds[this.iRes] + ':' + resType;
-      return label;
-    }
-  }]);
-
-  return ResidueProxy;
-}();
-
-var bondStoreFields = [['iAtom1', 1, 'int32'], ['iAtom2', 1, 'int32']];
-
-var BondProxy = function () {
-  function BondProxy(soup, iBond) {
-    _classCallCheck(this, BondProxy);
-
-    this.soup = soup;
-    if (Number.isInteger(iBond)) {
-      this.load(iBond);
-    }
-  }
-
-  _createClass(BondProxy, [{
-    key: 'load',
-    value: function load(iBond) {
-      this.iBond = iBond;
-      return this;
-    }
-  }, {
-    key: 'iAtom1',
-    get: function get() {
-      return this.soup.bondStore.iAtom1[this.iBond];
-    }
-  }, {
-    key: 'iAtom2',
-    get: function get() {
-      return this.soup.bondStore.iAtom2[this.iBond];
-    }
-  }]);
-
-  return BondProxy;
-}();
-
-/**
- * Soup: main data object that holds information
- * about protein structure. The soup will be
- * embedded in a SoupView that will handle
- * all the different viewing options.
- * Allowable mutations on the Soup
- * will be made via the Controller.
- */
-
-
-var Soup = function () {
-  function Soup() {
-    _classCallCheck(this, Soup);
-
-    this.parsingError = '';
-    this.title = '';
-
-    this.structureIds = [];
-    this.structureId = null;
-    this.iStructure = -1;
-
-    this.chains = [];
-
-    // stores trace of protein/nucleotide backbones for ribbons
-    this.traces = [];
-
-    this.atomStore = new _store2.default(atomStoreFields);
-    this.residueStore = new _store2.default(residueStoreFields);
-    this.bondStore = new _store2.default(bondStoreFields);
-
-    this.resIds = [];
-    this.residueNormal = {};
-
-    this.residueProxy = new ResidueProxy(this);
-    this.atomProxy = new AtomProxy(this);
-
-    this.atomSelect = new _bitarray2.default(0);
-    this.residueSelect = new _bitarray2.default(0);
-    this.residueSidechain = new _bitarray2.default(0);
-    this.bondSelect = new _bitarray2.default(0);
-
-    this.elemTable = [];
-    this.atomTypeTable = [];
-    this.resTypeTable = [];
-    this.colorTable = [];
-
-    this.grid = {
-      bCutoff: 0.8,
-      bMax: 2,
-      bMin: 0.4,
-      changed: true,
-      isElem: {},
-      convertB: function convertB(b) {
-        return -b.toFixed(2);
-      }
-    };
-  }
-
-  _createClass(Soup, [{
-    key: 'isEmpty',
-    value: function isEmpty() {
-      return this.getAtomCount() == 0;
-    }
-  }, {
-    key: 'load',
-    value: function load(pdbData) {
-      console.log('Soup.load parse ' + this.structureId + '...');
-
-      this.parsePdbData(pdbData.pdb_text, this.structureId);
-
-      this.assignResidueProperties();
-
-      console.log('Soup.load processed ' + this.getAtomCount() + ' atoms, ' + (this.getResidueCount() + ' residues'));
-
-      console.log('Soup.load finding bonds...');
-      this.calcBondsStrategic();
-
-      console.log('Soup.load calculated ' + this.getBondCount() + ' bonds');
-
-      this.calcMaxLength();
-
-      this.findSecondaryStructure();
-      console.log('Soup.load calculated secondary-structure');
-    }
-  }, {
-    key: 'parsePdbData',
-    value: function parsePdbData(pdbText, pdbId) {
-      this.structureId = pdbId;
-      this.structureIds.push(pdbId);
-      this.iStructure = this.structureIds.length - 1;
-
-      var title = parsetTitleFromPdbText(pdbText);
-      this.title = '[' + this.structureId.toUpperCase() + '] ' + title;
-      console.log('Soup.parsePdbData', this.title);
-
-      var pdbLines = pdbText.split(/\r?\n/);
-
-      var lines = [];
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
-
-      try {
-        for (var _iterator5 = pdbLines[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var _line = _step5.value;
-
-          if (_line.slice(0, 4) === 'ATOM' || _line.slice(0, 6) === 'HETATM') {
-            lines.push(_line);
-          }
-          if (_line.slice(0, 3) === 'END') {
-            break;
-          }
-        }
-      } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
-      }
-
-      if (lines.length === 0) {
-        this.parsingError = 'No atom lines';
-        return;
-      }
-
-      var x = void 0,
-          y = void 0,
-          z = void 0,
-          chain = void 0,
-          resType = void 0;
-      var atomType = void 0,
-          bfactor = void 0,
-          elem = void 0,
-          alt = void 0,
-          resNum = void 0,
-          insCode = void 0;
-
-      for (var iLine = 0; iLine < lines.length; iLine += 1) {
-        var line = lines[iLine];
-        if (line.substr(0, 4) === 'ATOM' || line.substr(0, 6) === 'HETATM') {
-          try {
-            atomType = _lodash2.default.trim(line.substr(12, 4));
-            alt = _lodash2.default.trim(line.substr(16, 1));
-            resType = _lodash2.default.trim(line.substr(17, 3));
-            chain = _lodash2.default.trim(line[21]);
-            resNum = parseInt(line.substr(22, 4));
-            insCode = line.substr(26, 1);
-            x = parseFloat(line.substr(30, 7));
-            y = parseFloat(line.substr(38, 7));
-            z = parseFloat(line.substr(46, 7));
-            bfactor = parseFloat(line.substr(60, 6));
-            elem = deleteNumbers(_lodash2.default.trim(line.substr(76, 2)));
-          } catch (e) {
-            this.parsingError = 'line ' + iLine;
-            console.log('Error: "' + line + '"');
-            continue;
-          }
-
-          if (elem === '') {
-            elem = deleteNumbers(_lodash2.default.trim(atomType)).substr(0, 1);
-          }
-
-          this.addAtom(x, y, z, bfactor, alt, atomType, elem, resType, resNum, insCode, chain);
-        }
-      }
-    }
-  }, {
-    key: 'asyncLoadProteinData',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(proteinData, asyncSetMessageFn) {
-        var pdbText, pdbId, err, nAtom, nRes, nBond;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                pdbText = proteinData.pdb_text;
-                pdbId = proteinData.pdb_id;
-
-                if (!(proteinData.pdb_text.length === 0)) {
-                  _context.next = 6;
-                  break;
-                }
-
-                _context.next = 5;
-                return asyncSetMessageFn('Error: no soup data');
-
-              case 5:
-                return _context.abrupt('return');
-
-              case 6:
-                _context.next = 8;
-                return asyncSetMessageFn('Parsing \'' + pdbId + '\'');
-
-              case 8:
-                this.parsePdbData(pdbText, pdbId);
-
-                if (!this.parsingError) {
-                  _context.next = 14;
-                  break;
-                }
-
-                err = this.soup.parsingError;
-                _context.next = 13;
-                return asyncSetMessageFn('Error parsing soup: ' + err);
-
-              case 13:
-                return _context.abrupt('return');
-
-              case 14:
-
-                this.assignResidueProperties();
-                this.calcMaxLength();
-
-                nAtom = this.getAtomCount();
-                nRes = this.getResidueCount();
-                _context.next = 20;
-                return asyncSetMessageFn('Calculating bonds for ' + nAtom + ' atoms, ' + nRes + ' residues...');
-
-              case 20:
-
-                this.calcBondsStrategic();
-
-                nBond = this.getBondCount();
-                _context.next = 24;
-                return asyncSetMessageFn('Calculated ' + nBond + ' bonds. Assigning secondary structure...');
-
-              case 24:
-
-                this.findSecondaryStructure();
-
-              case 25:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function asyncLoadProteinData(_x, _x2) {
-        return _ref.apply(this, arguments);
-      }
-
-      return asyncLoadProteinData;
-    }()
-  }, {
-    key: 'addAtom',
-    value: function addAtom(x, y, z, bfactor, alt, atomType, elem, resType, resNum, insCode, chain) {
-      var iAtom = this.atomStore.count;
-
-      this.atomStore.increment();
-
-      this.atomStore.x[iAtom] = x;
-      this.atomStore.y[iAtom] = y;
-      this.atomStore.z[iAtom] = z;
-
-      this.atomStore.bfactor[iAtom] = bfactor;
-      this.atomStore.alt[iAtom] = charToInt(alt);
-
-      this.atomStore.bondCount[iAtom] = 0;
-
-      this.atomStore.iAtomType[iAtom] = getValueTableIndex(this.atomTypeTable, atomType);
-
-      this.atomStore.iElem[iAtom] = getValueTableIndex(this.elemTable, elem);
-
-      var nRes = this.getResidueCount();
-
-      var isNewRes = false;
-      if (nRes === 0) {
-        isNewRes = true;
-      } else {
-        this.residueProxy.iRes = nRes - 1;
-        if (this.residueProxy.resNum !== resNum) {
-          isNewRes = true;
-        } else if (this.residueProxy.insCode !== insCode) {
-          isNewRes = true;
-        }
-      }
-
-      if (isNewRes) {
-        this.addResidue(iAtom, resNum, insCode, chain, resType);
-      }
-
-      var iRes = this.getResidueCount() - 1;
-      this.residueStore.atomCount[iRes] += 1;
-      this.atomStore.iRes[iAtom] = iRes;
-    }
-  }, {
-    key: 'addResidue',
-    value: function addResidue(iFirstAtomInRes, resNum, insCode, chain, resType) {
-      var iRes = this.getResidueCount();
-      this.residueStore.increment();
-
-      var resId = this.structureId + ':';
-      if (chain) {
-        resId += chain + ':';
-      }
-      resId += resNum + _lodash2.default.trim(insCode);
-
-      this.resIds.push(resId);
-
-      var iChain = getValueTableIndex(this.chains, chain);
-      this.residueStore.iChain[iRes] = iChain;
-
-      this.residueStore.resNum[iRes] = resNum;
-      this.residueStore.insCode[iRes] = charToInt(insCode);
-
-      this.residueStore.iResType[iRes] = getValueTableIndex(this.resTypeTable, resType);
-
-      this.residueStore.atomOffset[iRes] = iFirstAtomInRes;
-      this.residueStore.atomCount[iRes] = 0;
-
-      this.residueStore.iStructure[iRes] = this.iStructure;
-    }
-  }, {
-    key: 'getAtomProxyOfCenter',
-    value: function getAtomProxyOfCenter() {
-      var atomIndices = _lodash2.default.range(this.getAtomCount());
-      var center = this.getCenter(atomIndices);
-      var iAtom = this.getIAtomClosest(center, atomIndices);
-      return this.getAtomProxy(iAtom);
-    }
-  }, {
-    key: 'assignResidueProperties',
-    value: function assignResidueProperties() {
-      var res = this.getResidueProxy();
-      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
-        res.iRes = iRes;
-
-        if (_lodash2.default.includes(data.proteinResTypes, res.resType)) {
-          res.iAtom = res.getIAtom('CA');
-          res.ss = 'C';
-          res.isPolymer = true;
-        } else if (_lodash2.default.includes(data.dnaResTypes, res.resType) || _lodash2.default.includes(data.rnaResTypes, res.resType)) {
-          res.iAtom = res.getIAtom('C3\'');
-          res.ss = 'D';
-          res.isPolymer = true;
-        } else {
-          res.isPolymer = false;
-          if (res.resType === 'HOH') {
-            // water
-            res.ss = 'W';
-          } else if (res.resType === 'XXX') {
-            // grid atom
-            res.ss = 'G';
-          } else {
-            res.ss = '-';
-          }
-          var center = this.getCenter(res.getAtomIndices());
-          res.iAtom = this.getIAtomClosest(center, res.getAtomIndices());
-        }
-      }
-      this.atomSelect = new _bitarray2.default(this.getAtomCount());
-      this.residueSelect = new _bitarray2.default(this.getResidueCount());
-      this.residueSidechain = new _bitarray2.default(this.getResidueCount());
-    }
-  }, {
-    key: 'getIAtomClosest',
-    value: function getIAtomClosest(pos, atomIndices) {
-      var iAtomClosest = null;
-      var minD = 1E6;
-      var atom = this.getAtomProxy();
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
-
-      try {
-        for (var _iterator6 = atomIndices[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var iAtom = _step6.value;
-
-          if (iAtomClosest === null) {
-            iAtomClosest = iAtom;
-          } else {
-            atom.iAtom = iAtom;
-            var d = _v2.default.distance(pos, atom.pos);
-            if (d < minD) {
-              iAtomClosest = iAtom;
-              minD = d;
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
-        }
-      }
-
-      return iAtomClosest;
-    }
-  }, {
-    key: 'getIAtomAtPosition',
-    value: function getIAtomAtPosition(pos) {
-      var atomIndices = _lodash2.default.range(this.getAtomCount());
-      var iAtomClosest = null;
-      var minD = 1E6;
-      var atom = this.getAtomProxy();
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
-
-      try {
-        for (var _iterator7 = atomIndices[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var iAtom = _step7.value;
-
-          if (iAtomClosest === null) {
-            iAtomClosest = iAtom;
-          } else {
-            atom.iAtom = iAtom;
-            var d = _v2.default.distance(pos, atom.pos);
-            if (d < minD) {
-              iAtomClosest = iAtom;
-              minD = d;
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return) {
-            _iterator7.return();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
-        }
-      }
-
-      if (minD < 0.1) {
-        return iAtomClosest;
-      } else {
-        return -1;
-      }
-    }
-  }, {
-    key: 'getCenter',
-    value: function getCenter(atomIndices) {
-      var result = _v2.default.create(0, 0, 0);
-      var atom = this.getAtomProxy();
-      var _iteratorNormalCompletion8 = true;
-      var _didIteratorError8 = false;
-      var _iteratorError8 = undefined;
-
-      try {
-        for (var _iterator8 = atomIndices[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-          var iAtom = _step8.value;
-
-          result = _v2.default.sum(result, atom.load(iAtom).pos);
-        }
-      } catch (err) {
-        _didIteratorError8 = true;
-        _iteratorError8 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion8 && _iterator8.return) {
-            _iterator8.return();
-          }
-        } finally {
-          if (_didIteratorError8) {
-            throw _iteratorError8;
-          }
-        }
-      }
-
-      result.divideScalar(atomIndices.length);
-      return result;
-    }
-
-    /**
-     * TODO: replace with bounding box?
-     */
-
-  }, {
-    key: 'calcMaxLength',
-    value: function calcMaxLength() {
-      var maxima = [0.0, 0.0, 0.0];
-      var minima = [0.0, 0.0, 0.0];
-      var spans = [0.0, 0.0, 0.0];
-
-      function comp(v, i) {
-        if (i === 0) return v.x;
-        if (i === 1) return v.y;
-        if (i === 2) return v.z;
-      }
-
-      var atom = this.getAtomProxy();
-      for (var iDim = 0; iDim < 3; iDim++) {
-        for (var iAtom = 0; iAtom < this.getAtomCount(); iAtom += 1) {
-          var pos = atom.load(iAtom).pos;
-          if (minima[iDim] > comp(pos, iDim)) {
-            minima[iDim] = comp(pos, iDim);
-          }
-          if (maxima[iDim] < comp(pos, iDim)) {
-            maxima[iDim] = comp(pos, iDim);
-          }
-        }
-        spans[iDim] = maxima[iDim] - minima[iDim];
-      }
-      this.maxLength = Math.max(spans[0], spans[1], spans[2]);
-    }
-  }, {
-    key: 'calcBondsStrategic',
-    value: function calcBondsStrategic() {
-      var _this = this;
-
-      this.bondStore.count = 0;
-
-      var smallCutoffSq = 1.2 * 1.2;
-      var mediumCutoffSq = 1.9 * 1.9;
-      var largeCutoffSq = 2.4 * 2.4;
-      var CHONPS = ['C', 'H', 'O', 'N', 'P', 'S'];
-
-      function isBonded(atom1, atom2) {
-        if (atom1 === null || atom2 === null) {
-          return false;
-        }
-        // don't include bonds between different alt positions
-        if (atom1.alt !== '' && atom2.alt !== '') {
-          if (atom1.alt !== atom2.alt) {
-            return false;
-          }
-        }
-
-        var cutoffSq = void 0;
-        if (atom1.elem === 'H' || atom2.elem === 'H') {
-          cutoffSq = smallCutoffSq;
-        } else if ((0, _util.inArray)(atom1.elem, CHONPS) && (0, _util.inArray)(atom2.elem, CHONPS)) {
-          cutoffSq = mediumCutoffSq;
-        } else {
-          cutoffSq = largeCutoffSq;
-        }
-
-        var diffX = atom1.pos.x - atom2.pos.x;
-        var diffY = atom1.pos.y - atom2.pos.y;
-        var diffZ = atom1.pos.z - atom2.pos.z;
-        var distSq = diffX * diffX + diffY * diffY + diffZ * diffZ;
-        return distSq <= cutoffSq;
-      }
-
-      var makeBond = function makeBond(atom1, atom2) {
-        var iBond = _this.getBondCount();
-        _this.bondStore.increment();
-        _this.bondStore.iAtom1[iBond] = atom1.iAtom;
-        _this.bondStore.iAtom2[iBond] = atom2.iAtom;
-
-        iBond = _this.getBondCount();
-        _this.bondStore.increment();
-        _this.bondStore.iAtom1[iBond] = atom2.iAtom;
-        _this.bondStore.iAtom2[iBond] = atom1.iAtom;
-      };
-
-      var residue1 = this.getResidueProxy();
-      var residue2 = this.getResidueProxy();
-      var nRes = this.getResidueCount();
-      var atom1 = this.getAtomProxy();
-      var atom2 = this.getAtomProxy();
-
-      for (var iRes1 = 0; iRes1 < nRes; iRes1++) {
-        residue2.iRes = iRes1;
-
-        // cycle through all atoms within a residue
-        var _iteratorNormalCompletion9 = true;
-        var _didIteratorError9 = false;
-        var _iteratorError9 = undefined;
-
-        try {
-          for (var _iterator9 = residue2.getAtomIndices()[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-            var _iAtom = _step9.value;
-            var _iteratorNormalCompletion10 = true;
-            var _didIteratorError10 = false;
-            var _iteratorError10 = undefined;
-
-            try {
-              for (var _iterator10 = residue2.getAtomIndices()[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-                var iAtom2 = _step10.value;
-
-                atom1.iAtom = _iAtom;
-                atom2.iAtom = iAtom2;
-                if (isBonded(atom1, atom2)) {
-                  makeBond(atom1, atom2);
-                }
-              }
-            } catch (err) {
-              _didIteratorError10 = true;
-              _iteratorError10 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion10 && _iterator10.return) {
-                  _iterator10.return();
-                }
-              } finally {
-                if (_didIteratorError10) {
-                  throw _iteratorError10;
-                }
-              }
-            }
-          }
-        } catch (err) {
-          _didIteratorError9 = true;
-          _iteratorError9 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion9 && _iterator9.return) {
-              _iterator9.return();
-            }
-          } finally {
-            if (_didIteratorError9) {
-              throw _iteratorError9;
-            }
-          }
-        }
-      }
-
-      for (var iRes2 = 1; iRes2 < nRes; iRes2++) {
-        residue1.iRes = iRes2 - 1;
-        residue2.iRes = iRes2;
-        if (residue2.isProteinConnectedToPrev()) {
-          atom1.iAtom = residue1.getIAtom('C');
-          atom2.iAtom = residue2.getIAtom('N');
-        } else if (residue2.isNucleotideConnectedToPrev()) {
-          atom1.iAtom = residue1.getIAtom('O3\'');
-          atom2.iAtom = residue2.getIAtom('P');
-        } else {
-          continue;
-        }
-        makeBond(atom1, atom2);
-      }
-
-      // sort bonds by iAtom1
-      var iAtom1Array = this.bondStore.iAtom1;
-      this.bondStore.sort(function (i, j) {
-        return iAtom1Array[i] - iAtom1Array[j];
-      });
-
-      // asign bonds to atoms
-      for (var iAtom = 0; iAtom < this.getAtomCount(); iAtom += 1) {
-        this.atomStore.bondCount[iAtom] = 0;
-      }
-      var bond = this.getBondProxy();
-      var iAtom1 = null;
-      for (var iBond = 0; iBond < this.getBondCount(); iBond += 1) {
-        bond.iBond = iBond;
-        if (iAtom1 !== bond.iAtom1) {
-          iAtom1 = bond.iAtom1;
-          this.atomStore.bondOffset[iAtom1] = iBond;
-        }
-        this.atomStore.bondCount[iAtom1] += 1;
-      }
-
-      this.bondSelect = new _bitarray2.default(this.getBondCount());
-    }
-
-    /**
-     * Identify backbone hydrogen bonds using a distance
-     * criteria between O and N atoms.
-     */
-
-  }, {
-    key: 'findBackboneHbonds',
-    value: function findBackboneHbonds() {
-      var residue = this.getResidueProxy();
-      var atom0 = this.getAtomProxy();
-      var atom1 = this.getAtomProxy();
-
-      var result = [];
-      var cutoff = 3.5;
-
-      for (var iStructure = 0; iStructure < this.structureIds.length; iStructure += 1) {
-        // Collect backbone O and N atoms
-        var vertices = [];
-        var atomIndices = [];
-        for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
-          residue.iRes = iRes;
-          if (residue.iStructure !== iStructure) {
-            // ensure only backbone H-bonds of a single structure are calculated
-            continue;
-          }
-          if (residue.isPolymer) {
-            var _arr = ['O', 'N'];
-
-            for (var _i = 0; _i < _arr.length; _i++) {
-              var aTypeName = _arr[_i];
-              var iAtom = residue.getIAtom(aTypeName);
-              if (iAtom !== null) {
-                atom0.iAtom = iAtom;
-                vertices.push([atom0.pos.x, atom0.pos.y, atom0.pos.z]);
-                atomIndices.push(iAtom);
-              }
-            }
-          }
-        }
-
-        var spaceHash = new _pairs.SpaceHash(vertices);
-        var _iteratorNormalCompletion11 = true;
-        var _didIteratorError11 = false;
-        var _iteratorError11 = undefined;
-
-        try {
-          for (var _iterator11 = spaceHash.getClosePairs()[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-            var pair = _step11.value;
-
-            atom0.iAtom = atomIndices[pair[0]];
-            atom1.iAtom = atomIndices[pair[1]];
-            if (atom0.elem === 'O' && atom1.elem === 'N') {
-              var _ref2 = [atom1, atom0];
-              atom0 = _ref2[0];
-              atom1 = _ref2[1];
-            }
-            if (!(atom0.elem === 'N' && atom1.elem === 'O')) {
-              continue;
-            }
-            var iRes0 = atom0.iRes;
-            var iRes1 = atom1.iRes;
-            if (iRes0 === iRes1) {
-              continue;
-            }
-            if (_v2.default.distance(atom0.pos, atom1.pos) <= cutoff) {
-              pushToListInDict(result, iRes0, iRes1);
-            }
-          }
-        } catch (err) {
-          _didIteratorError11 = true;
-          _iteratorError11 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion11 && _iterator11.return) {
-              _iterator11.return();
-            }
-          } finally {
-            if (_didIteratorError11) {
-              throw _iteratorError11;
-            }
-          }
-        }
-      }
-
-      this.conhPartners = result;
-    }
-
-    /**
-     * Methods to calculate secondary-structure using Kabsch-Sanders
-     *
-     * Secondary Structure:
-     * - H - alpha-helix/3-10-helix
-     * - E - beta-sheet
-     * - C - coil
-     * - - - ligand
-     * - W - water
-     * - D - DNA or RNA
-     * - R - non-standard nucleotide
-     */
-
-  }, {
-    key: 'findSecondaryStructure',
-    value: function findSecondaryStructure() {
-      this.findBackboneHbonds();
-      var conhPartners = this.conhPartners;
-      var residueNormals = {};
-
-      var nRes = this.getResidueCount();
-      var residue0 = this.getResidueProxy();
-      var residue1 = this.getResidueProxy();
-
-      var atom0 = this.getAtomProxy();
-      var atom1 = this.getAtomProxy();
-
-      function isCONH(iRes0, iRes1) {
-        if (iRes1 < 0 || iRes1 >= nRes || iRes0 < 0 || iRes0 >= nRes) {
-          return false;
-        }
-        return _lodash2.default.includes(conhPartners[iRes1], iRes0);
-      }
-
-      function vecBetweenResidues(iRes0, iRes1) {
-        atom0.iAtom = residue0.load(iRes0).iAtom;
-        atom1.iAtom = residue1.load(iRes1).iAtom;
-        return _v2.default.diff(atom0.pos, atom1.pos);
-      }
-
-      // Collect ca atoms
-      var vertices = [];
-      var atomIndices = [];
-      var resIndices = [];
-      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
-        residue0.iRes = iRes;
-        if (residue0.isPolymer && !(residue0.ss === 'D')) {
-          var iAtom = residue0.getIAtom('CA');
-          if (iAtom !== null) {
-            atom0.iAtom = iAtom;
-            vertices.push([atom0.pos.x, atom0.pos.y, atom0.pos.z]);
-            atomIndices.push(iAtom);
-            resIndices.push(iRes);
-          }
-        }
-      }
-
-      for (var iRes0 = 0; iRes0 < nRes; iRes0 += 1) {
-        residue0.iRes = iRes0;
-
-        if (!residue0.isPolymer) {
-          continue;
-        }
-
-        if (residue0.ss === 'D') {
-          pushToListInDict(residueNormals, iRes0, residue0.getNucleotideNormal());
-          continue;
-        }
-
-        // alpha-helix
-        if (isCONH(iRes0, iRes0 + 4) && isCONH(iRes0 + 1, iRes0 + 5)) {
-          var normal0 = vecBetweenResidues(iRes0, iRes0 + 4);
-          var normal1 = vecBetweenResidues(iRes0 + 1, iRes0 + 5);
-          for (var iRes1 = iRes0 + 1; iRes1 < iRes0 + 5; iRes1 += 1) {
-            residue0.load(iRes1).ss = 'H';
-            pushToListInDict(residueNormals, iRes1, normal0);
-            pushToListInDict(residueNormals, iRes1, normal1);
-          }
-        }
-
-        // 3-10 helix
-        if (isCONH(iRes0, iRes0 + 3) && isCONH(iRes0 + 1, iRes0 + 4)) {
-          var _normal = vecBetweenResidues(iRes0, iRes0 + 3);
-          var normal2 = vecBetweenResidues(iRes0 + 1, iRes0 + 4);
-          for (var _iRes = iRes0 + 1; _iRes < iRes0 + 4; _iRes += 1) {
-            residue0.load(_iRes).ss = 'H';
-            pushToListInDict(residueNormals, _iRes, _normal);
-            pushToListInDict(residueNormals, _iRes, normal2);
-          }
-        }
-      }
-
-      var betaResidues = [];
-      var spaceHash = new _pairs.SpaceHash(vertices);
-      var _iteratorNormalCompletion12 = true;
-      var _didIteratorError12 = false;
-      var _iteratorError12 = undefined;
-
-      try {
-        for (var _iterator12 = spaceHash.getClosePairs()[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-          var pair = _step12.value;
-
-          var _pair = _slicedToArray(pair, 2),
-              iVertex0 = _pair[0],
-              iVertex1 = _pair[1];
-
-          var _iRes4 = resIndices[iVertex0];
-          var _iRes5 = resIndices[iVertex1];
-          if (Math.abs(_iRes4 - _iRes5) <= 5) {
-            continue;
-          }
-          // parallel beta sheet pairs
-          if (isCONH(_iRes4, _iRes5 + 1) && isCONH(_iRes5 - 1, _iRes4)) {
-            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
-          }
-          if (isCONH(_iRes4 - 1, _iRes5) && isCONH(_iRes5, _iRes4 + 1)) {
-            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
-          }
-
-          // anti-parallel hbonded beta sheet pairs
-          if (isCONH(_iRes4, _iRes5) && isCONH(_iRes5, _iRes4)) {
-            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
-            var _normal2 = vecBetweenResidues(_iRes4, _iRes5);
-            pushToListInDict(residueNormals, _iRes4, _normal2);
-            pushToListInDict(residueNormals, _iRes5, _v2.default.scaled(_normal2, -1));
-          }
-
-          // anti-parallel non-hbonded beta sheet pairs
-          if (isCONH(_iRes4 - 1, _iRes5 + 1) && isCONH(_iRes5 - 1, _iRes4 + 1)) {
-            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
-            var _normal3 = vecBetweenResidues(_iRes4, _iRes5);
-            pushToListInDict(residueNormals, _iRes4, _v2.default.scaled(_normal3, -1));
-            pushToListInDict(residueNormals, _iRes5, _normal3);
-          }
-        }
-      } catch (err) {
-        _didIteratorError12 = true;
-        _iteratorError12 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion12 && _iterator12.return) {
-            _iterator12.return();
-          }
-        } finally {
-          if (_didIteratorError12) {
-            throw _iteratorError12;
-          }
-        }
-      }
-
-      var _iteratorNormalCompletion13 = true;
-      var _didIteratorError13 = false;
-      var _iteratorError13 = undefined;
-
-      try {
-        for (var _iterator13 = betaResidues[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var _iRes6 = _step13.value;
-
-          residue0.load(_iRes6).ss = 'E';
-        }
-
-        // average residueNormals to make a nice average
-      } catch (err) {
-        _didIteratorError13 = true;
-        _iteratorError13 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion13 && _iterator13.return) {
-            _iterator13.return();
-          }
-        } finally {
-          if (_didIteratorError13) {
-            throw _iteratorError13;
-          }
-        }
-      }
-
-      for (var _iRes2 = 0; _iRes2 < nRes; _iRes2 += 1) {
-        if (_iRes2 in residueNormals && residueNormals[_iRes2].length > 0) {
-          var normalSum = _v2.default.create(0, 0, 0);
-          var _iteratorNormalCompletion14 = true;
-          var _didIteratorError14 = false;
-          var _iteratorError14 = undefined;
-
-          try {
-            for (var _iterator14 = residueNormals[_iRes2][Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-              var normal = _step14.value;
-
-              normalSum = _v2.default.sum(normalSum, normal);
-            }
-          } catch (err) {
-            _didIteratorError14 = true;
-            _iteratorError14 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion14 && _iterator14.return) {
-                _iterator14.return();
-              }
-            } finally {
-              if (_didIteratorError14) {
-                throw _iteratorError14;
-              }
-            }
-          }
-
-          this.residueNormal[_iRes2] = _v2.default.normalized(normalSum);
-        }
-      }
-
-      // flip every second beta-strand normal so they are
-      // consistently pointing in the same direction
-      for (var _iRes3 = 1; _iRes3 < nRes; _iRes3 += 1) {
-        residue0.iRes = _iRes3 - 1;
-        residue1.iRes = _iRes3;
-        if (residue0.ss === 'E' && residue0.normal) {
-          if (residue1.ss === 'E' && residue1.normal) {
-            if (residue1.normal.dot(residue0.normal) < 0) {
-              this.residueNormal[_iRes3].negate();
-            }
-          }
-        }
-      }
-    }
-  }, {
-    key: 'calculateTracesForRibbons',
-    value: function calculateTracesForRibbons() {
-      var _this2 = this;
-
-      this.traces.length = 0;
-
-      var lastTrace = void 0;
-      var residue = this.getResidueProxy();
-      var atom = this.getAtomProxy();
-      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
-        residue.iRes = iRes;
-        if (residue.isPolymer) {
-          if (_lodash2.default.isUndefined(lastTrace) || iRes === 0 || !residue.isConnectedToPrev()) {
-            (function () {
-              var newTrace = new glgeom.Trace();
-              newTrace.getReference = function (i) {
-                residue.iRes = newTrace.indices[i];
-                return residue;
-              };
-              _this2.traces.push(newTrace);
-              lastTrace = newTrace;
-            })();
-          }
-          lastTrace.indices.push(iRes);
-
-          atom.iAtom = residue.iAtom;
-          lastTrace.refIndices.push(residue.iRes);
-          lastTrace.points.push(atom.pos.clone());
-          lastTrace.colors.push(residue.activeColor);
-          lastTrace.indexColors.push(getIndexColor(residue.iAtom));
-          lastTrace.segmentTypes.push(residue.ss);
-          lastTrace.normals.push(residue.normal);
-        }
-      }
-
-      var _iteratorNormalCompletion15 = true;
-      var _didIteratorError15 = false;
-      var _iteratorError15 = undefined;
-
-      try {
-        for (var _iterator15 = this.traces[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-          var trace = _step15.value;
-
-          trace.calcTangents();
-          trace.calcNormals();
-          trace.calcBinormals();
-          trace.expand();
-        }
-      } catch (err) {
-        _didIteratorError15 = true;
-        _iteratorError15 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion15 && _iterator15.return) {
-            _iterator15.return();
-          }
-        } finally {
-          if (_didIteratorError15) {
-            throw _iteratorError15;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'getAtomProxy',
-    value: function getAtomProxy(iAtom) {
-      return new AtomProxy(this, iAtom);
-    }
-  }, {
-    key: 'getAtomCount',
-    value: function getAtomCount() {
-      return this.atomStore.count;
-    }
-  }, {
-    key: 'getResidueProxy',
-    value: function getResidueProxy(iRes) {
-      return new ResidueProxy(this, iRes);
-    }
-  }, {
-    key: 'getCurrentResidueProxy',
-    value: function getCurrentResidueProxy(iRes) {
-      return this.residueProxy.load(iRes);
-    }
-  }, {
-    key: 'getBondProxy',
-    value: function getBondProxy(iBond) {
-      return new BondProxy(this, iBond);
-    }
-  }, {
-    key: 'getBondCount',
-    value: function getBondCount() {
-      return this.bondStore.count;
-    }
-  }, {
-    key: 'getResidueCount',
-    value: function getResidueCount() {
-      return this.residueStore.count;
-    }
-  }, {
-    key: 'areCloseResidues',
-    value: function areCloseResidues(iRes0, iRes1) {
-      var atom0 = this.getAtomProxy();
-      var atom1 = this.getAtomProxy();
-
-      var res0 = this.getResidueProxy(iRes0);
-      var pos0 = atom0.load(res0.iAtom).pos.clone();
-      var atomIndices0 = res0.getAtomIndices();
-
-      var res1 = this.getResidueProxy(iRes1);
-      var pos1 = atom1.load(res1.iAtom).pos.clone();
-      var atomIndices1 = res1.getAtomIndices();
-
-      if (_v2.default.distance(pos0, pos1) > 17) {
-        return false;
-      }
-
-      var _iteratorNormalCompletion16 = true;
-      var _didIteratorError16 = false;
-      var _iteratorError16 = undefined;
-
-      try {
-        for (var _iterator16 = atomIndices0[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-          var iAtom0 = _step16.value;
-          var _iteratorNormalCompletion17 = true;
-          var _didIteratorError17 = false;
-          var _iteratorError17 = undefined;
-
-          try {
-            for (var _iterator17 = atomIndices1[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
-              var iAtom1 = _step17.value;
-
-              if (_v2.default.distance(atom0.load(iAtom0).pos, atom1.load(iAtom1).pos) < 4) {
-                return true;
-              }
-            }
-          } catch (err) {
-            _didIteratorError17 = true;
-            _iteratorError17 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion17 && _iterator17.return) {
-                _iterator17.return();
-              }
-            } finally {
-              if (_didIteratorError17) {
-                throw _iteratorError17;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError16 = true;
-        _iteratorError16 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion16 && _iterator16.return) {
-            _iterator16.return();
-          }
-        } finally {
-          if (_didIteratorError16) {
-            throw _iteratorError16;
-          }
-        }
-      }
-
-      return false;
-    }
-  }, {
-    key: 'clearSelectedResidues',
-    value: function clearSelectedResidues() {
-      this.residueSelect.clearAll();
-    }
-  }, {
-    key: 'clearSidechainResidues',
-    value: function clearSidechainResidues() {
-      this.residueSidechain.clearAll();
-    }
-  }, {
-    key: 'setSidechainOfResidues',
-    value: function setSidechainOfResidues(residueIndices, isSidechain) {
-      var residue = this.getResidueProxy();
-      var _iteratorNormalCompletion18 = true;
-      var _didIteratorError18 = false;
-      var _iteratorError18 = undefined;
-
-      try {
-        for (var _iterator18 = residueIndices[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
-          var iRes = _step18.value;
-
-          residue.load(iRes).sidechain = isSidechain;
-        }
-      } catch (err) {
-        _didIteratorError18 = true;
-        _iteratorError18 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion18 && _iterator18.return) {
-            _iterator18.return();
-          }
-        } finally {
-          if (_didIteratorError18) {
-            throw _iteratorError18;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'getNeighbours',
-    value: function getNeighbours(iRes) {
-      var indices = [iRes];
-      for (var jRes = 0; jRes < this.getResidueCount(); jRes += 1) {
-        if (this.areCloseResidues(jRes, iRes)) {
-          indices.push(jRes);
-        }
-      }
-      return indices;
-    }
-  }, {
-    key: 'setSidechainOfNeighborResidues',
-    value: function setSidechainOfNeighborResidues(iRes, isSidechain) {
-      this.setSidechainOfResidues(this.getNeighbours(iRes), isSidechain);
-    }
-  }, {
-    key: 'colorResidues',
-    value: function colorResidues() {
-      var vals = _lodash2.default.values(this.grid.isElem);
-      var showSecondary = _lodash2.default.every(vals, function (v) {
-        return !v;
-      });
-      // pre-calculations needed before building meshes
-      var residue = this.getResidueProxy();
-      var _iteratorNormalCompletion19 = true;
-      var _didIteratorError19 = false;
-      var _iteratorError19 = undefined;
-
-      try {
-        for (var _iterator19 = _lodash2.default.range(this.getResidueCount())[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
-          var iRes = _step19.value;
-
-          residue.iRes = iRes;
-          residue.color = showSecondary ? data.getSsColor(residue.ss) : residue.color = data.darkGrey;
-        }
-      } catch (err) {
-        _didIteratorError19 = true;
-        _iteratorError19 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion19 && _iterator19.return) {
-            _iterator19.return();
-          }
-        } finally {
-          if (_didIteratorError19) {
-            throw _iteratorError19;
-          }
-        }
-      }
-    }
-
-    /**
-     * Searches autodock grid atoms for B-factor limits
-     */
-
-  }, {
-    key: 'findGridLimits',
-    value: function findGridLimits() {
-      var residue = this.getResidueProxy();
-      var atom = this.getAtomProxy();
-      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
-        residue.iRes = iRes;
-        if (residue.ss === 'G') {
-          atom.iAtom = residue.iAtom;
-          if (!(atom.elem in this.grid.isElem)) {
-            this.grid.isElem[atom.elem] = true;
-          }
-          if (this.grid.bMin === null) {
-            this.grid.bMin = atom.bfactor;
-            this.grid.bMax = atom.bfactor;
-          } else {
-            if (atom.bfactor > this.grid.bMax) {
-              this.grid.bMax = atom.bfactor;
-            }
-            if (atom.bfactor < this.grid.bMin) {
-              this.grid.bMin = atom.bfactor;
-            }
-          }
-        }
-      }
-
-      if (this.grid.bMin === null) {
-        this.grid.bMin = 0;
-      }
-      if (this.grid.bMax === null) {
-        this.grid.bMin = 0;
-      }
-      if (!('bCutoff' in this.grid)) {
-        this.grid.bCutoff = this.grid.bMin;
-      }
-    }
-  }, {
-    key: 'deleteStructure',
-    value: function deleteStructure(iStructure) {
-      console.log('Soup.deleteStructure', iStructure);
-      var atom = this.getAtomProxy();
-      var res = this.getResidueProxy();
-
-      var iAtomStart = null;
-      var iAtomEnd = null;
-      var iResStart = null;
-      var iResEnd = null;
-
-      for (var iAtom = 0; iAtom < this.getAtomCount(); iAtom += 1) {
-        atom.iAtom = iAtom;
-        res.iRes = atom.iRes;
-        if (res.iStructure === iStructure) {
-          if (iAtomStart === null) {
-            iAtomStart = iAtom;
-          }
-          iAtomEnd = iAtom + 1;
-          if (iResStart === null) {
-            iResStart = atom.iRes;
-          }
-          iResEnd = atom.iRes + 1;
-        }
-      }
-
-      var nAtomOffset = iAtomEnd - iAtomStart;
-      var nAtom = this.getAtomCount();
-      var nAtomNew = nAtom - nAtomOffset;
-      var nAtomCopy = nAtom - iAtomEnd;
-
-      var nResOffset = iResEnd - iResStart;
-      var nRes = this.getResidueCount();
-      var nResNew = nRes - nResOffset;
-      var nResCopy = nRes - iResEnd;
-
-      this.atomStore.copyWithin(iAtomStart, iAtomEnd, nAtomCopy);
-      this.atomStore.count -= nAtomOffset;
-
-      for (var _iAtom2 = 0; _iAtom2 < nAtomNew; _iAtom2 += 1) {
-        atom.iAtom = _iAtom2;
-        if (atom.iRes >= iResStart) {
-          atom.iRes -= nResOffset;
-        }
-      }
-
-      var newResidueSelect = new _bitarray2.default(nResNew);
-      var newResidueSidechain = new _bitarray2.default(nResNew);
-
-      for (var iRes = 0; iRes < nResNew; iRes += 1) {
-        if (iRes >= iResStart) {
-          var iResOld = iRes + nResOffset;
-          if (iResOld in this.residueNormal) {
-            this.residueNormal[iRes] = this.residueNormal[iResOld].clone();
-          }
-          if (this.residueSelect.get(iResOld)) {
-            newResidueSelect.set(iRes);
-          }
-          if (this.residueSidechain.get(iResOld)) {
-            newResidueSidechain.set(iRes);
-          }
-        } else {
-          if (this.residueSelect.get(iRes)) {
-            newResidueSelect.set(iRes);
-          }
-          if (this.residueSidechain.get(iRes)) {
-            newResidueSidechain.set(iRes);
-          }
-        }
-      }
-
-      for (var _iRes7 = nResNew; _iRes7 < nRes; _iRes7 += 1) {
-        delete this.residueNormal[_iRes7];
-      }
-
-      this.residueSelect = newResidueSelect;
-      this.residueSidechain = newResidueSidechain;
-
-      this.residueStore.copyWithin(iResStart, iResEnd, nResCopy);
-      this.residueStore.count -= nResOffset;
-      this.resIds.splice(iResStart, nResOffset);
-
-      for (var _iRes8 = 0; _iRes8 < nResNew; _iRes8 += 1) {
-        res.iRes = _iRes8;
-        if (res.iAtom >= iAtomStart) {
-          res.iAtom -= nAtomOffset;
-          atom.iAtom = res.iAtom;
-        }
-        if (this.residueStore.atomOffset[_iRes8] >= iAtomStart) {
-          this.residueStore.atomOffset[_iRes8] -= nAtomOffset;
-        }
-        if (res.iStructure >= iStructure) {
-          res.iStructure -= 1;
-        }
-      }
-
-      this.structureIds.splice(iStructure, 1);
-      this.iStructure -= 1;
-
-      this.calcBondsStrategic();
-      this.calcMaxLength();
-    }
-  }]);
-
-  return Soup;
-}();
-
-/**
- * View
- * ----
- * A view includes all pertinent viewing options
- * needed to render the soup in the way
- * for the user.
- *
- * cameraParams stores the direction and zoom that a soup
- * should be viewed:
- * cameraParams {
- *   focus: position that cameraParams is looking at
- *   position: position of cameraParams - distance away gives zoom
- *   up: vector direction denoting the up direction of cameraParams
- *   zFront: clipping plane in front of the cameraParams focus
- *   zBack: clipping plane behind the cameraParams focus
- * }
- *
- * OpenGL notes:
- *   - box is -1 to 1 that gets projected on screen + perspective
- *   - x right -> left
- *   - y bottom -> top (inverse of classic 2D coordinate)
- *   - z far -> near
- *   - that is positive Z direction is out of the screen
- *   - box -1 to +1
- */
-
-
-var View = function () {
-  function View() {
-    _classCallCheck(this, View);
-
-    this.id = 'view:000000';
-    this.iAtom = -1;
-    this.order = 1;
-    this.cameraParams = {
-      focus: _v2.default.create(0, 0, 0),
-      position: _v2.default.create(0, 0, -1),
-      up: _v2.default.create(0, 1, 0),
-      zFront: 0,
-      zBack: 0,
-      zoom: 1
-    };
-    this.selected = [];
-    this.labels = [];
-    this.distances = [];
-    this.text = 'Default view of PDB file';
-    this.creator = '';
-    this.url = (0, _util.getWindowUrl)();
-    this.show = {
-      sidechain: true,
-      peptide: true,
-      hydrogen: false,
-      water: false,
-      ligands: true,
-      trace: true,
-      backboneAtom: false,
-      ribbon: true
-    }, this.pdb_id = '';
-  }
-
-  _createClass(View, [{
-    key: 'setCamera',
-    value: function setCamera(cameraParams) {
-      this.cameraParams = cameraParams;
-    }
-  }, {
-    key: 'getViewTranslatedTo',
-    value: function getViewTranslatedTo(pos) {
-      var view = this.clone();
-      var disp = pos.clone().sub(view.cameraParams.focus);
-      view.cameraParams.focus.copy(pos);
-      view.cameraParams.position.add(disp);
-      return view;
-    }
-  }, {
-    key: 'clone',
-    value: function clone() {
-      var v = new View();
-      v.id = this.id;
-      v.pdb_id = this.pdb_id;
-      v.iAtom = this.iAtom;
-      v.selected = this.selected;
-      v.labels = _lodash2.default.cloneDeep(this.labels);
-      v.distances = _lodash2.default.cloneDeep(this.distances);
-      v.order = this.order;
-      v.text = this.text;
-      v.time = this.time;
-      v.url = this.url;
-      v.cameraParams = _lodash2.default.cloneDeep(this.cameraParams);
-      v.show = _lodash2.default.cloneDeep(this.show);
-      return v;
-    }
-  }, {
-    key: 'getDict',
-    value: function getDict() {
-      // version 2.0 camera dict structure {
-      //    pos: soupView center, cameraParams focus
-      //    up: gives the direction of the y vector from pos
-      //    in: gives the positive z-axis direction
-      //    zFront: clipping plane in front of the cameraParams focus
-      //    zBack: clipping plane behind the cameraParams focus
-      // }
-      var cameraDir = this.cameraParams.focus.clone().sub(this.cameraParams.position);
-      var zoom = cameraDir.length();
-      cameraDir.normalize();
-      var pos = this.cameraParams.focus;
-      var inV = pos.clone().add(cameraDir);
-      var upV = pos.clone().sub(this.cameraParams.up);
-
-      var show = _lodash2.default.clone(this.show);
-      show.all_atom = show.backboneAtom;
-      delete show.backboneAtom;
-
-      return {
-        version: 2,
-        view_id: this.id,
-        creator: this.creator,
-        pdb_id: this.pdb_id,
-        order: this.order,
-        show: show,
-        text: this.text,
-        i_atom: this.iAtom,
-        labels: this.labels,
-        selected: this.selected,
-        distances: this.distances,
-        camera: {
-          slab: {
-            z_front: this.cameraParams.zFront,
-            z_back: this.cameraParams.zBack,
-            zoom: zoom
-          },
-          pos: [pos.x, pos.y, pos.z],
-          up: [upV.x, upV.y, upV.z],
-          in: [inV.x, inV.y, inV.z]
-        }
-      };
-    }
-  }, {
-    key: 'setFromDict',
-    value: function setFromDict(flatDict) {
-      this.id = flatDict.view_id;
-      this.view_id = flatDict.view_id;
-      this.pdb_id = flatDict.pdb_id;
-      this.lock = flatDict.lock;
-      this.text = flatDict.text;
-      this.creator = flatDict.creator;
-      this.order = flatDict.order;
-      this.res_id = flatDict.res_id;
-      this.iAtom = flatDict.i_atom;
-
-      this.labels = flatDict.labels;
-      this.selected = flatDict.selected;
-      this.distances = flatDict.distances;
-
-      this.show = flatDict.show;
-      this.show.backboneAtom = !!flatDict.show.all_atom;
-      delete this.show.all_atom;
-
-      if (!(this.show.backboneAtom || this.show.trace || this.show.ribbon)) {
-        this.show.ribbon = true;
-      }
-
-      if (!(this.show.all_atom || this.show.trace || this.show.ribbon)) {
-        this.show.backbone = true;
-      }
-
-      var pos = _v2.default.create(flatDict.camera.pos[0], flatDict.camera.pos[1], flatDict.camera.pos[2]);
-
-      var upV = _v2.default.create(flatDict.camera.up[0], flatDict.camera.up[1], flatDict.camera.up[2]);
-
-      var inV = _v2.default.create(flatDict.camera.in[0], flatDict.camera.in[1], flatDict.camera.in[2]);
-
-      var zoom = flatDict.camera.slab.zoom;
-
-      var focus = _v2.default.clone(pos);
-
-      var cameraDirection = _v2.default.clone(inV).sub(focus).multiplyScalar(zoom).negate();
-
-      var position = _v2.default.clone(focus).add(cameraDirection);
-
-      var up = _v2.default.clone(upV).sub(focus).negate();
-
-      this.cameraParams = {
-        focus: focus,
-        position: position,
-        up: up,
-        zFront: flatDict.camera.slab.z_front,
-        zBack: flatDict.camera.slab.z_back,
-        zoom: zoom
-      };
-    }
-  }]);
-
-  return View;
-}();
-
-function interpolateCameras(oldCamera, futureCamera, t) {
-  var oldCameraDirection = oldCamera.position.clone().sub(oldCamera.focus);
-  var oldZoom = oldCameraDirection.length();
-  oldCameraDirection.normalize();
-
-  var futureCameraDirection = futureCamera.position.clone().sub(futureCamera.focus);
-
-  var futureZoom = futureCameraDirection.length();
-  futureCameraDirection.normalize();
-
-  var cameraDirRotation = glgeom.getUnitVectorRotation(oldCameraDirection, futureCameraDirection);
-
-  var partialRotatedCameraUp = oldCamera.up.clone().applyQuaternion(cameraDirRotation);
-
-  var fullCameraUpRotation = glgeom.getUnitVectorRotation(partialRotatedCameraUp, futureCamera.up).multiply(cameraDirRotation);
-  var cameraUpRotation = glgeom.getFractionRotation(fullCameraUpRotation, t);
-
-  var focusDisp = futureCamera.focus.clone().sub(oldCamera.focus).multiplyScalar(t);
-
-  var focus = oldCamera.focus.clone().add(focusDisp);
-
-  var zoom = glgeom.fraction(oldZoom, futureZoom, t);
-
-  var focusToPosition = oldCameraDirection.clone().applyQuaternion(cameraUpRotation).multiplyScalar(zoom);
-
-  return {
-    focus: focus,
-    position: focus.clone().add(focusToPosition),
-    up: oldCamera.up.clone().applyQuaternion(cameraUpRotation),
-    zFront: glgeom.fraction(oldCamera.zFront, futureCamera.zFront, t),
-    zBack: glgeom.fraction(oldCamera.zBack, futureCamera.zBack, t),
-    zoom: zoom
-  };
-}
-
-/**
- * The SoupView contains a soup and a list of
- * views of the soup, including the current
- * view, and a target view for animation
- */
-
-var SoupView = function () {
-  function SoupView(soup) {
-    _classCallCheck(this, SoupView);
-
-    // the soup data for the soupView
-    this.soup = soup;
-
-    this.changed = true;
-    this.updateSidechain = false;
-    this.updateSelection = false;
-    this.startTargetAfterRender = false;
-    this.updateObservers = true;
-
-    this.nDataServer = 0;
-
-    this.isLoop = false;
-
-    // stores the current cameraParams, display
-    // options, distances, labels, selected
-    // residues
-    this.currentView = new View();
-
-    // stores other views that can be reloaded
-    this.savedViewsByViewId = {};
-    this.savedViews = [];
-    this.iLastViewSelected = 0;
-
-    // stores a target view for animation
-    this.targetView = null;
-
-    // timing counter that is continually decremented
-    // until it becomes negative
-    this.nUpdateStep = -1;
-
-    // this is to set the time between transitions of views
-    this.maxUpdateStep = 70;
-    this.msPerStep = 17;
-  }
-
-  _createClass(SoupView, [{
-    key: 'build',
-    value: function build() {
-      if (this.savedViews.length === 0 && !this.soup.isEmpty()) {
-        this.setCurrentViewToDefaultAndSave();
-      }
-      this.soup.colorResidues();
-      this.soup.findGridLimits();
-      this.soup.calculateTracesForRibbons();
-    }
-  }, {
-    key: 'setCurrentViewToDefaultAndSave',
-    value: function setCurrentViewToDefaultAndSave() {
-      this.currentView.show.sidechain = false;
-      this.currentView.order = 0;
-      this.currentView.text = this.soup.title;
-      this.currentView.pdb_id = this.soup.structureIds[0];
-      this.currentView = this.getZoomedOutViewOfCurrentView();
-      console.log('SoupView.setCurrentViewToDefaultAndSave', this.currentView);
-      this.saveView(this.currentView);
-      this.changed = true;
-    }
-  }, {
-    key: 'setTargetView',
-    value: function setTargetView(view) {
-      this.startTargetAfterRender = true;
-      this.saveTargetView = view.clone();
-      this.saveTargetView.iAtom = this.soup.getIAtomAtPosition(view.cameraParams.focus);
-    }
-  }, {
-    key: 'startTargetView',
-    value: function startTargetView() {
-      this.targetView = this.saveTargetView;
-      this.updateObservers = true;
-      this.startTargetAfterRender = false;
-      this.changed = true;
-    }
-  }, {
-    key: 'getICenteredAtom',
-    value: function getICenteredAtom() {
-      return this.currentView.iAtom;
-    }
-  }, {
-    key: 'getIViewFromViewId',
-    value: function getIViewFromViewId(viewId) {
-      for (var iView = 0; iView < this.savedViews.length; iView += 1) {
-        if (this.savedViews[iView].id === viewId) {
-          return iView;
-        }
-      }
-      return -1;
-    }
-  }, {
-    key: 'insertView',
-    value: function insertView(iView, newViewId, newView) {
-      this.savedViewsByViewId[newViewId] = newView;
-      if (iView >= this.savedViews.length) {
-        this.savedViews.push(newView);
-      } else {
-        this.savedViews.splice(iView, 0, newView);
-      }
-      this.iLastViewSelected = iView;
-      for (var i = 0; i < this.savedViews.length; i++) {
-        this.savedViews[i].order = i;
-      }
-    }
-  }, {
-    key: 'removeView',
-    value: function removeView(viewId) {
-      var iView = this.getIViewFromViewId(viewId);
-      if (iView < 0) {
-        return;
-      }
-      this.savedViews.splice(iView, 1);
-      delete this.savedViewsByViewId[viewId];
-      for (var j = 0; j < this.savedViews.length; j++) {
-        this.savedViews[j].order = j;
-      }
-      if (this.iLastViewSelected >= this.savedViews.length) {
-        this.iLastViewSelected = this.savedViews.length - 1;
-      }
-      this.changed = true;
-    }
-  }, {
-    key: 'saveView',
-    value: function saveView(view) {
-      this.savedViewsByViewId[view.id] = view;
-      this.savedViews.push(view);
-    }
-  }, {
-    key: 'getZoomedOutViewOfCurrentView',
-    value: function getZoomedOutViewOfCurrentView() {
-      this.soup.calcMaxLength();
-
-      var newView = this.currentView.clone();
-
-      if (this.soup.maxLength === 0) {
-        return newView;
-      }
-
-      var cameraParams = newView.cameraParams;
-
-      cameraParams.zFront = -this.soup.maxLength / 2;
-      cameraParams.zBack = this.soup.maxLength / 2;
-      cameraParams.zoom = Math.abs(this.soup.maxLength) * 1.75;
-
-      var atomIndices = _lodash2.default.range(this.soup.getAtomCount());
-      var center = this.soup.getCenter(atomIndices);
-
-      var look = cameraParams.position.clone().sub(cameraParams.focus).normalize();
-      cameraParams.focus.copy(center);
-      cameraParams.position = cameraParams.focus.clone().add(look.multiplyScalar(cameraParams.zoom));
-
-      newView.iAtom = this.soup.getIAtomAtPosition(center);
-      return newView;
-    }
-  }]);
-
-  return SoupView;
-}();
-
-/**
- * The Controller for SoupView. All mutations
- * to a Soup and its Views go through here.
- */
-
-
-var Controller = function () {
-  function Controller(scene) {
-    _classCallCheck(this, Controller);
-
-    this.soup = scene.soup;
-    this.soupView = scene;
-    this.iResLastSelected = null;
-  }
-
-  _createClass(Controller, [{
-    key: 'deleteDistance',
-    value: function deleteDistance(iDistance) {
-      this.soupView.currentView.distances.splice(iDistance, 1);
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'makeDistance',
-    value: function makeDistance(iAtom1, iAtom2) {
-      this.soupView.currentView.distances.push({ i_atom1: iAtom1, i_atom2: iAtom2 });
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'makeAtomLabel',
-    value: function makeAtomLabel(iAtom, text) {
-      this.soupView.currentView.labels.push({ i_atom: iAtom, text: text });
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'deleteAtomLabel',
-    value: function deleteAtomLabel(iLabel) {
-      this.soupView.currentView.labels.splice(iLabel, 1);
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'setTargetView',
-    value: function setTargetView(view) {
-      this.soupView.setTargetView(view);
-    }
-  }, {
-    key: 'setTargetViewByViewId',
-    value: function setTargetViewByViewId(viewId) {
-      var view = this.soupView.savedViewsByViewId[viewId];
-      this.soupView.iLastViewSelected = this.soupView.savedViewsByViewId[viewId].order;
-      this.setTargetView(view);
-    }
-  }, {
-    key: 'setTargetViewByIAtom',
-    value: function setTargetViewByIAtom(iAtom) {
-      var atom = this.soup.getAtomProxy(iAtom);
-      var view = this.soupView.currentView.getViewTranslatedTo(atom.pos);
-      view.iAtom = iAtom;
-      this.setTargetView(view);
-    }
-  }, {
-    key: 'setTargetToPrevResidue',
-    value: function setTargetToPrevResidue() {
-      var iAtom = this.soupView.currentView.iAtom;
-      var iRes = this.soup.getAtomProxy(iAtom).iRes;
-      if (iRes <= 0) {
-        iRes = this.soup.getResidueCount() - 1;
-      } else {
-        iRes -= 1;
-      }
-      iAtom = this.soup.getResidueProxy(iRes).iAtom;
-      this.setTargetViewByIAtom(iAtom);
-    }
-  }, {
-    key: 'setTargetToNextResidue',
-    value: function setTargetToNextResidue() {
-      var iAtom = this.soupView.currentView.iAtom;
-      var iRes = this.soup.getAtomProxy(iAtom).iRes;
-      if (iRes >= this.soup.getResidueCount() - 1) {
-        iRes = 0;
-      } else {
-        iRes += 1;
-      }
-      iAtom = this.soup.getResidueProxy(iRes).iAtom;
-      this.setTargetViewByIAtom(iAtom);
-    }
-  }, {
-    key: 'setTargetToPrevView',
-    value: function setTargetToPrevView() {
-      var soupView = this.soupView;
-      if (soupView.savedViews.length == 0) {
-        return '';
-      }
-      soupView.iLastViewSelected -= 1;
-      if (soupView.iLastViewSelected < 0) {
-        soupView.iLastViewSelected = soupView.savedViews.length - 1;
-      }
-      var id = soupView.savedViews[soupView.iLastViewSelected].id;
-      this.setTargetViewByViewId(id);
-      return id;
-    }
-  }, {
-    key: 'setTargetToNextView',
-    value: function setTargetToNextView() {
-      var soupView = this.soupView;
-      if (soupView.savedViews.length == 0) {
-        return '';
-      }
-      soupView.iLastViewSelected += 1;
-      if (soupView.iLastViewSelected >= soupView.savedViews.length) {
-        soupView.iLastViewSelected = 0;
-      }
-      var id = soupView.savedViews[soupView.iLastViewSelected].id;
-      this.setTargetViewByViewId(id);
-      return id;
-    }
-  }, {
-    key: 'swapViews',
-    value: function swapViews(i, j) {
-      this.soupView.savedViews[j].order = i;
-      this.soupView.savedViews[i].order = j;
-      var dummy = this.soupView.savedViews[j];
-      this.soupView.savedViews[j] = this.soupView.savedViews[i];
-      this.soupView.savedViews[i] = dummy;
-    }
-  }, {
-    key: 'getViewDicts',
-    value: function getViewDicts() {
-      var viewDicts = [];
-      for (var i = 1; i < this.soupView.savedViews.length; i += 1) {
-        viewDicts.push(this.soupView.savedViews[i].getDict());
-      }
-      console.log('Controller.getViewDicts', this.soupView.savedViews, viewDicts);
-      return viewDicts;
-    }
-  }, {
-    key: 'makeSelectedResidueList',
-    value: function makeSelectedResidueList() {
-      var result = [];
-      var residue = this.soup.getResidueProxy();
-      for (var i = 0; i < this.soup.getResidueCount(); i += 1) {
-        if (residue.load(i).sidechain) {
-          result.push(i);
-        }
-      }
-      return result;
-    }
-  }, {
-    key: 'clearSidechainResidues',
-    value: function clearSidechainResidues() {
-      this.soup.clearSidechainResidues();
-      this.soupView.currentView.selected = this.makeSelectedResidueList();
-      this.soupView.updateSidechain = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'clearSelectedResidues',
-    value: function clearSelectedResidues() {
-      this.soup.clearSelectedResidues();
-      this.soupView.currentView.selected = this.makeSelectedResidueList();
-      this.soupView.updateSelection = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'setResidueSelect',
-    value: function setResidueSelect(iRes, val) {
-      var res = this.soup.getResidueProxy(iRes);
-      res.selected = val;
-      this.soupView.updateSelection = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'selectResidue',
-    value: function selectResidue(iRes) {
-      var res = this.soup.getResidueProxy(iRes);
-      var val = !res.selected;
-      this.clearSelectedResidues();
-      this.setResidueSelect(iRes, val);
-      this.iResLastSelected = val ? iRes : null;
-      this.soupView.updateSelection = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'selectAdditionalResidue',
-    value: function selectAdditionalResidue(iRes) {
-      var res = this.soup.getResidueProxy(iRes);
-      var val = !res.selected;
-      this.setResidueSelect(iRes, val);
-      this.iResLastSelected = val ? iRes : null;
-      this.soupView.updateSelection = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'selectAdditionalRangeToResidue',
-    value: function selectAdditionalRangeToResidue(iRes) {
-      var res = this.soup.getResidueProxy(iRes);
-      var val = !res.selected;
-      if (this.iResLastSelected !== null) {
-        var lastRes = this.soup.getResidueProxy(this.iResLastSelected);
-        if (res.iStructure === lastRes.iStructure) {
-          var iFirstRes = Math.min(this.iResLastSelected, iRes);
-          var iLastRes = Math.max(this.iResLastSelected, iRes);
-          for (var i = iFirstRes; i < iLastRes + 1; i += 1) {
-            this.setResidueSelect(i, true);
-          }
-        }
-      }
-      this.iResLastSelected = val ? iRes : null;
-      this.soupView.updateSelection = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'toggleSelectedSidechains',
-    value: function toggleSelectedSidechains() {
-      var residue = this.soup.getResidueProxy();
-      var indices = [];
-      var nSidechain = 0;
-      for (var iRes = 0; iRes < this.soup.getResidueCount(); iRes += 1) {
-        residue.load(iRes);
-        if (residue.selected) {
-          indices.push(iRes);
-          if (residue.sidechain) {
-            nSidechain += 1;
-          }
-        }
-      }
-      var isSidechain = true;
-      if (nSidechain === indices.length) {
-        isSidechain = false;
-      }
-      var _iteratorNormalCompletion20 = true;
-      var _didIteratorError20 = false;
-      var _iteratorError20 = undefined;
-
-      try {
-        for (var _iterator20 = indices[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
-          var _iRes9 = _step20.value;
-
-          residue.load(_iRes9);
-          residue.sidechain = isSidechain;
-        }
-      } catch (err) {
-        _didIteratorError20 = true;
-        _iteratorError20 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion20 && _iterator20.return) {
-            _iterator20.return();
-          }
-        } finally {
-          if (_didIteratorError20) {
-            throw _iteratorError20;
-          }
-        }
-      }
-
-      this.soupView.updateSidechain = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'toggleResidueNeighbors',
-    value: function toggleResidueNeighbors() {
-      var indices = [];
-      var residue = this.soup.getResidueProxy();
-      for (var iRes = 0; iRes < this.soup.getResidueCount(); iRes += 1) {
-        residue.load(iRes);
-        if (residue.selected) {
-          indices = _lodash2.default.concat(indices, this.soup.getNeighbours(iRes));
-        }
-      }
-      if (indices.length === 0) {
-        var iAtom = this.soupView.currentView.iAtom;
-        var _iRes10 = this.soup.getAtomProxy(iAtom).iRes;
-        indices = _lodash2.default.concat(indices, this.soup.getNeighbours(_iRes10));
-      }
-      var nSidechain = 0;
-      var _iteratorNormalCompletion21 = true;
-      var _didIteratorError21 = false;
-      var _iteratorError21 = undefined;
-
-      try {
-        for (var _iterator21 = indices[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-          var _iRes11 = _step21.value;
-
-          if (residue.load(_iRes11).sidechain) {
-            nSidechain += 1;
-          }
-        }
-      } catch (err) {
-        _didIteratorError21 = true;
-        _iteratorError21 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion21 && _iterator21.return) {
-            _iterator21.return();
-          }
-        } finally {
-          if (_didIteratorError21) {
-            throw _iteratorError21;
-          }
-        }
-      }
-
-      var isSidechain = nSidechain < indices.length;
-
-      this.soup.setSidechainOfResidues(indices, isSidechain);
-      this.soupView.currentView.selected = this.makeSelectedResidueList();
-      this.soupView.changed = true;
-      this.soupView.updateSidechain = true;
-    }
-  }, {
-    key: 'saveCurrentView',
-    value: function saveCurrentView() {
-      var newViewId = (0, _util.randomId)();
-      var iNewView = this.soupView.iLastViewSelected + 1;
-      var newView = this.soupView.currentView.clone();
-      newView.text = 'Click edit to change this text.';
-      newView.pdb_id = this.soup.structureIds[0];
-      var time = (0, _util.getCurrentDateStr)();
-      if (user === '' || typeof user === 'undefined') {
-        newView.creator = '~ [public] @' + time;
-      } else {
-        newView.creator = '~ ' + user + ' @' + time;
-      }
-      newView.id = newViewId;
-      newView.selected = this.makeSelectedResidueList();
-      this.soupView.insertView(iNewView, newViewId, newView);
-
-      this.setTargetViewByViewId(newViewId);
-
-      this.soupView.changed = true;
-      this.soupView.updateSelection = true;
-
-      return newViewId;
-    }
-  }, {
-    key: 'deleteView',
-    value: function deleteView(viewId) {
-      this.soupView.removeView(viewId);
-    }
-  }, {
-    key: 'sortViewsByOrder',
-    value: function sortViewsByOrder() {
-      function orderSort(a, b) {
-        return a.order - b.order;
-      }
-
-      this.soupView.savedViews.sort(orderSort);
-      for (var i = 0; i < this.soupView.savedViews.length; i += 1) {
-        this.soupView.savedViews[i].order = i;
-      }
-    }
-  }, {
-    key: 'loadViewsFromViewDicts',
-    value: function loadViewsFromViewDicts(viewDicts) {
-      if (this.nDataServer > 1) {
-        return;
-      }
-      for (var i = 0; i < viewDicts.length; i += 1) {
-        var view = new View();
-        view.setFromDict(viewDicts[i]);
-        if (view.id === 'view:000000') {
-          continue;
-        }
-        this.soupView.saveView(view);
-      }
-      this.sortViewsByOrder();
-    }
-  }, {
-    key: 'asyncLoadProteinData',
-    value: function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(proteinData, asyncSetMessageFn) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.nDataServer += 1;
-                _context2.next = 3;
-                return this.soup.asyncLoadProteinData(proteinData, asyncSetMessageFn);
-
-              case 3:
-                this.soupView.changed = true;
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function asyncLoadProteinData(_x3, _x4) {
-        return _ref3.apply(this, arguments);
-      }
-
-      return asyncLoadProteinData;
-    }()
-  }, {
-    key: 'setShowOption',
-    value: function setShowOption(option, bool) {
-      console.log('Controller.setShowOption', option, bool);
-      this.soupView.currentView.show[option] = bool;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'getShowOption',
-    value: function getShowOption(option) {
-      return this.soupView.currentView.show[option];
-    }
-  }, {
-    key: 'toggleShowOption',
-    value: function toggleShowOption(option) {
-      var val = this.getShowOption(option);
-      this.setShowOption(option, !val);
-    }
-  }, {
-    key: 'setChangeFlag',
-    value: function setChangeFlag() {
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'setCurrentView',
-    value: function setCurrentView(view) {
-      var oldViewSelected = this.soupView.currentView.selected;
-      this.soupView.currentView = view.clone();
-      if (!_lodash2.default.isEqual(oldViewSelected.sort(), view.selected.sort())) {
-        this.soupView.soup.clearSidechainResidues();
-        this.soupView.soup.setSidechainOfResidues(view.selected, true);
-        this.soupView.updateSidechain = true;
-      }
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'setZoom',
-    value: function setZoom(zBack, zFront) {
-      var cameraParams = this.soupView.currentView.cameraParams;
-      cameraParams.zBack = zBack;
-      cameraParams.zFront = zFront;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'toggleGridElem',
-    value: function toggleGridElem(elem) {
-      var b = this.soupView.soup.grid.isElem[elem];
-      this.soupView.soup.grid.isElem[elem] = !b;
-      this.soupView.soup.grid.changed = true;
-      this.soupView.changed = true;
-
-      this.soupView.soup.colorResidues();
-
-      this.soupView.updateSelection = true;
-    }
-  }, {
-    key: 'setGridCutoff',
-    value: function setGridCutoff(cutoff) {
-      this.soupView.soup.grid.bCutoff = cutoff;
-      this.soupView.soup.grid.changed = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'clear',
-    value: function clear() {
-      var distances = this.soupView.currentView.distances;
-      var _iteratorNormalCompletion22 = true;
-      var _didIteratorError22 = false;
-      var _iteratorError22 = undefined;
-
-      try {
-        for (var _iterator22 = _lodash2.default.reverse(_lodash2.default.range(distances.length))[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
-          var i = _step22.value;
-
-          this.deleteDistance(i);
-        }
-      } catch (err) {
-        _didIteratorError22 = true;
-        _iteratorError22 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion22 && _iterator22.return) {
-            _iterator22.return();
-          }
-        } finally {
-          if (_didIteratorError22) {
-            throw _iteratorError22;
-          }
-        }
-      }
-
-      var labels = this.soupView.currentView.labels;
-      var _iteratorNormalCompletion23 = true;
-      var _didIteratorError23 = false;
-      var _iteratorError23 = undefined;
-
-      try {
-        for (var _iterator23 = _lodash2.default.reverse(_lodash2.default.range(labels.length))[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
-          var _i2 = _step23.value;
-
-          this.deleteAtomLabel(_i2);
-        }
-      } catch (err) {
-        _didIteratorError23 = true;
-        _iteratorError23 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion23 && _iterator23.return) {
-            _iterator23.return();
-          }
-        } finally {
-          if (_didIteratorError23) {
-            throw _iteratorError23;
-          }
-        }
-      }
-
-      this.clearSidechainResidues();
-      this.clearSelectedResidues();
-    }
-  }, {
-    key: 'getLoop',
-    value: function getLoop() {
-      return this.soupView.isLoop;
-    }
-  }, {
-    key: 'setLoop',
-    value: function setLoop(v) {
-      this.soupView.isLoop = v;
-      this.soupView.updateObservers = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'deleteStructure',
-    value: function deleteStructure(iStructure) {
-      this.soup.deleteStructure(iStructure);
-      this.nDataServer -= 1;
-      if (this.soup.isEmpty()) {
-        this.soupView.savedViews.length = 0;
-        var _iteratorNormalCompletion24 = true;
-        var _didIteratorError24 = false;
-        var _iteratorError24 = undefined;
-
-        try {
-          for (var _iterator24 = _lodash2.default.keys(this.soupView.savedViewsByViewId)[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
-            var id = _step24.value;
-
-            delete this.soupView.savedViewsByViewId[id];
-          }
-        } catch (err) {
-          _didIteratorError24 = true;
-          _iteratorError24 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion24 && _iterator24.return) {
-              _iterator24.return();
-            }
-          } finally {
-            if (_didIteratorError24) {
-              throw _iteratorError24;
-            }
-          }
-        }
-
-        this.soupView.currentView = new View();
-        this.soupView.targetView = null;
-        this.soupView.startTargetAfterRender = false;
-        this.soupView.nUpdateStep = -1;
-      } else {
-        this.soupView.updateSidechain = true;
-        this.soupView.updateSelection = true;
-      }
-      this.soupView.updateObservers = true;
-      this.soupView.changed = true;
-    }
-  }, {
-    key: 'zoomOut',
-    value: function zoomOut() {
-      if (!this.soup.isEmpty()) {
-        this.setTargetView(this.soupView.getZoomedOutViewOfCurrentView());
-        this.soupView.changed = true;
-      }
-    }
-  }]);
-
-  return Controller;
-}();
-
-exports.Soup = Soup;
-exports.Controller = Controller;
-exports.interpolateCameras = interpolateCameras;
-exports.SoupView = SoupView;
-exports.View = View;
-
-/***/ }),
-/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81278,15 +76890,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-var _three = __webpack_require__(48);
+var _three = __webpack_require__(44);
 
 var THREE = _interopRequireWildcard(_three);
 
-var _v = __webpack_require__(67);
+var _v = __webpack_require__(95);
 
 var _v2 = _interopRequireDefault(_v);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -82654,7 +78266,1635 @@ exports.applyRotationOfMatrix4toVector3array = applyRotationOfMatrix4toVector3ar
 exports.applyColorToVector3array = applyColorToVector3array;
 
 /***/ }),
-/* 135 */
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getNucleotideConnectorBondAtomTypes = exports.getNucleotideBaseAtomTypes = exports.rnaResTypes = exports.dnaResTypes = exports.proteinResTypes = exports.ElementColors = exports.darkGrey = exports.red = exports.grey = exports.purple = exports.yellow = exports.blue = exports.green = exports.fatCoilFace = exports.coilFace = exports.getSsFace = exports.backboneAtomTypes = exports.resToAa = exports.getSsColor = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Central place to store constants and color
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * accesors
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
+
+var _lodash = __webpack_require__(27);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _three = __webpack_require__(44);
+
+var THREE = _interopRequireWildcard(_three);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var proteinResTypes = ['ALA', 'CYS', 'ASP', 'GLU', 'PHE', 'GLY', 'HIS', 'ILE', 'LYS', 'LEU', 'MET', 'ASN', 'PRO', 'GLN', 'ARG', 'SER', 'THR', 'TRP', 'VAL', 'TYR'];
+var dnaResTypes = ['DA', 'DT', 'DG', 'DC', 'A', 'T', 'G', 'C'];
+var rnaResTypes = ['RA', 'RU', 'RC', 'RG', 'A', 'G', 'C', 'U'];
+
+// Color constants
+
+var green = new THREE.Color(0x639941);
+var blue = new THREE.Color(0x568AB5);
+var yellow = new THREE.Color(0xBF9D13);
+var purple = new THREE.Color(0x9578AA);
+var grey = new THREE.Color(0xBBBBBB);
+var red = new THREE.Color(0x993333);
+var darkGrey = new THREE.Color(0x999999);
+
+var ElementColors = {
+  'H': 0xCCCCCC,
+  'C': 0xAAAAAA,
+  'O': 0xCC0000,
+  'N': 0x0000CC,
+  'S': 0xAAAA00,
+  'P': 0x6622CC,
+  'F': 0x00CC00,
+  'CL': 0x00CC00,
+  'BR': 0x882200,
+  'I': 0x6600AA,
+  'FE': 0xCC6600,
+  'CA': 0x8888AA,
+  'He': 0x7B86C2,
+  'Ne': 0x9ED2E4,
+  'Ar': 0x5DC4BE,
+  'Kr': 0xACD376,
+  'Xe': 0xF79F7C,
+  'Rn': 0xE29EC5
+};
+
+var _iteratorNormalCompletion = true;
+var _didIteratorError = false;
+var _iteratorError = undefined;
+
+try {
+  for (var _iterator = _lodash2.default.toPairs(ElementColors)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    var _step$value = _slicedToArray(_step.value, 2),
+        k = _step$value[0],
+        v = _step$value[1];
+
+    ElementColors[k] = new THREE.Color(v);
+  }
+} catch (err) {
+  _didIteratorError = true;
+  _iteratorError = err;
+} finally {
+  try {
+    if (!_iteratorNormalCompletion && _iterator.return) {
+      _iterator.return();
+    }
+  } finally {
+    if (_didIteratorError) {
+      throw _iteratorError;
+    }
+  }
+}
+
+function getSsColor(ss) {
+  if (ss === 'E') {
+    return yellow;
+  } else if (ss === 'H') {
+    return blue;
+  } else if (ss === 'D') {
+    return purple;
+  } else if (ss === 'C') {
+    return green;
+  } else if (ss === 'W') {
+    return red;
+  }
+  return grey;
+}
+
+var resToAa = {
+  'ALA': 'A',
+  'CYS': 'C',
+  'ASP': 'D',
+  'GLU': 'E',
+  'PHE': 'F',
+  'GLY': 'G',
+  'HIS': 'H',
+  'ILE': 'I',
+  'LYS': 'K',
+  'LEU': 'L',
+  'MET': 'M',
+  'ASN': 'N',
+  'PRO': 'P',
+  'GLN': 'Q',
+  'ARG': 'R',
+  'SER': 'S',
+  'THR': 'T',
+  'VAL': 'V',
+  'TRP': 'W',
+  'TYR': 'Y',
+  'DA': 'A',
+  'DT': 'T',
+  'DG': 'G',
+  'DC': 'C',
+  'A': 'A',
+  'T': 'T',
+  'G': 'G',
+  'C': 'C',
+  'RA': 'A',
+  'RU': 'U',
+  'RC': 'C',
+  'RG': 'G',
+  'U': 'U'
+
+  // Backbone atom names
+
+};var backboneAtomTypes = ['N', 'C', 'O', 'H', 'HA', 'CA', 'OXT', 'C3\'', 'P', 'OP1', 'O5\'', 'OP2', 'C5\'', 'O5\'', 'O3\'', 'C4\'', 'O4\'', 'C1\'', 'C2\'', 'O2\'', 'H2\'', 'H2\'\'', 'H3\'', 'H4\'', 'H5\'', 'H5\'\'', 'HO3\''];
+
+// Cartoon cross-sections
+var ribbonFace = new THREE.Shape([new THREE.Vector2(-1.5, -0.2), new THREE.Vector2(-1.5, +0.2), new THREE.Vector2(+1.5, +0.2), new THREE.Vector2(+1.5, -0.2)]);
+var coilFace = new THREE.Shape([new THREE.Vector2(-0.2, -0.2), new THREE.Vector2(-0.2, +0.2), new THREE.Vector2(+0.2, +0.2), new THREE.Vector2(+0.2, -0.2)]);
+
+// Tube cross-sections
+var fatCoilFace = new THREE.Shape([new THREE.Vector2(-0.25, -0.25), new THREE.Vector2(-0.25, +0.25), new THREE.Vector2(+0.25, +0.25), new THREE.Vector2(+0.25, -0.25)]);
+
+function getSsFace(ss) {
+  if (ss === 'C' || ss === '-') {
+    return coilFace;
+  }
+  return ribbonFace;
+}
+
+function getNucleotideBaseAtomTypes(resType) {
+  var atomTypes = [];
+  if (resType === 'DA' || resType === 'A') {
+    atomTypes = ['N9', 'C8', 'N7', 'C5', 'C6', 'N1', 'C2', 'N3', 'C4'];
+  } else if (resType === 'DG' || resType === 'G') {
+    atomTypes = ['N9', 'C8', 'N7', 'C5', 'C6', 'N1', 'C2', 'N3', 'C4'];
+  } else if (resType === 'DT' || resType === 'U') {
+    atomTypes = ['C6', 'N1', 'C2', 'N3', 'C4', 'C5'];
+  } else if (resType === 'DC' || resType === 'C') {
+    atomTypes = ['C6', 'N1', 'C2', 'N3', 'C4', 'C5'];
+  }
+  return atomTypes;
+}
+
+function getNucleotideConnectorBondAtomTypes(resType) {
+  var bondTypes = [];
+  if (resType === 'DA' || resType === 'A') {
+    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N9']];
+  } else if (resType === 'DG' || resType === 'G') {
+    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N9']];
+  } else if (resType === 'DT' || resType === 'U') {
+    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N1']];
+  } else if (resType === 'DC' || resType === 'C') {
+    bondTypes = [['C3\'', 'C2\''], ['C2\'', 'C1\''], ['C1\'', 'N1']];
+  }
+  return bondTypes;
+}
+
+exports.getSsColor = getSsColor;
+exports.resToAa = resToAa;
+exports.backboneAtomTypes = backboneAtomTypes;
+exports.getSsFace = getSsFace;
+exports.coilFace = coilFace;
+exports.fatCoilFace = fatCoilFace;
+exports.green = green;
+exports.blue = blue;
+exports.yellow = yellow;
+exports.purple = purple;
+exports.grey = grey;
+exports.red = red;
+exports.darkGrey = darkGrey;
+exports.ElementColors = ElementColors;
+exports.proteinResTypes = proteinResTypes;
+exports.dnaResTypes = dnaResTypes;
+exports.rnaResTypes = rnaResTypes;
+exports.getNucleotideBaseAtomTypes = getNucleotideBaseAtomTypes;
+exports.getNucleotideConnectorBondAtomTypes = getNucleotideConnectorBondAtomTypes;
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(6) && !__webpack_require__(3)(function () {
+  return Object.defineProperty(__webpack_require__(68)('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__(5);
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(11);
+var toIObject = __webpack_require__(15);
+var arrayIndexOf = __webpack_require__(54)(false);
+var IE_PROTO = __webpack_require__(70)('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(7);
+var anObject = __webpack_require__(1);
+var getKeys = __webpack_require__(36);
+
+module.exports = __webpack_require__(6) ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject = __webpack_require__(15);
+var gOPN = __webpack_require__(39).f;
+var toString = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function (it) {
+  try {
+    return gOPN(it);
+  } catch (e) {
+    return windowNames.slice();
+  }
+};
+
+module.exports.f = function getOwnPropertyNames(it) {
+  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+};
+
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys = __webpack_require__(36);
+var gOPS = __webpack_require__(55);
+var pIE = __webpack_require__(51);
+var toObject = __webpack_require__(9);
+var IObject = __webpack_require__(50);
+var $assign = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__(3)(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function (k) { B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+  } return T;
+} : $assign;
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var aFunction = __webpack_require__(10);
+var isObject = __webpack_require__(4);
+var invoke = __webpack_require__(105);
+var arraySlice = [].slice;
+var factories = {};
+
+var construct = function (F, len, args) {
+  if (!(len in factories)) {
+    for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
+    // eslint-disable-next-line no-new-func
+    factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
+  } return factories[len](F, args);
+};
+
+module.exports = Function.bind || function bind(that /* , ...args */) {
+  var fn = aFunction(this);
+  var partArgs = arraySlice.call(arguments, 1);
+  var bound = function (/* args... */) {
+    var args = partArgs.concat(arraySlice.call(arguments));
+    return this instanceof bound ? construct(fn, args.length, args) : invoke(fn, args, that);
+  };
+  if (isObject(fn.prototype)) bound.prototype = fn.prototype;
+  return bound;
+};
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports) {
+
+// fast apply, http://jsperf.lnkit.com/fast-apply/5
+module.exports = function (fn, args, that) {
+  var un = that === undefined;
+  switch (args.length) {
+    case 0: return un ? fn()
+                      : fn.call(that);
+    case 1: return un ? fn(args[0])
+                      : fn.call(that, args[0]);
+    case 2: return un ? fn(args[0], args[1])
+                      : fn.call(that, args[0], args[1]);
+    case 3: return un ? fn(args[0], args[1], args[2])
+                      : fn.call(that, args[0], args[1], args[2]);
+    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+                      : fn.call(that, args[0], args[1], args[2], args[3]);
+  } return fn.apply(that, args);
+};
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $parseInt = __webpack_require__(2).parseInt;
+var $trim = __webpack_require__(46).trim;
+var ws = __webpack_require__(74);
+var hex = /^[-+]?0[xX]/;
+
+module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt(str, radix) {
+  var string = $trim(String(str), 3);
+  return $parseInt(string, (radix >>> 0) || (hex.test(string) ? 16 : 10));
+} : $parseInt;
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $parseFloat = __webpack_require__(2).parseFloat;
+var $trim = __webpack_require__(46).trim;
+
+module.exports = 1 / $parseFloat(__webpack_require__(74) + '-0') !== -Infinity ? function parseFloat(str) {
+  var string = $trim(String(str), 3);
+  var result = $parseFloat(string);
+  return result === 0 && string.charAt(0) == '-' ? -0 : result;
+} : $parseFloat;
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var cof = __webpack_require__(19);
+module.exports = function (it, msg) {
+  if (typeof it != 'number' && cof(it) != 'Number') throw TypeError(msg);
+  return +it;
+};
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.1.2.3 Number.isInteger(number)
+var isObject = __webpack_require__(4);
+var floor = Math.floor;
+module.exports = function isInteger(it) {
+  return !isObject(it) && isFinite(it) && floor(it) === it;
+};
+
+
+/***/ }),
+/* 110 */
+/***/ (function(module, exports) {
+
+// 20.2.2.20 Math.log1p(x)
+module.exports = Math.log1p || function log1p(x) {
+  return (x = +x) > -1e-8 && x < 1e-8 ? x - x * x / 2 : Math.log(1 + x);
+};
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.2.2.16 Math.fround(x)
+var sign = __webpack_require__(77);
+var pow = Math.pow;
+var EPSILON = pow(2, -52);
+var EPSILON32 = pow(2, -23);
+var MAX32 = pow(2, 127) * (2 - EPSILON32);
+var MIN32 = pow(2, -126);
+
+var roundTiesToEven = function (n) {
+  return n + 1 / EPSILON - 1 / EPSILON;
+};
+
+module.exports = Math.fround || function fround(x) {
+  var $abs = Math.abs(x);
+  var $sign = sign(x);
+  var a, result;
+  if ($abs < MIN32) return $sign * roundTiesToEven($abs / MIN32 / EPSILON32) * MIN32 * EPSILON32;
+  a = (1 + EPSILON32 / EPSILON) * $abs;
+  result = a - (a - $abs);
+  // eslint-disable-next-line no-self-compare
+  if (result > MAX32 || result != result) return $sign * Infinity;
+  return $sign * result;
+};
+
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// call something on iterator step with safe closing on error
+var anObject = __webpack_require__(1);
+module.exports = function (iterator, fn, value, entries) {
+  try {
+    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (e) {
+    var ret = iterator['return'];
+    if (ret !== undefined) anObject(ret.call(iterator));
+    throw e;
+  }
+};
+
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var aFunction = __webpack_require__(10);
+var toObject = __webpack_require__(9);
+var IObject = __webpack_require__(50);
+var toLength = __webpack_require__(8);
+
+module.exports = function (that, callbackfn, aLen, memo, isRight) {
+  aFunction(callbackfn);
+  var O = toObject(that);
+  var self = IObject(O);
+  var length = toLength(O.length);
+  var index = isRight ? length - 1 : 0;
+  var i = isRight ? -1 : 1;
+  if (aLen < 2) for (;;) {
+    if (index in self) {
+      memo = self[index];
+      index += i;
+      break;
+    }
+    index += i;
+    if (isRight ? index < 0 : length <= index) {
+      throw TypeError('Reduce of empty array with no initial value');
+    }
+  }
+  for (;isRight ? index >= 0 : length > index; index += i) if (index in self) {
+    memo = callbackfn(memo, self[index], index, O);
+  }
+  return memo;
+};
+
+
+/***/ }),
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
+
+var toObject = __webpack_require__(9);
+var toAbsoluteIndex = __webpack_require__(37);
+var toLength = __webpack_require__(8);
+
+module.exports = [].copyWithin || function copyWithin(target /* = 0 */, start /* = 0, end = @length */) {
+  var O = toObject(this);
+  var len = toLength(O.length);
+  var to = toAbsoluteIndex(target, len);
+  var from = toAbsoluteIndex(start, len);
+  var end = arguments.length > 2 ? arguments[2] : undefined;
+  var count = Math.min((end === undefined ? len : toAbsoluteIndex(end, len)) - from, len - to);
+  var inc = 1;
+  if (from < to && to < from + count) {
+    inc = -1;
+    from += count - 1;
+    to += count - 1;
+  }
+  while (count-- > 0) {
+    if (from in O) O[to] = O[from];
+    else delete O[to];
+    to += inc;
+    from += inc;
+  } return O;
+};
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports) {
+
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
+};
+
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 21.2.5.3 get RegExp.prototype.flags()
+if (__webpack_require__(6) && /./g.flags != 'g') __webpack_require__(7).f(RegExp.prototype, 'flags', {
+  configurable: true,
+  get: __webpack_require__(59)
+});
+
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return { e: false, v: exec() };
+  } catch (e) {
+    return { e: true, v: e };
+  }
+};
+
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(1);
+var isObject = __webpack_require__(4);
+var newPromiseCapability = __webpack_require__(92);
+
+module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
+  var promiseCapability = newPromiseCapability.f(C);
+  var resolve = promiseCapability.resolve;
+  resolve(x);
+  return promiseCapability.promise;
+};
+
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var strong = __webpack_require__(120);
+var validate = __webpack_require__(48);
+var MAP = 'Map';
+
+// 23.1 Map Objects
+module.exports = __webpack_require__(62)(MAP, function (get) {
+  return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+}, {
+  // 23.1.3.6 Map.prototype.get(key)
+  get: function get(key) {
+    var entry = strong.getEntry(validate(this, MAP), key);
+    return entry && entry.v;
+  },
+  // 23.1.3.9 Map.prototype.set(key, value)
+  set: function set(key, value) {
+    return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
+  }
+}, strong, true);
+
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var dP = __webpack_require__(7).f;
+var create = __webpack_require__(38);
+var redefineAll = __webpack_require__(43);
+var ctx = __webpack_require__(18);
+var anInstance = __webpack_require__(41);
+var forOf = __webpack_require__(42);
+var $iterDefine = __webpack_require__(80);
+var step = __webpack_require__(115);
+var setSpecies = __webpack_require__(40);
+var DESCRIPTORS = __webpack_require__(6);
+var fastKey = __webpack_require__(30).fastKey;
+var validate = __webpack_require__(48);
+var SIZE = DESCRIPTORS ? '_s' : 'size';
+
+var getEntry = function (that, key) {
+  // fast case
+  var index = fastKey(key);
+  var entry;
+  if (index !== 'F') return that._i[index];
+  // frozen object case
+  for (entry = that._f; entry; entry = entry.n) {
+    if (entry.k == key) return entry;
+  }
+};
+
+module.exports = {
+  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
+    var C = wrapper(function (that, iterable) {
+      anInstance(that, C, NAME, '_i');
+      that._t = NAME;         // collection type
+      that._i = create(null); // index
+      that._f = undefined;    // first entry
+      that._l = undefined;    // last entry
+      that[SIZE] = 0;         // size
+      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
+    });
+    redefineAll(C.prototype, {
+      // 23.1.3.1 Map.prototype.clear()
+      // 23.2.3.2 Set.prototype.clear()
+      clear: function clear() {
+        for (var that = validate(this, NAME), data = that._i, entry = that._f; entry; entry = entry.n) {
+          entry.r = true;
+          if (entry.p) entry.p = entry.p.n = undefined;
+          delete data[entry.i];
+        }
+        that._f = that._l = undefined;
+        that[SIZE] = 0;
+      },
+      // 23.1.3.3 Map.prototype.delete(key)
+      // 23.2.3.4 Set.prototype.delete(value)
+      'delete': function (key) {
+        var that = validate(this, NAME);
+        var entry = getEntry(that, key);
+        if (entry) {
+          var next = entry.n;
+          var prev = entry.p;
+          delete that._i[entry.i];
+          entry.r = true;
+          if (prev) prev.n = next;
+          if (next) next.p = prev;
+          if (that._f == entry) that._f = next;
+          if (that._l == entry) that._l = prev;
+          that[SIZE]--;
+        } return !!entry;
+      },
+      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
+      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
+      forEach: function forEach(callbackfn /* , that = undefined */) {
+        validate(this, NAME);
+        var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
+        var entry;
+        while (entry = entry ? entry.n : this._f) {
+          f(entry.v, entry.k, this);
+          // revert to the last existing entry
+          while (entry && entry.r) entry = entry.p;
+        }
+      },
+      // 23.1.3.7 Map.prototype.has(key)
+      // 23.2.3.7 Set.prototype.has(value)
+      has: function has(key) {
+        return !!getEntry(validate(this, NAME), key);
+      }
+    });
+    if (DESCRIPTORS) dP(C.prototype, 'size', {
+      get: function () {
+        return validate(this, NAME)[SIZE];
+      }
+    });
+    return C;
+  },
+  def: function (that, key, value) {
+    var entry = getEntry(that, key);
+    var prev, index;
+    // change existing entry
+    if (entry) {
+      entry.v = value;
+    // create new entry
+    } else {
+      that._l = entry = {
+        i: index = fastKey(key, true), // <- index
+        k: key,                        // <- key
+        v: value,                      // <- value
+        p: prev = that._l,             // <- previous entry
+        n: undefined,                  // <- next entry
+        r: false                       // <- removed
+      };
+      if (!that._f) that._f = entry;
+      if (prev) prev.n = entry;
+      that[SIZE]++;
+      // add to index
+      if (index !== 'F') that._i[index] = entry;
+    } return that;
+  },
+  getEntry: getEntry,
+  setStrong: function (C, NAME, IS_MAP) {
+    // add .keys, .values, .entries, [@@iterator]
+    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
+    $iterDefine(C, NAME, function (iterated, kind) {
+      this._t = validate(iterated, NAME); // target
+      this._k = kind;                     // kind
+      this._l = undefined;                // previous
+    }, function () {
+      var that = this;
+      var kind = that._k;
+      var entry = that._l;
+      // revert to the last existing entry
+      while (entry && entry.r) entry = entry.p;
+      // get next entry
+      if (!that._t || !(that._l = entry = entry ? entry.n : that._t._f)) {
+        // or finish the iteration
+        that._t = undefined;
+        return step(1);
+      }
+      // return step by kind
+      if (kind == 'keys') return step(0, entry.k);
+      if (kind == 'values') return step(0, entry.v);
+      return step(0, [entry.k, entry.v]);
+    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
+
+    // add [@@species], 23.1.2.2, 23.2.2.2
+    setSpecies(NAME);
+  }
+};
+
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var strong = __webpack_require__(120);
+var validate = __webpack_require__(48);
+var SET = 'Set';
+
+// 23.2 Set Objects
+module.exports = __webpack_require__(62)(SET, function (get) {
+  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+}, {
+  // 23.2.3.1 Set.prototype.add(value)
+  add: function add(value) {
+    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
+  }
+}, strong);
+
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var each = __webpack_require__(26)(0);
+var redefine = __webpack_require__(13);
+var meta = __webpack_require__(30);
+var assign = __webpack_require__(103);
+var weak = __webpack_require__(123);
+var isObject = __webpack_require__(4);
+var fails = __webpack_require__(3);
+var validate = __webpack_require__(48);
+var WEAK_MAP = 'WeakMap';
+var getWeak = meta.getWeak;
+var isExtensible = Object.isExtensible;
+var uncaughtFrozenStore = weak.ufstore;
+var tmp = {};
+var InternalMap;
+
+var wrapper = function (get) {
+  return function WeakMap() {
+    return get(this, arguments.length > 0 ? arguments[0] : undefined);
+  };
+};
+
+var methods = {
+  // 23.3.3.3 WeakMap.prototype.get(key)
+  get: function get(key) {
+    if (isObject(key)) {
+      var data = getWeak(key);
+      if (data === true) return uncaughtFrozenStore(validate(this, WEAK_MAP)).get(key);
+      return data ? data[this._i] : undefined;
+    }
+  },
+  // 23.3.3.5 WeakMap.prototype.set(key, value)
+  set: function set(key, value) {
+    return weak.def(validate(this, WEAK_MAP), key, value);
+  }
+};
+
+// 23.3 WeakMap Objects
+var $WeakMap = module.exports = __webpack_require__(62)(WEAK_MAP, wrapper, methods, weak, true, true);
+
+// IE11 WeakMap frozen keys fix
+if (fails(function () { return new $WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7; })) {
+  InternalMap = weak.getConstructor(wrapper, WEAK_MAP);
+  assign(InternalMap.prototype, methods);
+  meta.NEED = true;
+  each(['delete', 'has', 'get', 'set'], function (key) {
+    var proto = $WeakMap.prototype;
+    var method = proto[key];
+    redefine(proto, key, function (a, b) {
+      // store frozen objects on internal weakmap shim
+      if (isObject(a) && !isExtensible(a)) {
+        if (!this._f) this._f = new InternalMap();
+        var result = this._f[key](a, b);
+        return key == 'set' ? this : result;
+      // store all the rest on native weakmap
+      } return method.call(this, a, b);
+    });
+  });
+}
+
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var redefineAll = __webpack_require__(43);
+var getWeak = __webpack_require__(30).getWeak;
+var anObject = __webpack_require__(1);
+var isObject = __webpack_require__(4);
+var anInstance = __webpack_require__(41);
+var forOf = __webpack_require__(42);
+var createArrayMethod = __webpack_require__(26);
+var $has = __webpack_require__(11);
+var validate = __webpack_require__(48);
+var arrayFind = createArrayMethod(5);
+var arrayFindIndex = createArrayMethod(6);
+var id = 0;
+
+// fallback for uncaught frozen keys
+var uncaughtFrozenStore = function (that) {
+  return that._l || (that._l = new UncaughtFrozenStore());
+};
+var UncaughtFrozenStore = function () {
+  this.a = [];
+};
+var findUncaughtFrozen = function (store, key) {
+  return arrayFind(store.a, function (it) {
+    return it[0] === key;
+  });
+};
+UncaughtFrozenStore.prototype = {
+  get: function (key) {
+    var entry = findUncaughtFrozen(this, key);
+    if (entry) return entry[1];
+  },
+  has: function (key) {
+    return !!findUncaughtFrozen(this, key);
+  },
+  set: function (key, value) {
+    var entry = findUncaughtFrozen(this, key);
+    if (entry) entry[1] = value;
+    else this.a.push([key, value]);
+  },
+  'delete': function (key) {
+    var index = arrayFindIndex(this.a, function (it) {
+      return it[0] === key;
+    });
+    if (~index) this.a.splice(index, 1);
+    return !!~index;
+  }
+};
+
+module.exports = {
+  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
+    var C = wrapper(function (that, iterable) {
+      anInstance(that, C, NAME, '_i');
+      that._t = NAME;      // collection type
+      that._i = id++;      // collection id
+      that._l = undefined; // leak store for uncaught frozen objects
+      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
+    });
+    redefineAll(C.prototype, {
+      // 23.3.3.2 WeakMap.prototype.delete(key)
+      // 23.4.3.3 WeakSet.prototype.delete(value)
+      'delete': function (key) {
+        if (!isObject(key)) return false;
+        var data = getWeak(key);
+        if (data === true) return uncaughtFrozenStore(validate(this, NAME))['delete'](key);
+        return data && $has(data, this._i) && delete data[this._i];
+      },
+      // 23.3.3.4 WeakMap.prototype.has(key)
+      // 23.4.3.4 WeakSet.prototype.has(value)
+      has: function has(key) {
+        if (!isObject(key)) return false;
+        var data = getWeak(key);
+        if (data === true) return uncaughtFrozenStore(validate(this, NAME)).has(key);
+        return data && $has(data, this._i);
+      }
+    });
+    return C;
+  },
+  def: function (that, key, value) {
+    var data = getWeak(anObject(key), true);
+    if (data === true) uncaughtFrozenStore(that).set(key, value);
+    else data[that._i] = value;
+    return that;
+  },
+  ufstore: uncaughtFrozenStore
+};
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://tc39.github.io/ecma262/#sec-toindex
+var toInteger = __webpack_require__(24);
+var toLength = __webpack_require__(8);
+module.exports = function (it) {
+  if (it === undefined) return 0;
+  var number = toInteger(it);
+  var length = toLength(number);
+  if (number !== length) throw RangeError('Wrong length!');
+  return length;
+};
+
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// all object keys, includes non-enumerable and symbols
+var gOPN = __webpack_require__(39);
+var gOPS = __webpack_require__(55);
+var anObject = __webpack_require__(1);
+var Reflect = __webpack_require__(2).Reflect;
+module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
+  var keys = gOPN.f(anObject(it));
+  var getSymbols = gOPS.f;
+  return getSymbols ? keys.concat(getSymbols(it)) : keys;
+};
+
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// https://tc39.github.io/proposal-flatMap/#sec-FlattenIntoArray
+var isArray = __webpack_require__(56);
+var isObject = __webpack_require__(4);
+var toLength = __webpack_require__(8);
+var ctx = __webpack_require__(18);
+var IS_CONCAT_SPREADABLE = __webpack_require__(5)('isConcatSpreadable');
+
+function flattenIntoArray(target, original, source, sourceLen, start, depth, mapper, thisArg) {
+  var targetIndex = start;
+  var sourceIndex = 0;
+  var mapFn = mapper ? ctx(mapper, thisArg, 3) : false;
+  var element, spreadable;
+
+  while (sourceIndex < sourceLen) {
+    if (sourceIndex in source) {
+      element = mapFn ? mapFn(source[sourceIndex], sourceIndex, original) : source[sourceIndex];
+
+      spreadable = false;
+      if (isObject(element)) {
+        spreadable = element[IS_CONCAT_SPREADABLE];
+        spreadable = spreadable !== undefined ? !!spreadable : isArray(element);
+      }
+
+      if (spreadable && depth > 0) {
+        targetIndex = flattenIntoArray(target, original, element, toLength(element.length), targetIndex, depth - 1) - 1;
+      } else {
+        if (targetIndex >= 0x1fffffffffffff) throw TypeError();
+        target[targetIndex] = element;
+      }
+
+      targetIndex++;
+    }
+    sourceIndex++;
+  }
+  return targetIndex;
+}
+
+module.exports = flattenIntoArray;
+
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-string-pad-start-end
+var toLength = __webpack_require__(8);
+var repeat = __webpack_require__(76);
+var defined = __webpack_require__(23);
+
+module.exports = function (that, maxLength, fillString, left) {
+  var S = String(defined(that));
+  var stringLength = S.length;
+  var fillStr = fillString === undefined ? ' ' : String(fillString);
+  var intMaxLength = toLength(maxLength);
+  if (intMaxLength <= stringLength || fillStr == '') return S;
+  var fillLen = intMaxLength - stringLength;
+  var stringFiller = repeat.call(fillStr, Math.ceil(fillLen / fillStr.length));
+  if (stringFiller.length > fillLen) stringFiller = stringFiller.slice(0, fillLen);
+  return left ? stringFiller + S : S + stringFiller;
+};
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getKeys = __webpack_require__(36);
+var toIObject = __webpack_require__(15);
+var isEnum = __webpack_require__(51).f;
+module.exports = function (isEntries) {
+  return function (it) {
+    var O = toIObject(it);
+    var keys = getKeys(O);
+    var length = keys.length;
+    var i = 0;
+    var result = [];
+    var key;
+    while (length > i) if (isEnum.call(O, key = keys[i++])) {
+      result.push(isEntries ? [key, O[key]] : O[key]);
+    } return result;
+  };
+};
+
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/DavidBruant/Map-Set.prototype.toJSON
+var classof = __webpack_require__(52);
+var from = __webpack_require__(130);
+module.exports = function (NAME) {
+  return function toJSON() {
+    if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
+    return from(this);
+  };
+};
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var forOf = __webpack_require__(42);
+
+module.exports = function (iter, ITERATOR) {
+  var result = [];
+  forOf(iter, false, result.push, result, ITERATOR);
+  return result;
+};
+
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports) {
+
+// https://rwaldron.github.io/proposal-math-extensions/
+module.exports = Math.scale || function scale(x, inLow, inHigh, outLow, outHigh) {
+  if (
+    arguments.length === 0
+      // eslint-disable-next-line no-self-compare
+      || x != x
+      // eslint-disable-next-line no-self-compare
+      || inLow != inLow
+      // eslint-disable-next-line no-self-compare
+      || inHigh != inHigh
+      // eslint-disable-next-line no-self-compare
+      || outLow != outLow
+      // eslint-disable-next-line no-self-compare
+      || outHigh != outHigh
+  ) return NaN;
+  if (x === Infinity || x === -Infinity) return x;
+  return (x - inLow) * (outHigh - outLow) / (inHigh - inLow) + outLow;
+};
+
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * This is a separate file to allow multiple jolecule
+ * widgets to be animated in the same global event loop.
+ * the interface to a widget is:
+ *
+ * class Widget {
+ *   animate(elapsedTime) - calculates any changes due to animation
+ *   isChanged() -> Boolean - check if needs to be drawn
+ *   drawFrame() -> draws the actue frame
+ * }
+ *
+ * The widgets are stored on the global window object so that
+ * potentially multiple different instances will hit the 
+ * same copy of the function
+ * 
+ * Global storage
+ * - window.globalWidgets
+ * - window.lastTime
+ */
+
+var MS_PER_STEP = 17;
+
+function loop() {
+  requestAnimationFrame(loop);
+
+  if (window.globalWidgets === []) {
+    return;
+  }
+  var currTime = new Date().getTime();
+  var elapsedTime = currTime - window.lastTime;
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = window.globalWidgets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var widget = _step.value;
+
+      widget.animate(elapsedTime);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = window.globalWidgets[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var _widget = _step2.value;
+
+      if (_widget.isChanged()) {
+        _widget.drawFrame();
+      }
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  window.lastTime = currTime;
+}
+
+/**
+ * run loop() as a singleton by using the global
+ * window space to lock one single copy of loop
+ */
+function registerGlobalAnimationLoop(widget) {
+  // only set once by checking the global window variable
+
+  if (typeof window.globalWidgets === 'undefined') {
+    window.globalWidgets = [];
+    loop();
+    window.lastTime = new Date().getTime();
+  }
+  window.globalWidgets.push(widget);
+}
+
+exports.registerGlobalAnimationLoop = registerGlobalAnimationLoop;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.defaultArgs = exports.EmbedJolecule = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(32);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _lodash = __webpack_require__(27);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _soup = __webpack_require__(340);
+
+var _soupWidget = __webpack_require__(343);
+
+var _util = __webpack_require__(49);
+
+var _widgets = __webpack_require__(134);
+
+var _widgets2 = _interopRequireDefault(_widgets);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * EmbedJolecule - the widget that shows proteins and
+ * annotations
+ */
+
+var defaultArgs = {
+  divTag: '',
+  backgroundColor: 0x000000,
+  viewId: '',
+  viewHeight: 170,
+  isViewTextShown: false,
+  isSequenceBar: true,
+  isEditable: true,
+  isExtraEditable: false,
+  animateState: 'none', // 'loop', 'rotate', 'rock'
+  isGrid: false,
+  bCutoff: 0.5,
+  isPlayable: false,
+  maxUpdateStep: 30,
+  msPerStep: 17,
+  maxWaitStep: 30
+};
+
+var EmbedJolecule = function () {
+  function EmbedJolecule(params) {
+    var _this = this;
+
+    _classCallCheck(this, EmbedJolecule);
+
+    this.params = _lodash2.default.cloneDeep(defaultArgs);
+    _lodash2.default.assign(this.params, params);
+    console.log('EmbedJolecule.constructor', this.params);
+    this.isProcessing = { flag: false };
+
+    this.divTag = this.params.divTag;
+    this.div = (0, _jquery2.default)(this.params.divTag);
+    this.divId = this.div.attr('id');
+    this.div[0].oncontextmenu = _lodash2.default.noop;
+
+    this.soup = new _soup.Soup();
+    this.soupView = new _soup.SoupView(this.soup);
+    this.soupView.animateState = this.params.animateState;
+    this.soupView.maxUpdateStep = this.params.maxUpdateStep;
+    this.soupView.msPerStep = this.params.msPerStep;
+    this.soupView.maxWaitStep = this.params.maxWaitStep;
+
+    this.controller = new _soup.Controller(this.soupView);
+
+    this.widget = {};
+
+    this.createDivs();
+
+    var resizeFn = function resizeFn() {
+      return _this.resize();
+    };
+    (0, _jquery2.default)(window).resize(resizeFn);
+    window.onorientationchange = resizeFn;
+    resizeFn();
+  }
+
+  _createClass(EmbedJolecule, [{
+    key: 'asyncAddDataServer',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dataServer) {
+        var _this2 = this;
+
+        var asyncSetMesssage, isDefaultViewId;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.isProcessing.flag) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                _context2.next = 3;
+                return (0, _util.delay)(100);
+
+              case 3:
+                _context2.next = 0;
+                break;
+
+              case 5:
+
+                console.log('EmbedJolecule.asyncAddDataServer');
+
+                this.isProcessing.flag = true;
+
+                _context2.next = 9;
+                return this.soupWidget.asyncSetMesssage('Loading structure...');
+
+              case 9:
+                asyncSetMesssage = function asyncSetMesssage(m) {
+                  return _this2.soupWidget.asyncSetMesssage(m);
+                };
+
+                _context2.next = 12;
+                return new Promise(function (resolve) {
+                  dataServer.get_protein_data(function () {
+                    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(proteinData) {
+                      return regeneratorRuntime.wrap(function _callee$(_context) {
+                        while (1) {
+                          switch (_context.prev = _context.next) {
+                            case 0:
+                              _context.next = 2;
+                              return _this2.controller.asyncLoadProteinData(proteinData, asyncSetMesssage);
+
+                            case 2:
+                              resolve();
+
+                            case 3:
+                            case 'end':
+                              return _context.stop();
+                          }
+                        }
+                      }, _callee, _this2);
+                    }));
+
+                    return function (_x2) {
+                      return _ref2.apply(this, arguments);
+                    };
+                  }());
+                });
+
+              case 12:
+
+                if (this.params.bCutoff !== null) {
+                  this.soup.grid.bCutoff = this.params.bCutoff;
+                }
+
+                this.soupWidget.buildScene();
+
+                this.resize();
+
+                this.controller.zoomOut();
+
+                _context2.next = 18;
+                return this.soupWidget.asyncSetMesssage('Loading views...');
+
+              case 18:
+                if (!_lodash2.default.isNil(this.soupView.dataServer)) {
+                  _context2.next = 25;
+                  break;
+                }
+
+                // save only first loaded dataServer for saving and deleting
+                this.soupWidget.dataServer = dataServer;
+
+                _context2.next = 22;
+                return new Promise(function (resolve) {
+                  dataServer.get_views(function (viewDicts) {
+                    _this2.controller.loadViewsFromViewDicts(viewDicts);
+                    resolve();
+                  });
+                });
+
+              case 22:
+                isDefaultViewId = this.params.viewId in this.soupView.savedViewsByViewId;
+
+                if (isDefaultViewId) {
+                  this.controller.setTargetViewByViewId(this.params.viewId);
+                }
+                this.soupView.updateObservers = true;
+
+              case 25:
+
+                this.soupWidget.cleanupMessage();
+
+                this.isProcessing.flag = false;
+
+              case 27:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function asyncAddDataServer(_x) {
+        return _ref.apply(this, arguments);
+      }
+
+      return asyncAddDataServer;
+    }()
+  }, {
+    key: 'clear',
+    value: function clear() {
+      while (this.soupWidget.soup.structureIds.length > 0) {
+        this.soupWidget.deleteStructure(0);
+      }
+    }
+  }, {
+    key: 'createDivs',
+    value: function createDivs() {
+      var _this3 = this;
+
+      this.headerDiv = (0, _jquery2.default)('<div>').attr('id', this.divId + '-sequence-widget');
+
+      this.bodyDiv = (0, _jquery2.default)('<div>').attr('id', this.divId + '-jolecule-soup-display').addClass('jolecule-embed-body').css({
+        overflow: 'hidden',
+        width: this.div.outerWidth()
+      });
+
+      this.div.append(this.headerDiv).append(this.bodyDiv);
+
+      this.soupWidget = new _soupWidget.SoupWidget(this.soupView, '#' + this.divId + '-jolecule-soup-display', this.controller, this.params.isGrid, this.params.backgroundColor);
+
+      if (this.params.isSequenceBar) {
+        this.sequenceWidget = new _widgets2.default.SequenceWidget('#' + this.divId + '-sequence-widget', this.soupWidget);
+      }
+
+      if (this.params.isGrid) {
+        this.widget.grid = new _widgets2.default.GridControlWidget(this.soupWidget);
+      }
+
+      var isFooter = this.params.isPlayable || this.params.isEditable || this.params.isExtraEditable;
+
+      if (!isFooter) {
+        return;
+      }
+
+      this.footerDiv = (0, _jquery2.default)('<div>').addClass('jolecule-embed-footer').css({
+        display: 'flex',
+        'flex-wrap': 'wrap',
+        'flex-direction': 'row'
+      });
+      this.div.append(this.footerDiv);
+
+      if (this.params.isPlayable) {
+        this.playableDiv = (0, _jquery2.default)('<div>').attr('id', this.divId + '-playable').css({
+          width: '100%',
+          display: 'flex',
+          'flex-direction': 'row'
+        });
+        this.footerDiv.append(this.playableDiv);
+
+        this.playableDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-rotate">'));
+        this.widget.rotate = new _widgets2.default.ToggleAnimateWidget(this.soupWidget, '#' + this.divId + '-rotate', 'rotate', '&orarr;');
+
+        this.playableDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-rock">'));
+        this.widget.rotate = new _widgets2.default.ToggleAnimateWidget(this.soupWidget, '#' + this.divId + '-rock', 'rock', '&harr;');
+
+        this.playableDiv.append((0, _util.linkButton)('<', 'jolecule-button', function () {
+          _this3.controller.setTargetToPrevView();
+        }));
+
+        this.playableDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-loop">'));
+        this.widget.loop = new _widgets2.default.ToggleAnimateWidget(this.soupWidget, '#' + this.divId + '-loop', 'loop', 'Play');
+
+        this.playableDiv.append((0, _util.linkButton)('>', 'jolecule-button', function () {
+          _this3.controller.setTargetToNextView();
+        }));
+
+        this.playableDiv.append((0, _jquery2.default)('<div>').attr('id', this.divId + '-view-text').addClass('jolecule-button').css({
+          'background-color': '#BBB',
+          flex: '1 1',
+          'box-sizing': 'content-box',
+          'white-space': 'nowrap',
+          overflow: 'hidden',
+          'text-align': 'left'
+        }));
+        this.widget.view = new _widgets2.default.ViewTextWidget(this.soupWidget, '#' + this.divId + '-view-text');
+      }
+
+      if (this.params.isEditable) {
+        this.footerDiv.append((0, _jquery2.default)('<div>').attr('id', this.divId + '-res-selector').addClass('jolecule-button').css({
+          'padding-top': '6px',
+          height: '24px',
+          'box-sizing': 'content-box'
+        }));
+        this.widget.residueSelect = new _widgets2.default.ResidueSelectorWidget(this.soupWidget, '#' + this.divId + '-res-selector');
+
+        this.footerDiv.append((0, _jquery2.default)('<div>').attr('id', this.divId + '-clipping-plane').addClass('jolecule-button').css({
+          flex: '1 0 120px',
+          display: 'flex',
+          'flex-diretion': 'row',
+          'justify-content': 'center'
+        }));
+        this.widget.clippingPlane = new _widgets2.default.ClippingPlaneWidget(this.soupWidget, '#' + this.divId + '-clipping-plane');
+      }
+
+      if (this.params.isEditable) {
+        this.footerDiv.append((0, _util.linkButton)('Zoom', 'jolecule-button', function () {
+          _this3.controller.zoomToSelection();
+        }));
+
+        this.footerDiv.append((0, _util.linkButton)('Clear', 'jolecule-button', function () {
+          _this3.controller.clear();
+        })).append((0, _util.linkButton)('Sidechains', 'jolecule-button', function () {
+          _this3.controller.toggleSelectedSidechains();
+        })).append((0, _util.linkButton)('Neighbors', 'jolecule-button', function () {
+          _this3.controller.toggleResidueNeighbors();
+        }));
+
+        this.footerDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-ligand">'));
+        this.widget.ligand = new _widgets2.default.ToggleOptionWidget(this.soupWidget, '#' + this.divId + '-ligand', 'ligands');
+      }
+
+      if (this.params.isExtraEditable) {
+        this.footerDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-sphere">'));
+        this.widget.sphere = new _widgets2.default.ToggleOptionWidget(this.soupWidget, '#' + this.divId + '-sphere', 'sphere');
+
+        this.footerDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-backbone">'));
+        this.widget.backbone = new _widgets2.default.ToggleOptionWidget(this.soupWidget, '#' + this.divId + '-backbone', 'backbone');
+
+        this.footerDiv.append((0, _jquery2.default)('<div id="' + this.divId + '-transparent">'));
+        this.widget.transparent = new _widgets2.default.ToggleOptionWidget(this.soupWidget, '#' + this.divId + '-transparent', 'transparent');
+      }
+    }
+  }, {
+    key: 'resize',
+    value: function resize() {
+      this.bodyDiv.width(this.div.outerWidth());
+
+      var height = this.div.outerHeight();
+      if ('sequenceWidget' in this) {
+        height -= this.sequenceWidget.height();
+        this.bodyDiv.css('top', this.sequenceWidget.height());
+      }
+      if ('footerDiv' in this) {
+        height -= this.footerDiv.outerHeight();
+      }
+      this.bodyDiv.css('height', height);
+
+      this.soupWidget.resize();
+    }
+  }]);
+
+  return EmbedJolecule;
+}();
+
+exports.EmbedJolecule = EmbedJolecule;
+exports.defaultArgs = defaultArgs;
+
+/***/ }),
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82669,34 +79909,45 @@ var _get = function get(object, property, receiver) { if (object === null) objec
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Widget interface
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * decorated graphical objects on top of ProteinDisplay that are a hybrid
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * of HTML DOM elements and WebGL elements such as lines, atom labels,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * distance measures, sequence bars, z-slab control, grid controls
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Widgets - abstact data structures for decorators to
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * be displayed on the DOM to support the main
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * embeddged widget of Jolecule.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * The structure of a Widget takes a Display object
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * in the constructor, which allows access to a full
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * SoupView object, with its attendant Controller.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * this.observerReset - called after model rebuild
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * this.draw - called at every draw event
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * this.resize - called after every resize of window
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * props:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   div: a Jquery DOM element where the Widget is attached
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *        could be a Canvas or a Div etc.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * methods
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   resize (): called when the browser window changes
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   rebuild (): called when underlying Soup is modified
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   update (): called when Display goes through a rendering change
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *   drawFrame (): called every animation frame
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
+// to support cross-browser styled drop-down selectors
 // eslint-disable-line no-alert
 
 var _jquery = __webpack_require__(32);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _three = __webpack_require__(48);
+var _three = __webpack_require__(44);
 
 var THREE = _interopRequireWildcard(_three);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _select = __webpack_require__(346);
+var _select = __webpack_require__(345);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _data = __webpack_require__(96);
+var _data = __webpack_require__(97);
 
 var data = _interopRequireWildcard(_data);
 
@@ -82721,7 +79972,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * - used to display the mouse tool for making distance labels
  */
 var LineElement = function () {
-  function LineElement(display, color) {
+  function LineElement(soupWidget, color) {
     _classCallCheck(this, LineElement);
 
     this.color = color;
@@ -82736,7 +79987,7 @@ var LineElement = function () {
     this.canvas = this.div[0];
     this.context2d = this.canvas.getContext('2d');
 
-    this.parentDiv = (0, _jquery2.default)(display.divTag);
+    this.parentDiv = (0, _jquery2.default)(soupWidget.divTag);
     this.parentDiv.append(this.div);
   }
 
@@ -82790,8 +80041,9 @@ var CanvasWidget = function () {
     _classCallCheck(this, CanvasWidget);
 
     this.parentDiv = (0, _jquery2.default)(selector);
+    this.parentDivId = this.parentDiv.attr('id');
 
-    this.div = (0, _jquery2.default)('<div>').css('position', 'absolute').css('position', 'absolute').css('z-index', 100).css('user-select', 'none');
+    this.div = (0, _jquery2.default)('<div>').css('position', 'absolute').css('z-index', 100).css('user-select', 'none');
 
     this.parentDiv.append(this.div);
 
@@ -82885,10 +80137,10 @@ var CanvasWidget = function () {
   }, {
     key: 'line',
     value: function line(x1, y1, x2, y2, lineWidth, color) {
-      this.drawContext.fillStyle = 'none';
+      this.drawContext.fillStyle = color;
       this.drawContext.strokeStyle = color;
-      this.drawContext.lineWidth = lineWidth;
       this.drawContext.beginPath();
+      this.drawContext.lineWidth = lineWidth;
       this.drawContext.moveTo(x1, y1);
       this.drawContext.lineTo(x2, y2);
       this.drawContext.stroke();
@@ -83105,12 +80357,12 @@ var PopupText = function () {
 
 
 var AtomLabelsWidget = function () {
-  function AtomLabelsWidget(display) {
+  function AtomLabelsWidget(soupWidget) {
     _classCallCheck(this, AtomLabelsWidget);
 
-    this.display = display;
-    this.soupView = display.soupView;
-    this.controller = display.controller;
+    this.soupWidget = soupWidget;
+    this.soupView = soupWidget.soupView;
+    this.controller = soupWidget.controller;
     this.popups = [];
   }
 
@@ -83126,8 +80378,9 @@ var AtomLabelsWidget = function () {
     value: function createPopup(i) {
       var _this3 = this;
 
-      var popup = new PopupText(this.display.divTag);
+      var popup = new PopupText(this.soupWidget.divTag);
       popup.i = i;
+      popup.div.css('pointer-events', 'auto');
       popup.div.click(function () {
         _this3.removePopup(popup.i);
       });
@@ -83158,14 +80411,14 @@ var AtomLabelsWidget = function () {
 
         this.popups[_i2].html(labels[_i2].text);
 
-        var opacity = 0.7 * this.display.opacity(atom.pos) + 0.2;
+        var opacity = 0.7 * this.soupWidget.opacity(atom.pos) + 0.2;
         this.popups[_i2].div.css('opacity', opacity);
         this.popups[_i2].arrow.css('opacity', opacity);
 
-        var v = this.display.getPosXY(atom.pos);
+        var v = this.soupWidget.getPosXY(atom.pos);
         this.popups[_i2].move(v.x, v.y);
 
-        if (!this.display.inZlab(atom.pos)) {
+        if (!this.soupWidget.inZlab(atom.pos)) {
           this.popups[_i2].div.css('display', 'none');
           this.popups[_i2].arrow.css('display', 'none');
         }
@@ -83184,15 +80437,15 @@ var AtomLabelsWidget = function () {
 
 
 var DistanceMeasuresWidget = function () {
-  function DistanceMeasuresWidget(display) {
+  function DistanceMeasuresWidget(soupWidget) {
     _classCallCheck(this, DistanceMeasuresWidget);
 
     this.distanceMeasures = [];
-    this.scene = display.displayScene;
-    this.soupView = display.soupView;
-    this.controller = display.controller;
-    this.display = display;
-    this.parentDiv = (0, _jquery2.default)(this.display.divTag);
+    this.scene = soupWidget.displayScene;
+    this.soupView = soupWidget.soupView;
+    this.controller = soupWidget.controller;
+    this.soupWidget = soupWidget;
+    this.parentDiv = (0, _jquery2.default)(this.soupWidget.divTag);
     this.divs = [];
   }
 
@@ -83273,9 +80526,9 @@ var DistanceMeasuresWidget = function () {
         distanceMeasure.div.text(text);
 
         var m = p1.clone().add(p2).multiplyScalar(0.5);
-        var opacity = 0.7 * this.display.opacity(m) + 0.3;
+        var opacity = 0.7 * this.soupWidget.opacity(m) + 0.3;
 
-        var v = this.display.getPosXY(m);
+        var v = this.soupWidget.getPosXY(m);
         var x = v.x;
         var y = v.y;
 
@@ -83297,7 +80550,7 @@ var DistanceMeasuresWidget = function () {
         distanceMeasure.line.geometry.vertices[0].copy(p1);
         distanceMeasure.line.geometry.vertices[1].copy(p2);
 
-        if (!this.display.inZlab(m)) {
+        if (!this.soupWidget.inZlab(m)) {
           distanceMeasure.div.css('display', 'none');
         }
       }
@@ -83320,16 +80573,16 @@ var DistanceMeasuresWidget = function () {
 var SequenceWidget = function (_CanvasWidget) {
   _inherits(SequenceWidget, _CanvasWidget);
 
-  function SequenceWidget(selector, display) {
+  function SequenceWidget(selector, soupWidget) {
     _classCallCheck(this, SequenceWidget);
 
     var _this5 = _possibleConstructorReturn(this, (SequenceWidget.__proto__ || Object.getPrototypeOf(SequenceWidget)).call(this, selector));
 
-    _this5.display = display;
-    _this5.soupView = display.soupView;
-    _this5.soup = display.soup;
-    _this5.controller = display.controller;
-    _this5.display.addObserver(_this5);
+    _this5.soupWidget = soupWidget;
+    _this5.soupView = soupWidget.soupView;
+    _this5.soup = soupWidget.soup;
+    _this5.controller = soupWidget.controller;
+    _this5.soupWidget.addObserver(_this5);
     _this5.residue = _this5.soup.getResidueProxy();
 
     _this5.charWidth = 14;
@@ -83342,12 +80595,12 @@ var SequenceWidget = function (_CanvasWidget) {
     _this5.yBottom = _this5.yTopSequence + +_this5.spacingY * 2.7 + _this5.charHeight;
     _this5.yMidSequence = _this5.yTopSequence + _this5.spacingY * 1.2 + _this5.charHeight / 2;
 
-    _this5.backColor = '#CCC';
-    _this5.selectColor = '#FFF';
+    _this5.structBarBgroundColor = '#CCC';
+    _this5.seqBarBgroundColor = '#FFF';
     _this5.highlightColor = 'red';
-    _this5.borderColor = '#888';
+    _this5.borderColor = '#999';
 
-    _this5.div.attr('id', 'sequence-widget');
+    _this5.div.attr('id', _this5.parentDivId + '-inner');
     _this5.div.css({
       'width': _this5.parentDiv.width(),
       'height': _this5.height(),
@@ -83362,7 +80615,7 @@ var SequenceWidget = function (_CanvasWidget) {
     _this5.iCharDisplayEnd = null;
     _this5.nCharDisplay = null;
 
-    _this5.hover = new PopupText('#sequence-widget', 15);
+    _this5.hover = new PopupText('#' + _this5.parentDivId, 15);
 
     _this5.pressSection = 'none';
     return _this5;
@@ -83608,14 +80861,14 @@ var SequenceWidget = function (_CanvasWidget) {
       var heightSequence = this.yBottom - this.yTopSequence;
 
       // draw background
-      this.fillRect(0, 0, this.width(), this.height(), this.backColor);
+      this.fillRect(0, 0, this.width(), this.height(), this.structBarBgroundColor);
 
       // draw sequence bar background
-      this.fillRect(0, this.yTopSequence, this.width(), heightSequence, this.selectColor);
+      this.fillRect(0, this.yTopSequence, this.width(), heightSequence, this.seqBarBgroundColor);
 
       // draw border around sequence bar
-      this.line(0, this.yTopSequence, this.width(), this.yTopSequence, this.borderColor);
-      this.line(0, this.yBottom, this.width(), this.yBottom, this.borderColor);
+      this.line(0, this.yTopSequence, this.width(), this.yTopSequence, 1, this.borderColor);
+      this.line(0, this.yBottom, this.width(), this.yBottom, 1, this.borderColor);
 
       if (!util.exists(this.soupView)) {
         return;
@@ -83642,17 +80895,16 @@ var SequenceWidget = function (_CanvasWidget) {
       var x2 = this.iToX(this.iCharDisplayEnd);
 
       // draw selected part of structure bar
-      this.fillRect(x1, yTopStructure, x2 - x1, heightStructure, 1, this.selectColor);
+      this.fillRect(x1, yTopStructure, x2 - x1, heightStructure, this.seqBarBgroundColor);
 
       // draw line through structure bar
-      this.line(0, yMidStructure, this.width(), yMidStructure, 1, '#999');
+      this.line(0, yMidStructure, this.width(), yMidStructure, 1, this.borderColor);
 
       var colorStyle = void 0;
 
       // draw structure color bars
       var ss = this.charEntries[0].ss;
-      var color = data.getSsColor(ss).getStyle();
-      color = this.getColorStyle(0);
+      var color = this.getColorStyle(0);
       var endColor = void 0;
       var iStart = 0;
       var iEnd = 0;
@@ -83681,7 +80933,7 @@ var SequenceWidget = function (_CanvasWidget) {
       }
 
       // draw line through sequence bar
-      this.line(0, this.yMidSequence, this.width(), this.yMidSequence, 1, '#999');
+      this.line(0, this.yMidSequence, this.width(), this.yMidSequence, 1, this.borderColor);
 
       // draw characters for sequence
       for (var _iChar = this.iCharDisplayStart; _iChar < this.iCharDisplayEnd; _iChar += 1) {
@@ -83824,9 +81076,10 @@ var SequenceWidget = function (_CanvasWidget) {
         this.iChar = this.xToIChar(this.pointerX);
         if (this.iChar === this.iCharPressed) {
           console.log('SequenceWidget.doubleclick', this.iChar);
-          if (this.charEntries[this.iChar].c !== '') {
+          var charEntry = this.charEntries[this.iChar];
+          if (charEntry.c !== '') {
             this.controller.clearSelectedResidues();
-            this.controller.setResidueSelect(this.charEntries[this.iChar].iRes, true);
+            this.controller.setResidueSelect(charEntry.iRes, true);
             this.controller.setTargetViewByIAtom(this.getCurrIAtom());
             this.updateWithoutCheckingCurrent();
           }
@@ -83901,14 +81154,14 @@ var SequenceWidget = function (_CanvasWidget) {
 var ClippingPlaneWidget = function (_CanvasWidget2) {
   _inherits(ClippingPlaneWidget, _CanvasWidget2);
 
-  function ClippingPlaneWidget(display, selector) {
+  function ClippingPlaneWidget(soupWidget, selector) {
     _classCallCheck(this, ClippingPlaneWidget);
 
     var _this7 = _possibleConstructorReturn(this, (ClippingPlaneWidget.__proto__ || Object.getPrototypeOf(ClippingPlaneWidget)).call(this, selector));
 
-    _this7.soupView = display.soupView;
-    _this7.controller = display.controller;
-    display.addObserver(_this7);
+    _this7.soupView = soupWidget.soupView;
+    _this7.controller = soupWidget.controller;
+    soupWidget.addObserver(_this7);
     _this7.maxZLength = 0.0;
     _this7.div.css('box-sizing', 'border-box');
     _this7.zFrontColor = 'rgb(150, 90, 90)';
@@ -84045,13 +81298,13 @@ var ClippingPlaneWidget = function (_CanvasWidget2) {
 }(CanvasWidget);
 
 var GridToggleButtonWidget = function () {
-  function GridToggleButtonWidget(display, selector, elem, x, y, color) {
+  function GridToggleButtonWidget(soupWidget, selector, elem, x, y, color) {
     var _this8 = this;
 
     _classCallCheck(this, GridToggleButtonWidget);
 
-    this.soupView = display.soupView;
-    this.controller = display.controller;
+    this.soupView = soupWidget.soupView;
+    this.controller = soupWidget.controller;
     this.elem = elem;
     this.color = color;
     this.div = (0, _jquery2.default)(selector).text(elem).addClass('jolecule-button').css('position', 'absolute').css('top', y + 'px').css('left', x + 'px').css('height', '15px').css('width', '20px').on('click touch', function (e) {
@@ -84059,7 +81312,7 @@ var GridToggleButtonWidget = function () {
       _this8.toggle();
     });
     this.update();
-    display.addObserver(this);
+    soupWidget.addObserver(this);
   }
 
   _createClass(GridToggleButtonWidget, [{
@@ -84103,24 +81356,22 @@ var GridToggleButtonWidget = function () {
 var GridControlWidget = function (_CanvasWidget3) {
   _inherits(GridControlWidget, _CanvasWidget3);
 
-  function GridControlWidget(display) {
+  function GridControlWidget(soupWidget) {
     _classCallCheck(this, GridControlWidget);
 
-    var _this9 = _possibleConstructorReturn(this, (GridControlWidget.__proto__ || Object.getPrototypeOf(GridControlWidget)).call(this, display.divTag));
+    var _this9 = _possibleConstructorReturn(this, (GridControlWidget.__proto__ || Object.getPrototypeOf(GridControlWidget)).call(this, soupWidget.divTag));
 
-    _this9.display = display;
-    _this9.soupView = display.soupView;
-    _this9.controller = display.controller;
-    display.addObserver(_this9);
+    _this9.soupWidget = soupWidget;
+    _this9.soupView = soupWidget.soupView;
+    _this9.controller = soupWidget.controller;
+    soupWidget.addObserver(_this9);
 
     _this9.backgroundColor = '#999';
     _this9.buttonHeight = 40;
     _this9.sliderHeight = _this9.buttonHeight * 6 - 30;
-    _this9.isGrid = display.isGrid;
+    _this9.isGrid = soupWidget.isGrid;
 
-    if (!_this9.isGrid) {
-      _this9.div.css('display', 'none');
-    }
+    _this9.div.css('display', 'none');
     _this9.div.attr('id', 'grid-control');
     _this9.div.css('height', _this9.height());
     _this9.div.addClass('jolecule-button');
@@ -84179,7 +81430,7 @@ var GridControlWidget = function (_CanvasWidget3) {
       var id = 'grid-button-' + elem.toLowerCase();
       var selector = '#' + id;
       this.buttonsDiv.append((0, _jquery2.default)('<div id="' + id + '">'));
-      new GridToggleButtonWidget(this.display, selector, elem, 50, y, colorHexStr);
+      new GridToggleButtonWidget(this.soupWidget, selector, elem, 50, y, colorHexStr);
     }
   }, {
     key: 'resize',
@@ -84251,7 +81502,6 @@ var GridControlWidget = function (_CanvasWidget3) {
 
       var xm = 20;
 
-      var dark = 'rgb(100, 100, 100)';
       var yTop = this.zToY(this.soupView.soup.grid.bMin);
       var yBottom = this.zToY(this.soupView.soup.grid.bMax);
 
@@ -84321,27 +81571,30 @@ var GridControlWidget = function (_CanvasWidget3) {
 }(CanvasWidget);
 
 var ResidueSelectorWidget = function () {
-  function ResidueSelectorWidget(display, selector) {
+  function ResidueSelectorWidget(soupWidget, selector) {
     _classCallCheck(this, ResidueSelectorWidget);
 
-    this.scene = display.displayScene;
-    this.controller = display.controller;
-    this.soupView = display.soupView;
-    this.display = display;
-    this.display.addObserver(this);
+    this.scene = soupWidget.displayScene;
+    this.controller = soupWidget.controller;
+    this.soupView = soupWidget.soupView;
+    this.soupWidget = soupWidget;
+    this.soupWidget.addObserver(this);
 
     this.div = (0, _jquery2.default)(selector);
-    this.divTag = '#residue-select';
-    var $elem = (0, _jquery2.default)('<select id="residue-select">');
-    this.div.append($elem);
-    $elem.select2();
+    this.divId = this.div.attr('id');
+    this.selectDivTag = '#' + this.divId + '-residue-select';
+    this.$select = (0, _jquery2.default)('<select>').attr('id', this.divId + '-residue-select');
+    this.div.append(this.$select);
+    this.$select.select2();
   }
 
   _createClass(ResidueSelectorWidget, [{
     key: 'change',
     value: function change() {
-      var iRes = parseInt(this.$elem.select2('val'));
+      var iRes = parseInt(this.$select.select2('val'));
       var residue = this.soupView.soup.getResidueProxy(iRes);
+      this.controller.clearSelectedResidues();
+      this.controller.setResidueSelect(iRes, true);
       this.controller.setTargetViewByIAtom(residue.iAtom);
     }
   }, {
@@ -84349,9 +81602,8 @@ var ResidueSelectorWidget = function () {
     value: function rebuild() {
       var _this10 = this;
 
-      // clear selector
-      this.$elem = (0, _jquery2.default)(this.divTag);
-      this.$elem.empty();
+      console.log('ResidueSelectorWidget rebuild start...');
+      this.$select.empty();
 
       // rebuild selector
       this.soup = this.soupView.soup;
@@ -84365,11 +81617,11 @@ var ResidueSelectorWidget = function () {
           var iRes = _step6.value;
 
           residue.iRes = iRes;
-          if (_lodash2.default.includes(['HOH', 'XXX'], residue.resType)) {
+          if (residue.resType === "XXX") {
             continue;
           }
           var text = residue.resId + '-' + residue.resType;
-          this.$elem.append(new Option(text, '' + iRes));
+          this.$select.append(new Option(text, '' + iRes));
         }
 
         // observerReset using select2
@@ -84388,18 +81640,21 @@ var ResidueSelectorWidget = function () {
         }
       }
 
-      this.$elem.select2({ width: '150px' });
-      this.$elem.on('select2:select', function () {
+      this.$select.select2({ width: '150px' });
+      this.$select.on('select2:select', function () {
         _this10.change();
       });
+      console.log('ResidueSelectorWidget rebuild done');
     }
   }, {
     key: 'update',
     value: function update() {
-      if (this.$elem) {
+      if (this.$select) {
         var iAtom = this.soupView.currentView.iAtom;
         var iRes = this.soupView.soup.getAtomProxy(iAtom).iRes;
-        this.$elem.val('' + iRes).trigger('change');
+        console.log('ResidueSelectorWidget update start...');
+        this.$select.val('' + iRes).trigger('change');
+        console.log('ResidueSelectorWidget update done');
       }
     }
   }]);
@@ -84407,97 +81662,130 @@ var ResidueSelectorWidget = function () {
   return ResidueSelectorWidget;
 }();
 
-var ToggleButtonWidget = function () {
-  function ToggleButtonWidget(display, selector, option) {
+var ToggleWidget = function () {
+  function ToggleWidget(soupWidget, selector) {
     var _this11 = this;
 
-    _classCallCheck(this, ToggleButtonWidget);
+    _classCallCheck(this, ToggleWidget);
 
-    this.controller = display.controller;
-    this.display = display;
-    if (option) {
-      this.option = option;
-    }
-    this.div = (0, _jquery2.default)(selector).attr('href', '').html(_lodash2.default.capitalize(option)).addClass('jolecule-button').on('click touch', function (e) {
+    this.soupWidget = soupWidget;
+    this.controller = soupWidget.controller;
+    this.div = (0, _jquery2.default)(selector).html(this.html()).addClass('jolecule-button').on('click touch', function (e) {
+      _this11.set(!_this11.get());
+      _this11.update();
       e.preventDefault();
-      _this11.callback();
     });
-    this.display.addObserver(this);
+    this.soupWidget.addObserver(this);
   }
 
-  _createClass(ToggleButtonWidget, [{
-    key: 'callback',
-    value: function callback() {
-      var newOptionVal = !this.controller.getShowOption(this.option);
-      this.controller.setShowOption(this.option, newOptionVal);
-      if (this.option === 'sidechains' && newOptionVal === false) {
+  _createClass(ToggleWidget, [{
+    key: 'html',
+    value: function html() {}
+  }, {
+    key: 'get',
+    value: function get() {}
+  }, {
+    key: 'set',
+    value: function set(val) {}
+  }, {
+    key: 'update',
+    value: function update() {
+      if (this.get()) {
+        if (!this.div.hasClass('jolecule-button-toggle-on')) {
+          this.div.addClass('jolecule-button-toggle-on');
+        }
+      } else {
+        if (this.div.hasClass('jolecule-button-toggle-on')) {
+          this.div.removeClass('jolecule-button-toggle-on');
+        }
+      }
+    }
+  }]);
+
+  return ToggleWidget;
+}();
+
+var ToggleOptionWidget = function (_ToggleWidget) {
+  _inherits(ToggleOptionWidget, _ToggleWidget);
+
+  function ToggleOptionWidget(soupWidget, selector, option) {
+    _classCallCheck(this, ToggleOptionWidget);
+
+    var _this12 = _possibleConstructorReturn(this, (ToggleOptionWidget.__proto__ || Object.getPrototypeOf(ToggleOptionWidget)).call(this, soupWidget, selector));
+
+    _this12.option = option;
+    _this12.div.html(_this12.html());
+    return _this12;
+  }
+
+  _createClass(ToggleOptionWidget, [{
+    key: 'html',
+    value: function html() {
+      return _lodash2.default.capitalize(this.option);
+    }
+  }, {
+    key: 'get',
+    value: function get() {
+      return this.controller.getShowOption(this.option);
+    }
+  }, {
+    key: 'set',
+    value: function set(val) {
+      this.controller.setShowOption(this.option, val);
+      if (this.option === 'sidechains' && val === false) {
         this.controller.clearSidechainResidues();
       }
-      this.update();
-    }
-  }, {
-    key: 'update',
-    value: function update() {
-      if (this.controller.getShowOption(this.option)) {
-        if (!this.div.hasClass('jolecule-button-toggle-on')) {
-          this.div.addClass('jolecule-button-toggle-on');
-        }
-      } else {
-        if (this.div.hasClass('jolecule-button-toggle-on')) {
-          this.div.removeClass('jolecule-button-toggle-on');
-        }
-      }
     }
   }]);
 
-  return ToggleButtonWidget;
-}();
+  return ToggleOptionWidget;
+}(ToggleWidget);
 
-var TogglePlayButtonWidget = function () {
-  function TogglePlayButtonWidget(display, selector) {
-    var _this12 = this;
+var ToggleAnimateWidget = function (_ToggleWidget2) {
+  _inherits(ToggleAnimateWidget, _ToggleWidget2);
 
-    _classCallCheck(this, TogglePlayButtonWidget);
+  function ToggleAnimateWidget(soupWidget, selector, state, text) {
+    _classCallCheck(this, ToggleAnimateWidget);
 
-    this.controller = display.controller;
-    this.display = display;
-    this.div = (0, _jquery2.default)(selector).attr('href', '').html('Play').addClass('jolecule-button').on('click touch', function (e) {
-      _this12.callback(e);
-    });
-    this.display.addObserver(this);
+    var _this13 = _possibleConstructorReturn(this, (ToggleAnimateWidget.__proto__ || Object.getPrototypeOf(ToggleAnimateWidget)).call(this, soupWidget, selector));
+
+    _this13.state = state;
+    _this13.text = text;
+    _this13.div.html(_this13.html());
+    return _this13;
   }
 
-  _createClass(TogglePlayButtonWidget, [{
-    key: 'callback',
-    value: function callback(e) {
-      e.preventDefault();
-      this.controller.setLoop(!this.controller.getLoop());
+  _createClass(ToggleAnimateWidget, [{
+    key: 'html',
+    value: function html() {
+      return this.text;
     }
   }, {
-    key: 'update',
-    value: function update() {
-      if (this.controller.getLoop()) {
-        if (!this.div.hasClass('jolecule-button-toggle-on')) {
-          this.div.addClass('jolecule-button-toggle-on');
-        }
+    key: 'get',
+    value: function get() {
+      return this.controller.getAnimateState() === this.state;
+    }
+  }, {
+    key: 'set',
+    value: function set(val) {
+      if (val) {
+        this.controller.setAnimateState(this.state);
       } else {
-        if (this.div.hasClass('jolecule-button-toggle-on')) {
-          this.div.removeClass('jolecule-button-toggle-on');
-        }
+        this.controller.setAnimateState('none');
       }
     }
   }]);
 
-  return TogglePlayButtonWidget;
-}();
+  return ToggleAnimateWidget;
+}(ToggleWidget);
 
 var ViewTextWidget = function () {
-  function ViewTextWidget(display, selector) {
+  function ViewTextWidget(soupWidget, selector) {
     _classCallCheck(this, ViewTextWidget);
 
-    this.soupView = display.soupView;
+    this.soupView = soupWidget.soupView;
     this.div = (0, _jquery2.default)(selector);
-    display.addObserver(this);
+    soupWidget.addObserver(this);
     this.update();
   }
 
@@ -84527,31 +81815,31 @@ exports.default = {
   ClippingPlaneWidget: ClippingPlaneWidget,
   GridControlWidget: GridControlWidget,
   ResidueSelectorWidget: ResidueSelectorWidget,
-  ToggleButtonWidget: ToggleButtonWidget,
-  TogglePlayButtonWidget: TogglePlayButtonWidget,
+  ToggleOptionWidget: ToggleOptionWidget,
+  ToggleAnimateWidget: ToggleAnimateWidget,
   ViewTextWidget: ViewTextWidget
 };
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(136);
+module.exports = __webpack_require__(338);
+
 
 /***/ }),
 /* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(137);
-module.exports = __webpack_require__(339);
-
-
-/***/ }),
-/* 137 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-__webpack_require__(138);
+__webpack_require__(137);
+
+__webpack_require__(334);
 
 __webpack_require__(335);
-
-__webpack_require__(336);
 
 if (global._babelPolyfill) {
   throw new Error("only one instance of babel-polyfill is allowed");
@@ -84573,13 +81861,14 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(68)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67)))
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(139);
+__webpack_require__(138);
+__webpack_require__(140);
 __webpack_require__(141);
 __webpack_require__(142);
 __webpack_require__(143);
@@ -84594,7 +81883,7 @@ __webpack_require__(151);
 __webpack_require__(152);
 __webpack_require__(153);
 __webpack_require__(154);
-__webpack_require__(155);
+__webpack_require__(156);
 __webpack_require__(157);
 __webpack_require__(158);
 __webpack_require__(159);
@@ -84655,16 +81944,16 @@ __webpack_require__(213);
 __webpack_require__(214);
 __webpack_require__(215);
 __webpack_require__(216);
-__webpack_require__(217);
+__webpack_require__(218);
 __webpack_require__(219);
-__webpack_require__(220);
+__webpack_require__(221);
 __webpack_require__(222);
 __webpack_require__(223);
 __webpack_require__(224);
 __webpack_require__(225);
 __webpack_require__(226);
 __webpack_require__(227);
-__webpack_require__(228);
+__webpack_require__(229);
 __webpack_require__(230);
 __webpack_require__(231);
 __webpack_require__(232);
@@ -84677,19 +81966,19 @@ __webpack_require__(238);
 __webpack_require__(239);
 __webpack_require__(240);
 __webpack_require__(241);
+__webpack_require__(89);
 __webpack_require__(242);
-__webpack_require__(90);
 __webpack_require__(243);
+__webpack_require__(116);
 __webpack_require__(244);
-__webpack_require__(115);
 __webpack_require__(245);
 __webpack_require__(246);
 __webpack_require__(247);
 __webpack_require__(248);
-__webpack_require__(249);
-__webpack_require__(118);
-__webpack_require__(120);
+__webpack_require__(119);
 __webpack_require__(121);
+__webpack_require__(122);
+__webpack_require__(249);
 __webpack_require__(250);
 __webpack_require__(251);
 __webpack_require__(252);
@@ -84774,12 +82063,11 @@ __webpack_require__(330);
 __webpack_require__(331);
 __webpack_require__(332);
 __webpack_require__(333);
-__webpack_require__(334);
 module.exports = __webpack_require__(21);
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84793,12 +82081,12 @@ var redefine = __webpack_require__(13);
 var META = __webpack_require__(30).KEY;
 var $fails = __webpack_require__(3);
 var shared = __webpack_require__(53);
-var setToStringTag = __webpack_require__(44);
+var setToStringTag = __webpack_require__(45);
 var uid = __webpack_require__(34);
 var wks = __webpack_require__(5);
-var wksExt = __webpack_require__(98);
-var wksDefine = __webpack_require__(70);
-var enumKeys = __webpack_require__(140);
+var wksExt = __webpack_require__(99);
+var wksDefine = __webpack_require__(69);
+var enumKeys = __webpack_require__(139);
 var isArray = __webpack_require__(56);
 var anObject = __webpack_require__(1);
 var isObject = __webpack_require__(4);
@@ -84806,7 +82094,7 @@ var toIObject = __webpack_require__(15);
 var toPrimitive = __webpack_require__(22);
 var createDesc = __webpack_require__(33);
 var _create = __webpack_require__(38);
-var gOPNExt = __webpack_require__(101);
+var gOPNExt = __webpack_require__(102);
 var $GOPD = __webpack_require__(16);
 var $DP = __webpack_require__(7);
 var $keys = __webpack_require__(36);
@@ -85020,7 +82308,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -85041,7 +82329,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -85050,7 +82338,7 @@ $export($export.S, 'Object', { create: __webpack_require__(38) });
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -85059,16 +82347,16 @@ $export($export.S + $export.F * !__webpack_require__(6), 'Object', { definePrope
 
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
 // 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
-$export($export.S + $export.F * !__webpack_require__(6), 'Object', { defineProperties: __webpack_require__(100) });
+$export($export.S + $export.F * !__webpack_require__(6), 'Object', { defineProperties: __webpack_require__(101) });
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -85083,7 +82371,7 @@ __webpack_require__(25)('getOwnPropertyDescriptor', function () {
 
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -85098,7 +82386,7 @@ __webpack_require__(25)('getPrototypeOf', function () {
 
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
@@ -85113,17 +82401,17 @@ __webpack_require__(25)('keys', function () {
 
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
 __webpack_require__(25)('getOwnPropertyNames', function () {
-  return __webpack_require__(101).f;
+  return __webpack_require__(102).f;
 });
 
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.5 Object.freeze(O)
@@ -85138,7 +82426,7 @@ __webpack_require__(25)('freeze', function ($freeze) {
 
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.17 Object.seal(O)
@@ -85153,7 +82441,7 @@ __webpack_require__(25)('seal', function ($seal) {
 
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.15 Object.preventExtensions(O)
@@ -85168,7 +82456,7 @@ __webpack_require__(25)('preventExtensions', function ($preventExtensions) {
 
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.12 Object.isFrozen(O)
@@ -85182,7 +82470,7 @@ __webpack_require__(25)('isFrozen', function ($isFrozen) {
 
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.13 Object.isSealed(O)
@@ -85196,7 +82484,7 @@ __webpack_require__(25)('isSealed', function ($isSealed) {
 
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.11 Object.isExtensible(O)
@@ -85210,26 +82498,26 @@ __webpack_require__(25)('isExtensible', function ($isExtensible) {
 
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(0);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(102) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(103) });
 
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.10 Object.is(value1, value2)
 var $export = __webpack_require__(0);
-$export($export.S, 'Object', { is: __webpack_require__(156) });
+$export($export.S, 'Object', { is: __webpack_require__(155) });
 
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports) {
 
 // 7.2.9 SameValue(x, y)
@@ -85240,16 +82528,16 @@ module.exports = Object.is || function is(x, y) {
 
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = __webpack_require__(0);
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(74).set });
+$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(73).set });
 
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85266,17 +82554,17 @@ if (test + '' != '[object z]') {
 
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
 var $export = __webpack_require__(0);
 
-$export($export.P, 'Function', { bind: __webpack_require__(103) });
+$export($export.P, 'Function', { bind: __webpack_require__(104) });
 
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(7).f;
@@ -85298,7 +82586,7 @@ NAME in FProto || __webpack_require__(6) && dP(FProto, NAME, {
 
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85318,27 +82606,27 @@ if (!(HAS_INSTANCE in FunctionProto)) __webpack_require__(7).f(FunctionProto, HA
 
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
-var $parseInt = __webpack_require__(105);
+var $parseInt = __webpack_require__(106);
 // 18.2.5 parseInt(string, radix)
 $export($export.G + $export.F * (parseInt != $parseInt), { parseInt: $parseInt });
 
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
-var $parseFloat = __webpack_require__(106);
+var $parseFloat = __webpack_require__(107);
 // 18.2.4 parseFloat(string)
 $export($export.G + $export.F * (parseFloat != $parseFloat), { parseFloat: $parseFloat });
 
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85346,13 +82634,13 @@ $export($export.G + $export.F * (parseFloat != $parseFloat), { parseFloat: $pars
 var global = __webpack_require__(2);
 var has = __webpack_require__(11);
 var cof = __webpack_require__(19);
-var inheritIfRequired = __webpack_require__(76);
+var inheritIfRequired = __webpack_require__(75);
 var toPrimitive = __webpack_require__(22);
 var fails = __webpack_require__(3);
 var gOPN = __webpack_require__(39).f;
 var gOPD = __webpack_require__(16).f;
 var dP = __webpack_require__(7).f;
-var $trim = __webpack_require__(45).trim;
+var $trim = __webpack_require__(46).trim;
 var NUMBER = 'Number';
 var $Number = global[NUMBER];
 var Base = $Number;
@@ -85414,15 +82702,15 @@ if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
 
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
 var toInteger = __webpack_require__(24);
-var aNumberValue = __webpack_require__(107);
-var repeat = __webpack_require__(77);
+var aNumberValue = __webpack_require__(108);
+var repeat = __webpack_require__(76);
 var $toFixed = 1.0.toFixed;
 var floor = Math.floor;
 var data = [0, 0, 0, 0, 0, 0];
@@ -85535,14 +82823,14 @@ $export($export.P + $export.F * (!!$toFixed && (
 
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
 var $fails = __webpack_require__(3);
-var aNumberValue = __webpack_require__(107);
+var aNumberValue = __webpack_require__(108);
 var $toPrecision = 1.0.toPrecision;
 
 $export($export.P + $export.F * ($fails(function () {
@@ -85560,7 +82848,7 @@ $export($export.P + $export.F * ($fails(function () {
 
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.1 Number.EPSILON
@@ -85570,7 +82858,7 @@ $export($export.S, 'Number', { EPSILON: Math.pow(2, -52) });
 
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.2 Number.isFinite(number)
@@ -85585,17 +82873,17 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.3 Number.isInteger(number)
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Number', { isInteger: __webpack_require__(108) });
+$export($export.S, 'Number', { isInteger: __webpack_require__(109) });
 
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.4 Number.isNaN(number)
@@ -85610,12 +82898,12 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.5 Number.isSafeInteger(number)
 var $export = __webpack_require__(0);
-var isInteger = __webpack_require__(108);
+var isInteger = __webpack_require__(109);
 var abs = Math.abs;
 
 $export($export.S, 'Number', {
@@ -85626,7 +82914,7 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.6 Number.MAX_SAFE_INTEGER
@@ -85636,7 +82924,7 @@ $export($export.S, 'Number', { MAX_SAFE_INTEGER: 0x1fffffffffffff });
 
 
 /***/ }),
-/* 173 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.10 Number.MIN_SAFE_INTEGER
@@ -85646,32 +82934,32 @@ $export($export.S, 'Number', { MIN_SAFE_INTEGER: -0x1fffffffffffff });
 
 
 /***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(0);
+var $parseFloat = __webpack_require__(107);
+// 20.1.2.12 Number.parseFloat(string)
+$export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', { parseFloat: $parseFloat });
+
+
+/***/ }),
 /* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
-var $parseFloat = __webpack_require__(106);
-// 20.1.2.12 Number.parseFloat(string)
-$export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', { parseFloat: $parseFloat });
+var $parseInt = __webpack_require__(106);
+// 20.1.2.13 Number.parseInt(string, radix)
+$export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', { parseInt: $parseInt });
 
 
 /***/ }),
 /* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(0);
-var $parseInt = __webpack_require__(105);
-// 20.1.2.13 Number.parseInt(string, radix)
-$export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', { parseInt: $parseInt });
-
-
-/***/ }),
-/* 176 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // 20.2.2.3 Math.acosh(x)
 var $export = __webpack_require__(0);
-var log1p = __webpack_require__(109);
+var log1p = __webpack_require__(110);
 var sqrt = Math.sqrt;
 var $acosh = Math.acosh;
 
@@ -85690,7 +82978,7 @@ $export($export.S + $export.F * !($acosh
 
 
 /***/ }),
-/* 177 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.5 Math.asinh(x)
@@ -85706,7 +82994,7 @@ $export($export.S + $export.F * !($asinh && 1 / $asinh(0) > 0), 'Math', { asinh:
 
 
 /***/ }),
-/* 178 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.7 Math.atanh(x)
@@ -85722,12 +83010,12 @@ $export($export.S + $export.F * !($atanh && 1 / $atanh(-0) < 0), 'Math', {
 
 
 /***/ }),
-/* 179 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.9 Math.cbrt(x)
 var $export = __webpack_require__(0);
-var sign = __webpack_require__(78);
+var sign = __webpack_require__(77);
 
 $export($export.S, 'Math', {
   cbrt: function cbrt(x) {
@@ -85737,7 +83025,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 180 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.11 Math.clz32(x)
@@ -85751,7 +83039,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 181 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.12 Math.cosh(x)
@@ -85766,28 +83054,28 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 182 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.14 Math.expm1(x)
 var $export = __webpack_require__(0);
-var $expm1 = __webpack_require__(79);
+var $expm1 = __webpack_require__(78);
 
 $export($export.S + $export.F * ($expm1 != Math.expm1), 'Math', { expm1: $expm1 });
 
 
 /***/ }),
-/* 183 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.16 Math.fround(x)
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Math', { fround: __webpack_require__(110) });
+$export($export.S, 'Math', { fround: __webpack_require__(111) });
 
 
 /***/ }),
-/* 184 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.17 Math.hypot([value1[, value2[, … ]]])
@@ -85818,7 +83106,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 185 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.18 Math.imul(x, y)
@@ -85841,7 +83129,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 186 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.21 Math.log10(x)
@@ -85855,17 +83143,17 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 187 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.20 Math.log1p(x)
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Math', { log1p: __webpack_require__(109) });
+$export($export.S, 'Math', { log1p: __webpack_require__(110) });
 
 
 /***/ }),
-/* 188 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.22 Math.log2(x)
@@ -85879,22 +83167,22 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 189 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.28 Math.sign(x)
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Math', { sign: __webpack_require__(78) });
+$export($export.S, 'Math', { sign: __webpack_require__(77) });
 
 
 /***/ }),
-/* 190 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.30 Math.sinh(x)
 var $export = __webpack_require__(0);
-var expm1 = __webpack_require__(79);
+var expm1 = __webpack_require__(78);
 var exp = Math.exp;
 
 // V8 near Chromium 38 has a problem with very small numbers
@@ -85910,12 +83198,12 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 191 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.33 Math.tanh(x)
 var $export = __webpack_require__(0);
-var expm1 = __webpack_require__(79);
+var expm1 = __webpack_require__(78);
 var exp = Math.exp;
 
 $export($export.S, 'Math', {
@@ -85928,7 +83216,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 192 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.34 Math.trunc(x)
@@ -85942,7 +83230,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -85971,7 +83259,7 @@ $export($export.S + $export.F * (!!$fromCodePoint && $fromCodePoint.length != 1)
 
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -85995,13 +83283,13 @@ $export($export.S, 'String', {
 
 
 /***/ }),
-/* 195 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // 21.1.3.25 String.prototype.trim()
-__webpack_require__(45)('trim', function ($trim) {
+__webpack_require__(46)('trim', function ($trim) {
   return function trim() {
     return $trim(this, 3);
   };
@@ -86009,15 +83297,15 @@ __webpack_require__(45)('trim', function ($trim) {
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__(80)(true);
+var $at = __webpack_require__(79)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(81)(String, 'String', function (iterated) {
+__webpack_require__(80)(String, 'String', function (iterated) {
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -86033,13 +83321,13 @@ __webpack_require__(81)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
-var $at = __webpack_require__(80)(false);
+var $at = __webpack_require__(79)(false);
 $export($export.P, 'String', {
   // 21.1.3.3 String.prototype.codePointAt(pos)
   codePointAt: function codePointAt(pos) {
@@ -86049,7 +83337,7 @@ $export($export.P, 'String', {
 
 
 /***/ }),
-/* 198 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86057,11 +83345,11 @@ $export($export.P, 'String', {
 
 var $export = __webpack_require__(0);
 var toLength = __webpack_require__(8);
-var context = __webpack_require__(83);
+var context = __webpack_require__(82);
 var ENDS_WITH = 'endsWith';
 var $endsWith = ''[ENDS_WITH];
 
-$export($export.P + $export.F * __webpack_require__(84)(ENDS_WITH), 'String', {
+$export($export.P + $export.F * __webpack_require__(83)(ENDS_WITH), 'String', {
   endsWith: function endsWith(searchString /* , endPosition = @length */) {
     var that = context(this, searchString, ENDS_WITH);
     var endPosition = arguments.length > 1 ? arguments[1] : undefined;
@@ -86076,17 +83364,17 @@ $export($export.P + $export.F * __webpack_require__(84)(ENDS_WITH), 'String', {
 
 
 /***/ }),
-/* 199 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 // 21.1.3.7 String.prototype.includes(searchString, position = 0)
 
 var $export = __webpack_require__(0);
-var context = __webpack_require__(83);
+var context = __webpack_require__(82);
 var INCLUDES = 'includes';
 
-$export($export.P + $export.F * __webpack_require__(84)(INCLUDES), 'String', {
+$export($export.P + $export.F * __webpack_require__(83)(INCLUDES), 'String', {
   includes: function includes(searchString /* , position = 0 */) {
     return !!~context(this, searchString, INCLUDES)
       .indexOf(searchString, arguments.length > 1 ? arguments[1] : undefined);
@@ -86095,19 +83383,19 @@ $export($export.P + $export.F * __webpack_require__(84)(INCLUDES), 'String', {
 
 
 /***/ }),
-/* 200 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
 
 $export($export.P, 'String', {
   // 21.1.3.13 String.prototype.repeat(count)
-  repeat: __webpack_require__(77)
+  repeat: __webpack_require__(76)
 });
 
 
 /***/ }),
-/* 201 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86115,11 +83403,11 @@ $export($export.P, 'String', {
 
 var $export = __webpack_require__(0);
 var toLength = __webpack_require__(8);
-var context = __webpack_require__(83);
+var context = __webpack_require__(82);
 var STARTS_WITH = 'startsWith';
 var $startsWith = ''[STARTS_WITH];
 
-$export($export.P + $export.F * __webpack_require__(84)(STARTS_WITH), 'String', {
+$export($export.P + $export.F * __webpack_require__(83)(STARTS_WITH), 'String', {
   startsWith: function startsWith(searchString /* , position = 0 */) {
     var that = context(this, searchString, STARTS_WITH);
     var index = toLength(Math.min(arguments.length > 1 ? arguments[1] : undefined, that.length));
@@ -86132,7 +83420,7 @@ $export($export.P + $export.F * __webpack_require__(84)(STARTS_WITH), 'String', 
 
 
 /***/ }),
-/* 202 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86146,7 +83434,7 @@ __webpack_require__(14)('anchor', function (createHTML) {
 
 
 /***/ }),
-/* 203 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86160,7 +83448,7 @@ __webpack_require__(14)('big', function (createHTML) {
 
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86174,7 +83462,7 @@ __webpack_require__(14)('blink', function (createHTML) {
 
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86188,7 +83476,7 @@ __webpack_require__(14)('bold', function (createHTML) {
 
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86202,7 +83490,7 @@ __webpack_require__(14)('fixed', function (createHTML) {
 
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86216,7 +83504,7 @@ __webpack_require__(14)('fontcolor', function (createHTML) {
 
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86230,7 +83518,7 @@ __webpack_require__(14)('fontsize', function (createHTML) {
 
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86244,7 +83532,7 @@ __webpack_require__(14)('italics', function (createHTML) {
 
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86258,7 +83546,7 @@ __webpack_require__(14)('link', function (createHTML) {
 
 
 /***/ }),
-/* 211 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86272,7 +83560,7 @@ __webpack_require__(14)('small', function (createHTML) {
 
 
 /***/ }),
-/* 212 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86286,7 +83574,7 @@ __webpack_require__(14)('strike', function (createHTML) {
 
 
 /***/ }),
-/* 213 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86300,7 +83588,7 @@ __webpack_require__(14)('sub', function (createHTML) {
 
 
 /***/ }),
-/* 214 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86314,7 +83602,7 @@ __webpack_require__(14)('sup', function (createHTML) {
 
 
 /***/ }),
-/* 215 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.3.3.1 / 15.9.4.4 Date.now()
@@ -86324,7 +83612,7 @@ $export($export.S, 'Date', { now: function () { return new Date().getTime(); } }
 
 
 /***/ }),
-/* 216 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86347,12 +83635,12 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 217 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
 var $export = __webpack_require__(0);
-var toISOString = __webpack_require__(218);
+var toISOString = __webpack_require__(217);
 
 // PhantomJS / old WebKit has a broken implementations
 $export($export.P + $export.F * (Date.prototype.toISOString !== toISOString), 'Date', {
@@ -86361,7 +83649,7 @@ $export($export.P + $export.F * (Date.prototype.toISOString !== toISOString), 'D
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86394,7 +83682,7 @@ module.exports = (fails(function () {
 
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DateProto = Date.prototype;
@@ -86412,17 +83700,17 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 
 
 /***/ }),
-/* 220 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var TO_PRIMITIVE = __webpack_require__(5)('toPrimitive');
 var proto = Date.prototype;
 
-if (!(TO_PRIMITIVE in proto)) __webpack_require__(12)(proto, TO_PRIMITIVE, __webpack_require__(221));
+if (!(TO_PRIMITIVE in proto)) __webpack_require__(12)(proto, TO_PRIMITIVE, __webpack_require__(220));
 
 
 /***/ }),
-/* 221 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86438,7 +83726,7 @@ module.exports = function (hint) {
 
 
 /***/ }),
-/* 222 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
@@ -86448,7 +83736,7 @@ $export($export.S, 'Array', { isArray: __webpack_require__(56) });
 
 
 /***/ }),
-/* 223 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86456,11 +83744,11 @@ $export($export.S, 'Array', { isArray: __webpack_require__(56) });
 var ctx = __webpack_require__(18);
 var $export = __webpack_require__(0);
 var toObject = __webpack_require__(9);
-var call = __webpack_require__(111);
-var isArrayIter = __webpack_require__(85);
+var call = __webpack_require__(112);
+var isArrayIter = __webpack_require__(84);
 var toLength = __webpack_require__(8);
-var createProperty = __webpack_require__(86);
-var getIterFn = __webpack_require__(87);
+var createProperty = __webpack_require__(85);
+var getIterFn = __webpack_require__(86);
 
 $export($export.S + $export.F * !__webpack_require__(58)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
@@ -86492,13 +83780,13 @@ $export($export.S + $export.F * !__webpack_require__(58)(function (iter) { Array
 
 
 /***/ }),
-/* 224 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
-var createProperty = __webpack_require__(86);
+var createProperty = __webpack_require__(85);
 
 // WebKit Array.of isn't generic
 $export($export.S + $export.F * __webpack_require__(3)(function () {
@@ -86518,7 +83806,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 225 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86537,13 +83825,13 @@ $export($export.P + $export.F * (__webpack_require__(50) != Object || !__webpack
 
 
 /***/ }),
-/* 226 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
-var html = __webpack_require__(73);
+var html = __webpack_require__(72);
 var cof = __webpack_require__(19);
 var toAbsoluteIndex = __webpack_require__(37);
 var toLength = __webpack_require__(8);
@@ -86572,7 +83860,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 227 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86602,7 +83890,7 @@ $export($export.P + $export.F * (fails(function () {
 
 
 /***/ }),
-/* 228 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86620,7 +83908,7 @@ $export($export.P + $export.F * !STRICT, 'Array', {
 
 
 /***/ }),
-/* 229 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(4);
@@ -86642,7 +83930,7 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 230 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86659,7 +83947,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].map, true), 'Array',
 
 
 /***/ }),
-/* 231 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86676,7 +83964,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].filter, true), 'Arra
 
 
 /***/ }),
-/* 232 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86693,7 +83981,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].some, true), 'Array'
 
 
 /***/ }),
-/* 233 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86710,13 +83998,13 @@ $export($export.P + $export.F * !__webpack_require__(20)([].every, true), 'Array
 
 
 /***/ }),
-/* 234 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
-var $reduce = __webpack_require__(112);
+var $reduce = __webpack_require__(113);
 
 $export($export.P + $export.F * !__webpack_require__(20)([].reduce, true), 'Array', {
   // 22.1.3.18 / 15.4.4.21 Array.prototype.reduce(callbackfn [, initialValue])
@@ -86727,13 +84015,13 @@ $export($export.P + $export.F * !__webpack_require__(20)([].reduce, true), 'Arra
 
 
 /***/ }),
-/* 235 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
-var $reduce = __webpack_require__(112);
+var $reduce = __webpack_require__(113);
 
 $export($export.P + $export.F * !__webpack_require__(20)([].reduceRight, true), 'Array', {
   // 22.1.3.19 / 15.4.4.22 Array.prototype.reduceRight(callbackfn [, initialValue])
@@ -86744,7 +84032,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].reduceRight, true), 
 
 
 /***/ }),
-/* 236 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86766,7 +84054,7 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(20)($nati
 
 
 /***/ }),
-/* 237 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86795,31 +84083,31 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(20)($nati
 
 
 /***/ }),
-/* 238 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
 var $export = __webpack_require__(0);
 
-$export($export.P, 'Array', { copyWithin: __webpack_require__(113) });
+$export($export.P, 'Array', { copyWithin: __webpack_require__(114) });
 
 __webpack_require__(31)('copyWithin');
 
 
 /***/ }),
-/* 239 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.6 Array.prototype.fill(value, start = 0, end = this.length)
 var $export = __webpack_require__(0);
 
-$export($export.P, 'Array', { fill: __webpack_require__(89) });
+$export($export.P, 'Array', { fill: __webpack_require__(88) });
 
 __webpack_require__(31)('fill');
 
 
 /***/ }),
-/* 240 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86840,7 +84128,7 @@ __webpack_require__(31)(KEY);
 
 
 /***/ }),
-/* 241 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86861,18 +84149,18 @@ __webpack_require__(31)(KEY);
 
 
 /***/ }),
-/* 242 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(40)('Array');
 
 
 /***/ }),
-/* 243 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var inheritIfRequired = __webpack_require__(76);
+var inheritIfRequired = __webpack_require__(75);
 var dP = __webpack_require__(7).f;
 var gOPN = __webpack_require__(39).f;
 var isRegExp = __webpack_require__(57);
@@ -86917,12 +84205,12 @@ __webpack_require__(40)('RegExp');
 
 
 /***/ }),
-/* 244 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(115);
+__webpack_require__(116);
 var anObject = __webpack_require__(1);
 var $flags = __webpack_require__(59);
 var DESCRIPTORS = __webpack_require__(6);
@@ -86949,7 +84237,7 @@ if (__webpack_require__(3)(function () { return $toString.call({ source: 'a', fl
 
 
 /***/ }),
-/* 245 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@match logic
@@ -86965,7 +84253,7 @@ __webpack_require__(60)('match', 1, function (defined, MATCH, $match) {
 
 
 /***/ }),
-/* 246 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@replace logic
@@ -86983,7 +84271,7 @@ __webpack_require__(60)('replace', 2, function (defined, REPLACE, $replace) {
 
 
 /***/ }),
-/* 247 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@search logic
@@ -86999,7 +84287,7 @@ __webpack_require__(60)('search', 1, function (defined, SEARCH, $search) {
 
 
 /***/ }),
-/* 248 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@split logic
@@ -87076,7 +84364,7 @@ __webpack_require__(60)('split', 2, function (defined, SPLIT, $split) {
 
 
 /***/ }),
-/* 249 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87091,11 +84379,11 @@ var aFunction = __webpack_require__(10);
 var anInstance = __webpack_require__(41);
 var forOf = __webpack_require__(42);
 var speciesConstructor = __webpack_require__(61);
-var task = __webpack_require__(91).set;
-var microtask = __webpack_require__(92)();
-var newPromiseCapabilityModule = __webpack_require__(93);
-var perform = __webpack_require__(116);
-var promiseResolve = __webpack_require__(117);
+var task = __webpack_require__(90).set;
+var microtask = __webpack_require__(91)();
+var newPromiseCapabilityModule = __webpack_require__(92);
+var perform = __webpack_require__(117);
+var promiseResolve = __webpack_require__(118);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -87289,7 +84577,7 @@ if (!USE_NATIVE) {
 }
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
-__webpack_require__(44)($Promise, PROMISE);
+__webpack_require__(45)($Promise, PROMISE);
 __webpack_require__(40)(PROMISE);
 Wrapper = __webpack_require__(21)[PROMISE];
 
@@ -87356,13 +84644,13 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(58)(function
 
 
 /***/ }),
-/* 250 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var weak = __webpack_require__(122);
-var validate = __webpack_require__(47);
+var weak = __webpack_require__(123);
+var validate = __webpack_require__(48);
 var WEAK_SET = 'WeakSet';
 
 // 23.4 WeakSet Objects
@@ -87377,14 +84665,14 @@ __webpack_require__(62)(WEAK_SET, function (get) {
 
 
 /***/ }),
-/* 251 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $export = __webpack_require__(0);
 var $typed = __webpack_require__(63);
-var buffer = __webpack_require__(94);
+var buffer = __webpack_require__(93);
 var anObject = __webpack_require__(1);
 var toAbsoluteIndex = __webpack_require__(37);
 var toLength = __webpack_require__(8);
@@ -87430,12 +84718,23 @@ __webpack_require__(40)(ARRAY_BUFFER);
 
 
 /***/ }),
-/* 252 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
 $export($export.G + $export.W + $export.F * !__webpack_require__(63).ABV, {
-  DataView: __webpack_require__(94).DataView
+  DataView: __webpack_require__(93).DataView
+});
+
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(28)('Int8', 1, function (init) {
+  return function Int8Array(data, byteOffset, length) {
+    return init(this, data, byteOffset, length);
+  };
 });
 
 
@@ -87443,8 +84742,8 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(63).ABV, {
 /* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Int8', 1, function (init) {
-  return function Int8Array(data, byteOffset, length) {
+__webpack_require__(28)('Uint8', 1, function (init) {
+  return function Uint8Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
 });
@@ -87454,18 +84753,7 @@ __webpack_require__(27)('Int8', 1, function (init) {
 /* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Uint8', 1, function (init) {
-  return function Uint8Array(data, byteOffset, length) {
-    return init(this, data, byteOffset, length);
-  };
-});
-
-
-/***/ }),
-/* 255 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(27)('Uint8', 1, function (init) {
+__webpack_require__(28)('Uint8', 1, function (init) {
   return function Uint8ClampedArray(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -87473,11 +84761,22 @@ __webpack_require__(27)('Uint8', 1, function (init) {
 
 
 /***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(28)('Int16', 2, function (init) {
+  return function Int16Array(data, byteOffset, length) {
+    return init(this, data, byteOffset, length);
+  };
+});
+
+
+/***/ }),
 /* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Int16', 2, function (init) {
-  return function Int16Array(data, byteOffset, length) {
+__webpack_require__(28)('Uint16', 2, function (init) {
+  return function Uint16Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
 });
@@ -87487,8 +84786,8 @@ __webpack_require__(27)('Int16', 2, function (init) {
 /* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Uint16', 2, function (init) {
-  return function Uint16Array(data, byteOffset, length) {
+__webpack_require__(28)('Int32', 4, function (init) {
+  return function Int32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
 });
@@ -87498,8 +84797,8 @@ __webpack_require__(27)('Uint16', 2, function (init) {
 /* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Int32', 4, function (init) {
-  return function Int32Array(data, byteOffset, length) {
+__webpack_require__(28)('Uint32', 4, function (init) {
+  return function Uint32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
 });
@@ -87509,8 +84808,8 @@ __webpack_require__(27)('Int32', 4, function (init) {
 /* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Uint32', 4, function (init) {
-  return function Uint32Array(data, byteOffset, length) {
+__webpack_require__(28)('Float32', 4, function (init) {
+  return function Float32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
 });
@@ -87520,18 +84819,7 @@ __webpack_require__(27)('Uint32', 4, function (init) {
 /* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(27)('Float32', 4, function (init) {
-  return function Float32Array(data, byteOffset, length) {
-    return init(this, data, byteOffset, length);
-  };
-});
-
-
-/***/ }),
-/* 261 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(27)('Float64', 8, function (init) {
+__webpack_require__(28)('Float64', 8, function (init) {
   return function Float64Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -87539,7 +84827,7 @@ __webpack_require__(27)('Float64', 8, function (init) {
 
 
 /***/ }),
-/* 262 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.1 Reflect.apply(target, thisArgument, argumentsList)
@@ -87561,7 +84849,7 @@ $export($export.S + $export.F * !__webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 263 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.2 Reflect.construct(target, argumentsList [, newTarget])
@@ -87571,7 +84859,7 @@ var aFunction = __webpack_require__(10);
 var anObject = __webpack_require__(1);
 var isObject = __webpack_require__(4);
 var fails = __webpack_require__(3);
-var bind = __webpack_require__(103);
+var bind = __webpack_require__(104);
 var rConstruct = (__webpack_require__(2).Reflect || {}).construct;
 
 // MS Edge supports only 2 arguments and argumentsList argument is optional
@@ -87614,7 +84902,7 @@ $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
 
 
 /***/ }),
-/* 264 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.3 Reflect.defineProperty(target, propertyKey, attributes)
@@ -87643,7 +84931,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 
 
 /***/ }),
-/* 265 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.4 Reflect.deleteProperty(target, propertyKey)
@@ -87660,7 +84948,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87675,7 +84963,7 @@ var Enumerate = function (iterated) {
   var key;
   for (key in iterated) keys.push(key);
 };
-__webpack_require__(82)(Enumerate, 'Object', function () {
+__webpack_require__(81)(Enumerate, 'Object', function () {
   var that = this;
   var keys = that._k;
   var key;
@@ -87693,7 +84981,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.6 Reflect.get(target, propertyKey [, receiver])
@@ -87720,7 +85008,7 @@ $export($export.S, 'Reflect', { get: get });
 
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.7 Reflect.getOwnPropertyDescriptor(target, propertyKey)
@@ -87736,7 +85024,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.8 Reflect.getPrototypeOf(target)
@@ -87752,7 +85040,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 270 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.9 Reflect.has(target, propertyKey)
@@ -87766,7 +85054,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 271 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.10 Reflect.isExtensible(target)
@@ -87783,17 +85071,17 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 272 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.11 Reflect.ownKeys(target)
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Reflect', { ownKeys: __webpack_require__(124) });
+$export($export.S, 'Reflect', { ownKeys: __webpack_require__(125) });
 
 
 /***/ }),
-/* 273 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.12 Reflect.preventExtensions(target)
@@ -87815,7 +85103,7 @@ $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 274 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
@@ -87852,12 +85140,12 @@ $export($export.S, 'Reflect', { set: set });
 
 
 /***/ }),
-/* 275 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.14 Reflect.setPrototypeOf(target, proto)
 var $export = __webpack_require__(0);
-var setProto = __webpack_require__(74);
+var setProto = __webpack_require__(73);
 
 if (setProto) $export($export.S, 'Reflect', {
   setPrototypeOf: function setPrototypeOf(target, proto) {
@@ -87873,7 +85161,7 @@ if (setProto) $export($export.S, 'Reflect', {
 
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87892,18 +85180,18 @@ __webpack_require__(31)('includes');
 
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://tc39.github.io/proposal-flatMap/#sec-Array.prototype.flatMap
 var $export = __webpack_require__(0);
-var flattenIntoArray = __webpack_require__(125);
+var flattenIntoArray = __webpack_require__(126);
 var toObject = __webpack_require__(9);
 var toLength = __webpack_require__(8);
 var aFunction = __webpack_require__(10);
-var arraySpeciesCreate = __webpack_require__(88);
+var arraySpeciesCreate = __webpack_require__(87);
 
 $export($export.P, 'Array', {
   flatMap: function flatMap(callbackfn /* , thisArg */) {
@@ -87921,18 +85209,18 @@ __webpack_require__(31)('flatMap');
 
 
 /***/ }),
-/* 278 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://tc39.github.io/proposal-flatMap/#sec-Array.prototype.flatten
 var $export = __webpack_require__(0);
-var flattenIntoArray = __webpack_require__(125);
+var flattenIntoArray = __webpack_require__(126);
 var toObject = __webpack_require__(9);
 var toLength = __webpack_require__(8);
 var toInteger = __webpack_require__(24);
-var arraySpeciesCreate = __webpack_require__(88);
+var arraySpeciesCreate = __webpack_require__(87);
 
 $export($export.P, 'Array', {
   flatten: function flatten(/* depthArg = 1 */) {
@@ -87949,18 +85237,37 @@ __webpack_require__(31)('flatten');
 
 
 /***/ }),
-/* 279 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/mathiasbynens/String.prototype.at
 var $export = __webpack_require__(0);
-var $at = __webpack_require__(80)(true);
+var $at = __webpack_require__(79)(true);
 
 $export($export.P, 'String', {
   at: function at(pos) {
     return $at(this, pos);
+  }
+});
+
+
+/***/ }),
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// https://github.com/tc39/proposal-string-pad-start-end
+var $export = __webpack_require__(0);
+var $pad = __webpack_require__(127);
+var userAgent = __webpack_require__(94);
+
+// https://github.com/zloirock/core-js/issues/280
+$export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAgent), 'String', {
+  padStart: function padStart(maxLength /* , fillString = ' ' */) {
+    return $pad(this, maxLength, arguments.length > 1 ? arguments[1] : undefined, true);
   }
 });
 
@@ -87973,27 +85280,8 @@ $export($export.P, 'String', {
 
 // https://github.com/tc39/proposal-string-pad-start-end
 var $export = __webpack_require__(0);
-var $pad = __webpack_require__(126);
-var userAgent = __webpack_require__(95);
-
-// https://github.com/zloirock/core-js/issues/280
-$export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAgent), 'String', {
-  padStart: function padStart(maxLength /* , fillString = ' ' */) {
-    return $pad(this, maxLength, arguments.length > 1 ? arguments[1] : undefined, true);
-  }
-});
-
-
-/***/ }),
-/* 281 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// https://github.com/tc39/proposal-string-pad-start-end
-var $export = __webpack_require__(0);
-var $pad = __webpack_require__(126);
-var userAgent = __webpack_require__(95);
+var $pad = __webpack_require__(127);
+var userAgent = __webpack_require__(94);
 
 // https://github.com/zloirock/core-js/issues/280
 $export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAgent), 'String', {
@@ -88004,13 +85292,13 @@ $export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAge
 
 
 /***/ }),
-/* 282 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/sebmarkbage/ecmascript-string-left-right-trim
-__webpack_require__(45)('trimLeft', function ($trim) {
+__webpack_require__(46)('trimLeft', function ($trim) {
   return function trimLeft() {
     return $trim(this, 1);
   };
@@ -88018,13 +85306,13 @@ __webpack_require__(45)('trimLeft', function ($trim) {
 
 
 /***/ }),
-/* 283 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/sebmarkbage/ecmascript-string-left-right-trim
-__webpack_require__(45)('trimRight', function ($trim) {
+__webpack_require__(46)('trimRight', function ($trim) {
   return function trimRight() {
     return $trim(this, 2);
   };
@@ -88032,7 +85320,7 @@ __webpack_require__(45)('trimRight', function ($trim) {
 
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88050,7 +85338,7 @@ var $RegExpStringIterator = function (regexp, string) {
   this._s = string;
 };
 
-__webpack_require__(82)($RegExpStringIterator, 'RegExp String', function next() {
+__webpack_require__(81)($RegExpStringIterator, 'RegExp String', function next() {
   var match = this._r.exec(this._s);
   return { value: match, done: match === null };
 });
@@ -88069,29 +85357,29 @@ $export($export.P, 'String', {
 
 
 /***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(69)('asyncIterator');
+
+
+/***/ }),
 /* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(70)('asyncIterator');
+__webpack_require__(69)('observable');
 
 
 /***/ }),
 /* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(70)('observable');
-
-
-/***/ }),
-/* 287 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // https://github.com/tc39/proposal-object-getownpropertydescriptors
 var $export = __webpack_require__(0);
-var ownKeys = __webpack_require__(124);
+var ownKeys = __webpack_require__(125);
 var toIObject = __webpack_require__(15);
 var gOPD = __webpack_require__(16);
-var createProperty = __webpack_require__(86);
+var createProperty = __webpack_require__(85);
 
 $export($export.S, 'Object', {
   getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
@@ -88111,12 +85399,12 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export = __webpack_require__(0);
-var $values = __webpack_require__(127)(false);
+var $values = __webpack_require__(128)(false);
 
 $export($export.S, 'Object', {
   values: function values(it) {
@@ -88126,12 +85414,12 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export = __webpack_require__(0);
-var $entries = __webpack_require__(127)(true);
+var $entries = __webpack_require__(128)(true);
 
 $export($export.S, 'Object', {
   entries: function entries(it) {
@@ -88141,7 +85429,7 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88160,7 +85448,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(64), 'Object',
 
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88179,7 +85467,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(64), 'Object',
 
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88204,7 +85492,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(64), 'Object',
 
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88229,27 +85517,27 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(64), 'Object',
 
 
 /***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/DavidBruant/Map-Set.prototype.toJSON
+var $export = __webpack_require__(0);
+
+$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(129)('Map') });
+
+
+/***/ }),
 /* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(0);
 
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(128)('Map') });
+$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(129)('Set') });
 
 
 /***/ }),
 /* 295 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__(0);
-
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(128)('Set') });
-
-
-/***/ }),
-/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
@@ -88257,7 +85545,7 @@ __webpack_require__(65)('Map');
 
 
 /***/ }),
-/* 297 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
@@ -88265,7 +85553,7 @@ __webpack_require__(65)('Set');
 
 
 /***/ }),
-/* 298 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-weakmap.of
@@ -88273,7 +85561,7 @@ __webpack_require__(65)('WeakMap');
 
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-weakset.of
@@ -88281,7 +85569,7 @@ __webpack_require__(65)('WeakSet');
 
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
@@ -88289,7 +85577,7 @@ __webpack_require__(66)('Map');
 
 
 /***/ }),
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
@@ -88297,7 +85585,7 @@ __webpack_require__(66)('Set');
 
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-weakmap.from
@@ -88305,7 +85593,7 @@ __webpack_require__(66)('WeakMap');
 
 
 /***/ }),
-/* 303 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-weakset.from
@@ -88313,7 +85601,7 @@ __webpack_require__(66)('WeakSet');
 
 
 /***/ }),
-/* 304 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-global
@@ -88323,7 +85611,7 @@ $export($export.G, { global: __webpack_require__(2) });
 
 
 /***/ }),
-/* 305 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-global
@@ -88333,7 +85621,7 @@ $export($export.S, 'System', { global: __webpack_require__(2) });
 
 
 /***/ }),
-/* 306 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/ljharb/proposal-is-error
@@ -88348,7 +85636,7 @@ $export($export.S, 'Error', {
 
 
 /***/ }),
-/* 307 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
@@ -88362,7 +85650,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 308 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
@@ -88372,7 +85660,7 @@ $export($export.S, 'Math', { DEG_PER_RAD: Math.PI / 180 });
 
 
 /***/ }),
-/* 309 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
@@ -88387,13 +85675,13 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 310 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
 var $export = __webpack_require__(0);
-var scale = __webpack_require__(130);
-var fround = __webpack_require__(110);
+var scale = __webpack_require__(131);
+var fround = __webpack_require__(111);
 
 $export($export.S, 'Math', {
   fscale: function fscale(x, inLow, inHigh, outLow, outHigh) {
@@ -88403,7 +85691,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -88420,7 +85708,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -88437,7 +85725,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 313 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -88459,7 +85747,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
@@ -88469,7 +85757,7 @@ $export($export.S, 'Math', { RAD_PER_DEG: 180 / Math.PI });
 
 
 /***/ }),
-/* 315 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
@@ -88484,17 +85772,17 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 316 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://rwaldron.github.io/proposal-math-extensions/
 var $export = __webpack_require__(0);
 
-$export($export.S, 'Math', { scale: __webpack_require__(130) });
+$export($export.S, 'Math', { scale: __webpack_require__(131) });
 
 
 /***/ }),
-/* 317 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -88516,7 +85804,7 @@ $export($export.S, 'Math', {
 
 
 /***/ }),
-/* 318 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // http://jfbastien.github.io/papers/Math.signbit.html
@@ -88529,7 +85817,7 @@ $export($export.S, 'Math', { signbit: function signbit(x) {
 
 
 /***/ }),
-/* 319 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88539,7 +85827,7 @@ var $export = __webpack_require__(0);
 var core = __webpack_require__(21);
 var global = __webpack_require__(2);
 var speciesConstructor = __webpack_require__(61);
-var promiseResolve = __webpack_require__(117);
+var promiseResolve = __webpack_require__(118);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -88556,15 +85844,15 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 
 
 /***/ }),
-/* 320 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/tc39/proposal-promise-try
 var $export = __webpack_require__(0);
-var newPromiseCapability = __webpack_require__(93);
-var perform = __webpack_require__(116);
+var newPromiseCapability = __webpack_require__(92);
+var perform = __webpack_require__(117);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -88575,10 +85863,10 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 
 /***/ }),
-/* 321 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var toMetaKey = metadata.key;
 var ordinaryDefineOwnMetadata = metadata.set;
@@ -88589,10 +85877,10 @@ metadata.exp({ defineMetadata: function defineMetadata(metadataKey, metadataValu
 
 
 /***/ }),
-/* 322 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var toMetaKey = metadata.key;
 var getOrCreateMetadataMap = metadata.map;
@@ -88610,10 +85898,10 @@ metadata.exp({ deleteMetadata: function deleteMetadata(metadataKey, target /* , 
 
 
 /***/ }),
-/* 323 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(17);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -88633,12 +85921,12 @@ metadata.exp({ getMetadata: function getMetadata(metadataKey, target /* , target
 
 
 /***/ }),
-/* 324 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Set = __webpack_require__(120);
-var from = __webpack_require__(129);
-var metadata = __webpack_require__(28);
+var Set = __webpack_require__(121);
+var from = __webpack_require__(130);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(17);
 var ordinaryOwnMetadataKeys = metadata.keys;
@@ -88658,10 +85946,10 @@ metadata.exp({ getMetadataKeys: function getMetadataKeys(target /* , targetKey *
 
 
 /***/ }),
-/* 325 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var ordinaryGetOwnMetadata = metadata.get;
 var toMetaKey = metadata.key;
@@ -88673,10 +85961,10 @@ metadata.exp({ getOwnMetadata: function getOwnMetadata(metadataKey, target /* , 
 
 
 /***/ }),
-/* 326 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var ordinaryOwnMetadataKeys = metadata.keys;
 var toMetaKey = metadata.key;
@@ -88687,10 +85975,10 @@ metadata.exp({ getOwnMetadataKeys: function getOwnMetadataKeys(target /* , targe
 
 
 /***/ }),
-/* 327 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(17);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -88709,10 +85997,10 @@ metadata.exp({ hasMetadata: function hasMetadata(metadataKey, target /* , target
 
 
 /***/ }),
-/* 328 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(28);
+var metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var ordinaryHasOwnMetadata = metadata.has;
 var toMetaKey = metadata.key;
@@ -88724,10 +86012,10 @@ metadata.exp({ hasOwnMetadata: function hasOwnMetadata(metadataKey, target /* , 
 
 
 /***/ }),
-/* 329 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $metadata = __webpack_require__(28);
+var $metadata = __webpack_require__(29);
 var anObject = __webpack_require__(1);
 var aFunction = __webpack_require__(10);
 var toMetaKey = $metadata.key;
@@ -88745,12 +86033,12 @@ $metadata.exp({ metadata: function metadata(metadataKey, metadataValue) {
 
 
 /***/ }),
-/* 330 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/rwaldron/tc39-notes/blob/master/es6/2014-09/sept-25.md#510-globalasap-for-enqueuing-a-microtask
 var $export = __webpack_require__(0);
-var microtask = __webpack_require__(92)();
+var microtask = __webpack_require__(91)();
 var process = __webpack_require__(2).process;
 var isNode = __webpack_require__(19)(process) == 'process';
 
@@ -88763,7 +86051,7 @@ $export($export.G, {
 
 
 /***/ }),
-/* 331 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88772,7 +86060,7 @@ $export($export.G, {
 var $export = __webpack_require__(0);
 var global = __webpack_require__(2);
 var core = __webpack_require__(21);
-var microtask = __webpack_require__(92)();
+var microtask = __webpack_require__(91)();
 var OBSERVABLE = __webpack_require__(5)('observable');
 var aFunction = __webpack_require__(10);
 var anObject = __webpack_require__(1);
@@ -88969,13 +86257,13 @@ __webpack_require__(40)('Observable');
 
 
 /***/ }),
-/* 332 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // ie9- setTimeout & setInterval additional parameters fix
 var global = __webpack_require__(2);
 var $export = __webpack_require__(0);
-var userAgent = __webpack_require__(95);
+var userAgent = __webpack_require__(94);
 var slice = [].slice;
 var MSIE = /MSIE .\./.test(userAgent); // <- dirty ie9- check
 var wrap = function (set) {
@@ -88995,11 +86283,11 @@ $export($export.G + $export.B + $export.F * MSIE, {
 
 
 /***/ }),
-/* 333 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
-var $task = __webpack_require__(91);
+var $task = __webpack_require__(90);
 $export($export.G + $export.B, {
   setImmediate: $task.set,
   clearImmediate: $task.clear
@@ -89007,15 +86295,15 @@ $export($export.G + $export.B, {
 
 
 /***/ }),
-/* 334 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $iterators = __webpack_require__(90);
+var $iterators = __webpack_require__(89);
 var getKeys = __webpack_require__(36);
 var redefine = __webpack_require__(13);
 var global = __webpack_require__(2);
 var hide = __webpack_require__(12);
-var Iterators = __webpack_require__(46);
+var Iterators = __webpack_require__(47);
 var wks = __webpack_require__(5);
 var ITERATOR = wks('iterator');
 var TO_STRING_TAG = wks('toStringTag');
@@ -89071,7 +86359,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 
 
 /***/ }),
-/* 335 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -89811,29 +87099,29 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(68)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67)))
+
+/***/ }),
+/* 335 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(336);
+module.exports = __webpack_require__(21).RegExp.escape;
+
 
 /***/ }),
 /* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(337);
-module.exports = __webpack_require__(21).RegExp.escape;
-
-
-/***/ }),
-/* 337 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // https://github.com/benjamingr/RexExp.escape
 var $export = __webpack_require__(0);
-var $re = __webpack_require__(338)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+var $re = __webpack_require__(337)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 
 $export($export.S, 'RegExp', { escape: function escape(it) { return $re(it); } });
 
 
 /***/ }),
-/* 338 */
+/* 337 */
 /***/ (function(module, exports) {
 
 module.exports = function (regExp, replace) {
@@ -89847,7 +87135,7 @@ module.exports = function (regExp, replace) {
 
 
 /***/ }),
-/* 339 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -89858,13 +87146,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.remoteDataServer = exports.initFullPageJolecule = exports.initEmbedJolecule = undefined;
 
-var _animation = __webpack_require__(131);
+var _animation = __webpack_require__(132);
 
-var _embedjolecule = __webpack_require__(132);
+var _embedjolecule = __webpack_require__(133);
 
 var _fullpagejolecule = __webpack_require__(347);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -89882,7 +87170,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *   viewHeight: 170,
  *   isViewTextShown: false,
  *   isEditable: true,
- *   isLoop: false,
+ *   animateState: 'none',
  *   onload: onload,
  *   isGrid: false
  * }
@@ -89907,13 +87195,13 @@ function initFullPageJolecule() {
   return new (Function.prototype.bind.apply(_fullpagejolecule.FullPageJolecule, [null].concat(args)))();
 }
 
-function remoteDataServer(pdbId) {
+function remoteDataServer(pdbId, userId) {
   return {
     pdb_id: pdbId,
     get_protein_data: function get_protein_data(processProteinData) {
       var url = void 0;
       if (pdbId.length === 4) {
-        url = 'https://files.rcsb.org/download/' + pdbId + '.pdb1';
+        url = 'https://files.rcsb.org/download/' + pdbId + '.pdb';
       } else {
         url = '/pdb/' + pdbId + '.txt';
       }
@@ -89923,8 +87211,12 @@ function remoteDataServer(pdbId) {
       });
     },
     get_views: function get_views(processViews) {
-      console.log('remoteDataServer.get_views', '/pdb/' + pdbId + '.views.json');
-      _jquery2.default.getJSON('/pdb/' + pdbId + '.views.json', processViews);
+      var url = '/pdb/' + pdbId + '.views.json';
+      if (userId) {
+        url += '?user_id=' + userId;
+      }
+      console.log('remoteDataServer.get_views', url);
+      _jquery2.default.getJSON(url, processViews);
     },
     save_views: function save_views(views, success) {
       console.log('remoteDataServer.save_views', '/save/views', views);
@@ -89942,7 +87234,7 @@ exports.initFullPageJolecule = initFullPageJolecule;
 exports.remoteDataServer = remoteDataServer;
 
 /***/ }),
-/* 340 */
+/* 339 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -89968,6 +87260,3344 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.View = exports.SoupView = exports.interpolateCameras = exports.Controller = exports.Soup = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lodash = __webpack_require__(27);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _v = __webpack_require__(95);
+
+var _v2 = _interopRequireDefault(_v);
+
+var _util = __webpack_require__(49);
+
+var _glgeom = __webpack_require__(96);
+
+var glgeom = _interopRequireWildcard(_glgeom);
+
+var _pairs = __webpack_require__(341);
+
+var _store = __webpack_require__(342);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _data = __webpack_require__(97);
+
+var data = _interopRequireWildcard(_data);
+
+var _three = __webpack_require__(44);
+
+var THREE = _interopRequireWildcard(_three);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function deleteNumbers(text) {
+  return text.replace(/\d+/, '');
+}
+
+function pushToListInDict(dict, key, value) {
+  if (!(key in dict)) {
+    dict[key] = [];
+  }
+  dict[key].push(value);
+}
+
+function getValueTableIndex(valueList, value) {
+  if (!_lodash2.default.includes(valueList, value)) {
+    valueList.push(value);
+  }
+  return valueList.indexOf(value);
+}
+
+function intToBool(i) {
+  return i === 1;
+}
+
+function boolToInt(b) {
+  return b ? 1 : 0;
+}
+
+function intToChar(i) {
+  return i ? String.fromCharCode(i) : '';
+}
+
+function charToInt(c) {
+  return c.charCodeAt(0);
+}
+
+function parsetTitleFromPdbText(text) {
+  var result = '';
+  var lines = text.split(/\r?\n/);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = lines[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var line = _step.value;
+
+      if (line.substring(0, 5) === 'TITLE') {
+        result += line.substring(10);
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return result;
+}
+
+function getIndexColor(i) {
+  return new THREE.Color().setHex(i + 1);
+}
+
+var atomStoreFields = [['x', 1, 'float32'], ['y', 1, 'float32'], ['z', 1, 'float32'], ['bfactor', 1, 'float32'], ['alt', 1, 'uint8'], ['iAtomType', 1, 'uint16'], ['iElem', 1, 'uint16'], ['iRes', 1, 'uint32'], ['iChain', 1, 'int32'], ['bondOffset', 1, 'uint32'], ['bondCount', 1, 'uint16']];
+
+var AtomProxy = function () {
+  function AtomProxy(soup, iAtom) {
+    _classCallCheck(this, AtomProxy);
+
+    this.soup = soup;
+    if (Number.isInteger(iAtom)) {
+      this.load(iAtom);
+    }
+    this._pos = _v2.default.create();
+  }
+
+  _createClass(AtomProxy, [{
+    key: 'load',
+    value: function load(iAtom) {
+      this.iAtom = iAtom;
+      return this;
+    }
+  }, {
+    key: 'getBondIndices',
+    value: function getBondIndices() {
+      var iStart = this.soup.atomStore.bondOffset[this.iAtom];
+      var n = this.soup.atomStore.bondCount[this.iAtom];
+      var iEnd = iStart + n;
+      return _lodash2.default.range(iStart, iEnd);
+    }
+  }, {
+    key: 'pos',
+    get: function get() {
+      this._pos.x = this.soup.atomStore.x[this.iAtom];
+      this._pos.y = this.soup.atomStore.y[this.iAtom];
+      this._pos.z = this.soup.atomStore.z[this.iAtom];
+      return this._pos;
+    }
+  }, {
+    key: 'resId',
+    get: function get() {
+      return this.soup.resIds[this.iRes];
+    }
+  }, {
+    key: 'elem',
+    get: function get() {
+      var iElem = this.soup.atomStore.iElem[this.iAtom];
+      return this.soup.elemTable[iElem];
+    }
+  }, {
+    key: 'bfactor',
+    get: function get() {
+      return this.soup.atomStore.bfactor[this.iAtom];
+    }
+  }, {
+    key: 'atomType',
+    get: function get() {
+      var iAtomType = this.soup.atomStore.iAtomType[this.iAtom];
+      return this.soup.atomTypeTable[iAtomType];
+    }
+  }, {
+    key: 'alt',
+    get: function get() {
+      return intToChar(this.soup.atomStore.alt[this.iAtom]);
+    },
+    set: function set(c) {
+      this.soup.atomStore.alt[this.iAtom] = charToInt(c);
+    }
+  }, {
+    key: 'iRes',
+    get: function get() {
+      return this.soup.atomStore.iRes[this.iAtom];
+    },
+    set: function set(iRes) {
+      this.soup.atomStore.iRes[this.iAtom] = iRes;
+    }
+  }, {
+    key: 'resType',
+    get: function get() {
+      var iResType = this.soup.residueStore.iResType[this.iRes];
+      return this.soup.resTypeTable[iResType];
+    }
+  }, {
+    key: 'label',
+    get: function get() {
+      var iResType = this.soup.residueStore.iResType[this.iRes];
+      var resType = this.soup.resTypeTable[iResType];
+      var label = this.soup.resIds[this.iRes] + ':' + resType + ':' + this.atomType;
+      if (this.alt) {
+        label += ':' + this.alt;
+      }
+      return label;
+    }
+  }, {
+    key: 'color',
+    get: function get() {
+      var residue = this.soup.getResidueProxy(this.iRes);
+      if (residue.isPolymer) {
+        var resColor = residue.activeColor;
+        if (this.elem === 'C' || this.elem === 'H') {
+          return resColor;
+        } else if (this.elem in data.ElementColors) {
+          var elemColor = data.ElementColors[this.elem].clone().offsetHSL(0, -0.3, -0.3);
+          return new THREE.Color().addColors(resColor, elemColor);
+        }
+      }
+      if (this.elem in data.ElementColors) {
+        return data.ElementColors[this.elem];
+      }
+      return data.darkGrey;
+    }
+  }]);
+
+  return AtomProxy;
+}();
+
+var residueStoreFields = [['atomOffset', 1, 'uint32'], ['atomCount', 1, 'uint16'], ['iCentralAtom', 1, 'uint32'], ['iResType', 1, 'uint16'], ['iChain', 1, 'uint8'], ['iStructure', 1, 'uint8'], ['resNum', 1, 'int32'], ['insCode', 1, 'uint8'], ['sstruc', 1, 'uint8'], ['iColor', 1, 'uint8'], ['isPolymer', 1, 'uint8'], ['selected', 1, 'uint8'], ['sidechain', 1, 'uint8'], ['iChain', 1, 'uint8']];
+
+var ResidueProxy = function () {
+  function ResidueProxy(soup, iRes) {
+    _classCallCheck(this, ResidueProxy);
+
+    this.soup = soup;
+    if (Number.isInteger(iRes)) {
+      this.load(iRes);
+    }
+  }
+
+  _createClass(ResidueProxy, [{
+    key: 'load',
+    value: function load(iRes) {
+      this.iRes = iRes;
+      return this;
+    }
+  }, {
+    key: 'getAtomIndices',
+    value: function getAtomIndices() {
+      var iStart = this.soup.residueStore.atomOffset[this.iRes];
+      var n = this.soup.residueStore.atomCount[this.iRes];
+      var iEnd = iStart + n;
+      return _lodash2.default.range(iStart, iEnd);
+    }
+  }, {
+    key: 'getAtomProxy',
+    value: function getAtomProxy(atomType) {
+      var atom = this.soup.getAtomProxy();
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = this.getAtomIndices()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var iAtom = _step2.value;
+
+          atom.iAtom = iAtom;
+          if (atom.atomType === atomType) {
+            return atom;
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      return null;
+    }
+  }, {
+    key: 'getIAtom',
+    value: function getIAtom(atomType) {
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = this.getAtomIndices()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var iAtom = _step3.value;
+
+          var iAtomType = this.soup.atomStore.iAtomType[iAtom];
+          var testAatomType = this.soup.atomTypeTable[iAtomType];
+          if (testAatomType === atomType) {
+            return iAtom;
+          }
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      return null;
+    }
+  }, {
+    key: 'checkAtomTypes',
+    value: function checkAtomTypes(atomTypes) {
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = atomTypes[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var atomType = _step4.value;
+
+          if (this.getIAtom(atomType) === null) {
+            return false;
+          }
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
+      return true;
+    }
+  }, {
+    key: 'isProteinConnectedToPrev',
+    value: function isProteinConnectedToPrev() {
+      if (this.iRes === 0) {
+        return false;
+      }
+
+      var thisRes = this;
+      var prevRes = new ResidueProxy(this.soup, this.iRes - 1);
+
+      var proteinAtomTypes = ['CA'];
+      if (prevRes.checkAtomTypes(proteinAtomTypes) && thisRes.checkAtomTypes(proteinAtomTypes)) {
+        var ca0 = prevRes.getAtomProxy('CA').pos;
+        var ca1 = thisRes.getAtomProxy('CA').pos;
+        if (_v2.default.distance(ca0, ca1) < 5) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: 'isNucleotideConnectedToPrev',
+    value: function isNucleotideConnectedToPrev() {
+      if (this.iRes === 0) {
+        return false;
+      }
+
+      var thisRes = this;
+      var prevRes = new ResidueProxy(this.soup, this.iRes - 1);
+
+      var nucleicAtomTypes = ['C3\'', 'O3\''];
+
+      if (prevRes.checkAtomTypes(nucleicAtomTypes) && thisRes.checkAtomTypes(nucleicAtomTypes) && thisRes.checkAtomTypes(['P'])) {
+        var o3 = prevRes.getAtomProxy('O3\'').pos;
+        var p = thisRes.getAtomProxy('P').pos;
+        if (_v2.default.distance(o3, p) < 2.5) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: 'isConnectedToPrev',
+    value: function isConnectedToPrev() {
+      return this.isProteinConnectedToPrev() || this.isNucleotideConnectedToPrev();
+    }
+  }, {
+    key: 'getNucleotideNormal',
+    value: function getNucleotideNormal() {
+      var c3 = this.getAtomProxy('C3\'').pos;
+      var c5 = this.getAtomProxy('C5\'').pos;
+      var c1 = this.getAtomProxy('C1\'').pos;
+      var forward = _v2.default.diff(c3, c5);
+      var up = _v2.default.diff(c1, c3);
+      return _v2.default.crossProduct(forward, up);
+    }
+  }, {
+    key: 'iAtom',
+    get: function get() {
+      return this.soup.residueStore.iCentralAtom[this.iRes];
+    },
+    set: function set(iAtom) {
+      this.soup.residueStore.iCentralAtom[this.iRes] = iAtom;
+    }
+  }, {
+    key: 'iChain',
+    get: function get() {
+      return this.soup.residueStore.iChain[this.iRes];
+    }
+  }, {
+    key: 'iStructure',
+    get: function get() {
+      return this.soup.residueStore.iStructure[this.iRes];
+    },
+    set: function set(iStructure) {
+      this.soup.residueStore.iStructure[this.iRes] = iStructure;
+    }
+  }, {
+    key: 'resId',
+    get: function get() {
+      return this.soup.resIds[this.iRes];
+    }
+  }, {
+    key: 'resNum',
+    get: function get() {
+      return this.soup.residueStore.resNum[this.iRes];
+    }
+  }, {
+    key: 'insCode',
+    get: function get() {
+      return intToChar(this.soup.residueStore.insCode[this.iRes]);
+    },
+    set: function set(c) {
+      this.soup.residueStore.insCode[this.iRes] = charToInt(c);
+    }
+  }, {
+    key: 'isPolymer',
+    get: function get() {
+      return intToBool(this.soup.residueStore.isPolymer[this.iRes]);
+    },
+    set: function set(v) {
+      this.soup.residueStore.isPolymer[this.iRes] = boolToInt(v);
+    }
+  }, {
+    key: 'sidechain',
+    get: function get() {
+      return intToBool(this.soup.residueStore.sidechain[this.iRes]);
+    },
+    set: function set(v) {
+      this.soup.residueStore.sidechain[this.iRes] = boolToInt(v);
+    }
+  }, {
+    key: 'selected',
+    get: function get() {
+      return intToBool(this.soup.residueStore.selected[this.iRes]);
+    },
+    set: function set(v) {
+      this.soup.residueStore.selected[this.iRes] = boolToInt(v);
+    }
+  }, {
+    key: 'color',
+    get: function get() {
+      var iColor = this.soup.residueStore.iColor[this.iRes];
+      return this.soup.colorTable[iColor];
+    },
+    set: function set(color) {
+      var iColor = getValueTableIndex(this.soup.colorTable, color);
+      this.soup.residueStore.iColor[this.iRes] = iColor;
+    }
+  }, {
+    key: 'activeColor',
+    get: function get() {
+      var iColor = this.soup.residueStore.iColor[this.iRes];
+      var color = this.soup.colorTable[iColor];
+      if (this.selected) {
+        color = color.clone().offsetHSL(0, 0, +0.3);
+      }
+      return color;
+    }
+  }, {
+    key: 'resType',
+    get: function get() {
+      var iResType = this.soup.residueStore.iResType[this.iRes];
+      return this.soup.resTypeTable[iResType];
+    }
+  }, {
+    key: 'normal',
+    get: function get() {
+      var hasNormal = this.iRes in this.soup.residueNormal;
+      return hasNormal ? this.soup.residueNormal[this.iRes].clone() : null;
+    }
+  }, {
+    key: 'ss',
+    get: function get() {
+      return intToChar(this.soup.residueStore.sstruc[this.iRes]);
+    },
+    set: function set(c) {
+      this.soup.residueStore.sstruc[this.iRes] = charToInt(c);
+    }
+  }, {
+    key: 'label',
+    get: function get() {
+      var iResType = this.soup.residueStore.iResType[this.iRes];
+      var resType = this.soup.resTypeTable[iResType];
+      var label = this.soup.resIds[this.iRes] + ':' + resType;
+      return label;
+    }
+  }]);
+
+  return ResidueProxy;
+}();
+
+var bondStoreFields = [['iAtom1', 1, 'int32'], ['iAtom2', 1, 'int32']];
+
+var BondProxy = function () {
+  function BondProxy(soup, iBond) {
+    _classCallCheck(this, BondProxy);
+
+    this.soup = soup;
+    if (Number.isInteger(iBond)) {
+      this.load(iBond);
+    }
+  }
+
+  _createClass(BondProxy, [{
+    key: 'load',
+    value: function load(iBond) {
+      this.iBond = iBond;
+      return this;
+    }
+  }, {
+    key: 'iAtom1',
+    get: function get() {
+      return this.soup.bondStore.iAtom1[this.iBond];
+    }
+  }, {
+    key: 'iAtom2',
+    get: function get() {
+      return this.soup.bondStore.iAtom2[this.iBond];
+    }
+  }]);
+
+  return BondProxy;
+}();
+
+/**
+ * Soup: main data object that holds information
+ * about protein structure. The soup will be
+ * embedded in a SoupView that will handle
+ * all the different viewing options.
+ * Allowable mutations on the Soup
+ * will be made via the Controller.
+ */
+
+
+var Soup = function () {
+  function Soup() {
+    _classCallCheck(this, Soup);
+
+    this.parsingError = '';
+    this.title = '';
+
+    this.structureIds = [];
+    this.structureId = null;
+    this.iStructure = -1;
+
+    this.chains = [];
+
+    this.maxLength = null;
+
+    // stores trace of protein/nucleotide backbones for ribbons
+    this.traces = [];
+    // stores selected chain
+    this.selectedTraces = [];
+
+    this.atomStore = new _store2.default(atomStoreFields);
+    this.residueStore = new _store2.default(residueStoreFields);
+    this.bondStore = new _store2.default(bondStoreFields);
+
+    this.resIds = [];
+    this.residueNormal = {};
+
+    this.residueProxy = new ResidueProxy(this);
+    this.atomProxy = new AtomProxy(this);
+
+    this.elemTable = [];
+    this.atomTypeTable = [];
+    this.resTypeTable = [];
+    this.colorTable = [];
+
+    this.grid = {
+      bCutoff: 0.8,
+      bMax: 2,
+      bMin: 0.4,
+      changed: true,
+      isElem: {},
+      convertB: function convertB(b) {
+        return -b.toFixed(2);
+      }
+    };
+  }
+
+  _createClass(Soup, [{
+    key: 'isEmpty',
+    value: function isEmpty() {
+      return this.getAtomCount() == 0;
+    }
+  }, {
+    key: 'parsePdbData',
+    value: function parsePdbData(pdbText, pdbId) {
+      this.structureId = pdbId;
+      this.structureIds.push(pdbId);
+      this.iStructure = this.structureIds.length - 1;
+
+      var title = parsetTitleFromPdbText(pdbText);
+      this.title = '[' + this.structureId.toUpperCase() + '] ' + title;
+      console.log('Soup.parsePdbData', this.title);
+
+      var pdbLines = pdbText.split(/\r?\n/);
+
+      var lines = [];
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = pdbLines[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var _line = _step5.value;
+
+          if (_line.slice(0, 4) === 'ATOM' || _line.slice(0, 6) === 'HETATM') {
+            lines.push(_line);
+          }
+          if (_line.slice(0, 3) === 'END') {
+            break;
+          }
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
+      }
+
+      if (lines.length === 0) {
+        this.parsingError = 'No atom lines';
+        return;
+      }
+
+      var x = void 0,
+          y = void 0,
+          z = void 0,
+          chain = void 0,
+          resType = void 0;
+      var atomType = void 0,
+          bfactor = void 0,
+          elem = void 0,
+          alt = void 0,
+          resNum = void 0,
+          insCode = void 0;
+
+      for (var iLine = 0; iLine < lines.length; iLine += 1) {
+        var line = lines[iLine];
+        if (line.substr(0, 4) === 'ATOM' || line.substr(0, 6) === 'HETATM') {
+          try {
+            atomType = _lodash2.default.trim(line.substr(12, 4));
+            alt = _lodash2.default.trim(line.substr(16, 1));
+            resType = _lodash2.default.trim(line.substr(17, 3));
+            chain = _lodash2.default.trim(line[21]);
+            resNum = parseInt(line.substr(22, 4));
+            insCode = line.substr(26, 1);
+            x = parseFloat(line.substr(30, 7));
+            y = parseFloat(line.substr(38, 7));
+            z = parseFloat(line.substr(46, 7));
+            bfactor = parseFloat(line.substr(60, 6));
+            elem = deleteNumbers(_lodash2.default.trim(line.substr(76, 2)));
+          } catch (e) {
+            this.parsingError = 'line ' + iLine;
+            console.log('Error: "' + line + '"');
+            continue;
+          }
+
+          if (elem === '') {
+            elem = deleteNumbers(_lodash2.default.trim(atomType)).substr(0, 1);
+          }
+
+          this.addAtom(x, y, z, bfactor, alt, atomType, elem, resType, resNum, insCode, chain);
+        }
+      }
+    }
+  }, {
+    key: 'load',
+    value: function load(pdbData) {
+      console.log('Soup.load parse ' + this.structureId + '...');
+
+      this.parsePdbData(pdbData.pdb_text, this.structureId);
+
+      this.assignResidueProperties();
+
+      console.log('Soup.load processed ' + this.getAtomCount() + ' atoms, ' + (this.getResidueCount() + ' residues'));
+
+      console.log('Soup.load finding bonds...');
+      this.calcBondsStrategic();
+
+      console.log('Soup.load calculated ' + this.getBondCount() + ' bonds');
+
+      this.findSecondaryStructure();
+      console.log('Soup.load calculated secondary-structure');
+    }
+  }, {
+    key: 'asyncLoadProteinData',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(proteinData, asyncSetMessageFn) {
+        var pdbText, pdbId, err, nAtom, nRes, nBond;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                pdbText = proteinData.pdb_text;
+                pdbId = proteinData.pdb_id;
+
+                if (!(proteinData.pdb_text.length === 0)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 5;
+                return asyncSetMessageFn('Error: no soup data');
+
+              case 5:
+                return _context.abrupt('return');
+
+              case 6:
+                _context.next = 8;
+                return asyncSetMessageFn('Parsing \'' + pdbId + '\'');
+
+              case 8:
+                this.parsePdbData(pdbText, pdbId);
+
+                if (!this.parsingError) {
+                  _context.next = 14;
+                  break;
+                }
+
+                err = this.soup.parsingError;
+                _context.next = 13;
+                return asyncSetMessageFn('Error parsing soup: ' + err);
+
+              case 13:
+                return _context.abrupt('return');
+
+              case 14:
+
+                this.assignResidueProperties();
+
+                nAtom = this.getAtomCount();
+                nRes = this.getResidueCount();
+                _context.next = 19;
+                return asyncSetMessageFn('Calculating bonds for ' + nAtom + ' atoms, ' + nRes + ' residues...');
+
+              case 19:
+
+                this.calcBondsStrategic();
+
+                nBond = this.getBondCount();
+                _context.next = 23;
+                return asyncSetMessageFn('Calculated ' + nBond + ' bonds. Assigning secondary structure...');
+
+              case 23:
+
+                this.findSecondaryStructure();
+
+                this.maxLength = this.calcMaxLength();
+
+              case 25:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function asyncLoadProteinData(_x, _x2) {
+        return _ref.apply(this, arguments);
+      }
+
+      return asyncLoadProteinData;
+    }()
+  }, {
+    key: 'addAtom',
+    value: function addAtom(x, y, z, bfactor, alt, atomType, elem, resType, resNum, insCode, chain) {
+      var iAtom = this.atomStore.count;
+
+      this.atomStore.increment();
+
+      this.atomStore.x[iAtom] = x;
+      this.atomStore.y[iAtom] = y;
+      this.atomStore.z[iAtom] = z;
+
+      this.atomStore.bfactor[iAtom] = bfactor;
+      this.atomStore.alt[iAtom] = charToInt(alt);
+
+      this.atomStore.bondCount[iAtom] = 0;
+
+      this.atomStore.iAtomType[iAtom] = getValueTableIndex(this.atomTypeTable, atomType);
+
+      this.atomStore.iElem[iAtom] = getValueTableIndex(this.elemTable, elem);
+
+      var nRes = this.getResidueCount();
+
+      var isNewRes = false;
+      if (nRes === 0) {
+        isNewRes = true;
+      } else {
+        this.residueProxy.iRes = nRes - 1;
+        if (this.residueProxy.resNum !== resNum) {
+          isNewRes = true;
+        } else if (this.residueProxy.insCode !== insCode) {
+          isNewRes = true;
+        }
+      }
+
+      if (isNewRes) {
+        this.addResidue(iAtom, resNum, insCode, chain, resType);
+      }
+
+      var iRes = this.getResidueCount() - 1;
+      this.residueStore.atomCount[iRes] += 1;
+      this.atomStore.iRes[iAtom] = iRes;
+    }
+  }, {
+    key: 'addResidue',
+    value: function addResidue(iFirstAtomInRes, resNum, insCode, chain, resType) {
+      var iRes = this.getResidueCount();
+      this.residueStore.increment();
+
+      var resId = this.structureId + ':';
+      if (chain) {
+        resId += chain + ':';
+      }
+      resId += resNum + _lodash2.default.trim(insCode);
+
+      this.resIds.push(resId);
+
+      var iChain = getValueTableIndex(this.chains, chain);
+      this.residueStore.iChain[iRes] = iChain;
+
+      this.residueStore.resNum[iRes] = resNum;
+      this.residueStore.insCode[iRes] = charToInt(insCode);
+
+      this.residueStore.iResType[iRes] = getValueTableIndex(this.resTypeTable, resType);
+
+      this.residueStore.atomOffset[iRes] = iFirstAtomInRes;
+      this.residueStore.atomCount[iRes] = 0;
+
+      this.residueStore.iStructure[iRes] = this.iStructure;
+    }
+  }, {
+    key: 'assignResidueProperties',
+    value: function assignResidueProperties() {
+      var res = this.getResidueProxy();
+      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+        res.iRes = iRes;
+
+        if (_lodash2.default.includes(data.proteinResTypes, res.resType)) {
+          res.iAtom = res.getIAtom('CA');
+          res.ss = 'C';
+          res.isPolymer = true;
+        } else if (_lodash2.default.includes(data.dnaResTypes, res.resType) || _lodash2.default.includes(data.rnaResTypes, res.resType)) {
+          res.iAtom = res.getIAtom('C3\'');
+          res.ss = 'D';
+          res.isPolymer = true;
+        } else {
+          res.isPolymer = false;
+          if (res.resType === 'HOH') {
+            // water
+            res.ss = 'W';
+          } else if (res.resType === 'XXX') {
+            // grid atom
+            res.ss = 'G';
+          } else {
+            res.ss = '-';
+          }
+          var center = this.getCenter(res.getAtomIndices());
+          res.iAtom = this.getIAtomClosest(center, res.getAtomIndices());
+        }
+      }
+    }
+  }, {
+    key: 'getIAtomClosest',
+    value: function getIAtomClosest(pos, atomIndices) {
+      var iAtomClosest = null;
+      var minD = 1E6;
+      var atom = this.getAtomProxy();
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = atomIndices[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var iAtom = _step6.value;
+
+          if (iAtomClosest === null) {
+            iAtomClosest = iAtom;
+          } else {
+            atom.iAtom = iAtom;
+            var d = _v2.default.distance(pos, atom.pos);
+            if (d < minD) {
+              iAtomClosest = iAtom;
+              minD = d;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      return iAtomClosest;
+    }
+  }, {
+    key: 'getIAtomAtPosition',
+    value: function getIAtomAtPosition(pos) {
+      var atomIndices = _lodash2.default.range(this.getAtomCount());
+      var iAtomClosest = null;
+      var minD = 1E6;
+      var atom = this.getAtomProxy();
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
+
+      try {
+        for (var _iterator7 = atomIndices[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var iAtom = _step7.value;
+
+          if (iAtomClosest === null) {
+            iAtomClosest = iAtom;
+          } else {
+            atom.iAtom = iAtom;
+            var d = _v2.default.distance(pos, atom.pos);
+            if (d < minD) {
+              iAtomClosest = iAtom;
+              minD = d;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion7 && _iterator7.return) {
+            _iterator7.return();
+          }
+        } finally {
+          if (_didIteratorError7) {
+            throw _iteratorError7;
+          }
+        }
+      }
+
+      if (minD < 0.1) {
+        return iAtomClosest;
+      } else {
+        return -1;
+      }
+    }
+  }, {
+    key: 'getCenter',
+    value: function getCenter(atomIndices) {
+      var result = _v2.default.create(0, 0, 0);
+      var atom = this.getAtomProxy();
+      var _iteratorNormalCompletion8 = true;
+      var _didIteratorError8 = false;
+      var _iteratorError8 = undefined;
+
+      try {
+        for (var _iterator8 = atomIndices[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+          var iAtom = _step8.value;
+
+          result = _v2.default.sum(result, atom.load(iAtom).pos);
+        }
+      } catch (err) {
+        _didIteratorError8 = true;
+        _iteratorError8 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion8 && _iterator8.return) {
+            _iterator8.return();
+          }
+        } finally {
+          if (_didIteratorError8) {
+            throw _iteratorError8;
+          }
+        }
+      }
+
+      result.divideScalar(atomIndices.length);
+      return result;
+    }
+  }, {
+    key: 'calcMaxLength',
+    value: function calcMaxLength() {
+      var atomIndices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      var maxima = [0.0, 0.0, 0.0];
+      var minima = [0.0, 0.0, 0.0];
+      var spans = [0.0, 0.0, 0.0];
+
+      function comp(v, i) {
+        if (i === 0) return v.x;
+        if (i === 1) return v.y;
+        if (i === 2) return v.z;
+      }
+
+      if (_lodash2.default.isNull(atomIndices)) {
+        atomIndices = _lodash2.default.range(this.getAtomCount());
+      }
+      var atom = this.getAtomProxy();
+      for (var iDim = 0; iDim < 3; iDim++) {
+        var _iteratorNormalCompletion9 = true;
+        var _didIteratorError9 = false;
+        var _iteratorError9 = undefined;
+
+        try {
+          for (var _iterator9 = atomIndices[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+            var iAtom = _step9.value;
+
+            var pos = atom.load(iAtom).pos;
+            if (minima[iDim] > comp(pos, iDim)) {
+              minima[iDim] = comp(pos, iDim);
+            }
+            if (maxima[iDim] < comp(pos, iDim)) {
+              maxima[iDim] = comp(pos, iDim);
+            }
+          }
+        } catch (err) {
+          _didIteratorError9 = true;
+          _iteratorError9 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion9 && _iterator9.return) {
+              _iterator9.return();
+            }
+          } finally {
+            if (_didIteratorError9) {
+              throw _iteratorError9;
+            }
+          }
+        }
+
+        spans[iDim] = maxima[iDim] - minima[iDim];
+      }
+      return Math.max(spans[0], spans[1], spans[2]);
+    }
+  }, {
+    key: 'calcBondsStrategic',
+    value: function calcBondsStrategic() {
+      var _this = this;
+
+      this.bondStore.count = 0;
+
+      var smallCutoffSq = 1.2 * 1.2;
+      var mediumCutoffSq = 1.9 * 1.9;
+      var largeCutoffSq = 2.4 * 2.4;
+      var CHONPS = ['C', 'H', 'O', 'N', 'P', 'S'];
+
+      function isBonded(atom1, atom2) {
+        if (atom1 === null || atom2 === null) {
+          return false;
+        }
+        // don't include bonds between different alt positions
+        if (atom1.alt !== '' && atom2.alt !== '') {
+          if (atom1.alt !== atom2.alt) {
+            return false;
+          }
+        }
+
+        var cutoffSq = void 0;
+        if (atom1.elem === 'H' || atom2.elem === 'H') {
+          cutoffSq = smallCutoffSq;
+        } else if ((0, _util.inArray)(atom1.elem, CHONPS) && (0, _util.inArray)(atom2.elem, CHONPS)) {
+          cutoffSq = mediumCutoffSq;
+        } else {
+          cutoffSq = largeCutoffSq;
+        }
+
+        var diffX = atom1.pos.x - atom2.pos.x;
+        var diffY = atom1.pos.y - atom2.pos.y;
+        var diffZ = atom1.pos.z - atom2.pos.z;
+        var distSq = diffX * diffX + diffY * diffY + diffZ * diffZ;
+        return distSq <= cutoffSq;
+      }
+
+      var makeBond = function makeBond(atom1, atom2) {
+        var iBond = _this.getBondCount();
+        _this.bondStore.increment();
+        _this.bondStore.iAtom1[iBond] = atom1.iAtom;
+        _this.bondStore.iAtom2[iBond] = atom2.iAtom;
+
+        iBond = _this.getBondCount();
+        _this.bondStore.increment();
+        _this.bondStore.iAtom1[iBond] = atom2.iAtom;
+        _this.bondStore.iAtom2[iBond] = atom1.iAtom;
+      };
+
+      var residue1 = this.getResidueProxy();
+      var residue2 = this.getResidueProxy();
+      var nRes = this.getResidueCount();
+      var atom1 = this.getAtomProxy();
+      var atom2 = this.getAtomProxy();
+
+      for (var iRes1 = 0; iRes1 < nRes; iRes1++) {
+        residue2.iRes = iRes1;
+
+        // cycle through all atoms within a residue
+        var _iteratorNormalCompletion10 = true;
+        var _didIteratorError10 = false;
+        var _iteratorError10 = undefined;
+
+        try {
+          for (var _iterator10 = residue2.getAtomIndices()[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+            var _iAtom = _step10.value;
+            var _iteratorNormalCompletion11 = true;
+            var _didIteratorError11 = false;
+            var _iteratorError11 = undefined;
+
+            try {
+              for (var _iterator11 = residue2.getAtomIndices()[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+                var iAtom2 = _step11.value;
+
+                atom1.iAtom = _iAtom;
+                atom2.iAtom = iAtom2;
+                if (isBonded(atom1, atom2)) {
+                  makeBond(atom1, atom2);
+                }
+              }
+            } catch (err) {
+              _didIteratorError11 = true;
+              _iteratorError11 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion11 && _iterator11.return) {
+                  _iterator11.return();
+                }
+              } finally {
+                if (_didIteratorError11) {
+                  throw _iteratorError11;
+                }
+              }
+            }
+          }
+        } catch (err) {
+          _didIteratorError10 = true;
+          _iteratorError10 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion10 && _iterator10.return) {
+              _iterator10.return();
+            }
+          } finally {
+            if (_didIteratorError10) {
+              throw _iteratorError10;
+            }
+          }
+        }
+      }
+
+      for (var iRes2 = 1; iRes2 < nRes; iRes2++) {
+        residue1.iRes = iRes2 - 1;
+        residue2.iRes = iRes2;
+        if (residue2.isProteinConnectedToPrev()) {
+          atom1.iAtom = residue1.getIAtom('C');
+          atom2.iAtom = residue2.getIAtom('N');
+        } else if (residue2.isNucleotideConnectedToPrev()) {
+          atom1.iAtom = residue1.getIAtom('O3\'');
+          atom2.iAtom = residue2.getIAtom('P');
+        } else {
+          continue;
+        }
+        makeBond(atom1, atom2);
+      }
+
+      // sort bonds by iAtom1
+      var iAtom1Array = this.bondStore.iAtom1;
+      this.bondStore.sort(function (i, j) {
+        return iAtom1Array[i] - iAtom1Array[j];
+      });
+
+      // asign bonds to atoms
+      for (var iAtom = 0; iAtom < this.getAtomCount(); iAtom += 1) {
+        this.atomStore.bondCount[iAtom] = 0;
+      }
+      var bond = this.getBondProxy();
+      var iAtom1 = null;
+      for (var iBond = 0; iBond < this.getBondCount(); iBond += 1) {
+        bond.iBond = iBond;
+        if (iAtom1 !== bond.iAtom1) {
+          iAtom1 = bond.iAtom1;
+          this.atomStore.bondOffset[iAtom1] = iBond;
+        }
+        this.atomStore.bondCount[iAtom1] += 1;
+      }
+
+      // this.bondSelect = new BitArray(this.getBondCount())
+    }
+
+    /**
+     * Identify backbone hydrogen bonds using a distance
+     * criteria between O and N atoms.
+     */
+
+  }, {
+    key: 'findBackboneHbonds',
+    value: function findBackboneHbonds() {
+      var residue = this.getResidueProxy();
+      var atom0 = this.getAtomProxy();
+      var atom1 = this.getAtomProxy();
+
+      var result = [];
+      var cutoff = 3.5;
+
+      for (var iStructure = 0; iStructure < this.structureIds.length; iStructure += 1) {
+        // Collect backbone O and N atoms
+        var vertices = [];
+        var atomIndices = [];
+        for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+          residue.iRes = iRes;
+          if (residue.iStructure !== iStructure) {
+            // ensure only backbone H-bonds of a single structure are calculated
+            continue;
+          }
+          if (residue.isPolymer) {
+            var _arr = ['O', 'N'];
+
+            for (var _i = 0; _i < _arr.length; _i++) {
+              var aTypeName = _arr[_i];
+              var iAtom = residue.getIAtom(aTypeName);
+              if (iAtom !== null) {
+                atom0.iAtom = iAtom;
+                vertices.push([atom0.pos.x, atom0.pos.y, atom0.pos.z]);
+                atomIndices.push(iAtom);
+              }
+            }
+          }
+        }
+
+        var spaceHash = new _pairs.SpaceHash(vertices);
+        var _iteratorNormalCompletion12 = true;
+        var _didIteratorError12 = false;
+        var _iteratorError12 = undefined;
+
+        try {
+          for (var _iterator12 = spaceHash.getClosePairs()[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+            var pair = _step12.value;
+
+            atom0.iAtom = atomIndices[pair[0]];
+            atom1.iAtom = atomIndices[pair[1]];
+            if (atom0.elem === 'O' && atom1.elem === 'N') {
+              var _ref2 = [atom1, atom0];
+              atom0 = _ref2[0];
+              atom1 = _ref2[1];
+            }
+            if (!(atom0.elem === 'N' && atom1.elem === 'O')) {
+              continue;
+            }
+            var iRes0 = atom0.iRes;
+            var iRes1 = atom1.iRes;
+            if (iRes0 === iRes1) {
+              continue;
+            }
+            if (_v2.default.distance(atom0.pos, atom1.pos) <= cutoff) {
+              pushToListInDict(result, iRes0, iRes1);
+            }
+          }
+        } catch (err) {
+          _didIteratorError12 = true;
+          _iteratorError12 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion12 && _iterator12.return) {
+              _iterator12.return();
+            }
+          } finally {
+            if (_didIteratorError12) {
+              throw _iteratorError12;
+            }
+          }
+        }
+      }
+
+      this.conhPartners = result;
+    }
+
+    /**
+     * Methods to calculate secondary-structure using Kabsch-Sanders
+     *
+     * Secondary Structure:
+     * - H - alpha-helix/3-10-helix
+     * - E - beta-sheet
+     * - C - coil
+     * - - - ligand
+     * - W - water
+     * - D - DNA or RNA
+     * - R - non-standard nucleotide
+     */
+
+  }, {
+    key: 'findSecondaryStructure',
+    value: function findSecondaryStructure() {
+      this.findBackboneHbonds();
+      var conhPartners = this.conhPartners;
+      var residueNormals = {};
+
+      var nRes = this.getResidueCount();
+      var residue0 = this.getResidueProxy();
+      var residue1 = this.getResidueProxy();
+
+      var atom0 = this.getAtomProxy();
+      var atom1 = this.getAtomProxy();
+
+      function isCONH(iRes0, iRes1) {
+        if (iRes1 < 0 || iRes1 >= nRes || iRes0 < 0 || iRes0 >= nRes) {
+          return false;
+        }
+        return _lodash2.default.includes(conhPartners[iRes1], iRes0);
+      }
+
+      function vecBetweenResidues(iRes0, iRes1) {
+        atom0.iAtom = residue0.load(iRes0).iAtom;
+        atom1.iAtom = residue1.load(iRes1).iAtom;
+        return _v2.default.diff(atom0.pos, atom1.pos);
+      }
+
+      // Collect ca atoms
+      var vertices = [];
+      var atomIndices = [];
+      var resIndices = [];
+      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+        residue0.iRes = iRes;
+        if (residue0.isPolymer && !(residue0.ss === 'D')) {
+          var iAtom = residue0.getIAtom('CA');
+          if (iAtom !== null) {
+            atom0.iAtom = iAtom;
+            vertices.push([atom0.pos.x, atom0.pos.y, atom0.pos.z]);
+            atomIndices.push(iAtom);
+            resIndices.push(iRes);
+          }
+        }
+      }
+
+      for (var iRes0 = 0; iRes0 < nRes; iRes0 += 1) {
+        residue0.iRes = iRes0;
+
+        if (!residue0.isPolymer) {
+          continue;
+        }
+
+        if (residue0.ss === 'D') {
+          pushToListInDict(residueNormals, iRes0, residue0.getNucleotideNormal());
+          continue;
+        }
+
+        // alpha-helix
+        if (isCONH(iRes0, iRes0 + 4) && isCONH(iRes0 + 1, iRes0 + 5)) {
+          var normal0 = vecBetweenResidues(iRes0, iRes0 + 4);
+          var normal1 = vecBetweenResidues(iRes0 + 1, iRes0 + 5);
+          for (var iRes1 = iRes0 + 1; iRes1 < iRes0 + 5; iRes1 += 1) {
+            residue0.load(iRes1).ss = 'H';
+            pushToListInDict(residueNormals, iRes1, normal0);
+            pushToListInDict(residueNormals, iRes1, normal1);
+          }
+        }
+
+        // 3-10 helix
+        if (isCONH(iRes0, iRes0 + 3) && isCONH(iRes0 + 1, iRes0 + 4)) {
+          var _normal = vecBetweenResidues(iRes0, iRes0 + 3);
+          var normal2 = vecBetweenResidues(iRes0 + 1, iRes0 + 4);
+          for (var _iRes = iRes0 + 1; _iRes < iRes0 + 4; _iRes += 1) {
+            residue0.load(_iRes).ss = 'H';
+            pushToListInDict(residueNormals, _iRes, _normal);
+            pushToListInDict(residueNormals, _iRes, normal2);
+          }
+        }
+      }
+
+      var betaResidues = [];
+      var spaceHash = new _pairs.SpaceHash(vertices);
+      var _iteratorNormalCompletion13 = true;
+      var _didIteratorError13 = false;
+      var _iteratorError13 = undefined;
+
+      try {
+        for (var _iterator13 = spaceHash.getClosePairs()[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+          var pair = _step13.value;
+
+          var _pair = _slicedToArray(pair, 2),
+              iVertex0 = _pair[0],
+              iVertex1 = _pair[1];
+
+          var _iRes4 = resIndices[iVertex0];
+          var _iRes5 = resIndices[iVertex1];
+          if (Math.abs(_iRes4 - _iRes5) <= 5) {
+            continue;
+          }
+          // parallel beta sheet pairs
+          if (isCONH(_iRes4, _iRes5 + 1) && isCONH(_iRes5 - 1, _iRes4)) {
+            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
+          }
+          if (isCONH(_iRes4 - 1, _iRes5) && isCONH(_iRes5, _iRes4 + 1)) {
+            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
+          }
+
+          // anti-parallel hbonded beta sheet pairs
+          if (isCONH(_iRes4, _iRes5) && isCONH(_iRes5, _iRes4)) {
+            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
+            var _normal2 = vecBetweenResidues(_iRes4, _iRes5);
+            pushToListInDict(residueNormals, _iRes4, _normal2);
+            pushToListInDict(residueNormals, _iRes5, _v2.default.scaled(_normal2, -1));
+          }
+
+          // anti-parallel non-hbonded beta sheet pairs
+          if (isCONH(_iRes4 - 1, _iRes5 + 1) && isCONH(_iRes5 - 1, _iRes4 + 1)) {
+            betaResidues = betaResidues.concat([_iRes4, _iRes5]);
+            var _normal3 = vecBetweenResidues(_iRes4, _iRes5);
+            pushToListInDict(residueNormals, _iRes4, _v2.default.scaled(_normal3, -1));
+            pushToListInDict(residueNormals, _iRes5, _normal3);
+          }
+        }
+      } catch (err) {
+        _didIteratorError13 = true;
+        _iteratorError13 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion13 && _iterator13.return) {
+            _iterator13.return();
+          }
+        } finally {
+          if (_didIteratorError13) {
+            throw _iteratorError13;
+          }
+        }
+      }
+
+      var _iteratorNormalCompletion14 = true;
+      var _didIteratorError14 = false;
+      var _iteratorError14 = undefined;
+
+      try {
+        for (var _iterator14 = betaResidues[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
+          var _iRes6 = _step14.value;
+
+          residue0.load(_iRes6).ss = 'E';
+        }
+
+        // average residueNormals to make a nice average
+      } catch (err) {
+        _didIteratorError14 = true;
+        _iteratorError14 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion14 && _iterator14.return) {
+            _iterator14.return();
+          }
+        } finally {
+          if (_didIteratorError14) {
+            throw _iteratorError14;
+          }
+        }
+      }
+
+      for (var _iRes2 = 0; _iRes2 < nRes; _iRes2 += 1) {
+        if (_iRes2 in residueNormals && residueNormals[_iRes2].length > 0) {
+          var normalSum = _v2.default.create(0, 0, 0);
+          var _iteratorNormalCompletion15 = true;
+          var _didIteratorError15 = false;
+          var _iteratorError15 = undefined;
+
+          try {
+            for (var _iterator15 = residueNormals[_iRes2][Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
+              var normal = _step15.value;
+
+              normalSum = _v2.default.sum(normalSum, normal);
+            }
+          } catch (err) {
+            _didIteratorError15 = true;
+            _iteratorError15 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion15 && _iterator15.return) {
+                _iterator15.return();
+              }
+            } finally {
+              if (_didIteratorError15) {
+                throw _iteratorError15;
+              }
+            }
+          }
+
+          this.residueNormal[_iRes2] = _v2.default.normalized(normalSum);
+        }
+      }
+
+      // flip every second beta-strand normal so they are
+      // consistently pointing in the same direction
+      for (var _iRes3 = 1; _iRes3 < nRes; _iRes3 += 1) {
+        residue0.iRes = _iRes3 - 1;
+        residue1.iRes = _iRes3;
+        if (residue0.ss === 'E' && residue0.normal) {
+          if (residue1.ss === 'E' && residue1.normal) {
+            if (residue1.normal.dot(residue0.normal) < 0) {
+              this.residueNormal[_iRes3].negate();
+            }
+          }
+        }
+      }
+    }
+  }, {
+    key: 'calculateTracesForRibbons',
+    value: function calculateTracesForRibbons() {
+      var _this2 = this;
+
+      this.traces.length = 0;
+
+      var lastTrace = void 0;
+      var residue = this.getResidueProxy();
+      var nextResidue = this.getResidueProxy();
+      var atom = this.getAtomProxy();
+      var nRes = this.getResidueCount();
+      for (var iRes = 0; iRes < nRes; iRes += 1) {
+        residue.iRes = iRes;
+        if (iRes < nRes - 1) {
+          nextResidue.iRes = iRes + 1;
+          if (nextResidue.isConnectedToPrev()) {
+            // set for non-standard DNA or protein residues
+            residue.isPolymer = true;
+            nextResidue.isPolymer = true;
+          }
+        }
+        if (residue.isPolymer) {
+          if (_lodash2.default.isUndefined(lastTrace) || iRes === 0 || !residue.isConnectedToPrev()) {
+            (function () {
+              var newTrace = new glgeom.Trace();
+              newTrace.getReference = function (i) {
+                residue.iRes = newTrace.indices[i];
+                return residue;
+              };
+              _this2.traces.push(newTrace);
+              lastTrace = newTrace;
+            })();
+          }
+          lastTrace.indices.push(iRes);
+
+          if (residue.getIAtom('CA')) {
+            atom.iAtom = residue.getIAtom('CA');
+          } else if (residue.getIAtom('C3\'')) {
+            atom.iAtom = residue.getIAtom('C3\'');
+          } else {
+            atom.iAtom = residue.iAtom;
+          }
+
+          lastTrace.refIndices.push(residue.iRes);
+          lastTrace.points.push(atom.pos.clone());
+          lastTrace.colors.push(residue.activeColor);
+          lastTrace.indexColors.push(getIndexColor(residue.iAtom));
+          lastTrace.segmentTypes.push(residue.ss);
+          lastTrace.normals.push(residue.normal);
+        }
+      }
+
+      var _iteratorNormalCompletion16 = true;
+      var _didIteratorError16 = false;
+      var _iteratorError16 = undefined;
+
+      try {
+        for (var _iterator16 = this.traces[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
+          var trace = _step16.value;
+
+          trace.calcTangents();
+          trace.calcNormals();
+          trace.calcBinormals();
+          trace.expand();
+        }
+      } catch (err) {
+        _didIteratorError16 = true;
+        _iteratorError16 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion16 && _iterator16.return) {
+            _iterator16.return();
+          }
+        } finally {
+          if (_didIteratorError16) {
+            throw _iteratorError16;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'getAtomProxy',
+    value: function getAtomProxy(iAtom) {
+      return new AtomProxy(this, iAtom);
+    }
+  }, {
+    key: 'getAtomCount',
+    value: function getAtomCount() {
+      return this.atomStore.count;
+    }
+  }, {
+    key: 'getResidueProxy',
+    value: function getResidueProxy(iRes) {
+      return new ResidueProxy(this, iRes);
+    }
+  }, {
+    key: 'getBondProxy',
+    value: function getBondProxy(iBond) {
+      return new BondProxy(this, iBond);
+    }
+  }, {
+    key: 'getBondCount',
+    value: function getBondCount() {
+      return this.bondStore.count;
+    }
+  }, {
+    key: 'getResidueCount',
+    value: function getResidueCount() {
+      return this.residueStore.count;
+    }
+  }, {
+    key: 'areCloseResidues',
+    value: function areCloseResidues(iRes0, iRes1) {
+      var atom0 = this.getAtomProxy();
+      var atom1 = this.getAtomProxy();
+
+      var res0 = this.getResidueProxy(iRes0);
+      var pos0 = atom0.load(res0.iAtom).pos.clone();
+      var atomIndices0 = res0.getAtomIndices();
+
+      var res1 = this.getResidueProxy(iRes1);
+      var pos1 = atom1.load(res1.iAtom).pos.clone();
+      var atomIndices1 = res1.getAtomIndices();
+
+      if (_v2.default.distance(pos0, pos1) > 17) {
+        return false;
+      }
+
+      var _iteratorNormalCompletion17 = true;
+      var _didIteratorError17 = false;
+      var _iteratorError17 = undefined;
+
+      try {
+        for (var _iterator17 = atomIndices0[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
+          var iAtom0 = _step17.value;
+          var _iteratorNormalCompletion18 = true;
+          var _didIteratorError18 = false;
+          var _iteratorError18 = undefined;
+
+          try {
+            for (var _iterator18 = atomIndices1[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
+              var iAtom1 = _step18.value;
+
+              if (_v2.default.distance(atom0.load(iAtom0).pos, atom1.load(iAtom1).pos) < 4) {
+                return true;
+              }
+            }
+          } catch (err) {
+            _didIteratorError18 = true;
+            _iteratorError18 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion18 && _iterator18.return) {
+                _iterator18.return();
+              }
+            } finally {
+              if (_didIteratorError18) {
+                throw _iteratorError18;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError17 = true;
+        _iteratorError17 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion17 && _iterator17.return) {
+            _iterator17.return();
+          }
+        } finally {
+          if (_didIteratorError17) {
+            throw _iteratorError17;
+          }
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: 'clearSelectedResidues',
+    value: function clearSelectedResidues() {
+      var residue = this.getResidueProxy();
+      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+        residue.load(iRes).selected = false;
+      }
+    }
+  }, {
+    key: 'clearSidechainResidues',
+    value: function clearSidechainResidues() {
+      var residue = this.getResidueProxy();
+      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+        residue.load(iRes).sidechain = false;
+      }
+    }
+  }, {
+    key: 'setSidechainOfResidues',
+    value: function setSidechainOfResidues(residueIndices, isSidechain) {
+      var residue = this.getResidueProxy();
+      var _iteratorNormalCompletion19 = true;
+      var _didIteratorError19 = false;
+      var _iteratorError19 = undefined;
+
+      try {
+        for (var _iterator19 = residueIndices[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
+          var iRes = _step19.value;
+
+          residue.load(iRes).sidechain = isSidechain;
+        }
+      } catch (err) {
+        _didIteratorError19 = true;
+        _iteratorError19 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion19 && _iterator19.return) {
+            _iterator19.return();
+          }
+        } finally {
+          if (_didIteratorError19) {
+            throw _iteratorError19;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'getNeighbours',
+    value: function getNeighbours(iRes) {
+      var indices = [iRes];
+      for (var jRes = 0; jRes < this.getResidueCount(); jRes += 1) {
+        if (this.areCloseResidues(jRes, iRes)) {
+          indices.push(jRes);
+        }
+      }
+      return indices;
+    }
+  }, {
+    key: 'isResCloseToPoint',
+    value: function isResCloseToPoint(iRes0, pos1) {
+      var atom0 = this.getAtomProxy();
+
+      var res0 = this.getResidueProxy(iRes0);
+      var pos0 = atom0.load(res0.iAtom).pos.clone();
+      if (_v2.default.distance(pos0, pos1) > 17) {
+        return false;
+      }
+
+      var atomIndices0 = res0.getAtomIndices();
+      var _iteratorNormalCompletion20 = true;
+      var _didIteratorError20 = false;
+      var _iteratorError20 = undefined;
+
+      try {
+        for (var _iterator20 = atomIndices0[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
+          var iAtom0 = _step20.value;
+
+          if (_v2.default.distance(atom0.load(iAtom0).pos, pos1) < 5) {
+            return true;
+          }
+        }
+      } catch (err) {
+        _didIteratorError20 = true;
+        _iteratorError20 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion20 && _iterator20.return) {
+            _iterator20.return();
+          }
+        } finally {
+          if (_didIteratorError20) {
+            throw _iteratorError20;
+          }
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: 'getNeighboursOfPoint',
+    value: function getNeighboursOfPoint(pos) {
+      var indices = [];
+      for (var jRes = 0; jRes < this.getResidueCount(); jRes += 1) {
+        if (this.isResCloseToPoint(jRes, pos)) {
+          indices.push(jRes);
+        }
+      }
+      return indices;
+    }
+  }, {
+    key: 'colorResidues',
+    value: function colorResidues() {
+      var vals = _lodash2.default.values(this.grid.isElem);
+      var showSecondary = _lodash2.default.every(vals, function (v) {
+        return !v;
+      });
+      // pre-calculations needed before building meshes
+      var residue = this.getResidueProxy();
+      var _iteratorNormalCompletion21 = true;
+      var _didIteratorError21 = false;
+      var _iteratorError21 = undefined;
+
+      try {
+        for (var _iterator21 = _lodash2.default.range(this.getResidueCount())[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
+          var iRes = _step21.value;
+
+          residue.iRes = iRes;
+          residue.color = showSecondary ? data.getSsColor(residue.ss) : residue.color = data.darkGrey;
+        }
+      } catch (err) {
+        _didIteratorError21 = true;
+        _iteratorError21 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion21 && _iterator21.return) {
+            _iterator21.return();
+          }
+        } finally {
+          if (_didIteratorError21) {
+            throw _iteratorError21;
+          }
+        }
+      }
+    }
+
+    /**
+     * Searches autodock grid atoms for B-factor limits
+     */
+
+  }, {
+    key: 'findGridLimits',
+    value: function findGridLimits() {
+      var residue = this.getResidueProxy();
+      var atom = this.getAtomProxy();
+      this.grid.isElem = {};
+      for (var iRes = 0; iRes < this.getResidueCount(); iRes += 1) {
+        residue.iRes = iRes;
+        if (residue.ss === 'G') {
+          atom.iAtom = residue.iAtom;
+          if (!(atom.elem in this.grid.isElem)) {
+            this.grid.isElem[atom.elem] = true;
+          }
+          if (this.grid.bMin === null) {
+            this.grid.bMin = atom.bfactor;
+            this.grid.bMax = atom.bfactor;
+          } else {
+            if (atom.bfactor > this.grid.bMax) {
+              this.grid.bMax = atom.bfactor;
+            }
+            if (atom.bfactor < this.grid.bMin) {
+              this.grid.bMin = atom.bfactor;
+            }
+          }
+        }
+      }
+
+      if (this.grid.bMin === null) {
+        this.grid.bMin = 0;
+      }
+      if (this.grid.bMax === null) {
+        this.grid.bMin = 0;
+      }
+      if (!('bCutoff' in this.grid)) {
+        this.grid.bCutoff = this.grid.bMin;
+      }
+    }
+  }, {
+    key: 'deleteStructure',
+    value: function deleteStructure(iStructure) {
+      console.log('Soup.deleteStructure', iStructure);
+      var atom = this.getAtomProxy();
+      var res = this.getResidueProxy();
+
+      var iAtomStart = null;
+      var iAtomEnd = null;
+      var iResStart = null;
+      var iResEnd = null;
+
+      for (var iAtom = 0; iAtom < this.getAtomCount(); iAtom += 1) {
+        atom.iAtom = iAtom;
+        res.iRes = atom.iRes;
+        if (res.iStructure === iStructure) {
+          if (iAtomStart === null) {
+            iAtomStart = iAtom;
+          }
+          iAtomEnd = iAtom + 1;
+          if (iResStart === null) {
+            iResStart = atom.iRes;
+          }
+          iResEnd = atom.iRes + 1;
+        }
+      }
+
+      var nAtomOffset = iAtomEnd - iAtomStart;
+      var nAtom = this.getAtomCount();
+      var nAtomNew = nAtom - nAtomOffset;
+      var nAtomCopy = nAtom - iAtomEnd;
+
+      var nResOffset = iResEnd - iResStart;
+      var nRes = this.getResidueCount();
+      var nResNew = nRes - nResOffset;
+      var nResCopy = nRes - iResEnd;
+
+      this.atomStore.copyWithin(iAtomStart, iAtomEnd, nAtomCopy);
+      this.atomStore.count -= nAtomOffset;
+
+      for (var _iAtom2 = 0; _iAtom2 < nAtomNew; _iAtom2 += 1) {
+        atom.iAtom = _iAtom2;
+        if (atom.iRes >= iResStart) {
+          atom.iRes -= nResOffset;
+        }
+      }
+
+      for (var iRes = 0; iRes < nResNew; iRes += 1) {
+        if (iRes >= iResStart) {
+          var iResOld = iRes + nResOffset;
+          if (iResOld in this.residueNormal) {
+            this.residueNormal[iRes] = this.residueNormal[iResOld].clone();
+          }
+        }
+      }
+
+      for (var _iRes7 = nResNew; _iRes7 < nRes; _iRes7 += 1) {
+        delete this.residueNormal[_iRes7];
+      }
+
+      this.residueStore.copyWithin(iResStart, iResEnd, nResCopy);
+      this.residueStore.count -= nResOffset;
+      this.resIds.splice(iResStart, nResOffset);
+
+      for (var _iRes8 = 0; _iRes8 < nResNew; _iRes8 += 1) {
+        res.iRes = _iRes8;
+        if (res.iAtom >= iAtomStart) {
+          res.iAtom -= nAtomOffset;
+          atom.iAtom = res.iAtom;
+        }
+        if (this.residueStore.atomOffset[_iRes8] >= iAtomStart) {
+          this.residueStore.atomOffset[_iRes8] -= nAtomOffset;
+        }
+        if (res.iStructure >= iStructure) {
+          res.iStructure -= 1;
+        }
+      }
+
+      this.structureIds.splice(iStructure, 1);
+      this.iStructure -= 1;
+
+      this.calcBondsStrategic();
+    }
+  }, {
+    key: 'makeSelectedResidueList',
+    value: function makeSelectedResidueList() {
+      var result = [];
+      var residue = this.getResidueProxy();
+      for (var i = 0; i < this.getResidueCount(); i += 1) {
+        if (residue.load(i).sidechain) {
+          result.push(i);
+        }
+      }
+      return result;
+    }
+  }]);
+
+  return Soup;
+}();
+
+/**
+ * View
+ * ----
+ * A view includes all pertinent viewing options
+ * needed to render the soup in the way
+ * for the user.
+ *
+ * cameraParams stores the direction and zoom that a soup
+ * should be viewed:
+ * cameraParams {
+ *   focus: position that cameraParams is looking at
+ *   position: position of cameraParams - distance away gives zoom
+ *   up: vector direction denoting the up direction of cameraParams
+ *   zFront: clipping plane in front of the cameraParams focus
+ *   zBack: clipping plane behind the cameraParams focus
+ * }
+ *
+ * OpenGL notes:
+ *   - box is -1 to 1 that gets projected on screen + perspective
+ *   - x right -> left
+ *   - y bottom -> top (inverse of classic 2D coordinate)
+ *   - z far -> near
+ *   - that is positive Z direction is out of the screen
+ *   - box -1 to +1
+ */
+
+
+var View = function () {
+  function View() {
+    _classCallCheck(this, View);
+
+    this.id = 'view:000000';
+    this.iAtom = -1;
+    this.order = 1;
+    this.cameraParams = {
+      focus: _v2.default.create(0, 0, 0),
+      position: _v2.default.create(0, 0, -1),
+      up: _v2.default.create(0, 1, 0),
+      zFront: 0,
+      zBack: 0,
+      zoom: 1
+    };
+    this.selected = [];
+    this.labels = [];
+    this.distances = [];
+    this.selectedTraces = [];
+    this.text = 'Default view of PDB file';
+    this.user_id = '';
+    this.pdb_id = '';
+    this.show = {
+      sidechain: true,
+      peptide: true,
+      hydrogen: false,
+      water: false,
+      ligands: true,
+      trace: true,
+      backbone: false,
+      ribbon: true,
+      sphere: false,
+      transparent: false
+    }, this.grid = {
+      isElem: {},
+      bCutoff: null
+    };
+  }
+
+  _createClass(View, [{
+    key: 'setCamera',
+    value: function setCamera(cameraParams) {
+      this.cameraParams = cameraParams;
+    }
+  }, {
+    key: 'getViewTranslatedTo',
+    value: function getViewTranslatedTo(pos) {
+      var view = this.clone();
+      var disp = pos.clone().sub(view.cameraParams.focus);
+      view.cameraParams.focus.copy(pos);
+      view.cameraParams.position.add(disp);
+      return view;
+    }
+  }, {
+    key: 'clone',
+    value: function clone() {
+      var v = new View();
+      v.id = this.id;
+      v.pdb_id = this.pdb_id;
+      v.iAtom = this.iAtom;
+      v.selected = this.selected;
+      v.selectedTraces = _lodash2.default.cloneDeep(this.selectedTraces);
+      v.labels = _lodash2.default.cloneDeep(this.labels);
+      v.distances = _lodash2.default.cloneDeep(this.distances);
+      v.order = this.order;
+      v.text = this.text;
+      v.time = this.time;
+      v.cameraParams = _lodash2.default.cloneDeep(this.cameraParams);
+      v.show = _lodash2.default.cloneDeep(this.show);
+      v.grid = _lodash2.default.cloneDeep(this.grid);
+      return v;
+    }
+  }, {
+    key: 'getDict',
+    value: function getDict() {
+      // version 2.0 camera dict structure {
+      //    pos: soupView center, cameraParams focus
+      //    up: gives the direction of the y vector from pos
+      //    in: gives the positive z-axis direction
+      //    zFront: clipping plane in front of the cameraParams focus
+      //    zBack: clipping plane behind the cameraParams focus
+      // }
+      var cameraDir = this.cameraParams.focus.clone().sub(this.cameraParams.position);
+      var zoom = cameraDir.length();
+      cameraDir.normalize();
+      var pos = this.cameraParams.focus;
+      var inV = pos.clone().add(cameraDir);
+      var upV = pos.clone().sub(this.cameraParams.up);
+
+      var show = _lodash2.default.clone(this.show);
+      show.all_atom = show.backbone;
+      delete show.backbone;
+
+      return {
+        version: 2,
+        view_id: this.id,
+        user_id: this.user_id,
+        pdb_id: this.pdb_id,
+        order: this.order,
+        show: show,
+        grid: _lodash2.default.cloneDeep(this.grid),
+        text: this.text,
+        i_atom: this.iAtom,
+        labels: this.labels,
+        selected: this.selected,
+        selected_traces: this.selectedTraces,
+        distances: this.distances,
+        camera: {
+          slab: {
+            z_front: this.cameraParams.zFront,
+            z_back: this.cameraParams.zBack,
+            zoom: zoom
+          },
+          pos: [pos.x, pos.y, pos.z],
+          up: [upV.x, upV.y, upV.z],
+          in: [inV.x, inV.y, inV.z]
+        }
+      };
+    }
+  }, {
+    key: 'setFromDict',
+    value: function setFromDict(flatDict) {
+      this.id = flatDict.view_id;
+      this.pdb_id = flatDict.pdb_id;
+      this.lock = flatDict.lock;
+      this.text = flatDict.text;
+      this.user_id = flatDict.user_id;
+      this.order = flatDict.order;
+      this.res_id = flatDict.res_id;
+      this.iAtom = flatDict.i_atom;
+
+      this.labels = flatDict.labels;
+      this.selected = flatDict.selected;
+      this.distances = flatDict.distances;
+
+      var _iteratorNormalCompletion22 = true;
+      var _didIteratorError22 = false;
+      var _iteratorError22 = undefined;
+
+      try {
+        for (var _iterator22 = _lodash2.default.keys(flatDict.show)[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
+          var key = _step22.value;
+
+          if (key in this.show) {
+            this.show[key] = !!flatDict.show[key];
+          }
+          if (key === 'all_atom') {
+            this.show.backbone = !!flatDict.show.all_atom;
+          }
+        }
+      } catch (err) {
+        _didIteratorError22 = true;
+        _iteratorError22 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion22 && _iterator22.return) {
+            _iterator22.return();
+          }
+        } finally {
+          if (_didIteratorError22) {
+            throw _iteratorError22;
+          }
+        }
+      }
+
+      if (!(this.show.backbone || this.show.trace || this.show.ribbon)) {
+        this.show.ribbon = true;
+      }
+
+      if (!(this.show.all_atom || this.show.trace || this.show.ribbon)) {
+        this.show.backbone = true;
+      }
+
+      if ('grid' in flatDict) {
+        this.grid = flatDict.grid;
+      }
+
+      if ('selected_traces' in flatDict) {
+        this.selectedTraces = _lodash2.default.cloneDeep(flatDict['selected_traces']);
+      }
+
+      var pos = _v2.default.create(flatDict.camera.pos[0], flatDict.camera.pos[1], flatDict.camera.pos[2]);
+
+      var upV = _v2.default.create(flatDict.camera.up[0], flatDict.camera.up[1], flatDict.camera.up[2]);
+
+      var inV = _v2.default.create(flatDict.camera.in[0], flatDict.camera.in[1], flatDict.camera.in[2]);
+
+      var zoom = flatDict.camera.slab.zoom;
+
+      var focus = _v2.default.clone(pos);
+
+      var cameraDirection = _v2.default.clone(inV).sub(focus).multiplyScalar(zoom).negate();
+
+      var position = _v2.default.clone(focus).add(cameraDirection);
+
+      var up = _v2.default.clone(upV).sub(focus).negate();
+
+      this.cameraParams = {
+        focus: focus,
+        position: position,
+        up: up,
+        zFront: flatDict.camera.slab.z_front,
+        zBack: flatDict.camera.slab.z_back,
+        zoom: zoom
+      };
+    }
+  }]);
+
+  return View;
+}();
+
+function interpolateCameras(oldCamera, futureCamera, t) {
+  var oldCameraDirection = oldCamera.position.clone().sub(oldCamera.focus);
+  var oldZoom = oldCameraDirection.length();
+  oldCameraDirection.normalize();
+
+  var futureCameraDirection = futureCamera.position.clone().sub(futureCamera.focus);
+
+  var futureZoom = futureCameraDirection.length();
+  futureCameraDirection.normalize();
+
+  var cameraDirRotation = glgeom.getUnitVectorRotation(oldCameraDirection, futureCameraDirection);
+
+  var partialRotatedCameraUp = oldCamera.up.clone().applyQuaternion(cameraDirRotation);
+
+  var fullCameraUpRotation = glgeom.getUnitVectorRotation(partialRotatedCameraUp, futureCamera.up).multiply(cameraDirRotation);
+  var cameraUpRotation = glgeom.getFractionRotation(fullCameraUpRotation, t);
+
+  var focusDisp = futureCamera.focus.clone().sub(oldCamera.focus).multiplyScalar(t);
+
+  var focus = oldCamera.focus.clone().add(focusDisp);
+
+  var zoom = glgeom.fraction(oldZoom, futureZoom, t);
+
+  var focusToPosition = oldCameraDirection.clone().applyQuaternion(cameraUpRotation).multiplyScalar(zoom);
+
+  return {
+    focus: focus,
+    position: focus.clone().add(focusToPosition),
+    up: oldCamera.up.clone().applyQuaternion(cameraUpRotation),
+    zFront: glgeom.fraction(oldCamera.zFront, futureCamera.zFront, t),
+    zBack: glgeom.fraction(oldCamera.zBack, futureCamera.zBack, t),
+    zoom: zoom
+  };
+}
+
+/**
+ * The SoupView contains a soup and a list of
+ * views of the soup, including the current
+ * view, and a target view for animation
+ */
+
+var SoupView = function () {
+  function SoupView(soup) {
+    _classCallCheck(this, SoupView);
+
+    // the soup data for the soupView
+    this.soup = soup;
+
+    this.changed = true;
+
+    // indicates when sidechains need to be rebuilt
+    this.updateSidechain = false;
+
+    // indicates when colors need to be updated
+    this.updateSelection = false;
+
+    // delayed flag to change rendering after
+    // rotations have been done
+    this.startTargetAfterRender = false;
+
+    // indicates when decorators/widgets need to be redrawn
+    this.updateObservers = true;
+
+    // stores the current cameraParams, display
+    // options, distances, labels, selected
+    // residues
+    this.currentView = new View();
+
+    // stores other views that can be reloaded
+    this.savedViewsByViewId = {};
+    this.savedViews = [];
+    this.iLastViewSelected = 0;
+
+    // Animation variables store here so
+    // that Controller can get access to them
+
+    // the current animation state -
+    // 'none', 'loop', 'rock', 'rotate'
+    this.animateState = 'none';
+
+    // stores a target view for animation
+    this.targetView = null;
+
+    // timing counter that is continually decremented
+    // until it becomes negative
+    this.nUpdateStep = -1;
+
+    // this is to set the time between transitions of views
+    this.maxUpdateStep = 70;
+    this.msPerStep = 17;
+  }
+
+  _createClass(SoupView, [{
+    key: 'build',
+    value: function build() {
+      if (this.savedViews.length === 0 && !this.soup.isEmpty()) {
+        this.setCurrentViewToDefaultAndSave();
+      }
+      this.soup.findGridLimits();
+      this.saveGridToCurrentView();
+      this.soup.colorResidues();
+      this.soup.calculateTracesForRibbons();
+    }
+  }, {
+    key: 'saveGridToCurrentView',
+    value: function saveGridToCurrentView() {
+      for (var elem in this.soup.grid.isElem) {
+        if (elem in this.soup.grid.isElem) {
+          this.currentView.grid.isElem[elem] = this.soup.grid.isElem[elem];
+        }
+      }
+      if (!_lodash2.default.isNil(this.soup.grid.bCutoff)) {
+        this.currentView.grid.bCutoff = this.soup.grid.bCutoff;
+      }
+    }
+  }, {
+    key: 'setCurrentViewToDefaultAndSave',
+    value: function setCurrentViewToDefaultAndSave() {
+      this.currentView.show.sidechain = false;
+      this.currentView.order = 0;
+      this.currentView.text = this.soup.title;
+      this.currentView.pdb_id = this.soup.structureIds[0];
+      this.currentView = this.getZoomedOutViewOfCurrentView();
+      this.saveView(this.currentView);
+      this.changed = true;
+    }
+  }, {
+    key: 'setTargetView',
+    value: function setTargetView(view) {
+      this.startTargetAfterRender = true;
+      this.saveTargetView = view.clone();
+      this.saveTargetView.iAtom = this.soup.getIAtomAtPosition(view.cameraParams.focus);
+    }
+  }, {
+    key: 'startTargetView',
+    value: function startTargetView() {
+      this.targetView = this.saveTargetView;
+      this.updateObservers = true;
+      this.startTargetAfterRender = false;
+      this.changed = true;
+    }
+  }, {
+    key: 'getICenteredAtom',
+    value: function getICenteredAtom() {
+      return this.currentView.iAtom;
+    }
+  }, {
+    key: 'getIViewFromViewId',
+    value: function getIViewFromViewId(viewId) {
+      for (var iView = 0; iView < this.savedViews.length; iView += 1) {
+        if (this.savedViews[iView].id === viewId) {
+          return iView;
+        }
+      }
+      return -1;
+    }
+  }, {
+    key: 'insertView',
+    value: function insertView(iView, newViewId, newView) {
+      this.savedViewsByViewId[newViewId] = newView;
+      if (iView >= this.savedViews.length) {
+        this.savedViews.push(newView);
+      } else {
+        this.savedViews.splice(iView, 0, newView);
+      }
+      this.iLastViewSelected = iView;
+      for (var i = 0; i < this.savedViews.length; i++) {
+        this.savedViews[i].order = i;
+      }
+    }
+  }, {
+    key: 'removeView',
+    value: function removeView(viewId) {
+      var iView = this.getIViewFromViewId(viewId);
+      if (iView < 0) {
+        return;
+      }
+      this.savedViews.splice(iView, 1);
+      delete this.savedViewsByViewId[viewId];
+      for (var j = 0; j < this.savedViews.length; j++) {
+        this.savedViews[j].order = j;
+      }
+      if (this.iLastViewSelected >= this.savedViews.length) {
+        this.iLastViewSelected = this.savedViews.length - 1;
+      }
+      this.changed = true;
+    }
+  }, {
+    key: 'saveView',
+    value: function saveView(view) {
+      this.savedViewsByViewId[view.id] = view;
+      this.savedViews.push(view);
+    }
+  }, {
+    key: 'getZoomedOutViewOfCurrentView',
+    value: function getZoomedOutViewOfCurrentView() {
+      var maxLength = this.soup.calcMaxLength();
+
+      var newView = this.currentView.clone();
+
+      if (maxLength === 0) {
+        return newView;
+      }
+
+      var cameraParams = newView.cameraParams;
+
+      cameraParams.zFront = -maxLength / 2;
+      cameraParams.zBack = maxLength / 2;
+      cameraParams.zoom = Math.abs(maxLength) * 1.75;
+
+      var atomIndices = _lodash2.default.range(this.soup.getAtomCount());
+      var center = this.soup.getCenter(atomIndices);
+
+      var look = cameraParams.position.clone().sub(cameraParams.focus).normalize();
+      cameraParams.focus.copy(center);
+      cameraParams.position = cameraParams.focus.clone().add(look.multiplyScalar(cameraParams.zoom));
+
+      newView.iAtom = this.soup.getIAtomAtPosition(center);
+      return newView;
+    }
+  }, {
+    key: 'setTargetViewByViewId',
+    value: function setTargetViewByViewId(viewId) {
+      var view = this.savedViewsByViewId[viewId];
+      this.iLastViewSelected = this.savedViewsByViewId[viewId].order;
+      this.setTargetView(view);
+    }
+  }, {
+    key: 'setTargetViewByIAtom',
+    value: function setTargetViewByIAtom(iAtom) {
+      var atom = this.soup.getAtomProxy(iAtom);
+      var view = this.currentView.getViewTranslatedTo(atom.pos);
+      view.iAtom = this.soup.getIAtomAtPosition(view.cameraParams.focus);
+      view.selectedTraces = [];
+      var _iteratorNormalCompletion23 = true;
+      var _didIteratorError23 = false;
+      var _iteratorError23 = undefined;
+
+      try {
+        for (var _iterator23 = this.soup.traces.entries()[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
+          var _step23$value = _slicedToArray(_step23.value, 2),
+              iTrace = _step23$value[0],
+              trace = _step23$value[1];
+
+          if (_lodash2.default.includes(trace.indices, atom.iRes)) {
+            view.selectedTraces.push(iTrace);
+          }
+        }
+      } catch (err) {
+        _didIteratorError23 = true;
+        _iteratorError23 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion23 && _iterator23.return) {
+            _iterator23.return();
+          }
+        } finally {
+          if (_didIteratorError23) {
+            throw _iteratorError23;
+          }
+        }
+      }
+
+      console.log('SoupView.setTargetViewByIAtom new trace', view.selectedTraces);
+      this.setTargetView(view);
+    }
+  }, {
+    key: 'getZoomedOutViewOfSelection',
+    value: function getZoomedOutViewOfSelection() {
+      var newView = this.currentView.clone();
+
+      var atomIndices = [];
+      var residue = this.soup.getResidueProxy();
+      var _iteratorNormalCompletion24 = true;
+      var _didIteratorError24 = false;
+      var _iteratorError24 = undefined;
+
+      try {
+        for (var _iterator24 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
+          var iRes = _step24.value;
+
+          residue.load(iRes);
+          if (residue.selected) {
+            atomIndices.push(residue.iAtom);
+          }
+        }
+      } catch (err) {
+        _didIteratorError24 = true;
+        _iteratorError24 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion24 && _iterator24.return) {
+            _iterator24.return();
+          }
+        } finally {
+          if (_didIteratorError24) {
+            throw _iteratorError24;
+          }
+        }
+      }
+
+      var center = this.soup.getCenter(atomIndices);
+      var maxLength = this.soup.calcMaxLength(atomIndices);
+
+      if (maxLength === 0) {
+        return newView;
+      }
+
+      var cameraParams = newView.cameraParams;
+
+      cameraParams.zFront = -maxLength / 2;
+      cameraParams.zBack = maxLength / 2;
+      cameraParams.zoom = Math.abs(maxLength) * 1.2;
+
+      var look = cameraParams.position.clone().sub(cameraParams.focus).normalize();
+      cameraParams.focus.copy(center);
+      cameraParams.position = cameraParams.focus.clone().add(look.multiplyScalar(cameraParams.zoom));
+
+      newView.iAtom = this.soup.getIAtomAtPosition(center);
+      return newView;
+    }
+  }, {
+    key: 'saveCurrentView',
+    value: function saveCurrentView() {
+      var newView = this.currentView.clone();
+      newView.id = (0, _util.randomId)();
+      newView.text = 'Click edit to change this text.';
+      newView.pdb_id = this.soup.structureIds[0];
+      newView.selected = this.soup.makeSelectedResidueList();
+      newView.selectedTraces = _lodash2.default.cloneDeep(this.soup.selectedTraces);
+
+      var iNewView = this.iLastViewSelected + 1;
+      this.insertView(iNewView, newView.id, newView);
+      this.setTargetViewByViewId(newView.id);
+      this.changed = true;
+      this.updateSelection = true;
+      console.log('Soupview.saveCurrentView', newView);
+
+      return newView.id;
+    }
+  }, {
+    key: 'setCurrentView',
+    value: function setCurrentView(view) {
+      var oldViewSelected = this.currentView.selected;
+      this.currentView = view.clone();
+      this.soup.selectedTraces = _lodash2.default.cloneDeep(view.selectedTraces);
+      if (!_lodash2.default.isEqual(oldViewSelected.sort(), view.selected.sort())) {
+        this.soup.clearSidechainResidues();
+        this.soup.setSidechainOfResidues(view.selected, true);
+        this.updateSidechain = true;
+      }
+
+      // use view.grid parameters to reset soup.grid
+      for (var elem in view.grid.isElem) {
+        if (elem in this.soup.grid.isElem) {
+          if (view.grid.isElem[elem] !== this.soup.grid.isElem[elem]) {
+            this.soup.grid.isElem[elem] = view.grid.isElem[elem];
+            this.soup.grid.changed = true;
+          }
+        }
+      }
+      if (!_lodash2.default.isNil(view.grid.bCutoff)) {
+        if (this.soup.grid.bCutoff !== view.grid.bCutoff) {
+          this.soup.grid.bCutoff = view.grid.bCutoff;
+          this.soup.grid.changed = true;
+        }
+      }
+
+      this.changed = true;
+    }
+  }, {
+    key: 'setTargetToPrevView',
+    value: function setTargetToPrevView() {
+      if (this.savedViews.length === 0) {
+        return '';
+      }
+      this.iLastViewSelected -= 1;
+      if (this.iLastViewSelected < 0) {
+        this.iLastViewSelected = this.savedViews.length - 1;
+      }
+      var id = this.savedViews[this.iLastViewSelected].id;
+      this.setTargetViewByViewId(id);
+      return id;
+    }
+  }, {
+    key: 'setTargetToNextView',
+    value: function setTargetToNextView() {
+      if (this.savedViews.length === 0) {
+        return '';
+      }
+      this.iLastViewSelected += 1;
+      if (this.iLastViewSelected >= this.savedViews.length) {
+        this.iLastViewSelected = 0;
+      }
+      var id = this.savedViews[this.iLastViewSelected].id;
+      this.setTargetViewByViewId(id);
+      return id;
+    }
+  }, {
+    key: 'setTargetToPrevResidue',
+    value: function setTargetToPrevResidue() {
+      var iAtom = _lodash2.default.get(this.targetView, 'iAtom');
+      if ((0, _util.exists)(iAtom)) {
+        iAtom = this.targetView.iAtom;
+      } else {
+        iAtom = this.currentView.iAtom;
+      }
+      if (iAtom < 0) {
+        iAtom = 0;
+      }
+      var iRes = this.soup.getAtomProxy(iAtom).iRes;
+      if (iRes <= 0) {
+        iRes = this.soup.getResidueCount() - 1;
+      } else {
+        iRes -= 1;
+      }
+      iAtom = this.soup.getResidueProxy(iRes).iAtom;
+      this.setTargetViewByIAtom(iAtom);
+    }
+  }, {
+    key: 'setTargetToNextResidue',
+    value: function setTargetToNextResidue() {
+      var iAtom = _lodash2.default.get(this.targetView, 'iAtom');
+      if ((0, _util.exists)(iAtom)) {
+        iAtom = this.targetView.iAtom;
+      } else {
+        iAtom = this.currentView.iAtom;
+      }
+      if (iAtom < 0) {
+        iAtom = 0;
+      }
+      var iRes = this.soup.getAtomProxy(iAtom).iRes;
+      if (iRes >= this.soup.getResidueCount() - 1) {
+        iRes = 0;
+      } else {
+        iRes += 1;
+      }
+      iAtom = this.soup.getResidueProxy(iRes).iAtom;
+      this.setTargetViewByIAtom(iAtom);
+    }
+  }, {
+    key: 'adjustCamera',
+    value: function adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio) {
+      var cameraParams = this.currentView.cameraParams;
+
+      var y = cameraParams.up;
+      var z = cameraParams.position.clone().sub(cameraParams.focus).normalize();
+      var x = _v2.default.create().crossVectors(y, z).normalize();
+
+      var rotZ = new THREE.Quaternion().setFromAxisAngle(z, zRotationAngle);
+
+      var rotY = new THREE.Quaternion().setFromAxisAngle(y, -yRotationAngle);
+
+      var rotX = new THREE.Quaternion().setFromAxisAngle(x, -xRotationAngle);
+
+      var rotation = new THREE.Quaternion().multiply(rotZ).multiply(rotY).multiply(rotX);
+
+      var newZoom = zoomRatio * cameraParams.zoom;
+
+      if (newZoom < 2) {
+        newZoom = 2;
+      }
+
+      var position = cameraParams.position.clone().sub(cameraParams.focus).applyQuaternion(rotation).normalize().multiplyScalar(newZoom).add(cameraParams.focus);
+
+      var view = this.currentView.clone();
+      view.cameraParams.focus = cameraParams.focus.clone();
+      view.cameraParams.position = position;
+      view.cameraParams.up = cameraParams.up.clone().applyQuaternion(rotation);
+      view.cameraParams.zoom = newZoom;
+
+      this.setCurrentView(view);
+    }
+  }, {
+    key: 'animate',
+    value: function animate(elapsedTime) {
+      this.nUpdateStep -= elapsedTime / this.msPerStep;
+      if (this.nUpdateStep < 0) {
+        if (this.targetView !== null) {
+          this.setCurrentView(this.targetView);
+          this.updateObservers = true;
+          this.changed = true;
+          this.targetView = null;
+          this.nUpdateStep = this.maxUpdateStep;
+        } else {
+          if (this.startTargetAfterRender) {
+            this.changed = true;
+          } else if (this.animateState === 'loop') {
+            if (this.nUpdateStep < -this.maxWaitStep) {
+              this.setTargetToNextView();
+            }
+          } else if (this.animateState === 'rotate') {
+            this.adjustCamera(0.0, 0.002, 0, 1);
+          } else if (this.animateState === 'rock') {
+            var nStepRock = 18;
+            if (this.nUpdateStep > -nStepRock) {
+              this.adjustCamera(0.0, 0.002, 0, 1);
+            } else if (this.nUpdateStep > -3 * nStepRock) {
+              this.adjustCamera(0.0, -0.002, 0, 1);
+            } else if (this.nUpdateStep > -4 * nStepRock) {
+              this.adjustCamera(0.0, +0.002, 0, 1);
+            } else {
+              this.nUpdateStep = 0;
+            }
+          }
+        }
+      } else if (this.nUpdateStep >= 1) {
+        if (this.targetView != null) {
+          var view = this.currentView.clone();
+          view.setCamera(interpolateCameras(this.currentView.cameraParams, this.targetView.cameraParams, 1.0 / this.nUpdateStep));
+          this.setCurrentView(view);
+        }
+      }
+    }
+  }]);
+
+  return SoupView;
+}();
+
+/**
+ * The Controller for SoupView. All mutations
+ * to a Soup and its Views go through here.
+ */
+
+
+var Controller = function () {
+  function Controller(soupView) {
+    _classCallCheck(this, Controller);
+
+    this.soup = soupView.soup;
+    this.soupView = soupView;
+    this.iResLastSelected = null;
+  }
+
+  _createClass(Controller, [{
+    key: 'deleteDistance',
+    value: function deleteDistance(iDistance) {
+      this.soupView.currentView.distances.splice(iDistance, 1);
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'makeDistance',
+    value: function makeDistance(iAtom1, iAtom2) {
+      this.soupView.currentView.distances.push({ i_atom1: iAtom1, i_atom2: iAtom2 });
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'makeAtomLabel',
+    value: function makeAtomLabel(iAtom, text) {
+      this.soupView.currentView.labels.push({ i_atom: iAtom, text: text });
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'deleteAtomLabel',
+    value: function deleteAtomLabel(iLabel) {
+      this.soupView.currentView.labels.splice(iLabel, 1);
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'setTargetView',
+    value: function setTargetView(view) {
+      this.soupView.setTargetView(view);
+    }
+  }, {
+    key: 'setTargetViewByViewId',
+    value: function setTargetViewByViewId(viewId) {
+      this.soupView.setTargetViewByViewId(viewId);
+    }
+  }, {
+    key: 'setTargetViewByIAtom',
+    value: function setTargetViewByIAtom(iAtom) {
+      this.soupView.setTargetViewByIAtom(iAtom);
+    }
+  }, {
+    key: 'setTargetToPrevResidue',
+    value: function setTargetToPrevResidue() {
+      this.soupView.setTargetToPrevResidue();
+    }
+  }, {
+    key: 'setTargetToNextResidue',
+    value: function setTargetToNextResidue() {
+      this.soupView.setTargetToNextResidue();
+    }
+  }, {
+    key: 'setTargetToPrevView',
+    value: function setTargetToPrevView() {
+      return this.soupView.setTargetToPrevView();
+    }
+  }, {
+    key: 'setTargetToNextView',
+    value: function setTargetToNextView() {
+      return this.soupView.setTargetToNextView();
+    }
+  }, {
+    key: 'swapViews',
+    value: function swapViews(i, j) {
+      this.soupView.savedViews[j].order = i;
+      this.soupView.savedViews[i].order = j;
+      var dummy = this.soupView.savedViews[j];
+      this.soupView.savedViews[j] = this.soupView.savedViews[i];
+      this.soupView.savedViews[i] = dummy;
+    }
+  }, {
+    key: 'getViewDicts',
+    value: function getViewDicts() {
+      var viewDicts = [];
+      for (var i = 1; i < this.soupView.savedViews.length; i += 1) {
+        viewDicts.push(this.soupView.savedViews[i].getDict());
+      }
+      return viewDicts;
+    }
+  }, {
+    key: 'clearSidechainResidues',
+    value: function clearSidechainResidues() {
+      this.soup.clearSidechainResidues();
+      this.soupView.currentView.selected = this.soup.makeSelectedResidueList();
+      this.soupView.updateSidechain = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'clearSelectedResidues',
+    value: function clearSelectedResidues() {
+      this.soup.clearSelectedResidues();
+      this.soupView.currentView.selected = this.soup.makeSelectedResidueList();
+      this.soupView.updateSelection = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'setResidueSelect',
+    value: function setResidueSelect(iRes, val) {
+      var res = this.soup.getResidueProxy(iRes);
+      res.selected = val;
+      this.soupView.updateSelection = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'showAllSidechains',
+    value: function showAllSidechains() {
+      var res = this.soup.getResidueProxy();
+      var _iteratorNormalCompletion25 = true;
+      var _didIteratorError25 = false;
+      var _iteratorError25 = undefined;
+
+      try {
+        for (var _iterator25 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step25; !(_iteratorNormalCompletion25 = (_step25 = _iterator25.next()).done); _iteratorNormalCompletion25 = true) {
+          var iRes = _step25.value;
+
+          res.load(iRes).sidechain = true;
+        }
+      } catch (err) {
+        _didIteratorError25 = true;
+        _iteratorError25 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion25 && _iterator25.return) {
+            _iterator25.return();
+          }
+        } finally {
+          if (_didIteratorError25) {
+            throw _iteratorError25;
+          }
+        }
+      }
+
+      this.soupView.updateSidechain = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'selectResidue',
+    value: function selectResidue(iRes, val) {
+      var res = this.soup.getResidueProxy(iRes);
+      if (_lodash2.default.isUndefined(val)) {
+        val = !res.selected;
+      }
+      this.clearSelectedResidues();
+      this.setResidueSelect(iRes, val);
+      this.iResLastSelected = val ? iRes : null;
+      this.soupView.updateSelection = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'selectAdditionalResidue',
+    value: function selectAdditionalResidue(iRes) {
+      var res = this.soup.getResidueProxy(iRes);
+      var val = !res.selected;
+      this.setResidueSelect(iRes, val);
+      this.iResLastSelected = val ? iRes : null;
+      this.soupView.updateSelection = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'selectAdditionalRangeToResidue',
+    value: function selectAdditionalRangeToResidue(iRes) {
+      var res = this.soup.getResidueProxy(iRes);
+      var val = !res.selected;
+      if (this.iResLastSelected !== null) {
+        var lastRes = this.soup.getResidueProxy(this.iResLastSelected);
+        if (res.iStructure === lastRes.iStructure) {
+          var iFirstRes = Math.min(this.iResLastSelected, iRes);
+          var iLastRes = Math.max(this.iResLastSelected, iRes);
+          for (var i = iFirstRes; i < iLastRes + 1; i += 1) {
+            this.setResidueSelect(i, true);
+          }
+        }
+      }
+      this.iResLastSelected = val ? iRes : null;
+      this.soupView.updateSelection = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'toggleSelectedSidechains',
+    value: function toggleSelectedSidechains() {
+      var residue = this.soup.getResidueProxy();
+      var indices = [];
+      var nSidechain = 0;
+      for (var iRes = 0; iRes < this.soup.getResidueCount(); iRes += 1) {
+        residue.load(iRes);
+        if (residue.selected) {
+          indices.push(iRes);
+          if (residue.sidechain) {
+            nSidechain += 1;
+          }
+        }
+      }
+      var isSidechain = true;
+      if (nSidechain === indices.length) {
+        isSidechain = false;
+      }
+      var _iteratorNormalCompletion26 = true;
+      var _didIteratorError26 = false;
+      var _iteratorError26 = undefined;
+
+      try {
+        for (var _iterator26 = indices[Symbol.iterator](), _step26; !(_iteratorNormalCompletion26 = (_step26 = _iterator26.next()).done); _iteratorNormalCompletion26 = true) {
+          var _iRes9 = _step26.value;
+
+          residue.load(_iRes9);
+          residue.sidechain = isSidechain;
+        }
+      } catch (err) {
+        _didIteratorError26 = true;
+        _iteratorError26 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion26 && _iterator26.return) {
+            _iterator26.return();
+          }
+        } finally {
+          if (_didIteratorError26) {
+            throw _iteratorError26;
+          }
+        }
+      }
+
+      this.soupView.updateSidechain = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'toggleResidueNeighbors',
+    value: function toggleResidueNeighbors() {
+      var indices = [];
+
+      var nSelected = 0;
+      var residue = this.soup.getResidueProxy();
+      for (var iRes = 0; iRes < this.soup.getResidueCount(); iRes += 1) {
+        residue.load(iRes);
+        if (residue.selected) {
+          indices = _lodash2.default.concat(indices, this.soup.getNeighbours(iRes));
+          nSelected += 1;
+        }
+      }
+
+      if (nSelected === 0) {
+        console.log('Controller.toggleResidueNeighbors none selected');
+        var pos = this.soupView.currentView.cameraParams.focus;
+        indices = this.soup.getNeighboursOfPoint(pos);
+      }
+
+      if (indices.length === 0) {
+        var iAtom = this.soupView.currentView.iAtom;
+        var _iRes10 = this.soup.getAtomProxy(iAtom).iRes;
+        indices = _lodash2.default.concat(indices, this.soup.getNeighbours(_iRes10));
+      }
+      var nSidechain = 0;
+      var _iteratorNormalCompletion27 = true;
+      var _didIteratorError27 = false;
+      var _iteratorError27 = undefined;
+
+      try {
+        for (var _iterator27 = indices[Symbol.iterator](), _step27; !(_iteratorNormalCompletion27 = (_step27 = _iterator27.next()).done); _iteratorNormalCompletion27 = true) {
+          var _iRes11 = _step27.value;
+
+          if (residue.load(_iRes11).sidechain) {
+            nSidechain += 1;
+          }
+        }
+      } catch (err) {
+        _didIteratorError27 = true;
+        _iteratorError27 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion27 && _iterator27.return) {
+            _iterator27.return();
+          }
+        } finally {
+          if (_didIteratorError27) {
+            throw _iteratorError27;
+          }
+        }
+      }
+
+      var isSidechain = nSidechain < indices.length;
+
+      this.soup.setSidechainOfResidues(indices, isSidechain);
+      this.soupView.currentView.selected = this.soup.makeSelectedResidueList();
+      this.soupView.changed = true;
+      this.soupView.updateSidechain = true;
+    }
+  }, {
+    key: 'saveCurrentView',
+    value: function saveCurrentView() {
+      return this.soupView.saveCurrentView();
+    }
+  }, {
+    key: 'deleteView',
+    value: function deleteView(viewId) {
+      this.soupView.removeView(viewId);
+    }
+  }, {
+    key: 'sortViewsByOrder',
+    value: function sortViewsByOrder() {
+      function orderSort(a, b) {
+        return a.order - b.order;
+      }
+
+      this.soupView.savedViews.sort(orderSort);
+      for (var i = 0; i < this.soupView.savedViews.length; i += 1) {
+        this.soupView.savedViews[i].order = i;
+      }
+    }
+  }, {
+    key: 'loadViewsFromViewDicts',
+    value: function loadViewsFromViewDicts(viewDicts) {
+      for (var i = 0; i < viewDicts.length; i += 1) {
+        var view = new View();
+        view.setFromDict(viewDicts[i]);
+        if (view.id === 'view:000000') {
+          continue;
+        }
+        this.soupView.saveView(view);
+      }
+      this.sortViewsByOrder();
+    }
+  }, {
+    key: 'asyncLoadProteinData',
+    value: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(proteinData, asyncSetMessageFn) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.soup.asyncLoadProteinData(proteinData, asyncSetMessageFn);
+
+              case 2:
+                this.soupView.changed = true;
+                this.soupView.updateObservers = true;
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function asyncLoadProteinData(_x4, _x5) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return asyncLoadProteinData;
+    }()
+  }, {
+    key: 'setShowOption',
+    value: function setShowOption(option, bool) {
+      console.log('Controller.setShowOption', option, bool);
+      this.soupView.currentView.show[option] = bool;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'getShowOption',
+    value: function getShowOption(option) {
+      return this.soupView.currentView.show[option];
+    }
+  }, {
+    key: 'toggleShowOption',
+    value: function toggleShowOption(option) {
+      var val = this.getShowOption(option);
+      this.setShowOption(option, !val);
+    }
+  }, {
+    key: 'setChangeFlag',
+    value: function setChangeFlag() {
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'setZoom',
+    value: function setZoom(zBack, zFront) {
+      var cameraParams = this.soupView.currentView.cameraParams;
+      cameraParams.zBack = zBack;
+      cameraParams.zFront = zFront;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'toggleGridElem',
+    value: function toggleGridElem(elem) {
+      var b = this.soupView.soup.grid.isElem[elem];
+      this.soupView.soup.grid.isElem[elem] = !b;
+      this.soupView.soup.grid.changed = true;
+      this.soupView.currentView.grid.isElem = _lodash2.default.cloneDeep(this.soupView.soup.grid.isElem);
+      this.soupView.changed = true;
+
+      this.soupView.soup.colorResidues();
+
+      this.soupView.updateSelection = true;
+    }
+  }, {
+    key: 'setGridCutoff',
+    value: function setGridCutoff(bCutoff) {
+      this.soupView.soup.grid.bCutoff = bCutoff;
+      this.soupView.soup.grid.changed = true;
+      this.soupView.currentView.grid.bCutoff = bCutoff;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'clear',
+    value: function clear() {
+      var distances = this.soupView.currentView.distances;
+      var _iteratorNormalCompletion28 = true;
+      var _didIteratorError28 = false;
+      var _iteratorError28 = undefined;
+
+      try {
+        for (var _iterator28 = _lodash2.default.reverse(_lodash2.default.range(distances.length))[Symbol.iterator](), _step28; !(_iteratorNormalCompletion28 = (_step28 = _iterator28.next()).done); _iteratorNormalCompletion28 = true) {
+          var i = _step28.value;
+
+          this.deleteDistance(i);
+        }
+      } catch (err) {
+        _didIteratorError28 = true;
+        _iteratorError28 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion28 && _iterator28.return) {
+            _iterator28.return();
+          }
+        } finally {
+          if (_didIteratorError28) {
+            throw _iteratorError28;
+          }
+        }
+      }
+
+      var labels = this.soupView.currentView.labels;
+      var _iteratorNormalCompletion29 = true;
+      var _didIteratorError29 = false;
+      var _iteratorError29 = undefined;
+
+      try {
+        for (var _iterator29 = _lodash2.default.reverse(_lodash2.default.range(labels.length))[Symbol.iterator](), _step29; !(_iteratorNormalCompletion29 = (_step29 = _iterator29.next()).done); _iteratorNormalCompletion29 = true) {
+          var _i2 = _step29.value;
+
+          this.deleteAtomLabel(_i2);
+        }
+      } catch (err) {
+        _didIteratorError29 = true;
+        _iteratorError29 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion29 && _iterator29.return) {
+            _iterator29.return();
+          }
+        } finally {
+          if (_didIteratorError29) {
+            throw _iteratorError29;
+          }
+        }
+      }
+
+      this.clearSidechainResidues();
+      this.clearSelectedResidues();
+    }
+  }, {
+    key: 'getAnimateState',
+    value: function getAnimateState() {
+      return this.soupView.animateState;
+    }
+  }, {
+    key: 'setAnimateState',
+    value: function setAnimateState(v) {
+      this.soupView.animateState = v;
+      this.soupView.updateObservers = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'deleteStructure',
+    value: function deleteStructure(iStructure) {
+      this.soup.deleteStructure(iStructure);
+      if (this.soup.isEmpty()) {
+        this.soupView.savedViews.length = 0;
+        var _iteratorNormalCompletion30 = true;
+        var _didIteratorError30 = false;
+        var _iteratorError30 = undefined;
+
+        try {
+          for (var _iterator30 = _lodash2.default.keys(this.soupView.savedViewsByViewId)[Symbol.iterator](), _step30; !(_iteratorNormalCompletion30 = (_step30 = _iterator30.next()).done); _iteratorNormalCompletion30 = true) {
+            var id = _step30.value;
+
+            delete this.soupView.savedViewsByViewId[id];
+          }
+        } catch (err) {
+          _didIteratorError30 = true;
+          _iteratorError30 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion30 && _iterator30.return) {
+              _iterator30.return();
+            }
+          } finally {
+            if (_didIteratorError30) {
+              throw _iteratorError30;
+            }
+          }
+        }
+
+        this.soupView.currentView = new View();
+        this.soupView.targetView = null;
+        this.soupView.startTargetAfterRender = false;
+        this.soupView.nUpdateStep = -1;
+      } else {
+        this.soupView.updateSidechain = true;
+        this.soupView.updateSelection = true;
+      }
+      this.soupView.updateObservers = true;
+      this.soupView.changed = true;
+    }
+  }, {
+    key: 'zoomOut',
+    value: function zoomOut() {
+      if (!this.soup.isEmpty()) {
+        this.setTargetView(this.soupView.getZoomedOutViewOfCurrentView());
+        this.soupView.changed = true;
+      }
+    }
+  }, {
+    key: 'zoomToSelection',
+    value: function zoomToSelection() {
+      if (!this.soup.isEmpty()) {
+        this.setTargetView(this.soupView.getZoomedOutViewOfSelection());
+        this.soupView.changed = true;
+      }
+    }
+  }, {
+    key: 'adjustCamera',
+    value: function adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio) {
+      this.soupView.adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio);
+    }
+  }]);
+
+  return Controller;
+}();
+
+exports.Soup = Soup;
+exports.Controller = Controller;
+exports.interpolateCameras = interpolateCameras;
+exports.SoupView = SoupView;
+exports.View = View;
 
 /***/ }),
 /* 341 */
@@ -90445,614 +91075,7 @@ exports.default = Store;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * @file Bit array
- * @author Alexander Rose <alexander.rose@weirdbyte.de>
- * @author Paul Pillot <paulpillot@gmail.com>
- * @private
- */
-
-/**
- * Compute the Hamming weight of a 32-bit unsigned integer
- * @param  {Integer} v - a 32-bit unsigned integer
- * @return {Integer} the Hamming weight
- */
-function hammingWeight(v) {
-  // works with signed or unsigned shifts
-  v -= v >>> 1 & 0x55555555;
-  v = (v & 0x33333333) + (v >>> 2 & 0x33333333);
-  return (v + (v >>> 4) & 0xF0F0F0F) * 0x1010101 >>> 24;
-}
-
-/**
- * Bit array
- *
- * Based heavily on https://github.com/lemire/FastBitSet.js
- * which is licensed under the Apache License, Version 2.0.
- */
-
-var BitArray = function () {
-  /**
-   * @param  {Integer} length - array length
-   * @param  {Boolean} [setAll] - initialize with true
-   */
-  function BitArray(length, setAll) {
-    _classCallCheck(this, BitArray);
-
-    this.length = length;
-    this._words = new Uint32Array(length + 32 >>> 5);
-    if (setAll === true) {
-      this.setAll();
-    }
-  }
-
-  /**
-   * Get value at index
-   * @param  {Integer} index - the index
-   * @return {Boolean} value
-   */
-
-
-  _createClass(BitArray, [{
-    key: 'get',
-    value: function get(index) {
-      return (this._words[index >>> 5] & 1 << index) !== 0;
-    }
-
-    /**
-     * Set value at index to true
-     * @param  {Integer} index - the index
-     * @return {undefined}
-     */
-
-  }, {
-    key: 'set',
-    value: function set(index) {
-      this._words[index >>> 5] |= 1 << index;
-    }
-
-    /**
-     * Set value at index to false
-     * @param  {Integer} index - the index
-     * @return {undefined}
-     */
-
-  }, {
-    key: 'clear',
-    value: function clear(index) {
-      this._words[index >>> 5] &= ~(1 << index);
-    }
-
-    /**
-     * Flip value at index
-     * @param  {Integer} index - the index
-     * @return {undefined}
-     */
-
-  }, {
-    key: 'flip',
-    value: function flip(index) {
-      this._words[index >>> 5] ^= 1 << index;
-    }
-  }, {
-    key: '_assignRange',
-    value: function _assignRange(start, end, value) {
-      var words = this._words;
-      var wordValue = value === true ? 0xFFFFFFFF : 0;
-      var wordStart = start >>> 5;
-      var wordEnd = end >>> 5;
-      // set complete words when applicable
-      for (var k = wordStart; k < wordEnd; ++k) {
-        words[k] = wordValue;
-      }
-      // set parts of the range not spanning complete words
-      var startWord = wordStart << 5;
-      var endWord = wordEnd << 5;
-      if (value === true) {
-        if (end - start < 32) {
-          for (var i = start, n = end + 1; i < n; ++i) {
-            words[i >>> 5] |= 1 << i;
-          }
-        } else {
-          for (var _i = start, _n = startWord; _i < _n; ++_i) {
-            words[_i >>> 5] |= 1 << _i;
-          }
-          for (var _i2 = endWord, _n2 = end + 1; _i2 < _n2; ++_i2) {
-            words[_i2 >>> 5] |= 1 << _i2;
-          }
-        }
-      } else {
-        if (end - start < 32) {
-          for (var _i3 = start, _n3 = end + 1; _i3 < _n3; ++_i3) {
-            words[_i3 >>> 5] &= ~(1 << _i3);
-          }
-        } else {
-          for (var _i4 = start, _n4 = startWord; _i4 < _n4; ++_i4) {
-            words[_i4 >>> 5] &= ~(1 << _i4);
-          }
-          for (var _i5 = endWord, _n5 = end + 1; _i5 < _n5; ++_i5) {
-            words[_i5 >>> 5] &= ~(1 << _i5);
-          }
-        }
-      }
-      return this;
-    }
-
-    /**
-     * Set bits of the given range
-     * @param {Integer} start - start index
-     * @param {Integer} end - end index
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'setRange',
-    value: function setRange(start, end) {
-      return this._assignRange(start, end, true);
-    }
-
-    /**
-     * Clear bits of the given range
-     * @param {Integer} start - start index
-     * @param {Integer} end - end index
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'clearRange',
-    value: function clearRange(start, end) {
-      return this._assignRange(start, end, false);
-    }
-
-    /**
-     * Set bits at all given indices
-     * @param {...Integer} arguments - indices
-     * @return {Boolean} this object
-     */
-
-  }, {
-    key: 'setBits',
-    value: function setBits() {
-      var words = this._words;
-      var n = arguments.length;
-      for (var i = 0; i < n; ++i) {
-        var index = arguments[i];
-        words[index >>> 5] |= 1 << index;
-      }
-      return this;
-    }
-
-    /**
-     * Clear bits at all given indices
-     * @param {...Integer} arguments - indices
-     * @return {Boolean} this object
-     */
-
-  }, {
-    key: 'clearBits',
-    value: function clearBits() {
-      var words = this._words;
-      var n = arguments.length;
-      for (var i = 0; i < n; ++i) {
-        var index = arguments[i];
-        words[index >>> 5] &= ~(1 << index);
-      }
-      return this;
-    }
-
-    /**
-     * Set all bits of the array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'setAll',
-    value: function setAll() {
-      return this._assignRange(0, this.length - 1, true);
-    }
-
-    /**
-     * Clear all bits of the array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'clearAll',
-    value: function clearAll() {
-      return this._assignRange(0, this.length - 1, false);
-    }
-
-    /**
-     * Flip all the values in the array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'flipAll',
-    value: function flipAll() {
-      var count = this._words.length;
-      var words = this._words;
-      var bs = 32 - this.length % 32;
-      for (var k = 0; k < count - 1; ++k) {
-        words[k] = ~words[k];
-      }
-      words[count - 1] = ~(words[count - 1] << bs) >>> bs;
-      return this;
-    }
-  }, {
-    key: '_isRangeValue',
-    value: function _isRangeValue(start, end, value) {
-      var words = this._words;
-      var wordValue = value === true ? 0xFFFFFFFF : 0;
-      var wordStart = start >>> 5;
-      var wordEnd = end >>> 5;
-      // set complete words when applicable
-      for (var k = wordStart; k < wordEnd; ++k) {
-        if (words[k] !== wordValue) return false;
-      }
-      // set parts of the range not spanning complete words
-      if (end - start < 32) {
-        for (var i = start, n = end + 1; i < n; ++i) {
-          if (!!(words[i >>> 5] & 1 << i) !== value) return false;
-        }
-      } else {
-        var startWord = wordStart << 5;
-        var endWord = wordEnd << 5;
-        for (var _i6 = start, _n6 = startWord << 5; _i6 < _n6; ++_i6) {
-          if (!!(words[_i6 >>> 5] & 1 << _i6) !== value) return false;
-        }
-        for (var _i7 = endWord, _n7 = end + 1; _i7 < _n7; ++_i7) {
-          if (!!(words[_i7 >>> 5] & 1 << _i7) !== value) return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * Test if bits in given range are set
-     * @param {Integer} start - start index
-     * @param {Integer} end - end index
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'isRangeSet',
-    value: function isRangeSet(start, end) {
-      return this._isRangeValue(start, end, true);
-    }
-
-    /**
-     * Test if bits in given range are clear
-     * @param {Integer} start - start index
-     * @param {Integer} end - end index
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'isRangeClear',
-    value: function isRangeClear(start, end) {
-      return this._isRangeValue(start, end, false);
-    }
-
-    /**
-     * Test if all bits in the array are set
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'isAllSet',
-    value: function isAllSet() {
-      return this._isRangeValue(0, this.length - 1, true);
-    }
-
-    /**
-     * Test if all bits in the array are clear
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'isAllClear',
-    value: function isAllClear() {
-      return this._isRangeValue(0, this.length - 1, false);
-    }
-
-    /**
-     * Test if bits at all given indices are set
-     * @param {...Integer} arguments - indices
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'isSet',
-    value: function isSet() {
-      var words = this._words;
-      var n = arguments.length;
-      for (var i = 0; i < n; ++i) {
-        var index = arguments[i];
-        if ((words[index >>> 5] & 1 << index) === 0) return false;
-      }
-      return true;
-    }
-
-    /**
-     * Test if bits at all given indices are clear
-     * @param {...Integer} arguments - indices
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'isClear',
-    value: function isClear() {
-      var words = this._words;
-      var n = arguments.length;
-      for (var i = 0; i < n; ++i) {
-        var index = arguments[i];
-        if ((words[index >>> 5] & 1 << index) !== 0) return false;
-      }
-      return true;
-    }
-
-    /**
-     * Test if two BitArrays are identical in all their values
-     * @param {BitArray} otherBitarray - the other BitArray
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'isEqualTo',
-    value: function isEqualTo(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      for (var k = 0; k < count; ++k) {
-        if (words1[k] !== words2[k]) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * How many set bits?
-     * @return {Integer} number of set bits
-     */
-
-  }, {
-    key: 'getSize',
-    value: function getSize() {
-      var count = this._words.length;
-      var words = this._words;
-      var size = 0;
-      for (var i = 0; i < count; ++i) {
-        size += hammingWeight(words[i]);
-      }
-      return size;
-    }
-
-    /**
-     * Calculate difference betwen this and another bit array.
-     * Store result in this object.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'difference',
-    value: function difference(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      for (var k = 0; k < count; ++k) {
-        words1[k] = words1[k] & ~words2[k];
-      }
-      for (var _k = words1.length; _k < count; ++_k) {
-        words1[_k] = 0;
-      }
-      return this;
-    }
-
-    /**
-     * Calculate union betwen this and another bit array.
-     * Store result in this object.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'union',
-    value: function union(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      for (var k = 0; k < count; ++k) {
-        words1[k] |= words2[k];
-      }
-      for (var _k2 = words1.length; _k2 < count; ++_k2) {
-        words1[_k2] = 0;
-      }
-      return this;
-    }
-
-    /**
-     * Calculate intersection betwen this and another bit array.
-     * Store result in this object.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {BitArray} this object
-     */
-
-  }, {
-    key: 'intersection',
-    value: function intersection(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      for (var k = 0; k < count; ++k) {
-        words1[k] &= words2[k];
-      }
-      for (var _k3 = words1.length; _k3 < count; ++_k3) {
-        words1[_k3] = 0;
-      }
-      return this;
-    }
-
-    /**
-     * Test if there is any intersection betwen this and another bit array.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {Boolean} test result
-     */
-
-  }, {
-    key: 'intersects',
-    value: function intersects(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      for (var k = 0; k < count; ++k) {
-        if ((words1[k] & words2[k]) !== 0) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    /**
-     * Calculate the number of bits in common betwen this and another bit array.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {Integer} size
-     */
-
-  }, {
-    key: 'getIntersectionSize',
-    value: function getIntersectionSize(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      var size = 0;
-      for (var k = 0; k < count; ++k) {
-        size += hammingWeight(words1[k] & words2[k]);
-      }
-      return size;
-    }
-
-    /**
-     * Calculate intersection betwen this and another bit array.
-     * Store result in a new bit array.
-     * @param  {BitArray} otherBitarray - the other bit array
-     * @return {BitArray} the new bit array
-     */
-
-  }, {
-    key: 'makeIntersection',
-    value: function makeIntersection(otherBitarray) {
-      var words1 = this._words;
-      var words2 = otherBitarray._words;
-      var count = Math.min(words1.length, words2.length);
-      var wordsA = new Uint32Array(count);
-      var intersection = Object.create(BitArray.prototype);
-      intersection._words = wordsA;
-      intersection.length = Math.min(this.length, otherBitarray.length);
-      for (var k = 0; k < count; ++k) {
-        wordsA[k] = words1[k] & words2[k];
-      }
-      return intersection;
-    }
-
-    /**
-     * Iterate over all set bits in the array
-     * @param  {function( index: Integer, i: Integer )} callback - the callback
-     * @return {undefined}
-     */
-
-  }, {
-    key: 'forEach',
-    value: function forEach(callback) {
-      var count = this._words.length;
-      var words = this._words;
-      var i = 0;
-      for (var k = 0; k < count; ++k) {
-        var w = words[k];
-        while (w !== 0) {
-          var t = w & -w;
-          var index = (k << 5) + hammingWeight(t - 1);
-          callback(index, i);
-          w ^= t;
-          ++i;
-        }
-      }
-    }
-
-    /**
-     * Get an array with the set bits
-     * @return {Array} bit indices
-     */
-
-  }, {
-    key: 'toArray',
-    value: function toArray() {
-      var words = this._words;
-      var answer = new Array(this.getSize());
-      var count = this._words.length;
-      var pos = 0;
-      for (var k = 0; k < count; ++k) {
-        var w = words[k];
-        while (w !== 0) {
-          var t = w & -w;
-          answer[pos++] = (k << 5) + hammingWeight(t - 1);
-          w ^= t;
-        }
-      }
-      return answer;
-    }
-  }, {
-    key: 'toString',
-    value: function toString() {
-      return '{' + this.toArray().join(',') + '}';
-    }
-  }, {
-    key: 'toSeleString',
-    value: function toSeleString() {
-      var sele = this.toArray().join(',');
-      return sele ? '@' + sele : 'NONE';
-    }
-
-    /**
-     * Clone this object
-     * @return {BitArray} the cloned object
-     */
-
-  }, {
-    key: 'clone',
-    value: function clone() {
-      var clone = Object.create(BitArray.prototype);
-      clone.length = this.length;
-      clone._words = new Uint32Array(this._words);
-      return clone;
-    }
-  }]);
-
-  return BitArray;
-}();
-
-exports.default = BitArray;
-
-/***/ }),
-/* 344 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Display = undefined;
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+exports.SoupWidget = undefined;
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
@@ -91062,19 +91085,19 @@ var _jquery = __webpack_require__(32);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _three = __webpack_require__(48);
+var _three = __webpack_require__(44);
 
 var THREE = _interopRequireWildcard(_three);
 
-var _signals = __webpack_require__(345);
+var _signals = __webpack_require__(344);
 
 var _signals2 = _interopRequireDefault(_signals);
 
-var _v = __webpack_require__(67);
+var _v = __webpack_require__(95);
 
 var _v2 = _interopRequireDefault(_v);
 
@@ -91082,21 +91105,19 @@ var _util = __webpack_require__(49);
 
 var util = _interopRequireWildcard(_util);
 
-var _glgeom = __webpack_require__(134);
+var _glgeom = __webpack_require__(96);
 
 var glgeom = _interopRequireWildcard(_glgeom);
 
-var _widgets = __webpack_require__(135);
+var _widgets = __webpack_require__(134);
 
 var _widgets2 = _interopRequireDefault(_widgets);
 
-var _data = __webpack_require__(96);
+var _representation = __webpack_require__(346);
 
-var data = _interopRequireWildcard(_data);
+var representation = _interopRequireWildcard(_representation);
 
-var _soup = __webpack_require__(133);
-
-var _animation = __webpack_require__(131);
+var _animation = __webpack_require__(132);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -91117,7 +91138,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *  - camera object
  *  - display scene
  *  - picking scene, with helpful picking functions
- *  - a status messaging in the div
+ *  - a status messaging div
+ *  - lights
  *  - input handlers for mouse
  */
 var WebglWidget = function () {
@@ -91182,7 +91204,7 @@ var WebglWidget = function () {
 
     // div to display processing messages
     this.messageDiv = (0, _jquery2.default)('<div>').attr('id', 'loading-message').addClass('jolecule-loading-message');
-    this.setMesssage('Loading data...');
+    this.setMesssage('Initialized jolecule.');
 
     // input control parameters
     this.saveMouseX = null;
@@ -91225,7 +91247,6 @@ var WebglWidget = function () {
       bind('mousewheel', function (e) {
         return _this.mousewheel(e);
       });
-      // bind('dblclick', e => this.doubleclick(e))
       bind('DOMMouseScroll', function (e) {
         return _this.mousewheel(e);
       });
@@ -91353,6 +91374,9 @@ var WebglWidget = function () {
       this.webglDiv.css('left', this.x() + position.left);
       this.webglDiv.css('top', this.y() + position.top);
 
+      util.stickJqueryDivInTopLeft(this.div, this.messageDiv, 120, 20);
+      this.messageDiv.width(this.div.width() - 200);
+
       this.camera.aspect = this.width() / this.height();
       this.camera.updateProjectionMatrix();
 
@@ -91367,7 +91391,6 @@ var WebglWidget = function () {
     value: function setMesssage(message) {
       console.log('Display.setMesssage:', message);
       this.messageDiv.html(message).show();
-      util.stickJqueryDivInTopLeft(this.div, this.messageDiv, 120, 20);
     }
   }, {
     key: 'asyncSetMesssage',
@@ -91477,14 +91500,6 @@ var WebglWidget = function () {
         }
       }
     }
-  }, {
-    key: 'addRepresentation',
-    value: function addRepresentation(name, repr) {
-      this.representations[name] = repr;
-      this.displayMeshes[name] = repr.displayObj;
-      this.pickingMeshes[name] = repr.pickingObj;
-      this.updateMeshesInScene = true;
-    }
 
     /**
      * Sets the visibility of a mesh this.displayMeshes & this.pickingMeshes.
@@ -91569,1092 +91584,6 @@ var WebglWidget = function () {
   return WebglWidget;
 }();
 
-/*******************************************************
- * Representations of the Protein as THREE.JS meshes
- *******************************************************
- */
-
-var pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
-var displayMaterial = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors });
-
-function getIndexColor(i) {
-  return new THREE.Color().setHex(i + 1);
-}
-
-function transferObjects(fromObj, toObj) {
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
-
-  try {
-    for (var _iterator3 = fromObj.children[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var child = _step3.value;
-
-      toObj.add(child);
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
-  }
-}
-
-/**
- * constructs THREE.js geometries from protein object:
- *  1. a displayGeom
- *  2. a pickingGeom
- */
-
-var ArrowRepresentation = function () {
-  function ArrowRepresentation(soup) {
-    _classCallCheck(this, ArrowRepresentation);
-
-    this.soup = soup;
-    this.traces = soup.traces;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.build();
-  }
-
-  _createClass(ArrowRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-      var nCopy = 0;
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
-
-      try {
-        for (var _iterator4 = this.traces[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var trace = _step4.value;
-
-          nCopy += trace.points.length;
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
-
-      var unitGeom = new glgeom.BlockArrowGeometry();
-      var unitBufferGeom = new THREE.BufferGeometry().fromGeometry(unitGeom);
-
-      this.displayGeom = new glgeom.CopyBufferGeometry(unitBufferGeom, nCopy);
-      this.pickingGeom = new glgeom.CopyBufferGeometry(unitBufferGeom, nCopy);
-
-      var obj = new THREE.Object3D();
-
-      var iCopy = 0;
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
-
-      try {
-        for (var _iterator5 = this.traces[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var _trace = _step5.value;
-
-          var n = _trace.points.length;
-          var _iteratorNormalCompletion6 = true;
-          var _didIteratorError6 = false;
-          var _iteratorError6 = undefined;
-
-          try {
-            for (var _iterator6 = _lodash2.default.range(n)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-              var i = _step6.value;
-
-              var point = _trace.points[i];
-              var tangent = _trace.tangents[i];
-              var normal = _trace.binormals[i];
-              var target = point.clone().add(tangent);
-
-              obj.matrix.identity();
-              obj.position.copy(point);
-              obj.up.copy(normal);
-              obj.lookAt(target);
-              obj.updateMatrix();
-
-              this.displayGeom.applyMatrixToCopy(obj.matrix, iCopy);
-              this.pickingGeom.applyMatrixToCopy(obj.matrix, iCopy);
-              this.pickingGeom.applyColorToCopy(_trace.indexColors[i], iCopy);
-
-              iCopy += 1;
-            }
-          } catch (err) {
-            _didIteratorError6 = true;
-            _iteratorError6 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                _iterator6.return();
-              }
-            } finally {
-              if (_didIteratorError6) {
-                throw _iteratorError6;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
-      }
-
-      this.recolor();
-
-      this.displayObj.add(new THREE.Mesh(this.displayGeom, displayMaterial));
-      this.pickingObj.add(new THREE.Mesh(this.pickingGeom, pickingMaterial));
-    }
-  }, {
-    key: 'recolor',
-    value: function recolor() {
-      var iCopy = 0;
-      var residue = this.soup.getResidueProxy();
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
-
-      try {
-        for (var _iterator7 = this.traces[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var trace = _step7.value;
-
-          var n = trace.points.length;
-          var _iteratorNormalCompletion8 = true;
-          var _didIteratorError8 = false;
-          var _iteratorError8 = undefined;
-
-          try {
-            for (var _iterator8 = _lodash2.default.range(n)[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-              var i = _step8.value;
-
-              var iRes = trace.refIndices[i];
-              var color = residue.load(iRes).activeColor;
-              this.displayGeom.applyColorToCopy(color, iCopy);
-              iCopy += 1;
-            }
-          } catch (err) {
-            _didIteratorError8 = true;
-            _iteratorError8 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion8 && _iterator8.return) {
-                _iterator8.return();
-              }
-            } finally {
-              if (_didIteratorError8) {
-                throw _iteratorError8;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return) {
-            _iterator7.return();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
-        }
-      }
-
-      this.displayGeom.attributes.color.needsUpdate = true;
-    }
-  }]);
-
-  return ArrowRepresentation;
-}();
-
-var RibbonRepresentation = function () {
-  function RibbonRepresentation(soup) {
-    _classCallCheck(this, RibbonRepresentation);
-
-    this.soup = soup;
-    this.traces = soup.traces;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.build();
-  }
-
-  _createClass(RibbonRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-      this.displayGeom = new glgeom.BufferRibbonGeometry(this.traces, data.coilFace);
-      this.pickingGeom = new glgeom.BufferRibbonGeometry(this.traces, data.coilFace, true);
-      var displayMesh = new THREE.Mesh(this.displayGeom, displayMaterial);
-      var pickingMesh = new THREE.Mesh(this.pickingGeom, pickingMaterial);
-      this.displayObj.add(displayMesh);
-      this.pickingObj.add(pickingMesh);
-      this.recolor();
-    }
-  }, {
-    key: 'recolor',
-    value: function recolor() {
-      var residue = this.soup.getResidueProxy();
-      var _iteratorNormalCompletion9 = true;
-      var _didIteratorError9 = false;
-      var _iteratorError9 = undefined;
-
-      try {
-        for (var _iterator9 = this.traces[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-          var trace = _step9.value;
-          var _iteratorNormalCompletion10 = true;
-          var _didIteratorError10 = false;
-          var _iteratorError10 = undefined;
-
-          try {
-            for (var _iterator10 = _lodash2.default.range(trace.points.length)[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-              var iTrace = _step10.value;
-
-              var iRes = trace.refIndices[iTrace];
-              trace.colors[iTrace] = residue.load(iRes).activeColor;
-            }
-          } catch (err) {
-            _didIteratorError10 = true;
-            _iteratorError10 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion10 && _iterator10.return) {
-                _iterator10.return();
-              }
-            } finally {
-              if (_didIteratorError10) {
-                throw _iteratorError10;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError9 = true;
-        _iteratorError9 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion9 && _iterator9.return) {
-            _iterator9.return();
-          }
-        } finally {
-          if (_didIteratorError9) {
-            throw _iteratorError9;
-          }
-        }
-      }
-
-      this.displayGeom.setColors();
-    }
-  }]);
-
-  return RibbonRepresentation;
-}();
-
-var AtomsRepresentation = function () {
-  function AtomsRepresentation(soup, atomIndices, atomRadius) {
-    _classCallCheck(this, AtomsRepresentation);
-
-    this.soup = soup;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.atomIndices = atomIndices;
-    this.atomRadius = atomRadius;
-    this.build();
-  }
-
-  _createClass(AtomsRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-      if (this.atomIndices.length === 0) {
-        return;
-      }
-      var nCopy = this.atomIndices.length;
-      var sphereBufferGeometry = new THREE.SphereBufferGeometry(1, 8, 8);
-      this.displayGeom = new glgeom.CopyBufferGeometry(sphereBufferGeometry, nCopy);
-      var pickingGeom = new glgeom.CopyBufferGeometry(sphereBufferGeometry, nCopy);
-
-      var atom = this.soup.getAtomProxy();
-      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
-        var iAtom = this.atomIndices[iCopy];
-        atom.iAtom = iAtom;
-        var matrix = glgeom.getSphereMatrix(atom.pos, this.atomRadius);
-        this.displayGeom.applyMatrixToCopy(matrix, iCopy);
-        pickingGeom.applyMatrixToCopy(matrix, iCopy);
-        this.displayGeom.applyColorToCopy(atom.color, iCopy);
-        pickingGeom.applyColorToCopy(getIndexColor(iAtom), iCopy);
-      }
-
-      this.displayObj.add(new THREE.Mesh(this.displayGeom, displayMaterial));
-      this.pickingObj.add(new THREE.Mesh(pickingGeom, pickingMaterial));
-    }
-  }, {
-    key: 'recolor',
-    value: function recolor() {
-      if (this.atomIndices.length === 0) {
-        return;
-      }
-      var nCopy = this.atomIndices.length;
-      var atom = this.soup.getAtomProxy();
-      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
-        atom.iAtom = this.atomIndices[iCopy];
-        this.displayGeom.applyColorToCopy(atom.color, iCopy);
-      }
-    }
-  }]);
-
-  return AtomsRepresentation;
-}();
-
-var GridRepresentation = function (_AtomsRepresentation) {
-  _inherits(GridRepresentation, _AtomsRepresentation);
-
-  function GridRepresentation(soup, radius) {
-    _classCallCheck(this, GridRepresentation);
-
-    return _possibleConstructorReturn(this, (GridRepresentation.__proto__ || Object.getPrototypeOf(GridRepresentation)).call(this, soup, [], radius));
-  }
-
-  _createClass(GridRepresentation, [{
-    key: 'build',
-    value: function build() {
-      var grid = this.soup.grid;
-      this.atomIndices = [];
-      var residue = this.soup.getResidueProxy();
-      var atom = this.soup.getAtomProxy();
-      var _iteratorNormalCompletion11 = true;
-      var _didIteratorError11 = false;
-      var _iteratorError11 = undefined;
-
-      try {
-        for (var _iterator11 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-          var iRes = _step11.value;
-
-          residue.iRes = iRes;
-          if (residue.ss === 'G') {
-            atom.iAtom = residue.iAtom;
-            if (atom.bfactor > grid.bCutoff && grid.isElem[atom.elem]) {
-              this.atomIndices.push(atom.iAtom);
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError11 = true;
-        _iteratorError11 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion11 && _iterator11.return) {
-            _iterator11.return();
-          }
-        } finally {
-          if (_didIteratorError11) {
-            throw _iteratorError11;
-          }
-        }
-      }
-
-      _get(GridRepresentation.prototype.__proto__ || Object.getPrototypeOf(GridRepresentation.prototype), 'build', this).call(this);
-    }
-  }]);
-
-  return GridRepresentation;
-}(AtomsRepresentation);
-
-var BondsRepresentation = function () {
-  function BondsRepresentation(soup, bondIndices) {
-    _classCallCheck(this, BondsRepresentation);
-
-    this.soup = soup;
-    this.bondIndices = bondIndices;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.build();
-  }
-
-  _createClass(BondsRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-      var bondIndices = this.bondIndices;
-      if (bondIndices.length === 0) {
-        return;
-      }
-      var nCopy = bondIndices.length;
-
-      var cylinderBufferGeometry = new THREE.CylinderBufferGeometry(1, 1, 1, 4, 1, false);
-      cylinderBufferGeometry.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(Math.PI / 2, Math.PI, 0)));
-
-      this.displayGeom = new glgeom.CopyBufferGeometry(cylinderBufferGeometry, nCopy);
-
-      var atom1 = this.soup.getAtomProxy();
-      var atom2 = this.soup.getAtomProxy();
-      var bond = this.soup.getBondProxy();
-      var residue = this.soup.getResidueProxy();
-
-      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
-        bond.iBond = bondIndices[iCopy];
-        atom1.iAtom = bond.iAtom1;
-        atom2.iAtom = bond.iAtom2;
-        residue.iRes = atom1.iRes;
-
-        var p1 = atom1.pos.clone();
-        var p2 = atom2.pos.clone();
-
-        if (atom1.iRes !== atom2.iRes) {
-          var midpoint = p2.clone().add(p1).multiplyScalar(0.5);
-          if (atom1.iRes === residue.iRes) {
-            p2 = midpoint;
-          } else if (atom2.iRes === residue.iRes) {
-            p1 = midpoint;
-          }
-        }
-
-        var matrix = glgeom.getCylinderMatrix(p1, p2, 0.2);
-
-        this.displayGeom.applyMatrixToCopy(matrix, iCopy);
-        this.displayGeom.applyColorToCopy(residue.activeColor, iCopy);
-      }
-
-      var displayMesh = new THREE.Mesh(this.displayGeom, displayMaterial);
-      this.displayObj.add(displayMesh);
-    }
-  }, {
-    key: 'recolor',
-    value: function recolor() {
-      var bondIndices = this.bondIndices;
-      if (bondIndices.length === 0) {
-        return;
-      }
-      var nCopy = bondIndices.length;
-
-      var bond = this.soup.getBondProxy();
-      var atom1 = this.soup.getAtomProxy();
-      var residue = this.soup.getResidueProxy();
-
-      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
-        bond.iBond = bondIndices[iCopy];
-        atom1.iAtom = bond.iAtom1;
-        residue.iRes = atom1.iRes;
-        this.displayGeom.applyColorToCopy(residue.activeColor, iCopy);
-      }
-    }
-  }]);
-
-  return BondsRepresentation;
-}();
-
-var LigandRepresentation = function () {
-  function LigandRepresentation(soup, radius) {
-    _classCallCheck(this, LigandRepresentation);
-
-    this.soup = soup;
-    this.radius = radius;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.build();
-  }
-
-  _createClass(LigandRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-
-      var atomIndices = [];
-      var bondIndices = [];
-
-      var atom = this.soup.getAtomProxy();
-      var residue = this.soup.getResidueProxy();
-
-      var _iteratorNormalCompletion12 = true;
-      var _didIteratorError12 = false;
-      var _iteratorError12 = undefined;
-
-      try {
-        for (var _iterator12 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-          var iRes = _step12.value;
-
-          residue.iRes = iRes;
-          if (residue.ss !== '-') {
-            continue;
-          }
-          var _iteratorNormalCompletion13 = true;
-          var _didIteratorError13 = false;
-          var _iteratorError13 = undefined;
-
-          try {
-            for (var _iterator13 = residue.getAtomIndices()[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-              var iAtom = _step13.value;
-
-              atom.iAtom = iAtom;
-              atomIndices.push(iAtom);
-              var _iteratorNormalCompletion14 = true;
-              var _didIteratorError14 = false;
-              var _iteratorError14 = undefined;
-
-              try {
-                for (var _iterator14 = atom.getBondIndices()[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-                  var iBond = _step14.value;
-
-                  bondIndices.push(iBond);
-                }
-              } catch (err) {
-                _didIteratorError14 = true;
-                _iteratorError14 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion14 && _iterator14.return) {
-                    _iterator14.return();
-                  }
-                } finally {
-                  if (_didIteratorError14) {
-                    throw _iteratorError14;
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError13 = true;
-            _iteratorError13 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion13 && _iterator13.return) {
-                _iterator13.return();
-              }
-            } finally {
-              if (_didIteratorError13) {
-                throw _iteratorError13;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError12 = true;
-        _iteratorError12 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion12 && _iterator12.return) {
-            _iterator12.return();
-          }
-        } finally {
-          if (_didIteratorError12) {
-            throw _iteratorError12;
-          }
-        }
-      }
-
-      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
-      this.bondRepr = new BondsRepresentation(this.soup, bondIndices);
-      if (atomIndices.length > 0) {
-        transferObjects(this.atomRepr.displayObj, this.displayObj);
-        transferObjects(this.bondRepr.displayObj, this.displayObj);
-        transferObjects(this.atomRepr.pickingObj, this.pickingObj);
-      }
-    }
-  }]);
-
-  return LigandRepresentation;
-}();
-
-var WaterRepresentation = function (_AtomsRepresentation2) {
-  _inherits(WaterRepresentation, _AtomsRepresentation2);
-
-  function WaterRepresentation(soup, radius) {
-    _classCallCheck(this, WaterRepresentation);
-
-    var _this3 = _possibleConstructorReturn(this, (WaterRepresentation.__proto__ || Object.getPrototypeOf(WaterRepresentation)).call(this, soup, [], radius));
-
-    _this3.name = 'water';
-    _this3.atomIndices = [];
-    var residue = _this3.soup.getResidueProxy();
-    var _iteratorNormalCompletion15 = true;
-    var _didIteratorError15 = false;
-    var _iteratorError15 = undefined;
-
-    try {
-      for (var _iterator15 = _lodash2.default.range(_this3.soup.getResidueCount())[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-        var iRes = _step15.value;
-
-        residue.iRes = iRes;
-        if (residue.resType === 'HOH') {
-          _this3.atomIndices.push(residue.iAtom);
-        }
-      }
-    } catch (err) {
-      _didIteratorError15 = true;
-      _iteratorError15 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion15 && _iterator15.return) {
-          _iterator15.return();
-        }
-      } finally {
-        if (_didIteratorError15) {
-          throw _iteratorError15;
-        }
-      }
-    }
-
-    _this3.build();
-    return _this3;
-  }
-
-  return WaterRepresentation;
-}(AtomsRepresentation);
-
-var NucleotideRepresentation = function () {
-  function NucleotideRepresentation(soup) {
-    _classCallCheck(this, NucleotideRepresentation);
-
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.soup = soup;
-    this.build();
-  }
-
-  _createClass(NucleotideRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-
-      var residue = this.soup.getResidueProxy();
-      var atom = this.soup.getAtomProxy();
-      var getVecFromAtomType = function getVecFromAtomType(a) {
-        return atom.load(residue.getIAtom(a)).pos.clone();
-      };
-
-      var verticesList = [];
-      this.nucleotideColorList = [];
-      var indexColorList = [];
-      var _iteratorNormalCompletion16 = true;
-      var _didIteratorError16 = false;
-      var _iteratorError16 = undefined;
-
-      try {
-        for (var _iterator16 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-          var iRes = _step16.value;
-
-          residue.iRes = iRes;
-          if (residue.ss === 'D' && residue.isPolymer) {
-            this.nucleotideColorList.push(residue.activeColor);
-            indexColorList.push(getIndexColor(residue.iAtom));
-            var atomTypes = data.getNucleotideBaseAtomTypes(residue.resType);
-            verticesList.push(_lodash2.default.map(atomTypes, getVecFromAtomType));
-          }
-        }
-      } catch (err) {
-        _didIteratorError16 = true;
-        _iteratorError16 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion16 && _iterator16.return) {
-            _iterator16.return();
-          }
-        } finally {
-          if (_didIteratorError16) {
-            throw _iteratorError16;
-          }
-        }
-      }
-
-      this.nucleotideGeom = new glgeom.BufferRaisedShapesGeometry(verticesList, this.nucleotideColorList, 0.2);
-      var displayMesh = new THREE.Mesh(this.nucleotideGeom, displayMaterial);
-      this.displayObj.add(displayMesh);
-
-      var pickingGeom = new glgeom.BufferRaisedShapesGeometry(verticesList, indexColorList, 0.2);
-      var pickingMesh = new THREE.Mesh(pickingGeom, pickingMaterial);
-      this.pickingObj.add(pickingMesh);
-
-      this.nucleotideConnectList = [];
-      var _iteratorNormalCompletion17 = true;
-      var _didIteratorError17 = false;
-      var _iteratorError17 = undefined;
-
-      try {
-        for (var _iterator17 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
-          var _iRes = _step17.value;
-
-          residue.iRes = _iRes;
-          if (residue.ss === 'D' && residue.isPolymer) {
-            var _iteratorNormalCompletion18 = true;
-            var _didIteratorError18 = false;
-            var _iteratorError18 = undefined;
-
-            try {
-              for (var _iterator18 = data.getNucleotideConnectorBondAtomTypes(residue.resType)[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
-                var bond = _step18.value;
-
-                this.nucleotideConnectList.push([getVecFromAtomType(bond[0]), getVecFromAtomType(bond[1]), _iRes]);
-              }
-            } catch (err) {
-              _didIteratorError18 = true;
-              _iteratorError18 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion18 && _iterator18.return) {
-                  _iterator18.return();
-                }
-              } finally {
-                if (_didIteratorError18) {
-                  throw _iteratorError18;
-                }
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError17 = true;
-        _iteratorError17 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion17 && _iterator17.return) {
-            _iterator17.return();
-          }
-        } finally {
-          if (_didIteratorError17) {
-            throw _iteratorError17;
-          }
-        }
-      }
-
-      var nBond = this.nucleotideConnectList.length;
-      var cylinderBufferGeometry = glgeom.makeBufferZCylinderGeometry(0.4);
-      this.nucleotideConnectorGeom = new glgeom.CopyBufferGeometry(cylinderBufferGeometry, nBond);
-      for (var iBond = 0; iBond < nBond; iBond += 1) {
-        var _nucleotideConnectLis = _slicedToArray(this.nucleotideConnectList[iBond], 3),
-            p1 = _nucleotideConnectLis[0],
-            p2 = _nucleotideConnectLis[1],
-            iRes = _nucleotideConnectLis[2];
-
-        this.nucleotideConnectorGeom.applyMatrixToCopy(glgeom.getCylinderMatrix(p1, p2, 0.3), iBond);
-      }
-      for (var _iBond = 0; _iBond < nBond; _iBond += 1) {
-        var _nucleotideConnectLis2 = _slicedToArray(this.nucleotideConnectList[_iBond], 3),
-            p1 = _nucleotideConnectLis2[0],
-            p2 = _nucleotideConnectLis2[1],
-            iRes = _nucleotideConnectLis2[2];
-
-        var color = residue.load(iRes).activeColor;
-        this.nucleotideConnectorGeom.applyColorToCopy(color, _iBond);
-      }
-      var mesh = new THREE.Mesh(this.nucleotideConnectorGeom, displayMaterial);
-      this.displayObj.add(mesh);
-    }
-  }, {
-    key: 'recolor',
-    value: function recolor() {
-      this.nucleotideColorList = [];
-      var residue = this.soup.getResidueProxy();
-      var _iteratorNormalCompletion19 = true;
-      var _didIteratorError19 = false;
-      var _iteratorError19 = undefined;
-
-      try {
-        for (var _iterator19 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
-          var iRes = _step19.value;
-
-          residue.iRes = iRes;
-          if (residue.ss === 'D' && residue.isPolymer) {
-            this.nucleotideColorList.push(residue.activeColor);
-          }
-        }
-      } catch (err) {
-        _didIteratorError19 = true;
-        _iteratorError19 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion19 && _iterator19.return) {
-            _iterator19.return();
-          }
-        } finally {
-          if (_didIteratorError19) {
-            throw _iteratorError19;
-          }
-        }
-      }
-
-      this.nucleotideGeom.recolor(this.nucleotideColorList);
-
-      var nBond = this.nucleotideConnectList.length;
-      for (var iBond = 0; iBond < nBond; iBond += 1) {
-        var _nucleotideConnectLis3 = _slicedToArray(this.nucleotideConnectList[iBond], 3),
-            p1 = _nucleotideConnectLis3[0],
-            p2 = _nucleotideConnectLis3[1],
-            iRes = _nucleotideConnectLis3[2];
-
-        var color = residue.load(iRes).activeColor;
-        this.nucleotideConnectorGeom.applyColorToCopy(color, iBond);
-      }
-      this.nucleotideConnectorGeom.attributes.color.needsUpdate = true;
-    }
-  }]);
-
-  return NucleotideRepresentation;
-}();
-
-var SidechainRepresentation = function () {
-  function SidechainRepresentation(soup, radius) {
-    _classCallCheck(this, SidechainRepresentation);
-
-    this.soup = soup;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.radius = radius;
-    this.build();
-  }
-
-  _createClass(SidechainRepresentation, [{
-    key: 'build',
-    value: function build() {
-      glgeom.clearObject3D(this.displayObj);
-      glgeom.clearObject3D(this.pickingObj);
-
-      var atomIndices = [];
-      var bondIndices = [];
-
-      var atom = this.soup.getAtomProxy();
-      var residue = this.soup.getResidueProxy();
-
-      var _iteratorNormalCompletion20 = true;
-      var _didIteratorError20 = false;
-      var _iteratorError20 = undefined;
-
-      try {
-        for (var _iterator20 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
-          var iRes = _step20.value;
-
-          residue.iRes = iRes;
-          if (!residue.isPolymer) {
-            continue;
-          }
-          if (!residue.sidechain) {
-            continue;
-          }
-          var _iteratorNormalCompletion21 = true;
-          var _didIteratorError21 = false;
-          var _iteratorError21 = undefined;
-
-          try {
-            for (var _iterator21 = residue.getAtomIndices()[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
-              var iAtom = _step21.value;
-
-              atom.iAtom = iAtom;
-              if (!util.inArray(atom.atomType, data.backboneAtomTypes)) {
-                atomIndices.push(iAtom);
-                var _iteratorNormalCompletion22 = true;
-                var _didIteratorError22 = false;
-                var _iteratorError22 = undefined;
-
-                try {
-                  for (var _iterator22 = atom.getBondIndices()[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
-                    var iBond = _step22.value;
-
-                    bondIndices.push(iBond);
-                  }
-                } catch (err) {
-                  _didIteratorError22 = true;
-                  _iteratorError22 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion22 && _iterator22.return) {
-                      _iterator22.return();
-                    }
-                  } finally {
-                    if (_didIteratorError22) {
-                      throw _iteratorError22;
-                    }
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError21 = true;
-            _iteratorError21 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion21 && _iterator21.return) {
-                _iterator21.return();
-              }
-            } finally {
-              if (_didIteratorError21) {
-                throw _iteratorError21;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError20 = true;
-        _iteratorError20 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion20 && _iterator20.return) {
-            _iterator20.return();
-          }
-        } finally {
-          if (_didIteratorError20) {
-            throw _iteratorError20;
-          }
-        }
-      }
-
-      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
-      this.bondRepr = new BondsRepresentation(this.soup, bondIndices);
-
-      transferObjects(this.atomRepr.displayObj, this.displayObj);
-      transferObjects(this.bondRepr.displayObj, this.displayObj);
-      transferObjects(this.atomRepr.pickingObj, this.pickingObj);
-    }
-  }]);
-
-  return SidechainRepresentation;
-}();
-
-var BackboneRepresentation = function () {
-  function BackboneRepresentation(soup, radius) {
-    _classCallCheck(this, BackboneRepresentation);
-
-    this.soup = soup;
-    this.displayObj = new THREE.Object3D();
-    this.pickingObj = new THREE.Object3D();
-    this.radius = radius;
-    this.build();
-  }
-
-  _createClass(BackboneRepresentation, [{
-    key: 'build',
-    value: function build() {
-      var atomIndices = [];
-      var bondIndices = [];
-
-      var atom = this.soup.getAtomProxy();
-      var residue = this.soup.getResidueProxy();
-
-      var _iteratorNormalCompletion23 = true;
-      var _didIteratorError23 = false;
-      var _iteratorError23 = undefined;
-
-      try {
-        for (var _iterator23 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
-          var iRes = _step23.value;
-
-          residue.iRes = iRes;
-          if (!residue.isPolymer) {
-            continue;
-          }
-          var _iteratorNormalCompletion24 = true;
-          var _didIteratorError24 = false;
-          var _iteratorError24 = undefined;
-
-          try {
-            for (var _iterator24 = residue.getAtomIndices()[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
-              var iAtom = _step24.value;
-
-              atom.iAtom = iAtom;
-              if (util.inArray(atom.atomType, data.backboneAtomTypes)) {
-                atomIndices.push(iAtom);
-                var _iteratorNormalCompletion25 = true;
-                var _didIteratorError25 = false;
-                var _iteratorError25 = undefined;
-
-                try {
-                  for (var _iterator25 = atom.getBondIndices()[Symbol.iterator](), _step25; !(_iteratorNormalCompletion25 = (_step25 = _iterator25.next()).done); _iteratorNormalCompletion25 = true) {
-                    var iBond = _step25.value;
-
-                    bondIndices.push(iBond);
-                  }
-                } catch (err) {
-                  _didIteratorError25 = true;
-                  _iteratorError25 = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion25 && _iterator25.return) {
-                      _iterator25.return();
-                    }
-                  } finally {
-                    if (_didIteratorError25) {
-                      throw _iteratorError25;
-                    }
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError24 = true;
-            _iteratorError24 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion24 && _iterator24.return) {
-                _iterator24.return();
-              }
-            } finally {
-              if (_didIteratorError24) {
-                throw _iteratorError24;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        _didIteratorError23 = true;
-        _iteratorError23 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion23 && _iterator23.return) {
-            _iterator23.return();
-          }
-        } finally {
-          if (_didIteratorError23) {
-            throw _iteratorError23;
-          }
-        }
-      }
-
-      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
-      this.bondRepr = new BondsRepresentation(this.soup, bondIndices);
-      if (atomIndices.length > 0) {
-        transferObjects(this.atomRepr.displayObj, this.displayObj);
-        transferObjects(this.bondRepr.displayObj, this.displayObj);
-        transferObjects(this.atomRepr.pickingObj, this.pickingObj);
-      }
-    }
-  }]);
-
-  return BackboneRepresentation;
-}();
-
 /**
  * Display is the main window for drawing the soup
  * in a WebGL HTML5 canvas, includes various widgets that
@@ -92667,8 +91596,8 @@ var BackboneRepresentation = function () {
  */
 
 
-var Display = function (_WebglWidget) {
-  _inherits(Display, _WebglWidget);
+var SoupWidget = function (_WebglWidget) {
+  _inherits(SoupWidget, _WebglWidget);
 
   /**
    * @param soupView - SoupView object that holds a soup and views
@@ -92677,48 +91606,52 @@ var Display = function (_WebglWidget) {
    * @param isGrid - flat to show autodock 3D grid control panel
    * @param backgroundColor - the background color of canvas and webgl
    */
-  function Display(soupView, divTag, controller, isGrid, backgroundColor) {
-    _classCallCheck(this, Display);
+  function SoupWidget(soupView, divTag, controller, isGrid, backgroundColor) {
+    _classCallCheck(this, SoupWidget);
 
-    var _this4 = _possibleConstructorReturn(this, (Display.__proto__ || Object.getPrototypeOf(Display)).call(this, divTag, backgroundColor));
+    var _this2 = _possibleConstructorReturn(this, (SoupWidget.__proto__ || Object.getPrototypeOf(SoupWidget)).call(this, divTag, backgroundColor));
 
-    _this4.observers = {
+    _this2.observers = {
       rebuilt: new _signals2.default(),
       updated: new _signals2.default(),
       resized: new _signals2.default()
 
-      // Hooks to protein data
-    };_this4.soupView = soupView;
-    _this4.soup = soupView.soup;
-    _this4.controller = controller;
+      // DataServer is needed to save views
+    };_this2.dataServer = null;
+
+    // Hooks to protein data
+    _this2.soupView = soupView;
+    _this2.soup = soupView.soup;
+    _this2.controller = controller;
 
     // screen atom radius
-    _this4.atomRadius = 0.35;
-    _this4.gridAtomRadius = 1.0;
+    _this2.atomRadius = 0.35;
+    _this2.gridAtomRadius = 1.0;
 
     // Cross-hairs to identify centered atom
-    _this4.buildCrossHairs();
+    _this2.buildCrossHairs();
 
     // popup hover box over the mouse position
-    _this4.hover = new _widgets2.default.PopupText(_this4.divTag, 50);
-    _this4.iAtomHover = null;
+    _this2.clickTimer = null;
+    _this2.hover = new _widgets2.default.PopupText(_this2.divTag, 50);
+    _this2.iAtomHover = null;
 
     // Docking display control
-    _this4.isGrid = isGrid;
+    _this2.isGrid = isGrid;
 
     // Widgets that decorate the display
     // display distance measures between atoms
-    _this4.distanceMeasuresWidget = new _widgets2.default.DistanceMeasuresWidget(_this4);
+    _this2.distanceMeasuresWidget = new _widgets2.default.DistanceMeasuresWidget(_this2);
     // display atom labels
-    _this4.atomLabelsWidget = new _widgets2.default.AtomLabelsWidget(_this4);
+    _this2.atomLabelsWidget = new _widgets2.default.AtomLabelsWidget(_this2);
     // draw onscreen line for mouse dragging between atoms
-    _this4.lineElement = new _widgets2.default.LineElement(_this4, '#FF7777');
+    _this2.lineElement = new _widgets2.default.LineElement(_this2, '#FF7777');
 
-    (0, _animation.registerGlobalAnimationLoop)(_this4);
-    return _this4;
+    (0, _animation.registerGlobalAnimationLoop)(_this2);
+    return _this2;
   }
 
-  _createClass(Display, [{
+  _createClass(SoupWidget, [{
     key: 'addObserver',
     value: function addObserver(observer) {
       if ('update' in observer) {
@@ -92737,102 +91670,10 @@ var Display = function (_WebglWidget) {
         });
       }
     }
-
-    /**
-     **********************************************************
-     * Mesh-building methods
-     *
-     * Routines to build meshes that will be incorporated into
-     * scenes, and to be used for gpu-picking.
-     *
-     * Meshes are stored in a dictionary: this.displayMeshes &
-     * this.pickingMeshes
-     **********************************************************
-     */
-
-  }, {
-    key: 'buildScene',
-    value: function buildScene() {
-      // pre-calculations needed before building meshes
-      this.soupView.build();
-
-      var _iteratorNormalCompletion26 = true;
-      var _didIteratorError26 = false;
-      var _iteratorError26 = undefined;
-
-      try {
-        for (var _iterator26 = _lodash2.default.keys(this.displayMeshes)[Symbol.iterator](), _step26; !(_iteratorNormalCompletion26 = (_step26 = _iterator26.next()).done); _iteratorNormalCompletion26 = true) {
-          var key = _step26.value;
-
-          _lodash2.default.unset(this.displayMeshes, key);
-        }
-      } catch (err) {
-        _didIteratorError26 = true;
-        _iteratorError26 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion26 && _iterator26.return) {
-            _iterator26.return();
-          }
-        } finally {
-          if (_didIteratorError26) {
-            throw _iteratorError26;
-          }
-        }
-      }
-
-      var _iteratorNormalCompletion27 = true;
-      var _didIteratorError27 = false;
-      var _iteratorError27 = undefined;
-
-      try {
-        for (var _iterator27 = _lodash2.default.keys(this.pickingMeshes)[Symbol.iterator](), _step27; !(_iteratorNormalCompletion27 = (_step27 = _iterator27.next()).done); _iteratorNormalCompletion27 = true) {
-          var _key = _step27.value;
-
-          _lodash2.default.unset(this.pickingMeshes, _key);
-        }
-      } catch (err) {
-        _didIteratorError27 = true;
-        _iteratorError27 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion27 && _iterator27.return) {
-            _iterator27.return();
-          }
-        } finally {
-          if (_didIteratorError27) {
-            throw _iteratorError27;
-          }
-        }
-      }
-
-      this.addRepresentation('ribbons', new RibbonRepresentation(this.soup));
-      this.addRepresentation('arrows', new ArrowRepresentation(this.soup));
-      this.addRepresentation('nucleotides', new NucleotideRepresentation(this.soup));
-      this.addRepresentation('ligands', new LigandRepresentation(this.soup, this.atomRadius));
-      if (this.isGrid) {
-        this.addRepresentation('grid', new GridRepresentation(this.soup, this.gridAtomRadius));
-      }
-      this.addRepresentation('sidechain', new SidechainRepresentation(this.soup, this.atomRadius));
-
-      this.rebuildSceneFromMeshes();
-
-      this.observers.rebuilt.dispatch();
-
-      this.soupView.changed = true;
-      this.soupView.updateObservers = true;
-    }
-  }, {
-    key: 'deleteStructure',
-    value: function deleteStructure(iStructure) {
-      this.controller.deleteStructure(iStructure);
-      this.buildScene();
-      this.observers.rebuilt.dispatch();
-    }
   }, {
     key: 'buildCrossHairs',
     value: function buildCrossHairs() {
-      var radius = 1.2;
+      var radius = 2.0;
       var segments = 60;
       var material = new THREE.LineBasicMaterial({ color: 0xFF5555 });
       var geometry = new THREE.CircleGeometry(radius, segments);
@@ -92860,44 +91701,6 @@ var Display = function (_WebglWidget) {
     key: 'getCameraOfCurrentView',
     value: function getCameraOfCurrentView() {
       return this.soupView.currentView.cameraParams;
-    }
-  }, {
-    key: 'rotateCameraParamsToCurrentView',
-    value: function rotateCameraParamsToCurrentView() {
-      this.setCameraParams(this.getCameraOfCurrentView());
-    }
-  }, {
-    key: 'adjustCamera',
-    value: function adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio) {
-      var cameraParams = this.getCameraOfCurrentView();
-
-      var y = cameraParams.up;
-      var z = cameraParams.position.clone().sub(cameraParams.focus).normalize();
-      var x = _v2.default.create().crossVectors(y, z).normalize();
-
-      var rotZ = new THREE.Quaternion().setFromAxisAngle(z, zRotationAngle);
-
-      var rotY = new THREE.Quaternion().setFromAxisAngle(y, -yRotationAngle);
-
-      var rotX = new THREE.Quaternion().setFromAxisAngle(x, -xRotationAngle);
-
-      var rotation = new THREE.Quaternion().multiply(rotZ).multiply(rotY).multiply(rotX);
-
-      var newZoom = zoomRatio * cameraParams.zoom;
-
-      if (newZoom < 2) {
-        newZoom = 2;
-      }
-
-      var position = cameraParams.position.clone().sub(cameraParams.focus).applyQuaternion(rotation).normalize().multiplyScalar(newZoom).add(cameraParams.focus);
-
-      var view = this.soupView.currentView.clone();
-      view.cameraParams.focus = cameraParams.focus.clone();
-      view.cameraParams.position = position;
-      view.cameraParams.up = cameraParams.up.clone().applyQuaternion(rotation);
-      view.cameraParams.zoom = newZoom;
-
-      this.controller.setCurrentView(view);
     }
   }, {
     key: 'getZ',
@@ -92949,14 +91752,14 @@ var Display = function (_WebglWidget) {
   }, {
     key: 'atomLabelDialog',
     value: function atomLabelDialog() {
-      var _this5 = this;
+      var _this3 = this;
 
       var iAtom = this.soupView.currentView.iAtom;
       if (iAtom >= 0) {
         var atom = this.soup.getAtomProxy(iAtom);
         var label = 'Label atom : ' + atom.label;
         var success = function success(text) {
-          _this5.controller.makeAtomLabel(iAtom, text);
+          _this3.controller.makeAtomLabel(iAtom, text);
         };
         util.textEntryDialog(this.div, label, success);
       }
@@ -93001,9 +91804,114 @@ var Display = function (_WebglWidget) {
     }
 
     /**
+     **********************************************************
+     * Mesh-building methods
+     *
+     * Routines to build meshes that will be incorporated into
+     * scenes, and to be used for gpu-picking.
+     *
+     * Meshes are stored in a dictionary: this.displayMeshes &
+     * this.pickingMeshes
+     **********************************************************
+     */
+
+  }, {
+    key: 'addRepresentation',
+    value: function addRepresentation(name, repr) {
+      this.representations[name] = repr;
+      this.displayMeshes[name] = repr.displayObj;
+      this.pickingMeshes[name] = repr.pickingObj;
+      this.updateMeshesInScene = true;
+    }
+  }, {
+    key: 'buildScene',
+    value: function buildScene() {
+      // pre-calculations needed before building meshes
+      this.soupView.build();
+
+      // clear this.displayMeshes and this.pickingMeshes
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = _lodash2.default.keys(this.displayMeshes)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var key = _step3.value;
+
+          _lodash2.default.unset(this.displayMeshes, key);
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = _lodash2.default.keys(this.pickingMeshes)[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var _key = _step4.value;
+
+          _lodash2.default.unset(this.pickingMeshes, _key);
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
+      this.addRepresentation('transparentRibbon', new representation.CartoonRepresentation(this.soup, true));
+      this.addRepresentation('ribbon', new representation.CartoonRepresentation(this.soup, false, this.soup.selectedTraces));
+      this.addRepresentation('ligand', new representation.LigandRepresentation(this.soup, this.atomRadius));
+      if (this.isGrid) {
+        this.addRepresentation('grid', new representation.GridRepresentation(this.soup, this.gridAtomRadius));
+      }
+      this.addRepresentation('sidechain', new representation.SidechainRepresentation(this.soup, this.atomRadius));
+
+      this.rebuildSceneFromMeshes();
+
+      this.observers.rebuilt.dispatch();
+
+      this.soupView.changed = true;
+      this.soupView.updateObservers = true;
+    }
+  }, {
+    key: 'deleteStructure',
+    value: function deleteStructure(iStructure) {
+      this.controller.deleteStructure(iStructure);
+      this.buildScene();
+      this.observers.rebuilt.dispatch();
+    }
+
+    /**
      ********************************************
      * Main event loop methods
      ********************************************
+     */
+
+    /**
+     * Status function to work with registerAnimation Loop
+     * @returns Boolean
      */
 
   }, {
@@ -93014,7 +91922,7 @@ var Display = function (_WebglWidget) {
   }, {
     key: 'drawFrame',
     value: function drawFrame() {
-      var _this6 = this;
+      var _this4 = this;
 
       if (!this.isChanged()) {
         return;
@@ -93033,27 +91941,48 @@ var Display = function (_WebglWidget) {
       this.updateMeshesInScene = false;
 
       var isNewTrigger = function isNewTrigger(meshName, visible) {
-        return visible && !(meshName in _this6.displayMeshes);
+        return visible && !(meshName in _this4.displayMeshes);
       };
 
       var show = this.soupView.currentView.show;
       if (isNewTrigger('water', show.water)) {
-        this.addRepresentation('water', new WaterRepresentation(this.soup, this.atomRadius));
+        this.addRepresentation('water', new representation.WaterRepresentation(this.soup, this.atomRadius));
       }
 
-      if (isNewTrigger('backbone', show.backboneAtom)) {
-        this.addRepresentation('backbone', new BackboneRepresentation(this.soup, this.atomRadius));
+      if (isNewTrigger('backbone', show.backbone)) {
+        this.addRepresentation('backbone', new representation.BackboneRepresentation(this.soup, this.atomRadius));
       }
 
-      this.setMeshVisible('ribbons', show.ribbon);
-      this.setMeshVisible('arrows', show.ribbon);
+      if (isNewTrigger('sphere', show.sphere)) {
+        this.addRepresentation('sphere', new representation.SphereRepresentation(this.soup));
+      }
+
+      this.setMeshVisible('ribbon', show.ribbon);
+      this.setMeshVisible('transparentRibbon', show.ribbon && show.transparent);
       this.setMeshVisible('water', show.water);
-      this.setMeshVisible('backbone', show.backboneAtom);
-      this.setMeshVisible('ligands', show.ligands);
+      this.setMeshVisible('backbone', show.backbone);
+      this.setMeshVisible('ligand', show.ligands);
+      this.setMeshVisible('sphere', show.sphere);
+
+      if (show.transparent) {
+        if (!_lodash2.default.isEqual(this.soup.selectedTraces, this.representations.ribbon.selectedTraces)) {
+          console.log('SoupWidget.drawFrame new soup.selectedTraces', this.soup.selectedTraces);
+          this.representations.ribbon.selectedTraces = this.soup.selectedTraces;
+          this.representations.ribbon.build();
+          this.updateMeshesInScene = true;
+        }
+      } else {
+        if (this.representations.ribbon && this.representations.ribbon.selectedTraces.length > 0) {
+          this.representations.ribbon.selectedTraces.length = 0;
+          this.representations.ribbon.build();
+          this.updateMeshesInScene = true;
+        }
+      }
 
       if (this.isGrid) {
         if (this.soupView.soup.grid.changed) {
           if (!_lodash2.default.isUndefined(this.representations.grid)) {
+            this.soup.colorResidues();
             this.representations.grid.build();
           }
           this.soupView.soup.grid.changed = false;
@@ -93069,12 +91998,34 @@ var Display = function (_WebglWidget) {
       }
 
       if (this.soupView.updateSelection) {
-        this.representations.ribbons.recolor();
-        this.representations.arrows.recolor();
-        this.representations.nucleotides.recolor();
-        this.representations.sidechain.build();
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
+
+        try {
+          for (var _iterator5 = _lodash2.default.values(this.representations)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var repr = _step5.value;
+
+            if ('recolor' in repr) {
+              repr.recolor();
+            }
+          }
+        } catch (err) {
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+              _iterator5.return();
+            }
+          } finally {
+            if (_didIteratorError5) {
+              throw _iteratorError5;
+            }
+          }
+        }
+
         this.soupView.updateSelection = false;
-        this.updateMeshesInScene = true;
         this.soupView.updateObservers = true;
       }
 
@@ -93084,13 +92035,11 @@ var Display = function (_WebglWidget) {
 
       this.updateCrossHairs();
 
-      this.rotateCameraParamsToCurrentView();
+      this.setCameraParams(this.getCameraOfCurrentView());
 
       // needs to be observers.updated before render
       // as lines must be placed in THREE.js scene
       this.distanceMeasuresWidget.drawFrame();
-
-      // console.log('Display.drawFrame', this.displayScene.children)
 
       this.render();
 
@@ -93107,30 +92056,7 @@ var Display = function (_WebglWidget) {
   }, {
     key: 'animate',
     value: function animate(elapsedTime) {
-      this.soupView.nUpdateStep -= elapsedTime / this.soupView.msPerStep;
-      if (this.soupView.nUpdateStep < 0) {
-        if (this.soupView.targetView !== null) {
-          this.controller.setCurrentView(this.soupView.targetView);
-          this.soupView.updateObservers = true;
-          this.soupView.changed = true;
-          this.soupView.targetView = null;
-          this.soupView.nUpdateStep = this.soupView.maxUpdateStep;
-        } else {
-          if (this.soupView.startTargetAfterRender) {
-            this.soupView.changed = true;
-          } else if (this.soupView.isLoop) {
-            if (this.soupView.nUpdateStep < -this.soupView.maxWaitStep) {
-              this.controller.setTargetToNextView();
-            }
-          }
-        }
-      } else if (this.soupView.nUpdateStep >= 1) {
-        if (this.soupView.targetView != null) {
-          var view = this.soupView.currentView.clone();
-          view.setCamera((0, _soup.interpolateCameras)(this.soupView.currentView.cameraParams, this.soupView.targetView.cameraParams, 1.0 / this.soupView.nUpdateStep));
-          this.controller.setCurrentView(view);
-        }
-      }
+      this.soupView.animate(elapsedTime);
       this.updateHover();
     }
 
@@ -93144,7 +92070,7 @@ var Display = function (_WebglWidget) {
     key: 'resize',
     value: function resize() {
       this.observers.resized.dispatch();
-      _get(Display.prototype.__proto__ || Object.getPrototypeOf(Display.prototype), 'resize', this).call(this);
+      _get(SoupWidget.prototype.__proto__ || Object.getPrototypeOf(SoupWidget.prototype), 'resize', this).call(this);
       this.soupView.updateObservers = true;
       this.controller.setChangeFlag();
     }
@@ -93156,11 +92082,12 @@ var Display = function (_WebglWidget) {
           this.atomLabelDialog();
         } else {
           var iRes = this.soup.getAtomProxy(this.iAtomHover).iRes;
-          this.controller.selectResidue(iRes);
+          this.controller.selectResidue(iRes, true);
           this.setTargetViewByIAtom(this.iAtomHover);
         }
         this.isDraggingCentralAtom = false;
       } else {
+        this.controller.clearSelectedResidues();
         this.controller.zoomOut();
       }
       this.iAtomPressed = null;
@@ -93186,7 +92113,7 @@ var Display = function (_WebglWidget) {
   }, {
     key: 'mousedown',
     value: function mousedown(event) {
-      var _this7 = this;
+      var _this5 = this;
 
       if (this.isGesture) {
         return;
@@ -93206,9 +92133,9 @@ var Display = function (_WebglWidget) {
       var now = new Date().getTime();
       var elapsedTime = this.timePressed ? now - this.timePressed : 0;
 
-      if (this.clickTimer === null) {
+      if (_lodash2.default.isNil(this.clickTimer)) {
         this.clickTimer = setTimeout(function () {
-          return _this7.click(event);
+          return _this5.click(event);
         }, 250);
       } else if (elapsedTime < 600) {
         clearTimeout(this.clickTimer);
@@ -93259,7 +92186,7 @@ var Display = function (_WebglWidget) {
             xRotationAngle = _v2.default.degToRad(this.mouseY - this.saveMouseY);
           }
 
-          this.adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio);
+          this.controller.adjustCamera(xRotationAngle, yRotationAngle, zRotationAngle, zoomRatio);
 
           this.savePointer();
         }
@@ -93268,7 +92195,6 @@ var Display = function (_WebglWidget) {
   }, {
     key: 'mouseout',
     value: function mouseout(event) {
-      console.log('Display.mouseout');
       this.hover.hide();
       this.pointerPressed = false;
     }
@@ -93321,7 +92247,7 @@ var Display = function (_WebglWidget) {
 
       var zoom = Math.pow(1 + Math.abs(wheel) / 2, wheel > 0 ? 1 : -1);
 
-      this.adjustCamera(0, 0, 0, zoom);
+      this.controller.adjustCamera(0, 0, 0, zoom);
     }
   }, {
     key: 'gesturestart',
@@ -93335,7 +92261,7 @@ var Display = function (_WebglWidget) {
     key: 'gesturechange',
     value: function gesturechange(event) {
       event.preventDefault();
-      this.adjustCamera(0, 0, _v2.default.degToRad(event.rotation * 2 - this.lastPinchRotation), this.lastScale / (event.scale * event.scale));
+      this.controller.adjustCamera(0, 0, _v2.default.degToRad(event.rotation * 2 - this.lastPinchRotation), this.lastScale / (event.scale * event.scale));
       this.lastPinchRotation = event.rotation * 2;
       this.lastScale = event.scale * event.scale;
     }
@@ -93354,13 +92280,13 @@ var Display = function (_WebglWidget) {
     }
   }]);
 
-  return Display;
+  return SoupWidget;
 }(WebglWidget);
 
-exports.Display = Display;
+exports.SoupWidget = SoupWidget;
 
 /***/ }),
-/* 345 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
@@ -93812,7 +92738,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*jslint onevar:true, undef:true, newcap:true,
 
 
 /***/ }),
-/* 346 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
@@ -99668,6 +98594,1554 @@ S2.define('jquery.select2',[
 
 
 /***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BackboneRepresentation = exports.SidechainRepresentation = exports.NucleotideRepresentation = exports.WaterRepresentation = exports.LigandRepresentation = exports.BondRepresentation = exports.SphereRepresentation = exports.GridRepresentation = exports.AtomsRepresentation = exports.CartoonRepresentation = exports.RibbonRepresentation = exports.ArrowRepresentation = undefined;
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _data = __webpack_require__(97);
+
+var data = _interopRequireWildcard(_data);
+
+var _three = __webpack_require__(44);
+
+var THREE = _interopRequireWildcard(_three);
+
+var _util = __webpack_require__(49);
+
+var util = _interopRequireWildcard(_util);
+
+var _lodash = __webpack_require__(27);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _glgeom = __webpack_require__(96);
+
+var glgeom = _interopRequireWildcard(_glgeom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*******************************************************
+ * Representations of the Protein as THREE.JS meshes
+ *******************************************************
+ */
+
+var pickingMaterial = new THREE.MeshBasicMaterial({
+  vertexColors: THREE.VertexColors
+});
+
+var phongMaterial = new THREE.MeshPhongMaterial({
+  vertexColors: THREE.VertexColors
+});
+
+var transparentMaterial = new THREE.MeshPhongMaterial({
+  opacity: 0.3,
+  premultipliedAlpha: true,
+  vertexColors: THREE.VertexColors,
+  transparent: true
+});
+
+function getIndexColor(i) {
+  return new THREE.Color().setHex(i + 1);
+}
+
+function transferObjects(fromObj, toObj) {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = _lodash2.default.values(fromObj.children)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var child = _step.value;
+
+      toObj.add(child);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+}
+
+/**
+ * constructs THREE.js geometries from protein object:
+ *  1. a displayGeom
+ *  2. a pickingGeom
+ */
+
+var Representation = function () {
+  function Representation(soup) {
+    _classCallCheck(this, Representation);
+
+    this.soup = soup;
+    this.displayObj = new THREE.Object3D();
+    this.displayMaterial = phongMaterial;
+    this.pickingMaterial = pickingMaterial;
+    this.pickingObj = new THREE.Object3D();
+    this.isTransparent = false;
+  }
+
+  _createClass(Representation, [{
+    key: 'setTransparent',
+    value: function setTransparent(isTransparent) {
+      this.isTransparent = isTransparent;
+      if (this.isTransparent) {
+        this.displayMaterial = transparentMaterial;
+      } else {
+        this.displayMaterial = phongMaterial;
+      }
+    }
+  }, {
+    key: 'build',
+    value: function build() {}
+  }]);
+
+  return Representation;
+}();
+
+var ArrowRepresentation = function (_Representation) {
+  _inherits(ArrowRepresentation, _Representation);
+
+  function ArrowRepresentation(soup) {
+    var isTransparent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var selectedTraces = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+    _classCallCheck(this, ArrowRepresentation);
+
+    var _this = _possibleConstructorReturn(this, (ArrowRepresentation.__proto__ || Object.getPrototypeOf(ArrowRepresentation)).call(this, soup));
+
+    _this.selectedTraces = selectedTraces;
+    _this.setTransparent(isTransparent);
+    _this.traces = [];
+    _this.build();
+    return _this;
+  }
+
+  _createClass(ArrowRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+      var nCopy = 0;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = this.soup.traces[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var trace = _step2.value;
+
+          nCopy += trace.points.length;
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      var unitGeom = new glgeom.BlockArrowGeometry();
+      var unitBufferGeom = new THREE.BufferGeometry().fromGeometry(unitGeom);
+
+      this.displayGeom = new glgeom.CopyBufferGeometry(unitBufferGeom, nCopy);
+      this.pickingGeom = new glgeom.CopyBufferGeometry(unitBufferGeom, nCopy);
+
+      var obj = new THREE.Object3D();
+
+      this.traces = this.soup.traces;
+      if (this.selectedTraces.length > 0) {
+        var newTraces = [];
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
+
+        try {
+          for (var _iterator3 = this.traces.entries()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var _step3$value = _slicedToArray(_step3.value, 2),
+                i = _step3$value[0],
+                trace = _step3$value[1];
+
+            if (_lodash2.default.includes(this.selectedTraces, i)) {
+              newTraces.push(trace);
+            }
+          }
+        } catch (err) {
+          _didIteratorError3 = true;
+          _iteratorError3 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+              _iterator3.return();
+            }
+          } finally {
+            if (_didIteratorError3) {
+              throw _iteratorError3;
+            }
+          }
+        }
+
+        this.traces = newTraces;
+      }
+
+      var iCopy = 0;
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = this.traces[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var _trace = _step4.value;
+
+          var n = _trace.points.length;
+          var _iteratorNormalCompletion5 = true;
+          var _didIteratorError5 = false;
+          var _iteratorError5 = undefined;
+
+          try {
+            for (var _iterator5 = _lodash2.default.range(n)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+              var i = _step5.value;
+
+              var point = _trace.points[i];
+              var tangent = _trace.tangents[i];
+              var normal = _trace.binormals[i];
+              var target = point.clone().add(tangent);
+
+              obj.matrix.identity();
+              obj.position.copy(point);
+              obj.up.copy(normal);
+              obj.lookAt(target);
+              obj.updateMatrix();
+
+              this.displayGeom.applyMatrixToCopy(obj.matrix, iCopy);
+              this.pickingGeom.applyMatrixToCopy(obj.matrix, iCopy);
+              this.pickingGeom.applyColorToCopy(_trace.indexColors[i], iCopy);
+
+              iCopy += 1;
+            }
+          } catch (err) {
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+              }
+            } finally {
+              if (_didIteratorError5) {
+                throw _iteratorError5;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
+      this.recolor();
+
+      this.displayObj.add(new THREE.Mesh(this.displayGeom, this.displayMaterial));
+      this.pickingObj.add(new THREE.Mesh(this.pickingGeom, this.pickingMaterial));
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      var iCopy = 0;
+      var residue = this.soup.getResidueProxy();
+
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = this.traces[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var trace = _step6.value;
+
+          var n = trace.points.length;
+          var _iteratorNormalCompletion7 = true;
+          var _didIteratorError7 = false;
+          var _iteratorError7 = undefined;
+
+          try {
+            for (var _iterator7 = _lodash2.default.range(n)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+              var i = _step7.value;
+
+              var iRes = trace.refIndices[i];
+              var color = residue.load(iRes).activeColor;
+              this.displayGeom.applyColorToCopy(color, iCopy);
+              iCopy += 1;
+            }
+          } catch (err) {
+            _didIteratorError7 = true;
+            _iteratorError7 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                _iterator7.return();
+              }
+            } finally {
+              if (_didIteratorError7) {
+                throw _iteratorError7;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      this.displayGeom.attributes.color.needsUpdate = true;
+    }
+  }]);
+
+  return ArrowRepresentation;
+}(Representation);
+
+var RibbonRepresentation = function (_Representation2) {
+  _inherits(RibbonRepresentation, _Representation2);
+
+  function RibbonRepresentation(soup) {
+    var isTransparent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var selectedTraces = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+    _classCallCheck(this, RibbonRepresentation);
+
+    var _this2 = _possibleConstructorReturn(this, (RibbonRepresentation.__proto__ || Object.getPrototypeOf(RibbonRepresentation)).call(this, soup));
+
+    _this2.selectedTraces = selectedTraces;
+    _this2.traces = [];
+    _this2.setTransparent(isTransparent);
+    _this2.build();
+    return _this2;
+  }
+
+  _createClass(RibbonRepresentation, [{
+    key: 'build',
+    value: function build() {
+      4;
+      this.traces = this.soup.traces;
+      if (this.selectedTraces.length > 0) {
+        var newTraces = [];
+        var _iteratorNormalCompletion8 = true;
+        var _didIteratorError8 = false;
+        var _iteratorError8 = undefined;
+
+        try {
+          for (var _iterator8 = this.traces.entries()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+            var _step8$value = _slicedToArray(_step8.value, 2),
+                i = _step8$value[0],
+                trace = _step8$value[1];
+
+            if (_lodash2.default.includes(this.selectedTraces, i)) {
+              newTraces.push(trace);
+            }
+          }
+        } catch (err) {
+          _didIteratorError8 = true;
+          _iteratorError8 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion8 && _iterator8.return) {
+              _iterator8.return();
+            }
+          } finally {
+            if (_didIteratorError8) {
+              throw _iteratorError8;
+            }
+          }
+        }
+
+        this.traces = newTraces;
+      }
+      this.displayGeom = new glgeom.BufferRibbonGeometry(this.traces, data.coilFace, false);
+      this.pickingGeom = new glgeom.BufferRibbonGeometry(this.traces, data.coilFace, true);
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+      var displayMesh = new THREE.Mesh(this.displayGeom, this.displayMaterial);
+      var pickingMesh = new THREE.Mesh(this.pickingGeom, this.pickingMaterial);
+      this.displayObj.add(displayMesh);
+      this.pickingObj.add(pickingMesh);
+      this.recolor();
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      var residue = this.soup.getResidueProxy();
+      var _iteratorNormalCompletion9 = true;
+      var _didIteratorError9 = false;
+      var _iteratorError9 = undefined;
+
+      try {
+        for (var _iterator9 = this.traces[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+          var trace = _step9.value;
+          var _iteratorNormalCompletion10 = true;
+          var _didIteratorError10 = false;
+          var _iteratorError10 = undefined;
+
+          try {
+            for (var _iterator10 = _lodash2.default.range(trace.points.length)[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+              var iTrace = _step10.value;
+
+              var iRes = trace.refIndices[iTrace];
+              trace.colors[iTrace] = residue.load(iRes).activeColor;
+            }
+          } catch (err) {
+            _didIteratorError10 = true;
+            _iteratorError10 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion10 && _iterator10.return) {
+                _iterator10.return();
+              }
+            } finally {
+              if (_didIteratorError10) {
+                throw _iteratorError10;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError9 = true;
+        _iteratorError9 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion9 && _iterator9.return) {
+            _iterator9.return();
+          }
+        } finally {
+          if (_didIteratorError9) {
+            throw _iteratorError9;
+          }
+        }
+      }
+
+      this.displayGeom.setColors();
+    }
+  }]);
+
+  return RibbonRepresentation;
+}(Representation);
+
+var NucleotideRepresentation = function (_Representation3) {
+  _inherits(NucleotideRepresentation, _Representation3);
+
+  function NucleotideRepresentation(soup) {
+    var isTransparent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var selectedTraces = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    _classCallCheck(this, NucleotideRepresentation);
+
+    var _this3 = _possibleConstructorReturn(this, (NucleotideRepresentation.__proto__ || Object.getPrototypeOf(NucleotideRepresentation)).call(this, soup));
+
+    _this3.selectedTraces = selectedTraces;
+    _this3.setTransparent(isTransparent);
+    _this3.traces = [];
+    _this3.build();
+    return _this3;
+  }
+
+  _createClass(NucleotideRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+
+      this.displayObj.name = 'NucleotideRepresentation';
+
+      var residue = this.soup.getResidueProxy();
+      var atom = this.soup.getAtomProxy();
+      var getVecFromAtomType = function getVecFromAtomType(a) {
+        return atom.load(residue.getIAtom(a)).pos.clone();
+      };
+
+      var verticesList = [];
+      this.nucleotideColorList = [];
+      var indexColorList = [];
+
+      this.traces = this.soup.traces;
+      if (this.selectedTraces.length > 0) {
+        var newTraces = [];
+        var _iteratorNormalCompletion11 = true;
+        var _didIteratorError11 = false;
+        var _iteratorError11 = undefined;
+
+        try {
+          for (var _iterator11 = this.traces.entries()[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+            var _step11$value = _slicedToArray(_step11.value, 2),
+                i = _step11$value[0],
+                trace = _step11$value[1];
+
+            if (_lodash2.default.includes(this.selectedTraces, i)) {
+              newTraces.push(trace);
+            }
+          }
+        } catch (err) {
+          _didIteratorError11 = true;
+          _iteratorError11 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion11 && _iterator11.return) {
+              _iterator11.return();
+            }
+          } finally {
+            if (_didIteratorError11) {
+              throw _iteratorError11;
+            }
+          }
+        }
+
+        this.traces = newTraces;
+      }
+
+      var _iteratorNormalCompletion12 = true;
+      var _didIteratorError12 = false;
+      var _iteratorError12 = undefined;
+
+      try {
+        for (var _iterator12 = this.traces[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+          var trace = _step12.value;
+          var _iteratorNormalCompletion14 = true;
+          var _didIteratorError14 = false;
+          var _iteratorError14 = undefined;
+
+          try {
+            for (var _iterator14 = trace.indices[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
+              var iRes = _step14.value;
+
+              // for (let iRes of _.range(this.soup.getResidueCount())) {
+              residue.iRes = iRes;
+              if (residue.ss === 'D' && residue.isPolymer) {
+                this.nucleotideColorList.push(residue.activeColor);
+                indexColorList.push(getIndexColor(residue.iAtom));
+                var atomTypes = data.getNucleotideBaseAtomTypes(residue.resType);
+                verticesList.push(_lodash2.default.map(atomTypes, getVecFromAtomType));
+              }
+            }
+          } catch (err) {
+            _didIteratorError14 = true;
+            _iteratorError14 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion14 && _iterator14.return) {
+                _iterator14.return();
+              }
+            } finally {
+              if (_didIteratorError14) {
+                throw _iteratorError14;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError12 = true;
+        _iteratorError12 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion12 && _iterator12.return) {
+            _iterator12.return();
+          }
+        } finally {
+          if (_didIteratorError12) {
+            throw _iteratorError12;
+          }
+        }
+      }
+
+      this.nucleotideGeom = new glgeom.BufferRaisedShapesGeometry(verticesList, this.nucleotideColorList, 0.2);
+      var displayMesh = new THREE.Mesh(this.nucleotideGeom, this.displayMaterial);
+      this.displayObj.add(displayMesh);
+
+      var pickingGeom = new glgeom.BufferRaisedShapesGeometry(verticesList, indexColorList, 0.2);
+      var pickingMesh = new THREE.Mesh(pickingGeom, this.pickingMaterial);
+      this.pickingObj.add(pickingMesh);
+
+      this.nucleotideConnectList = [];
+      var _iteratorNormalCompletion13 = true;
+      var _didIteratorError13 = false;
+      var _iteratorError13 = undefined;
+
+      try {
+        for (var _iterator13 = this.traces[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+          var _trace2 = _step13.value;
+          var _iteratorNormalCompletion15 = true;
+          var _didIteratorError15 = false;
+          var _iteratorError15 = undefined;
+
+          try {
+            for (var _iterator15 = _trace2.indices[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
+              var _iRes = _step15.value;
+
+              residue.iRes = _iRes;
+              if (residue.ss === 'D' && residue.isPolymer) {
+                var _iteratorNormalCompletion16 = true;
+                var _didIteratorError16 = false;
+                var _iteratorError16 = undefined;
+
+                try {
+                  for (var _iterator16 = data.getNucleotideConnectorBondAtomTypes(residue.resType)[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
+                    var bond = _step16.value;
+
+                    this.nucleotideConnectList.push([getVecFromAtomType(bond[0]), getVecFromAtomType(bond[1]), _iRes]);
+                  }
+                } catch (err) {
+                  _didIteratorError16 = true;
+                  _iteratorError16 = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion16 && _iterator16.return) {
+                      _iterator16.return();
+                    }
+                  } finally {
+                    if (_didIteratorError16) {
+                      throw _iteratorError16;
+                    }
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            _didIteratorError15 = true;
+            _iteratorError15 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion15 && _iterator15.return) {
+                _iterator15.return();
+              }
+            } finally {
+              if (_didIteratorError15) {
+                throw _iteratorError15;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError13 = true;
+        _iteratorError13 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion13 && _iterator13.return) {
+            _iterator13.return();
+          }
+        } finally {
+          if (_didIteratorError13) {
+            throw _iteratorError13;
+          }
+        }
+      }
+
+      var nBond = this.nucleotideConnectList.length;
+      var cylinderBufferGeometry = glgeom.makeBufferZCylinderGeometry(0.4);
+      this.nucleotideConnectorGeom = new glgeom.CopyBufferGeometry(cylinderBufferGeometry, nBond);
+      for (var iBond = 0; iBond < nBond; iBond += 1) {
+        var _nucleotideConnectLis = _slicedToArray(this.nucleotideConnectList[iBond], 3),
+            p1 = _nucleotideConnectLis[0],
+            p2 = _nucleotideConnectLis[1],
+            iRes = _nucleotideConnectLis[2];
+
+        this.nucleotideConnectorGeom.applyMatrixToCopy(glgeom.getCylinderMatrix(p1, p2, 0.3), iBond);
+      }
+      for (var _iBond = 0; _iBond < nBond; _iBond += 1) {
+        var _nucleotideConnectLis2 = _slicedToArray(this.nucleotideConnectList[_iBond], 3),
+            p1 = _nucleotideConnectLis2[0],
+            p2 = _nucleotideConnectLis2[1],
+            iRes = _nucleotideConnectLis2[2];
+
+        var color = residue.load(iRes).activeColor;
+        this.nucleotideConnectorGeom.applyColorToCopy(color, _iBond);
+      }
+      var mesh = new THREE.Mesh(this.nucleotideConnectorGeom, this.displayMaterial);
+      mesh.name = 'nucleotideConnector';
+      this.displayObj.add(mesh);
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      this.nucleotideColorList = [];
+      var residue = this.soup.getResidueProxy();
+      var _iteratorNormalCompletion17 = true;
+      var _didIteratorError17 = false;
+      var _iteratorError17 = undefined;
+
+      try {
+        for (var _iterator17 = this.traces[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
+          var trace = _step17.value;
+          var _iteratorNormalCompletion18 = true;
+          var _didIteratorError18 = false;
+          var _iteratorError18 = undefined;
+
+          try {
+            for (var _iterator18 = trace.indices[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
+              var iRes = _step18.value;
+
+              residue.iRes = iRes;
+              if (residue.ss === 'D' && residue.isPolymer) {
+                this.nucleotideColorList.push(residue.activeColor);
+              }
+            }
+          } catch (err) {
+            _didIteratorError18 = true;
+            _iteratorError18 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion18 && _iterator18.return) {
+                _iterator18.return();
+              }
+            } finally {
+              if (_didIteratorError18) {
+                throw _iteratorError18;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError17 = true;
+        _iteratorError17 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion17 && _iterator17.return) {
+            _iterator17.return();
+          }
+        } finally {
+          if (_didIteratorError17) {
+            throw _iteratorError17;
+          }
+        }
+      }
+
+      this.nucleotideGeom.recolor(this.nucleotideColorList);
+
+      var nBond = this.nucleotideConnectList.length;
+      for (var iBond = 0; iBond < nBond; iBond += 1) {
+        var _nucleotideConnectLis3 = _slicedToArray(this.nucleotideConnectList[iBond], 3),
+            p1 = _nucleotideConnectLis3[0],
+            p2 = _nucleotideConnectLis3[1],
+            iRes = _nucleotideConnectLis3[2];
+
+        var color = residue.load(iRes).activeColor;
+        this.nucleotideConnectorGeom.applyColorToCopy(color, iBond);
+      }
+      this.nucleotideConnectorGeom.attributes.color.needsUpdate = true;
+    }
+  }]);
+
+  return NucleotideRepresentation;
+}(Representation);
+
+var CartoonRepresentation = function (_Representation4) {
+  _inherits(CartoonRepresentation, _Representation4);
+
+  function CartoonRepresentation(soup) {
+    var isTransparent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var selectedTraces = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+    _classCallCheck(this, CartoonRepresentation);
+
+    var _this4 = _possibleConstructorReturn(this, (CartoonRepresentation.__proto__ || Object.getPrototypeOf(CartoonRepresentation)).call(this, soup));
+
+    _get(CartoonRepresentation.prototype.__proto__ || Object.getPrototypeOf(CartoonRepresentation.prototype), 'setTransparent', _this4).call(_this4, isTransparent);
+    _this4.selectedTraces = selectedTraces;
+    _this4.build();
+    return _this4;
+  }
+
+  _createClass(CartoonRepresentation, [{
+    key: 'setTransparent',
+    value: function setTransparent(isTransparent) {
+      _get(CartoonRepresentation.prototype.__proto__ || Object.getPrototypeOf(CartoonRepresentation.prototype), 'setTransparent', this).call(this, isTransparent);
+      this.ribbonRepr.setTransparent(isTransparent);
+      this.arrowRepr.setTransparent(isTransparent);
+      this.nucRepr.setTransparent(isTransparent);
+    }
+  }, {
+    key: 'build',
+    value: function build() {
+      this.ribbonRepr = new RibbonRepresentation(this.soup, this.isTransparent, this.selectedTraces);
+      this.arrowRepr = new ArrowRepresentation(this.soup, this.isTransparent, this.selectedTraces);
+      this.nucRepr = new NucleotideRepresentation(this.soup, this.isTransparent, this.selectedTraces);
+
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+
+      this.displayObj.name = 'CartoonRepr';
+      transferObjects(this.ribbonRepr.displayObj, this.displayObj);
+      transferObjects(this.arrowRepr.displayObj, this.displayObj);
+      transferObjects(this.nucRepr.displayObj, this.displayObj);
+      transferObjects(this.ribbonRepr.pickingObj, this.pickingObj);
+      transferObjects(this.arrowRepr.pickingObj, this.pickingObj);
+      transferObjects(this.nucRepr.pickingObj, this.pickingObj);
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      this.ribbonRepr.recolor();
+      this.arrowRepr.recolor();
+      this.nucRepr.recolor();
+    }
+  }]);
+
+  return CartoonRepresentation;
+}(Representation);
+
+var AtomsRepresentation = function () {
+  function AtomsRepresentation(soup, atomIndices, atomRadius) {
+    var isElementRadius = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    _classCallCheck(this, AtomsRepresentation);
+
+    this.soup = soup;
+    this.displayObj = new THREE.Object3D();
+    this.pickingObj = new THREE.Object3D();
+    this.atomIndices = atomIndices;
+    this.atomRadius = atomRadius;
+    this.displayMaterial = phongMaterial;
+    this.pickingMaterial = pickingMaterial;
+    this.isElementRadius = isElementRadius;
+    this.build();
+  }
+
+  _createClass(AtomsRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+      if (this.atomIndices.length === 0) {
+        return;
+      }
+      var nCopy = this.atomIndices.length;
+      var sphereBufferGeometry = new THREE.SphereBufferGeometry(1, 8, 8);
+      this.displayGeom = new glgeom.CopyBufferGeometry(sphereBufferGeometry, nCopy);
+      var pickingGeom = new glgeom.CopyBufferGeometry(sphereBufferGeometry, nCopy);
+
+      var atom = this.soup.getAtomProxy();
+      var radius = this.atomRadius;
+      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
+        var iAtom = this.atomIndices[iCopy];
+        atom.iAtom = iAtom;
+        if (this.isElementRadius) {
+          if (atom.elem === "H") {
+            radius = 1.2;
+          } else {
+            radius = 1.7;
+          }
+        }
+        var matrix = glgeom.getSphereMatrix(atom.pos, radius);
+        this.displayGeom.applyMatrixToCopy(matrix, iCopy);
+        pickingGeom.applyMatrixToCopy(matrix, iCopy);
+        this.displayGeom.applyColorToCopy(atom.color, iCopy);
+        pickingGeom.applyColorToCopy(getIndexColor(iAtom), iCopy);
+      }
+
+      this.displayObj.add(new THREE.Mesh(this.displayGeom, this.displayMaterial));
+      this.pickingObj.add(new THREE.Mesh(pickingGeom, this.pickingMaterial));
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      if (this.atomIndices.length === 0) {
+        return;
+      }
+      var nCopy = this.atomIndices.length;
+      var atom = this.soup.getAtomProxy();
+      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
+        atom.iAtom = this.atomIndices[iCopy];
+        this.displayGeom.applyColorToCopy(atom.color, iCopy);
+      }
+      this.displayGeom.attributes.color.needsUpdate = true;
+    }
+  }]);
+
+  return AtomsRepresentation;
+}();
+
+var GridRepresentation = function (_AtomsRepresentation) {
+  _inherits(GridRepresentation, _AtomsRepresentation);
+
+  function GridRepresentation(soup, radius) {
+    _classCallCheck(this, GridRepresentation);
+
+    return _possibleConstructorReturn(this, (GridRepresentation.__proto__ || Object.getPrototypeOf(GridRepresentation)).call(this, soup, [], radius));
+  }
+
+  _createClass(GridRepresentation, [{
+    key: 'build',
+    value: function build() {
+      var grid = this.soup.grid;
+      this.atomIndices = [];
+      var residue = this.soup.getResidueProxy();
+      var atom = this.soup.getAtomProxy();
+      var _iteratorNormalCompletion19 = true;
+      var _didIteratorError19 = false;
+      var _iteratorError19 = undefined;
+
+      try {
+        for (var _iterator19 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
+          var iRes = _step19.value;
+
+          residue.iRes = iRes;
+          if (residue.ss === 'G') {
+            atom.iAtom = residue.iAtom;
+            if (atom.bfactor > grid.bCutoff && grid.isElem[atom.elem]) {
+              this.atomIndices.push(atom.iAtom);
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError19 = true;
+        _iteratorError19 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion19 && _iterator19.return) {
+            _iterator19.return();
+          }
+        } finally {
+          if (_didIteratorError19) {
+            throw _iteratorError19;
+          }
+        }
+      }
+
+      _get(GridRepresentation.prototype.__proto__ || Object.getPrototypeOf(GridRepresentation.prototype), 'build', this).call(this);
+    }
+  }]);
+
+  return GridRepresentation;
+}(AtomsRepresentation);
+
+var SphereRepresentation = function (_AtomsRepresentation2) {
+  _inherits(SphereRepresentation, _AtomsRepresentation2);
+
+  function SphereRepresentation(soup) {
+    _classCallCheck(this, SphereRepresentation);
+
+    return _possibleConstructorReturn(this, (SphereRepresentation.__proto__ || Object.getPrototypeOf(SphereRepresentation)).call(this, soup, [], 1.7, true));
+  }
+
+  _createClass(SphereRepresentation, [{
+    key: 'build',
+    value: function build() {
+      var grid = this.soup.grid;
+      this.atomIndices = [];
+      var residue = this.soup.getResidueProxy();
+      var atom = this.soup.getAtomProxy();
+      var _iteratorNormalCompletion20 = true;
+      var _didIteratorError20 = false;
+      var _iteratorError20 = undefined;
+
+      try {
+        for (var _iterator20 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
+          var iRes = _step20.value;
+
+          residue.iRes = iRes;
+          if (residue.isPolymer) {
+            var _iteratorNormalCompletion21 = true;
+            var _didIteratorError21 = false;
+            var _iteratorError21 = undefined;
+
+            try {
+              for (var _iterator21 = residue.getAtomIndices()[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
+                var iAtom = _step21.value;
+
+                atom.iAtom = iAtom;
+                this.atomIndices.push(iAtom);
+              }
+            } catch (err) {
+              _didIteratorError21 = true;
+              _iteratorError21 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion21 && _iterator21.return) {
+                  _iterator21.return();
+                }
+              } finally {
+                if (_didIteratorError21) {
+                  throw _iteratorError21;
+                }
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError20 = true;
+        _iteratorError20 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion20 && _iterator20.return) {
+            _iterator20.return();
+          }
+        } finally {
+          if (_didIteratorError20) {
+            throw _iteratorError20;
+          }
+        }
+      }
+
+      this.isElementRadius = true;
+      _get(SphereRepresentation.prototype.__proto__ || Object.getPrototypeOf(SphereRepresentation.prototype), 'build', this).call(this);
+    }
+  }]);
+
+  return SphereRepresentation;
+}(AtomsRepresentation);
+
+var BondRepresentation = function () {
+  function BondRepresentation(soup, bondIndices) {
+    _classCallCheck(this, BondRepresentation);
+
+    this.soup = soup;
+    this.bondIndices = bondIndices;
+    this.displayObj = new THREE.Object3D();
+    this.pickingObj = new THREE.Object3D();
+    this.displayMaterial = phongMaterial;
+    this.pickingMaterial = pickingMaterial;
+    this.build();
+  }
+
+  _createClass(BondRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+      var bondIndices = this.bondIndices;
+      if (bondIndices.length === 0) {
+        return;
+      }
+      var nCopy = bondIndices.length;
+
+      var cylinderBufferGeometry = new THREE.CylinderBufferGeometry(1, 1, 1, 4, 1, false);
+      cylinderBufferGeometry.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(Math.PI / 2, Math.PI, 0)));
+
+      this.displayGeom = new glgeom.CopyBufferGeometry(cylinderBufferGeometry, nCopy);
+
+      var atom1 = this.soup.getAtomProxy();
+      var atom2 = this.soup.getAtomProxy();
+      var bond = this.soup.getBondProxy();
+      var residue = this.soup.getResidueProxy();
+
+      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
+        bond.iBond = bondIndices[iCopy];
+        atom1.iAtom = bond.iAtom1;
+        atom2.iAtom = bond.iAtom2;
+        residue.iRes = atom1.iRes;
+
+        var p1 = atom1.pos.clone();
+        var p2 = atom2.pos.clone();
+
+        if (atom1.iRes !== atom2.iRes) {
+          var midpoint = p2.clone().add(p1).multiplyScalar(0.5);
+          if (atom1.iRes === residue.iRes) {
+            p2 = midpoint;
+          } else if (atom2.iRes === residue.iRes) {
+            p1 = midpoint;
+          }
+        }
+
+        var matrix = glgeom.getCylinderMatrix(p1, p2, 0.2);
+
+        this.displayGeom.applyMatrixToCopy(matrix, iCopy);
+        this.displayGeom.applyColorToCopy(residue.activeColor, iCopy);
+      }
+
+      var displayMesh = new THREE.Mesh(this.displayGeom, this.displayMaterial);
+      this.displayObj.add(displayMesh);
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      var bondIndices = this.bondIndices;
+      if (bondIndices.length === 0) {
+        return;
+      }
+      var nCopy = bondIndices.length;
+
+      var bond = this.soup.getBondProxy();
+      var atom1 = this.soup.getAtomProxy();
+      var residue = this.soup.getResidueProxy();
+
+      for (var iCopy = 0; iCopy < nCopy; iCopy += 1) {
+        bond.iBond = bondIndices[iCopy];
+        atom1.iAtom = bond.iAtom1;
+        residue.iRes = atom1.iRes;
+        this.displayGeom.applyColorToCopy(residue.activeColor, iCopy);
+      }
+      this.displayGeom.attributes.color.needsUpdate = true;
+    }
+  }]);
+
+  return BondRepresentation;
+}();
+
+var LigandRepresentation = function () {
+  function LigandRepresentation(soup, radius) {
+    _classCallCheck(this, LigandRepresentation);
+
+    this.soup = soup;
+    this.radius = radius;
+    this.displayObj = new THREE.Object3D();
+    this.pickingObj = new THREE.Object3D();
+    this.build();
+  }
+
+  _createClass(LigandRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+
+      var atomIndices = [];
+      var bondIndices = [];
+
+      var atom = this.soup.getAtomProxy();
+      var residue = this.soup.getResidueProxy();
+
+      var _iteratorNormalCompletion22 = true;
+      var _didIteratorError22 = false;
+      var _iteratorError22 = undefined;
+
+      try {
+        for (var _iterator22 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step22; !(_iteratorNormalCompletion22 = (_step22 = _iterator22.next()).done); _iteratorNormalCompletion22 = true) {
+          var iRes = _step22.value;
+
+          residue.iRes = iRes;
+          if (residue.ss !== '-') {
+            continue;
+          }
+          var _iteratorNormalCompletion23 = true;
+          var _didIteratorError23 = false;
+          var _iteratorError23 = undefined;
+
+          try {
+            for (var _iterator23 = residue.getAtomIndices()[Symbol.iterator](), _step23; !(_iteratorNormalCompletion23 = (_step23 = _iterator23.next()).done); _iteratorNormalCompletion23 = true) {
+              var iAtom = _step23.value;
+
+              atom.iAtom = iAtom;
+              atomIndices.push(iAtom);
+              var _iteratorNormalCompletion24 = true;
+              var _didIteratorError24 = false;
+              var _iteratorError24 = undefined;
+
+              try {
+                for (var _iterator24 = atom.getBondIndices()[Symbol.iterator](), _step24; !(_iteratorNormalCompletion24 = (_step24 = _iterator24.next()).done); _iteratorNormalCompletion24 = true) {
+                  var iBond = _step24.value;
+
+                  bondIndices.push(iBond);
+                }
+              } catch (err) {
+                _didIteratorError24 = true;
+                _iteratorError24 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion24 && _iterator24.return) {
+                    _iterator24.return();
+                  }
+                } finally {
+                  if (_didIteratorError24) {
+                    throw _iteratorError24;
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            _didIteratorError23 = true;
+            _iteratorError23 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion23 && _iterator23.return) {
+                _iterator23.return();
+              }
+            } finally {
+              if (_didIteratorError23) {
+                throw _iteratorError23;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError22 = true;
+        _iteratorError22 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion22 && _iterator22.return) {
+            _iterator22.return();
+          }
+        } finally {
+          if (_didIteratorError22) {
+            throw _iteratorError22;
+          }
+        }
+      }
+
+      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
+      this.bondRepr = new BondRepresentation(this.soup, bondIndices);
+      if (atomIndices.length > 0) {
+        transferObjects(this.atomRepr.displayObj, this.displayObj);
+        transferObjects(this.bondRepr.displayObj, this.displayObj);
+        transferObjects(this.atomRepr.pickingObj, this.pickingObj);
+      }
+    }
+  }]);
+
+  return LigandRepresentation;
+}();
+
+var WaterRepresentation = function (_AtomsRepresentation3) {
+  _inherits(WaterRepresentation, _AtomsRepresentation3);
+
+  function WaterRepresentation(soup, radius) {
+    _classCallCheck(this, WaterRepresentation);
+
+    var _this7 = _possibleConstructorReturn(this, (WaterRepresentation.__proto__ || Object.getPrototypeOf(WaterRepresentation)).call(this, soup, [], radius));
+
+    _this7.name = 'water';
+    _this7.atomIndices = [];
+    var residue = _this7.soup.getResidueProxy();
+    var _iteratorNormalCompletion25 = true;
+    var _didIteratorError25 = false;
+    var _iteratorError25 = undefined;
+
+    try {
+      for (var _iterator25 = _lodash2.default.range(_this7.soup.getResidueCount())[Symbol.iterator](), _step25; !(_iteratorNormalCompletion25 = (_step25 = _iterator25.next()).done); _iteratorNormalCompletion25 = true) {
+        var iRes = _step25.value;
+
+        residue.iRes = iRes;
+        if (residue.resType === 'HOH') {
+          _this7.atomIndices.push(residue.iAtom);
+        }
+      }
+    } catch (err) {
+      _didIteratorError25 = true;
+      _iteratorError25 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion25 && _iterator25.return) {
+          _iterator25.return();
+        }
+      } finally {
+        if (_didIteratorError25) {
+          throw _iteratorError25;
+        }
+      }
+    }
+
+    _this7.build();
+    return _this7;
+  }
+
+  return WaterRepresentation;
+}(AtomsRepresentation);
+
+var SidechainRepresentation = function () {
+  function SidechainRepresentation(soup, radius) {
+    _classCallCheck(this, SidechainRepresentation);
+
+    this.soup = soup;
+    this.displayObj = new THREE.Object3D();
+    this.pickingObj = new THREE.Object3D();
+    this.radius = radius;
+    this.build();
+  }
+
+  _createClass(SidechainRepresentation, [{
+    key: 'build',
+    value: function build() {
+      glgeom.clearObject3D(this.displayObj);
+      glgeom.clearObject3D(this.pickingObj);
+
+      var atomIndices = [];
+      var bondIndices = [];
+
+      var atom = this.soup.getAtomProxy();
+      var residue = this.soup.getResidueProxy();
+
+      var _iteratorNormalCompletion26 = true;
+      var _didIteratorError26 = false;
+      var _iteratorError26 = undefined;
+
+      try {
+        for (var _iterator26 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step26; !(_iteratorNormalCompletion26 = (_step26 = _iterator26.next()).done); _iteratorNormalCompletion26 = true) {
+          var iRes = _step26.value;
+
+          residue.iRes = iRes;
+          if (!residue.isPolymer) {
+            continue;
+          }
+          if (!residue.sidechain) {
+            continue;
+          }
+          var _iteratorNormalCompletion27 = true;
+          var _didIteratorError27 = false;
+          var _iteratorError27 = undefined;
+
+          try {
+            for (var _iterator27 = residue.getAtomIndices()[Symbol.iterator](), _step27; !(_iteratorNormalCompletion27 = (_step27 = _iterator27.next()).done); _iteratorNormalCompletion27 = true) {
+              var iAtom = _step27.value;
+
+              atom.iAtom = iAtom;
+              if (!util.inArray(atom.atomType, data.backboneAtomTypes)) {
+                atomIndices.push(iAtom);
+                var _iteratorNormalCompletion28 = true;
+                var _didIteratorError28 = false;
+                var _iteratorError28 = undefined;
+
+                try {
+                  for (var _iterator28 = atom.getBondIndices()[Symbol.iterator](), _step28; !(_iteratorNormalCompletion28 = (_step28 = _iterator28.next()).done); _iteratorNormalCompletion28 = true) {
+                    var iBond = _step28.value;
+
+                    bondIndices.push(iBond);
+                  }
+                } catch (err) {
+                  _didIteratorError28 = true;
+                  _iteratorError28 = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion28 && _iterator28.return) {
+                      _iterator28.return();
+                    }
+                  } finally {
+                    if (_didIteratorError28) {
+                      throw _iteratorError28;
+                    }
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            _didIteratorError27 = true;
+            _iteratorError27 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion27 && _iterator27.return) {
+                _iterator27.return();
+              }
+            } finally {
+              if (_didIteratorError27) {
+                throw _iteratorError27;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError26 = true;
+        _iteratorError26 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion26 && _iterator26.return) {
+            _iterator26.return();
+          }
+        } finally {
+          if (_didIteratorError26) {
+            throw _iteratorError26;
+          }
+        }
+      }
+
+      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
+      this.bondRepr = new BondRepresentation(this.soup, bondIndices);
+
+      transferObjects(this.atomRepr.displayObj, this.displayObj);
+      transferObjects(this.bondRepr.displayObj, this.displayObj);
+      transferObjects(this.atomRepr.pickingObj, this.pickingObj);
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      this.atomRepr.recolor();
+      this.bondRepr.recolor();
+    }
+  }]);
+
+  return SidechainRepresentation;
+}();
+
+var BackboneRepresentation = function () {
+  function BackboneRepresentation(soup, radius) {
+    _classCallCheck(this, BackboneRepresentation);
+
+    this.soup = soup;
+    this.displayObj = new THREE.Object3D();
+    this.pickingObj = new THREE.Object3D();
+    this.radius = radius;
+    this.build();
+  }
+
+  _createClass(BackboneRepresentation, [{
+    key: 'build',
+    value: function build() {
+      var atomIndices = [];
+      var bondIndices = [];
+
+      var atom = this.soup.getAtomProxy();
+      var residue = this.soup.getResidueProxy();
+
+      var _iteratorNormalCompletion29 = true;
+      var _didIteratorError29 = false;
+      var _iteratorError29 = undefined;
+
+      try {
+        for (var _iterator29 = _lodash2.default.range(this.soup.getResidueCount())[Symbol.iterator](), _step29; !(_iteratorNormalCompletion29 = (_step29 = _iterator29.next()).done); _iteratorNormalCompletion29 = true) {
+          var iRes = _step29.value;
+
+          residue.iRes = iRes;
+          if (!residue.isPolymer) {
+            continue;
+          }
+          var _iteratorNormalCompletion30 = true;
+          var _didIteratorError30 = false;
+          var _iteratorError30 = undefined;
+
+          try {
+            for (var _iterator30 = residue.getAtomIndices()[Symbol.iterator](), _step30; !(_iteratorNormalCompletion30 = (_step30 = _iterator30.next()).done); _iteratorNormalCompletion30 = true) {
+              var iAtom = _step30.value;
+
+              atom.iAtom = iAtom;
+              if (util.inArray(atom.atomType, data.backboneAtomTypes)) {
+                atomIndices.push(iAtom);
+                var _iteratorNormalCompletion31 = true;
+                var _didIteratorError31 = false;
+                var _iteratorError31 = undefined;
+
+                try {
+                  for (var _iterator31 = atom.getBondIndices()[Symbol.iterator](), _step31; !(_iteratorNormalCompletion31 = (_step31 = _iterator31.next()).done); _iteratorNormalCompletion31 = true) {
+                    var iBond = _step31.value;
+
+                    bondIndices.push(iBond);
+                  }
+                } catch (err) {
+                  _didIteratorError31 = true;
+                  _iteratorError31 = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion31 && _iterator31.return) {
+                      _iterator31.return();
+                    }
+                  } finally {
+                    if (_didIteratorError31) {
+                      throw _iteratorError31;
+                    }
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            _didIteratorError30 = true;
+            _iteratorError30 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion30 && _iterator30.return) {
+                _iterator30.return();
+              }
+            } finally {
+              if (_didIteratorError30) {
+                throw _iteratorError30;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError29 = true;
+        _iteratorError29 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion29 && _iterator29.return) {
+            _iterator29.return();
+          }
+        } finally {
+          if (_didIteratorError29) {
+            throw _iteratorError29;
+          }
+        }
+      }
+
+      this.atomRepr = new AtomsRepresentation(this.soup, atomIndices, this.radius);
+      this.bondRepr = new BondRepresentation(this.soup, bondIndices);
+      if (atomIndices.length > 0) {
+        transferObjects(this.atomRepr.displayObj, this.displayObj);
+        transferObjects(this.bondRepr.displayObj, this.displayObj);
+        transferObjects(this.atomRepr.pickingObj, this.pickingObj);
+      }
+    }
+  }, {
+    key: 'recolor',
+    value: function recolor() {
+      this.atomRepr.recolor();
+      this.bondRepr.recolor();
+    }
+  }]);
+
+  return BackboneRepresentation;
+}();
+
+exports.ArrowRepresentation = ArrowRepresentation;
+exports.RibbonRepresentation = RibbonRepresentation;
+exports.CartoonRepresentation = CartoonRepresentation;
+exports.AtomsRepresentation = AtomsRepresentation;
+exports.GridRepresentation = GridRepresentation;
+exports.SphereRepresentation = SphereRepresentation;
+exports.BondRepresentation = BondRepresentation;
+exports.LigandRepresentation = LigandRepresentation;
+exports.WaterRepresentation = WaterRepresentation;
+exports.NucleotideRepresentation = NucleotideRepresentation;
+exports.SidechainRepresentation = SidechainRepresentation;
+exports.BackboneRepresentation = BackboneRepresentation;
+
+/***/ }),
 /* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -99690,11 +100164,11 @@ var _jquery3 = __webpack_require__(348);
 
 var _jquery4 = _interopRequireDefault(_jquery3);
 
-var _lodash = __webpack_require__(29);
+var _lodash = __webpack_require__(27);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _embedjolecule = __webpack_require__(132);
+var _embedjolecule = __webpack_require__(133);
 
 var _util = __webpack_require__(49);
 
@@ -99761,9 +100235,9 @@ var ViewPanel = function () {
 
       this.editTextArea = (0, _jquery2.default)('<textarea>').addClass('jolecule-view-text').css('width', '100%').css('height', '5em').click(_lodash2.default.noop);
 
-      this.editDiv = (0, _jquery2.default)('<div>').css('width', '100%').click(_lodash2.default.noop).append(this.editTextArea).append((0, _util.linkButton)('', 'save', 'jolecule-small-button', function (event) {
+      this.editDiv = (0, _jquery2.default)('<div>').css('width', '100%').click(_lodash2.default.noop).append(this.editTextArea).append((0, _util.linkButton)('save', 'jolecule-small-button', function (event) {
         _this.saveChange();
-      })).append(' &nbsp; ').append((0, _util.linkButton)('', 'discard', 'jolecule-small-button', function (event) {
+      })).append(' &nbsp; ').append((0, _util.linkButton)('discard', 'jolecule-small-button', function (event) {
         _this.discardChange();
       })).hide();
 
@@ -99776,7 +100250,7 @@ var ViewPanel = function () {
 
       var view = this.params.view;
 
-      var editButton = (0, _util.linkButton)('', 'edit', 'jolecule-small-button', function () {
+      var editButton = (0, _util.linkButton)('edit', 'jolecule-small-button', function () {
         _this2.startEdit();
       });
 
@@ -99794,20 +100268,20 @@ var ViewPanel = function () {
 
         this.showDiv.append(editButton);
 
-        if ((0, _util.exists)(this.params.swapUp) && this.params.swapUp) {
-          this.showDiv.append(' ').append((0, _util.linkButton)('', 'up', 'jolecule-small-button', function () {
+        if ((0, _util.exists)(this.params.swapUp)) {
+          this.showDiv.append(' ').append((0, _util.linkButton)('up', 'jolecule-small-button', function () {
             _this2.params.swapUp();
           }));
         }
 
-        if ((0, _util.exists)(this.params.swapUp) && this.params.swapDown) {
-          this.showDiv.append(' ').append((0, _util.linkButton)('', 'down', 'jolecule-small-button', function () {
+        if ((0, _util.exists)(this.params.swapUp)) {
+          this.showDiv.append(' ').append((0, _util.linkButton)('down', 'jolecule-small-button', function () {
             _this2.params.swapDown();
           }));
         }
 
         if ((0, _util.exists)(this.params.deleteView)) {
-          this.showDiv.append((0, _jquery2.default)('<div>').css('float', 'right').append((0, _util.linkButton)('', 'delete', 'jolecule-small-button', function () {
+          this.showDiv.append((0, _jquery2.default)('<div>').css('float', 'right').append((0, _util.linkButton)('delete', 'jolecule-small-button', function () {
             console.log('ViewPiece.deleteButton');
             _this2.params.deleteView();
           })));
@@ -99827,21 +100301,21 @@ var ViewPanel = function () {
 
 
 var ViewPanelList = function () {
-  function ViewPanelList(divTag, soupDisplay, isEditable) {
+  function ViewPanelList(divTag, soupWidget, isEditable) {
     var _this3 = this;
 
     _classCallCheck(this, ViewPanelList);
 
     this.divTag = divTag;
-    this.display = soupDisplay;
-    this.soupView = soupDisplay.soupView;
-    this.controller = soupDisplay.controller;
+    this.soupWidget = soupWidget;
+    this.soupView = soupWidget.soupView;
+    this.controller = soupWidget.controller;
     this.isEditable = isEditable;
     this.viewPiece = {};
     this.subheaderDiv = (0, _jquery2.default)('<div>').addClass('jolecule-sub-header').append('SAVED VIEWS &nbsp;');
     this.div = (0, _jquery2.default)(this.divTag).append(this.subheaderDiv).append((0, _jquery2.default)('<div id="jolecule-views">'));
     if (this.isEditable) {
-      this.subheaderDiv.append((0, _util.linkButton)('', 'Save', 'jolecule-button', function () {
+      this.subheaderDiv.append((0, _util.linkButton)('Save', 'jolecule-button', function () {
         _this3.saveCurrentView();
       }));
     }
@@ -99851,7 +100325,7 @@ var ViewPanelList = function () {
     key: 'saveViewsToDataServer',
     value: function saveViewsToDataServer(success) {
       console.log('ViewPanelList.saveViewsToDataServer');
-      this.display.dataServer.save_views(this.controller.getViewDicts(), success);
+      this.soupWidget.dataServer.save_views(this.controller.getViewDicts(), success);
     }
   }, {
     key: 'update',
@@ -99893,11 +100367,19 @@ var ViewPanelList = function () {
 
         var viewPiece = this.viewPiece[_id];
         if (view.text !== viewPiece.showTextDiv.html()) {
-          viewPiece.showTextDiv.html(view.order + 1 + "/" + nView + ": " + view.text);
+          viewPiece.showTextDiv.html(view.order + 1 + '/' + nView + ': ' + view.text);
         }
+      }
 
-        var a = viewPiece.div.find('a').eq(0);
-        a.text(view.order + 1);
+      if (lastId) {
+        if (history.pushState) {
+          var query = '?view_id=' + lastId;
+          if (lastId === 'view:000000') {
+            query = '';
+          }
+          var newPath = window.location.protocol + '//' + window.location.host + window.location.pathname + query;
+          window.history.pushState({ path: newPath }, '', newPath);
+        }
       }
     }
   }, {
@@ -99905,21 +100387,18 @@ var ViewPanelList = function () {
     value: function setTargetByViewId(id) {
       this.controller.setTargetViewByViewId(id);
       this.update();
-      window.location.hash = id;
     }
   }, {
     key: 'gotoPrevView',
     value: function gotoPrevView() {
       var id = this.controller.setTargetToPrevView();
       this.update();
-      window.location.hash = id;
     }
   }, {
     key: 'gotoNextView',
     value: function gotoNextView() {
       var id = this.controller.setTargetToNextView();
       this.update();
-      window.location.hash = id;
     }
   }, {
     key: 'removeView',
@@ -99928,7 +100407,7 @@ var ViewPanelList = function () {
 
       console.log('ViewPanelList.removeView');
       this.viewPiece[id].div.css('background-color', 'lightgray');
-      this.display.dataServer.delete_protein_view(id, function () {
+      this.soupWidget.dataServer.delete_protein_view(id, function () {
         _this4.controller.deleteView(id);
         _this4.update();
       });
@@ -99986,6 +100465,10 @@ var ViewPanelList = function () {
           _this6.removeView(id);
         },
         saveChange: function saveChange(changedText) {
+          var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+          while (SCRIPT_REGEX.test(changedText)) {
+            changedText = changedText.replace(SCRIPT_REGEX, '');
+          }
           view.text = changedText;
           _this6.viewPiece[id].div.css('background-color', 'lightgray');
           _this6.saveViewsToDataServer(function () {
@@ -100049,11 +100532,22 @@ var ViewPanelList = function () {
 }();
 
 /**
+ * Get URL query parameter https://stackoverflow.com/a/5158301
+ * @param name
+ * @returns {RegExpExecArray | string}
+ */
+
+
+function getParameterByName(name) {
+  var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+/**
  * FullPageJolecule - full page wrapper around an embedded EmbedJolecule
  * widget. Handles keypresses and urls and adds a view list side-panel
  * FullPageJolecule satisfies the interface for animation.js
  */
-
 
 var FullPageJolecule = function () {
   function FullPageJolecule(proteinDisplayTag, viewsDisplayTag, params) {
@@ -100064,31 +100558,32 @@ var FullPageJolecule = function () {
     this.viewsDisplayTag = viewsDisplayTag;
     this.params = {
       divTag: proteinDisplayTag,
-      backgroundColor: 0xCCCCCC,
+      backgroundColor: 0xcccccc,
       viewId: '',
       viewHeight: 170,
       isViewTextShown: false,
       isSequenceBar: true,
       isEditable: true,
-      isLoop: false,
       isGrid: true,
       bCutoff: 0.5,
-      isPlayable: false,
-      maxUpdateStep: 30,
-      msPerStep: 17,
-      maxWaitStep: 30
+      isPlayable: false
     };
     if ((0, _util.exists)(params)) {
       this.params = _lodash2.default.assign(this.params, params);
     }
-    console.log('FullPageJolecule.constructor params', this.params);
+    if (!this.params.viewId) {
+      var viewId = getParameterByName('view_id');
+      if (viewId) {
+        this.params.viewId = viewId;
+        console.log('FullPageJolecule.constructor viewId=' + this.params.viewId);
+      }
+    }
     this.embedJolecule = new _embedjolecule.EmbedJolecule(this.params);
-    this.embedJolecule.display.addObserver(this);
+    this.embedJolecule.soupWidget.addObserver(this);
     document.oncontextmenu = _lodash2.default.noop;
     document.onkeydown = function (e) {
       _this7.onkeydown(e);
     };
-    this.noData = true;
   }
 
   _createClass(FullPageJolecule, [{
@@ -100104,14 +100599,23 @@ var FullPageJolecule = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('FullPageJolecule.asyncAddDataServer', dataServer.id);
+                console.log('FullPageJolecule.asyncAddDataServer');
                 _context.next = 3;
                 return this.embedJolecule.asyncAddDataServer(dataServer);
 
               case 3:
-                this.initViewsDisplay(dataServer);
+                if (!this.viewPanelList) {
+                  this.soupView = this.embedJolecule.soupView;
+                  this.controller = this.embedJolecule.controller;
+                  this.soupWidget = this.embedJolecule.soupWidget;
+                  this.viewPanelList = new ViewPanelList(this.viewsDisplayTag, this.soupWidget, this.params.isEditable);
 
-              case 4:
+                  this.viewPanelList.makeAllViews();
+                }
+                this.viewPanelList.update();
+                this.embedJolecule.resize();
+
+              case 6:
               case 'end':
                 return _context.stop();
             }
@@ -100126,45 +100630,11 @@ var FullPageJolecule = function () {
       return asyncAddDataServer;
     }()
   }, {
-    key: 'initViewsDisplay',
-    value: function initViewsDisplay(dataServer) {
-      if (this.noData) {
-        this.noData = false;
-
-        this.soupView = this.embedJolecule.soupView;
-        this.controller = this.embedJolecule.controller;
-        this.display = this.embedJolecule.display;
-
-        this.viewPanelList = new ViewPanelList(this.viewsDisplayTag, this.display, this.params.isEditable);
-
-        this.viewPanelList.makeAllViews();
-        var hashTag = (0, _util.getWindowUrl)().split('#')[1];
-        if (hashTag in this.soupView.savedViewsByViewId) {
-          this.viewPanelList.setTargetByViewId(hashTag);
-        } else {
-          this.viewPanelList.setTargetByViewId('view:000000');
-        }
-        this.viewPanelList.update();
-
-        this.embedJolecule.resize();
-      }
-    }
-  }, {
     key: 'update',
     value: function update() {
       if (!_lodash2.default.isUndefined(this.viewPanelList)) {
         this.viewPanelList.update();
       }
-    }
-  }, {
-    key: 'gotoPrevResidue',
-    value: function gotoPrevResidue() {
-      this.controller.setTargetToPrevResidue();
-    }
-  }, {
-    key: 'gotoNextResidue',
-    value: function gotoNextResidue() {
-      this.controller.setTargetToNextResidue();
     }
   }, {
     key: 'onkeydown',
@@ -100175,15 +100645,17 @@ var FullPageJolecule = function () {
           this.viewPanelList.saveCurrentView();
           return;
         } else if (c === 'K' || event.keyCode === 37) {
-          this.gotoPrevResidue();
+          this.controller.setTargetToPrevResidue();
         } else if (c === 'J' || event.keyCode === 39) {
-          this.gotoNextResidue();
+          this.controller.setTargetToNextResidue();
         } else if (event.keyCode === 38) {
           this.viewPanelList.gotoPrevView();
         } else if (c === ' ' || event.keyCode === 40) {
           this.viewPanelList.gotoNextView();
+        } else if (c === 'S') {
+          this.controller.toggleShowOption('sphere');
         } else if (c === 'B') {
-          this.controller.toggleShowOption('backboneAtom');
+          this.controller.toggleShowOption('backbone');
         } else if (c === 'R') {
           this.controller.toggleShowOption('ribbon');
         } else if (c === 'L') {
@@ -100191,15 +100663,22 @@ var FullPageJolecule = function () {
         } else if (c === 'W') {
           this.controller.toggleShowOption('water');
         } else if (c === 'E') {
-          var iView = this.display.soupView.iLastViewSelected;
+          var iView = this.soupWidget.soupView.iLastViewSelected;
           if (iView > 0) {
-            var viewId = this.display.soupView.savedViews[iView].id;
+            var viewId = this.soupWidget.soupView.savedViews[iView].id;
             this.viewPanelList.div[viewId].edit_fn();
           }
         } else if (c === 'N') {
-          this.display.controller.toggleResidueNeighbors();
+          this.controller.toggleResidueNeighbors();
         } else if (c === 'A') {
-          this.display.atomLabelDialog();
+          if (event.metaKey) {
+            this.controller.showAllSidechains();
+            event.preventDefault();
+          } else {
+            this.soupWidget.atomLabelDialog();
+          }
+        } else if (event.keyCode === 13) {
+          this.controller.zoomToSelection();
         } else {
           var i = parseInt(c) - 1;
           if ((i || i === 0) && i < this.soupView.savedViews.length) {
@@ -100207,7 +100686,7 @@ var FullPageJolecule = function () {
             this.viewPanelList.setTargetByViewId(id);
           }
         }
-        this.display.soupView.changed = true;
+        this.soupView.changed = true;
       }
     }
   }]);

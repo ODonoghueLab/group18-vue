@@ -149,7 +149,8 @@ export default {
         isLoop: false,
         isGrid: true,
         backgroundColor: "#cccccc",
-        isEditable: false
+        isEditable: true,
+        isExtraEditable: true
       });
     },
     displayJolecule() {
@@ -208,7 +209,7 @@ export default {
     },
     async loadDataServers() {
       this.loadErrorMessage = "Preparing data...";
-      this.embededJolecule.display.setMesssage(this.loadErrorMessage);
+      this.embededJolecule.soupWidget.setMesssage(this.loadErrorMessage);
       this.energyCutoffs = this.getEnergyCutoffs();
       this.dataServers = await this.getDataServers();
       let pdbDataServer = this.dataServers[0];
@@ -246,14 +247,14 @@ export default {
     setCutoff(val) {
       let bCutoff = -1 * parseFloat(val);
       this.embededJolecule.controller.setGridCutoff(bCutoff);
-      this.embededJolecule.gridControlWidget.update();
+      this.embededJolecule.widget.grid.update();
       console.log("bCutoff", bCutoff);
     },
     setupElements() {
       let y = 10;
       document.getElementById("grid-control-buttons").innerHTML = "";
       this.elementList.forEach(({ text, value }) => {
-        this.embededJolecule.gridControlWidget.makeElemButton(value, y);
+        this.embededJolecule.widget.grid.makeElemButton(value, y);
         let id = "grid-button-" + value.toLowerCase();
         document.getElementById(id).onclick = this.toggleElement;
         y += 40;
