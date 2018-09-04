@@ -73,7 +73,7 @@ const retrievePDBFilesFromCache = async function (pdb) {
   await dataServers.dataServers
   let jol = await joleculeHelpers.set(pdb)
   let processedPdbLocalPath = jol.paths.processedPdbLocalPath
-  let destinationPath = path.join(processedPdbLocalPath[0], '..')
+  let destinationPath = path.join(processedPdbLocalPath, '..')
   let zipfile = `${pdb}_Grid_PDBs`
   let zipfilePath = await retrieveZipFile(zipfile, [processedPdbLocalPath], destinationPath)
   return zipfilePath
