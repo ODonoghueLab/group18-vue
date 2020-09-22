@@ -110,7 +110,7 @@ function (email, password, done) {
 app.use(require('./router'))
 
 // Load compiled production client
-const clientDir = path.join(__dirname, '..', '..', 'client', 'dist')
+const clientDir = path.join(__dirname, '../../client/dist')
 app.use(express.static(clientDir))
 
 // Load static files
@@ -127,7 +127,7 @@ app.get('*', (req, res) => {
 
 // Catch 404 and forward to Error Handler
 app.use((req, res, next) => {
-  res.status(404).render('404', {
+  res.status(404).send({
     url: req.originalUrl
   })
   const err = new Error('Not Found')
