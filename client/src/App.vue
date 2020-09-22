@@ -6,16 +6,7 @@
     </v-app>
   </div>
 </template>
-<style>
-@import 'http://fonts.googleapis.com/css?family=Roboto:300,
-  400,
-  500,
-  700,
-  400italic';
-@import 'http://fonts.googleapis.com/icon?family=Material+Icons';
-@import 'vuetify/dist/vuetify.min.css';
-@import 'jolecule/jolecule.css';
-@import 'jolecule/select2.css';
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -50,7 +41,7 @@ a.jolecule-button.element-Xe.active {
 </style>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from './components/Navbar.vue';
 export default {
   name: 'app',
   components: { Navbar }

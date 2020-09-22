@@ -3,7 +3,7 @@
  */
 
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import vuetify from './plugins/vuetify'
 
 import config from './config.js'
 import auth from './modules/auth'
@@ -14,7 +14,6 @@ import VeeValidate from 'vee-validate'
 
 Vue.config.productionTip = false
 
-Vue.use(Vuetify)
 Vue.use(VeeValidate)
 
 document.title = config.title
@@ -27,6 +26,7 @@ async function init() {
     el: '#app',
     router,
     store,
+    vuetify,
     components: {
       App
     },

@@ -7,9 +7,9 @@ import EditUser from './components/EditUser'
 import AdminUsers from './components/AdminUsers'
 import ForgotPassword from './components/ForgotPassword'
 import ResetPassword from './components/ResetPassword'
-import search from '@/components/tabs/search'
-import about from '@/components/tabs/about'
-import view from '@/components/tabs/view'
+import search from './components/tabs/search'
+import about from './components/tabs/about'
+import view from './components/tabs/view'
 import store from './store'
 
 Vue.use(Router)

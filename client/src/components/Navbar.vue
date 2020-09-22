@@ -17,7 +17,7 @@
     <v-menu bottom
             left
             open-on-hover
-            max-height="200px">
+            max-height="200px"  v-slot:activator="{ on }">
       <v-btn slot="activator"
              color="grey darken-4">
         {{pdb}}
