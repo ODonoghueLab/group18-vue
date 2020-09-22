@@ -7,26 +7,22 @@ const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require('../config')[env]
 const sequelizeConfig = require('../config').group18SearchDB_sequelize_options
-const db = {}
+const db = {};
 
 db.Sequelize = Sequelize
 db.sequelize = new Sequelize(
-  sequelizeConfig.database,
-  sequelizeConfig.username,
-  sequelizeConfig.password,
-  sequelizeConfig
-)
+  sequelizeConfig.database, sequelizeConfig.username,
+  sequelizeConfig.password, sequelizeConfig)
 
 db.config = config
-db.unwrapInstance = function (instance) {
-  if (instance === null) {
-    return null
-  } else {
-    return instance.get({
-      plain: true
-    })
+db.unwrapInstance =
+  function (instance) {
+    if (instance === null) {
+      return null
+    } else {
+      return instance.get({ plain: true })
+    }
   }
-}
 
 db.sequelize.define()
 fs
@@ -35,7 +31,7 @@ fs
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
   })
   .forEach(file => {
-    const model = db.sequelize['import'](path.join(__dirname, file))
+    const model = require(path.join(__dirname, file))(db.sequelize, Sequelize.DataTypes)
     db[model.name] = model
   })
 
@@ -45,7 +41,7 @@ Object.keys(db).forEach(modelName => {
   }
 })
 
-async function init () {
+async function init() {
   await db.sequelize.sync()
   console.log('> Models.init done')
 }
